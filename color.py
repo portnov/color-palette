@@ -1,5 +1,5 @@
 from math import pi, floor
-from colorsys import hsv_to_rgb, hls_to_rgb, rgb_to_hsv
+from colorsys import hsv_to_rgb, hls_to_rgb, rgb_to_hsv, rgb_to_hls
 import lcms
 
 HLS=True
@@ -8,10 +8,15 @@ if HLS:
     def to_rgb(h,s,l):
         return hls_to_rgb(h,l,s)
 #         return lch_to_rgb(l,s,h)
-    FULL_LIGHT = 1.0
+    def from_rgb(r,g,b):
+        h,l,s = rgb_to_hls(r,g,b)
+        return h,s,l
+    FULL_LIGHT = 0.5
 else:
     def to_rgb(h,s,l):
         return hsv_to_rgb(h,s,l)
+    def from_rgb(r,g,b):
+        return rgb_to_hsv(r,g,b)
     FULL_LIGHT = 1.0
 
 xyz_profile = lcms.cmsCreateXYZProfile()
@@ -53,30 +58,27 @@ def hue_transform(h):
         r -= 1.0
     return r
 
-def simple_mix(x1,a,x2,b):
+def simple_mix(x1,v1,a,x2,v2,b):
     q = b/(a+b)
-    return (1-q)*x1 + q*x2, a*q
+    return (1-q)*x1 + q*x2, (1-q)*v1 + q*v2
 
-def simple_mix_invert(x1,p,x2,q):
-    if p==0.0 and q==0.0:
-        return (x1+x2)/2.0, 1.0
-    elif p==0.0:
-        return x1, 1.0
-    elif q==0.0:
-        return x2, 1.0
-    else:
-        return simple_mix(x1,1./p, x2,1./q)
+def simple_mix_invert(x1,v1,p,x2,v2,q):
+        return simple_mix(x1,v1,q, x2,v2,p)
+
+vY = 1.0
+vR = 0.9
+vB = 0.7
 
 def mix_RY(qR,qY):
-    h,v = simple_mix_invert(0,qR, 1./6, qY)
+    h,v = simple_mix_invert(0,vR,qR, 1./6,vY, qY)
     return h,v
 
 def mix_YB(qY,qB):
-    h,v = simple_mix_invert(1./6,qY, 2./3,qB)
+    h,v = simple_mix_invert(1./6,vY,qY, 2./3,vB,qB)
     return h,v
 
 def mix_BR(qB,qR):
-    h,v = simple_mix_invert(2./3,qB, 1.,qR)
+    h,v = simple_mix_invert(2./3,vB,qB, 1.,vR,qR)
     return h,v
 
 def hsv_ryb_rgb(h1,s1,v1, correction = 0.0):
@@ -90,46 +92,21 @@ def hsv_ryb_rgb(h1,s1,v1, correction = 0.0):
         q = (h1-2./3)*3
         h2,v2 = mix_BR(q,1-q)
     l = light_transform(h2, v1*v2, correction)
-    return hsv_to_rgb(h2, s1, l)
+    return to_rgb(h2, s1, l)
 
 def rgb_ryb_hsv(r,g,b):
-    h1,s1,v1 = rgb_to_hsv(r,g,b)
-    if h1 < 1./6:
+    h1,s1,v1 = from_rgb(r,g,b)
+    if h1 < 1./6:        # Between R and Y
         q = h1*6
-        h2,v2 = simple_mix_invert(0.,q, 1./3, 1-q)
-    elif h1 < 2.3:
-        q = (h-1./6)*2
-        h2,v2 = simple_mix_invert(1./3,q, 2./3, 1-q)
-    else:
-        q = (h-2./3)*3
-        h2,v2 = simple_mix_invert(2./3,q, 1.,1-q)
+        h2,v2 = simple_mix_invert(0.,vR,q, 1./3,vY, 1-q)
+    elif h1 < 2.3:       # Between Y and B
+        q = (h1-1./6)*2
+        h2,v2 = simple_mix_invert(1./3,vY,q, 2./3,vB, 1-q)
+    else:                # Between B and R
+        q = (h1-2./3)*3
+        h2,v2 = simple_mix_invert(2./3,vB,q, 1.,vR,1-q)
     return h2, s1, v2/v1
 
-# def hsv_ryb_rgb(h,s,v, correction=0.0):
-#     red = (0.8902, 0.1373, 0.0627)
-#     yellow = (0.9961, 0.9961, 0.2)
-#     blue = (0.0039, 0.2157, 0.7804)
-#     green = (0.,0.8,0.2941)
-#     if h < 1./3:
-#         base = rgb_blend(red,yellow, h*3)
-#     elif h < 0.5:
-#         base = rgb_blend(yellow,green, (h-1./3)*6)
-#     elif h < 2./3:
-#         base = rgb_blend(green, blue, (h-0.5)*6)
-#     else:
-#         base = rgb_blend(blue,red, (h-2./3)*3)
-#     h_,s_,v_ = rgb_to_hsv(*base)
-#     l = light_transform(h_,v*v_, correction)
-#     return hsv_to_rgb(h_,s*s_,l)
-
-# def rgb_blend(clr1,clr2, alpha):
-#     r1,g1,b1 = clr1
-#     r2,g2,b2 = clr2
-#     r = (1-alpha)*r1 + alpha*r2
-#     g = (1-alpha)*g1 + alpha*g2
-#     b = (1-alpha)*b1 + alpha*b2
-#     return r,g,b
- 
 def light_transform(h, l, correction=0.0):
     def change(x):
 #         return - 39.6429*x**5 + 115.4617*x**4- 100.8745*x**3 + 19.4957*x**2 + 5.5600*x - 0.5458

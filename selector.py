@@ -173,7 +173,10 @@ class CircleSelector(GColorSelector):
         self.previous = self.color
         r,g,b = self.color = color
         h,s,v = rgb_to_color(r,g,b, ryb=self.ryb)
-        old_h,old_s,old_v = self.hsv
+        if s > 1:
+            s = 1.
+        if v > 1:
+            v = 1.
         self.hsv = h,s,v
         if redraw:
             self.queue_draw()
@@ -260,8 +263,9 @@ class CircleSelector(GColorSelector):
                 c1 -= 1
             cr.new_path()
             clr = color_to_rgb(v,s,c1, ryb=self.ryb, correction=self.correction)
+            clr0 = color_to_rgb(v,s,c1, ryb=self.ryb)
             cr.set_source_rgb(*clr)
-            self.simple_colors.append(clr)
+            self.simple_colors.append(clr0)
             an = -c1*2*pi
             self.angles.append(-an+pi/CIRCLE_N)
             a1 = an-pi/CIRCLE_N
