@@ -48,6 +48,22 @@ def lch_to_rgb(l,c,h):
 #     return rgb
     return rgb[0]/255.0, rgb[1]/255.0, rgb[2]/255.0
 
+R=[c/255. for c in (254,39,18)]
+Y=[c/255. for c in (254,255,51)]
+B=[c/255. for c in (2,81,254)]
+
+def mixRYB_simple(qR,qY,qB):
+    r =  (qR*R[0] + qY*Y[0] + qB*B[0])
+    g =  (qR*R[1] + qY*Y[1] + qB*B[1])
+    b =  (qR*R[2] + qY*Y[2] + qB*B[2])
+    if r > 1:
+        r = 1.
+    if g > 1:
+        g = 1.
+    if b > 1:
+        b = 1.
+    return r,g,b
+
 vY = 1.0
 vR = 0.9
 vB = 0.7
@@ -125,7 +141,7 @@ def mixRYB_hsv(qR,qY,qB):
         v = vm
     return h,s,v
 
-def mixRYB(qR,qY,qB):
+def mixRYB_(qR,qY,qB):
     h,s,v = mixRYB_hsv(qR,qY,qB)
 #     print 'mixRYB/hsv:',h,s,v
     return to_rgb(h,s,v)
@@ -138,6 +154,8 @@ def mix_YB(qY,qB):
 
 def mix_BR(qB,qR):
     return simple_mix(hB,vB,qB, 1.,vR,qR)
+
+mixRYB = mixRYB_simple
 
 def hsv_ryb_rgb(h1,s1,v1, correction = 0.0):
     if h1 < 1./3:
