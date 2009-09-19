@@ -144,7 +144,6 @@ class CircleSelector(GColorSelector):
         self.hsv = rgb_to_color(*color)
         self.previous = color
         self.ryb = False
-        self.correction = 0.0
 
     def redraw(self):
         self.circle_img = None
@@ -196,7 +195,7 @@ class CircleSelector(GColorSelector):
             h,s,v = self.hsv
             h = 0.5 + 0.5*atan2(dy, -dx)/pi
             self.previous = self.color
-            self.color = color_to_rgb(v,s,h, ryb=self.ryb, correction=self.correction)
+            self.color = color_to_rgb(v,s,h, ryb=self.ryb)
             self.hsv = (h,s,v)
             self.queue_draw()
             self.on_select(self.color)
@@ -216,7 +215,7 @@ class CircleSelector(GColorSelector):
             s = (x-self.x0+self.m)/(2*self.m)
             v = (y-self.y0+self.m)/(2*self.m)
             self.hsv = h,s,1-v
-            self.color = color_to_rgb(1-v,s,h, ryb=self.ryb, correction=self.correction)
+            self.color = color_to_rgb(1-v,s,h, ryb=self.ryb)
             self.queue_draw()
             self.on_select(self.color)
 
@@ -234,8 +233,8 @@ class CircleSelector(GColorSelector):
             s = 0.0
             y += ds
             g = cairo.LinearGradient(x1,y,x2,y)
-            g.add_color_stop_rgb(0.0, *color_to_rgb(1.0-v, 0.0, h, ryb=self.ryb, correction=self.correction))
-            g.add_color_stop_rgb(1.0, *color_to_rgb(1.0-v, 1.0, h, ryb=self.ryb, correction=self.correction))
+            g.add_color_stop_rgb(0.0, *color_to_rgb(1.0-v, 0.0, h, ryb=self.ryb))
+            g.add_color_stop_rgb(1.0, *color_to_rgb(1.0-v, 1.0, h, ryb=self.ryb))
             cr.set_source(g)
             cr.rectangle(x1,y, 2*m, ds)
             cr.fill_preserve()
@@ -262,7 +261,7 @@ class CircleSelector(GColorSelector):
             if c1 > 1:
                 c1 -= 1
             cr.new_path()
-            clr = color_to_rgb(v,s,c1, ryb=self.ryb, correction=self.correction)
+            clr = color_to_rgb(v,s,c1, ryb=self.ryb)
             clr0 = color_to_rgb(v,s,c1, ryb=self.ryb)
             cr.set_source_rgb(*clr)
             self.simple_colors.append(clr0)
@@ -299,7 +298,7 @@ class CircleSelector(GColorSelector):
         cr.set_line_width(4.0)
         a1 = 0.0
         while a1 < 2*pi:
-            clr = color_to_rgb(FULL_LIGHT, 1.0, a1/(2*pi), ryb=self.ryb, correction=self.correction)
+            clr = color_to_rgb(FULL_LIGHT, 1.0, a1/(2*pi), ryb=self.ryb)
             x1,y1,x2,y2 = self.calc_line(a1)
             a1 += CSTEP
             cr.set_source_rgb(*clr)
@@ -504,15 +503,10 @@ class Selector(gtk.VBox):
         hbox.pack_start(vbox,expand=True)
         self.recent = RecentColors()
         self.circle = CircleSelector()
-        adj = gtk.Adjustment(lower=-100,upper=100, step_incr=1, page_incr=10)
-        adj.set_value(0)
-        scale = gtk.HScale(adj)
-        scale.connect('value-changed', self.on_correction_changed)
         corr_checkbox = gtk.CheckButton('RYB')
         corr_checkbox.connect('toggled', self.on_ryb_toggled)
         model = gtk.HBox()
         model.pack_start(corr_checkbox, expand=False)
-        model.pack_start(scale, expand=True)
         vbox.pack_start(model, expand=False)
         vbox.pack_start(self.circle, expand=True)
         self.rgb_selector = RGBSelector()
@@ -540,10 +534,6 @@ class Selector(gtk.VBox):
                  [("application/x-color",0,80)],
                  gtk.gdk.ACTION_COPY)
 #         self.drag_source_set(gdk.BUTTON1_MASK, [("application/x-color",0,80)], gdk.ACTION_COPY)
-
-    def on_correction_changed(self, scale):
-        self.circle.correction = scale.get_value()/100.0
-        self.circle.redraw()
 
     def on_ryb_toggled(self, checkbox):
         self.circle.ryb = checkbox.get_active()
