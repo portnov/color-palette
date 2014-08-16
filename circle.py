@@ -4,7 +4,7 @@ from math import sqrt,pi,cos,sin
 import gtk
 gdk = gtk.gdk
 import cairo
-from color import mixRYB_simple
+from color import mixRYB
 
 sq36 = sqrt(3.)/6.
 sq33 = sqrt(3.)/3.
@@ -81,7 +81,7 @@ class Circle(gtk.DrawingArea):
                     qY = 0
                     qR = (phi-2./3)*3
                     qB = 1-qR
-                r,g,b = mixRYB_simple(qR,qY,qB)
+                r,g,b = mixRYB(qR,qY,qB)
                 if rad > 2./3:
                     s = 1-(rad-2./3)*3
                     r = s*r + (1-s)

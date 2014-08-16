@@ -210,7 +210,7 @@ class CircleSelector(GColorSelector):
                     self.queue_draw()
                     self.on_select(self.color)
                     break
-        elif abs(dx)<self.m and abs(dy)<self.m:
+        else:
             h,s,v = self.hsv
             s = (x-self.x0+self.m)/(2*self.m)
             v = (y-self.y0+self.m)/(2*self.m)
@@ -223,26 +223,28 @@ class CircleSelector(GColorSelector):
         img = cairo.ImageSurface(cairo.FORMAT_ARGB32, width,height)
         cr = cairo.Context(img)
         h,s,v = self.hsv
-        m = radius/sqrt(2.0)
-        ds = 2*m*CSTEP
+        ds = 2*radius*0.003
         v = 0.0
-        x1 = self.x0-m
-        x2 = self.x0+m
-        y = self.y0-m
+        y1 = - radius
         while v < 1.0:
             s = 0.0
-            y += ds
+            y = self.y0 + y1
+            x1 = self.x0 - sqrt(radius**2 - y1**2)
+            x2 = self.x0 + sqrt(radius**2 - y1**2)
             g = cairo.LinearGradient(x1,y,x2,y)
             g.add_color_stop_rgb(0.0, *color_to_rgb(1.0-v, 0.0, h, ryb=self.ryb))
             g.add_color_stop_rgb(1.0, *color_to_rgb(1.0-v, 1.0, h, ryb=self.ryb))
             cr.set_source(g)
-            cr.rectangle(x1,y, 2*m, ds)
+            cr.rectangle(x1,y, (x2-x1), ds)
             cr.fill_preserve()
             cr.stroke()
-            v += CSTEP
+            v += 0.003
+            y1 += ds
         h,s,v = self.hsv
-        x = self.x0-m + s*2*m
-        y = self.y0-m + (1-v)*2*m
+        y = self.y0-radius + (1-v)*2*radius
+        v1 = y - self.y0
+        d = sqrt(radius**2 - v1**2)
+        x = self.x0-d + s*2*d
         cr.set_source_rgb(*color_to_rgb(1-v,1-s,1-h))
         cr.arc(x,y, 3.0, 0.0, 2*pi)
         cr.stroke()

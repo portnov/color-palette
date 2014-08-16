@@ -57,6 +57,14 @@ def simple_mix(x1,a,x2,b):
 #     print 'simple_mix/ q: %.2f' % q
     return h
 
+def mixRGB(rgb1, rgb2, q):
+    r1, g1, b1 = rgb1
+    r2, g2, b2 = rgb2
+    r = (1.-q)*r1 + q*r2
+    g = (1.-q)*g1 + q*g2
+    b = (1.-q)*b1 + q*b2
+    return (r, g, b)
+
 def mixRYB_hsv(qR,qY,qB):
     return from_rgb(*mixRYB(qR,qY,qB))
 
