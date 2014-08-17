@@ -100,6 +100,9 @@ class Color(QtGui.QColor):
     
     def getHSV(self):
         r, g, b = self._rgb
+        eps = 0.001
+        if abs(max(r,g,b)) < eps:
+            return (0,0,0)
         return colorsys.rgb_to_hsv(r/255., g/255., b/255.)
     
     def getHLS(self):

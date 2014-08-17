@@ -27,8 +27,10 @@ class GUI(QtGui.QWidget):
 
     available_harmonies = [("Just opposite", harmonies.Opposite),
                            ("Three colors",  harmonies.NHues(3)),
-                           ("Four colors",   harmonies.NHues(4)),
-                           ("Simple LCh",    harmonies.SimpleHarmony)]
+                           ("Four colors",   harmonies.NHues(4))]
+
+    available_shaders = [("Saturation", harmonies.Saturation),
+                         ("Value",      harmonies.Value)]
     
     def __init__(self):
         QtGui.QWidget.__init__(self)
@@ -83,16 +85,37 @@ class GUI(QtGui.QWidget):
             self.harmonies.addItem(harmony)
         self.harmonies.currentIndexChanged.connect(self.on_select_harmony)
         self.vbox_right.addWidget(self.harmonies)
+        self.shaders = QtGui.QComboBox()
+        for shader,_ in self.available_shaders:
+            self.shaders.addItem(shader)
+        self.shaders.currentIndexChanged.connect(self.on_select_shader)
+        self.shader = harmonies.Saturation
+        self.vbox_right.addWidget(self.shaders)
+
+        self.selector_hbox = QtGui.QHBoxLayout()
         self.selector = Selector(mixers.MixerHLS)
         self.selector.setHarmony(harmonies.Opposite)
         self.selector.selected.connect(self.on_select_color)
-        self.vbox_right.addWidget(self.selector)
+        self.selector_hbox.addWidget(self.selector)
+
+        self.current_color = ColorWidget(self)
+        self.selector_hbox.addWidget(self.current_color)
+        self.vbox_right.addLayout(self.selector_hbox)
+
         self.harmonized = []
-        self.harmonizedBox = QtGui.QHBoxLayout()
+        self.harmonizedBox = QtGui.QVBoxLayout()
+        harmonizedHBox1 = QtGui.QHBoxLayout()
+        harmonizedHBox2 = QtGui.QHBoxLayout()
         for i in range(10):
             w = ColorWidget(self)
             self.harmonized.append(w)
-            self.harmonizedBox.addWidget(w)
+            harmonizedHBox1.addWidget(w)
+        for i in range(10):
+            w = ColorWidget(self)
+            self.harmonized.append(w)
+            harmonizedHBox2.addWidget(w)
+        self.harmonizedBox.addLayout(harmonizedHBox1)
+        self.harmonizedBox.addLayout(harmonizedHBox2)
         self.vbox_right.addLayout(self.harmonizedBox)
         self.do_harmony = QtGui.QPushButton("Harmony")
         self.vbox_right.addWidget(self.do_harmony)
@@ -102,13 +125,18 @@ class GUI(QtGui.QWidget):
     
     def on_select_color(self):
         color = self.selector.selected_color
-        self.harmonized[9].setColor(color)
-        self.harmonized[9].update()
+        self.current_color.setColor(color)
+        self.current_color.update()
 
     def on_select_harmony(self, idx):
         _, harmony = self.available_harmonies[idx]
         print("Selected harmony: " + str(harmony))
         self.selector.setHarmony(harmony)
+
+    def on_select_shader(self, idx):
+        _, shader = self.available_shaders[idx]
+        print("Selected shader: " + str(shader))
+        self.shader = shader
     
     def on_select(self, colorwidget, idx):
         def handler():
@@ -138,8 +166,8 @@ class GUI(QtGui.QWidget):
         self.update()
 
     def on_harmony(self):
-        for i,clr in enumerate(self.selector.harmonized):
-            if i > 9:
+        for i,clr in enumerate(harmonies.allShades(self.selector.harmonized, self.shader)):
+            if i > 19:
                 break
             self.harmonized[i].setColor(clr)
         self.update()

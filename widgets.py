@@ -51,15 +51,16 @@ class ColorWidget(QtGui.QLabel):
     
     def drawWidget(self, event,  qp):
         #print("Painting " + str(self))
+        w, h = self.size().width(),  self.size().height()
         if self.rgb is None:
-            qp.drawText(event.rect(), QtCore.Qt.AlignCenter, "<unset>")
+            if (w >= 70) and (h > 20):
+                qp.drawText(event.rect(), QtCore.Qt.AlignCenter, "<unset>")
             return
         
-        w, h = self.size().width(),  self.size().height()
         qp.setBrush(QtGui.QColor(*self.rgb))
         qp.drawRect(0, 0,  w,  h)
         clr = self.getColor()
-        if (w >= 100) and (h >= 50):
+        if (w >= 150) and (h >= 50):
             qp.setPen(clr.invert())
             qp.drawText(event.rect(), QtCore.Qt.AlignCenter, clr.verbose())
         
@@ -286,6 +287,10 @@ class Selector(QtGui.QLabel):
         self.selected_color = None
         self.harmony = None
         self.harmonized = []
+        self.setMinimumSize(100,100)
+
+    def sizeHint(self):
+        return QtCore.QSize(150, 150)
 
     def setHarmony(self, harmony):
         self.harmony = harmony
