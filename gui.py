@@ -9,7 +9,7 @@ import colors
 from colors import Color
 import mixers
 import harmonies
-from palette import Palette
+from palette import Palette, GimpPalette
 from palette_widget import PaletteWidget
     
 class GUI(QtGui.QWidget):
@@ -58,7 +58,11 @@ class GUI(QtGui.QWidget):
         self.vbox_left.addWidget(self.mixers)
         self.vbox_left.addWidget(self.palette)
         self.hbox = QtGui.QHBoxLayout()
+        save_button = QtGui.QPushButton("Save palette")
+        save_button.clicked.connect(self.on_save_palette)
+        self.vbox_left.addWidget(save_button)
         self.hbox.addLayout(self.vbox_left)
+
         self.vbox_right = QtGui.QVBoxLayout()
         self.selector_mixers = QtGui.QComboBox()
         for mixer, _ in self.available_selector_mixers:
@@ -107,6 +111,10 @@ class GUI(QtGui.QWidget):
         self.do_harmony.clicked.connect(self.on_harmony)
         self.hbox.addLayout(self.vbox_right)
         self.setLayout(self.hbox)
+
+    def on_save_palette(self):
+        filename = QtGui.QFileDialog.getSaveFileName(self, "Save palette", ".", "*.gpl")
+        GimpPalette(self.palette.palette).save(str(filename))
     
     def on_select_color(self):
         color = self.selector.selected_color

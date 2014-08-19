@@ -334,6 +334,8 @@ class GimpPalette(Storage):
         elif hasattr(file_w,'write'):
             pf = file_w
             do_close = False
+        else:
+            raise ValueError("Invalid argument type in GimpPalette.save: {}".format(type(file_w)))
         pf.write('GIMP Palette\n')
         if not hasattr(self.palette, 'name'):
             if type(file_w) in [str, unicode]:
