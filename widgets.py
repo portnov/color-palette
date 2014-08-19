@@ -6,6 +6,21 @@ from PyQt4 import QtGui, QtCore
 import colors
 from colors import seq
 
+def dnd_pixmap(color):
+    pixmap = QtGui.QPixmap(32,32)
+    pixmap.fill(color)
+    return pixmap
+
+def create_qdrag_color(widget, color):
+    r,g,b = color.getRGB()
+    qcolor = QtGui.QColor(r,g,b)
+    drag = QtGui.QDrag(widget)
+    mime = QtCore.QMimeData()
+    mime.setColorData(qcolor)
+    drag.setMimeData(mime)
+    drag.setPixmap(dnd_pixmap(color))
+    return drag
+
 class ColorWidget(QtGui.QLabel):
     clicked = QtCore.pyqtSignal()
     selected = QtCore.pyqtSignal()
@@ -15,6 +30,11 @@ class ColorWidget(QtGui.QLabel):
         self.setMinimumSize(18, 18)
         self.clicked.connect(self.on_click)
         self.rgb = None
+        self._mouse_pressed = False
+        self._drag_start_pos = None
+        self.select_button = QtCore.Qt.LeftButton
+        self.editing_enabled = True
+        self.setAcceptDrops(True)
         self.show()
     
     def setRGB(self, rgb):
@@ -40,14 +60,39 @@ class ColorWidget(QtGui.QLabel):
     
     def mousePressEvent(self, event):
         #print("Mouse pressed")
+        self._mouse_pressed = True
         self.setFocus(QtCore.Qt.OtherFocusReason)
+        self._drag_start_pos = event.pos()
         event.accept()
     
     def mouseReleaseEvent(self, event):
         #print("Mouse released")
-        if event.button() == QtCore.Qt.LeftButton:
+        if event.button() == self.select_button and self.editing_enabled:
             self.clicked.emit()
             event.accept()
+
+    def mouseMoveEvent(self, event):
+        if not self._mouse_pressed:
+            return
+        if not (event.buttons() & QtCore.Qt.LeftButton):
+            return
+        if (event.pos() - self._drag_start_pos).manhattanLength() < QtGui.QApplication.startDragDistance():
+            return
+
+        drag = create_qdrag_color(self, self.getColor())
+        drag.exec_()
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasColor() and self.editing_enabled:
+            event.acceptProposedAction()
+
+    def dropEvent(self, event):
+        if event.mimeData().hasColor():
+            qcolor = QtGui.QColor(event.mimeData().colorData())
+            r,g,b,_ = qcolor.getRgb()
+            self.setRGB((r,g,b))
+            self.repaint()
+            self.selected.emit()
     
     def drawWidget(self, event,  qp):
         #print("Painting " + str(self))
@@ -259,6 +304,9 @@ class GradientWidget(QtGui.QLabel):
 
 class ImageWidget(QtGui.QLabel):
     def __init__(self, cache,  *args):
+        """cache must have method:
+           get(w,h) -> QImage
+        """
         QtGui.QLabel.__init__(self, *args)
         self.cache = cache
 

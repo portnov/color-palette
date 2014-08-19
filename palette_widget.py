@@ -1,0 +1,342 @@
+
+from PyQt4 import QtGui, QtCore
+from palette import *
+from colors import *
+from widgets import *
+from palette_image import PaletteImage
+
+class PaletteWidget(QtGui.QLabel):
+    clicked = QtCore.pyqtSignal(int,int) # (x,y)
+    selected = QtCore.pyqtSignal(int,int) # (row, column)
+
+    def __init__(self, palette, padding=2.0, background=None, *args):
+        QtGui.QLabel.__init__(self, *args)
+        self.palette = palette
+        self.palette_image = PaletteImage(palette, padding=padding, background=background)
+        self.selected_slot = None
+
+        self._drag_start_pos = None
+
+        self.select_button = QtCore.Qt.LeftButton
+        self.mark_button = QtCore.Qt.MiddleButton
+
+        self.selection_enabled = True
+        self.editing_enabled = True
+
+        self._delete_rect = None
+        self._insert_line = None
+        self._mouse_pressed = False
+
+        self.buttons_size = 24
+        self.setMinimumSize(100,50)
+        self.setAcceptDrops(True)
+        self.setMouseTracking(True)
+
+    def setMixer(self, mixer):
+        self.palette.setMixer(mixer)
+        self.update()
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasColor() and self.editing_enabled:
+            event.acceptProposedAction()
+
+    def dropEvent(self, event):
+        if event.mimeData().hasColor():
+            qcolor = QtGui.QColor(event.mimeData().colorData())
+            r,g,b,_ = qcolor.getRgb()
+            #print(qcolor.getRgb())
+            color = Color(r,g,b)
+            event.acceptProposedAction()
+            print(color)
+            row,col = self._get_slot(event.pos().x(), event.pos().y())
+            self.palette.paint(row, col, color)
+            self.palette.recalc()
+            self.repaint()
+
+    def sizeHint(self):
+        r,c = self.palette.nrows, self.palette.ncols
+        return QtCore.QSize(c*20, r*20)
+
+    def _get_button_radius(self):
+        return self.buttons_size/2.0
+
+    def _get_button_rect(self, center):
+        xc, yc = center
+        r = self._get_button_radius()
+        return QtCore.QRectF(xc-r, yc-r, 2*r, 2*r)
+
+    def _get_image_size(self):
+        w, h = self.size().width(),  self.size().height()
+        return (w-self.buttons_size, h-self.buttons_size)
+
+    def _get_slot_size(self):
+        image_w, image_h = self._get_image_size()
+        rows, cols = self.palette.nrows, self.palette.ncols
+        rw = float(image_w)/float(cols)
+        rh = float(image_h)/float(rows)
+        return (rw, rh)
+
+    def _get_delete_col_button_centers(self):
+        image_w, image_h = self._get_image_size()
+        rows, cols = self.palette.nrows, self.palette.ncols
+        rw, rh = self._get_slot_size()
+        r = self._get_button_radius()
+        yc = image_h + r
+        return [(i*rw + rw/2.0, yc) for i in range(cols)]
+
+    def _get_delete_row_button_centers(self):
+        image_w, image_h = self._get_image_size()
+        rows, cols = self.palette.nrows, self.palette.ncols
+        rw, rh = self._get_slot_size()
+        r = self._get_button_radius()
+        xc = image_w + r
+        return [(xc, i*rh + rh/2.0) for i in range(rows)]
+
+    def _get_insert_col_button_centers(self):
+        image_w, image_h = self._get_image_size()
+        rows, cols = self.palette.nrows, self.palette.ncols
+        rw, rh = self._get_slot_size()
+        r = self._get_button_radius()
+        yc = image_h + r
+        return [(i*rw, yc) for i in range(cols)]
+
+    def _get_insert_row_button_centers(self):
+        image_w, image_h = self._get_image_size()
+        rows, cols = self.palette.nrows, self.palette.ncols
+        rw, rh = self._get_slot_size()
+        r = self._get_button_radius()
+        xc = image_w + r
+        return [(xc, i*rh) for i in range(rows)]
+
+    def _draw_delete_button(self, qp, rect):
+        qp.setBrush(Color(255,255,255))
+        qp.drawEllipse(rect)
+
+    def _draw_insert_button(self, qp, rect):
+        qp.setBrush(Color(0,255,0))
+        qp.drawEllipse(rect)
+
+    def _get_col_rect(self, coln):
+        image_w, image_h = self._get_image_size()
+        rw, rh = self._get_slot_size()
+        return QtCore.QRectF(coln*rw, 0, rw, image_h)
+
+    def _get_row_rect(self, rown):
+        image_w, image_h = self._get_image_size()
+        rw, rh = self._get_slot_size()
+        return QtCore.QRectF(0, rh*rown, image_w, rh)
+
+    def _get_insert_row_line(self, rown):
+        image_w, image_h = self._get_image_size()
+        rw, rh = self._get_slot_size()
+        return (0, rh*rown, image_w, rh*rown)
+
+    def _get_insert_col_line(self, coln):
+        image_w, image_h = self._get_image_size()
+        rw, rh = self._get_slot_size()
+        return (coln*rw, 0, coln*rw, image_h)
+
+    def _draw_delete_rect(self, qp, rect):
+        qp.setBrush(QtGui.QColor(0,0,0,0))
+        qp.setPen(Color(255,0,0))
+        qp.drawRect(rect)
+
+    def _draw_insert_line(self, qp, line):
+        x1,y1,x2,y2 = line
+        qp.setPen(QtGui.QPen(QtGui.QBrush(Color(0,255,0)), 3.0))
+        qp.drawLine(x1,y1,x2,y2)
+
+    def _get_delete_col_button_at_xy(self, x, y):
+        r = self._get_button_radius()
+        for coln, center in enumerate( self._get_delete_col_button_centers() ):
+            xc, yc = center
+            if (x-xc)**2 + (y-yc)**2 < r**2:
+                return coln
+        return None
+
+    def _get_delete_row_button_at_xy(self, x, y):
+        r = self._get_button_radius()
+        for rown, center in enumerate( self._get_delete_row_button_centers() ):
+            xc, yc = center
+            if (x-xc)**2 + (y-yc)**2 < r**2:
+                return rown
+        return None
+
+    def _get_insert_col_button_at_xy(self, x, y):
+        r = self._get_button_radius()
+        for coln, center in enumerate( self._get_insert_col_button_centers() ):
+            xc, yc = center
+            if (x-xc)**2 + (y-yc)**2 < r**2:
+                return coln
+        return None
+
+    def _get_insert_row_button_at_xy(self, x, y):
+        r = self._get_button_radius()
+        for rown, center in enumerate( self._get_insert_row_button_centers() ):
+            xc, yc = center
+            if (x-xc)**2 + (y-yc)**2 < r**2:
+                return rown
+        return None
+
+    def paintEvent(self, event):
+        w, h = self.size().width(),  self.size().height()
+        image_w, image_h = self._get_image_size()
+        image = self.palette_image.get(image_w, image_h)
+        qp = QtGui.QPainter()
+        qp.begin(self)
+        qp.drawImage(0, 0, image)
+        rw,rh = self._get_slot_size()
+
+        if self.editing_enabled:
+            for rect in map(self._get_button_rect, self._get_delete_col_button_centers() ):
+                self._draw_delete_button(qp, rect)
+            for rect in map(self._get_button_rect, self._get_delete_row_button_centers() ):
+                self._draw_delete_button(qp, rect)
+            for rect in map(self._get_button_rect, self._get_insert_col_button_centers() ):
+                self._draw_insert_button(qp, rect)
+            for rect in map(self._get_button_rect, self._get_insert_row_button_centers() ):
+                self._draw_insert_button(qp, rect)
+
+            if self._delete_rect is not None:
+                self._draw_delete_rect(qp, self._delete_rect)
+
+            if self._insert_line is not None:
+                self._draw_insert_line(qp, self._insert_line)
+
+        qp.setBrush(QtGui.QColor(0,0,0,0))
+
+        if self.selected_slot is not None:
+            row,col = self.selected_slot
+            slot = self.palette.slots[row][col]
+            y = row * rh
+            x = col * rw
+            qp.setPen(QtGui.QPen(QtGui.QBrush(slot.color.getVisibleColor()), 2.0))
+            qp.drawRect(x,y,rw,rh)
+
+        for row, col, slot in self.palette.getUserDefinedSlots():
+            y = row * rh
+            x = col * rw
+            qp.setPen(slot.color.invert())
+            qp.setBrush(slot.color.invert())
+            qp.drawEllipse(x,y,8,8)
+
+        qp.end()
+
+    def mousePressEvent(self, event):
+        #print("Mouse pressed")
+        self.setFocus(QtCore.Qt.OtherFocusReason)
+        self._mouse_pressed = True
+        self._drag_start_pos = event.pos()
+        event.accept()
+
+    def mouseMoveEvent(self, event):
+
+        x,y = event.x(), event.y()
+
+        delete_col = self._get_delete_col_button_at_xy(x,y)
+        if delete_col is not None:
+            self._delete_rect = self._get_col_rect(delete_col)
+            self._insert_line = None
+            self.repaint()
+            return
+
+        delete_row = self._get_delete_row_button_at_xy(x,y)
+        if delete_row is not None:
+            self._delete_rect = self._get_row_rect(delete_row)
+            self._insert_line = None
+            self.repaint()
+            return
+
+        insert_col = self._get_insert_col_button_at_xy(x,y)
+        if insert_col is not None:
+            self._delete_rect = None
+            self._insert_line = self._get_insert_col_line(insert_col)
+            self.repaint()
+            return
+
+        insert_row = self._get_insert_row_button_at_xy(x,y)
+        if insert_row is not None:
+            self._delete_rect = None
+            self._insert_line = self._get_insert_row_line(insert_row)
+            self.repaint()
+            return
+
+        self._delete_rect = None
+        self._insert_line = None
+
+        if not self._mouse_pressed:
+            return
+        if not (event.buttons() & QtCore.Qt.LeftButton):
+            return
+        if (event.pos() - self._drag_start_pos).manhattanLength() < QtGui.QApplication.startDragDistance():
+            return
+
+        row,col = self._get_slot(x,y)
+        color = self.palette.getColor(row,col)
+        drag = create_qdrag_color(self, color)
+        drag.exec_()
+
+    def mouseReleaseEvent(self, event):
+        #print("Mouse released")
+        self._mouse_pressed = False
+        x,y = event.x(), event.y()
+        if event.button() == self.select_button and self.editing_enabled:
+            delete_col = self._get_delete_col_button_at_xy(x,y)
+            if delete_col is not None:
+                print("Deleting column #{}".format(delete_col))
+                self._delete_rect = None
+                self.palette.del_column(delete_col)
+                self.repaint()
+                return
+
+            delete_row = self._get_delete_row_button_at_xy(x,y)
+            if delete_row is not None:
+                print("Deleting row #{}".format(delete_row))
+                self._delete_rect = None
+                self.palette.del_row(delete_row)
+                self.repaint()
+                return
+
+            insert_col = self._get_insert_col_button_at_xy(x,y)
+            if insert_col is not None:
+                print("Inserting column #{}".format(insert_col))
+                self._insert_line = None
+                self.palette.add_column(insert_col)
+                self.repaint()
+                return
+
+            insert_row = self._get_insert_row_button_at_xy(x,y)
+            if insert_row is not None:
+                print("Inserting row #{}".format(insert_row))
+                self._insert_line = None
+                self.palette.add_row(insert_row)
+                self.repaint()
+                return
+
+        if event.button() == self.select_button and self.selection_enabled:
+            self._select(x,y)
+        elif event.button() == self.mark_button and self.editing_enabled:
+            self._mark(x,y)
+        if event.button() == QtCore.Qt.LeftButton:
+            self._drag_start_pos = event.pos()
+        event.accept()
+
+    def _mark(self, x,y):
+        row,col = self._get_slot(x,y)
+        self.palette.mark_color(row,col)
+        self.repaint()
+
+    def _get_slot(self, x,y):
+        w, h = self.size().width(),  self.size().height()
+        rw = float(w)/float(self.palette.ncols)
+        rh = float(h)/float(self.palette.nrows)
+        row, col = int(y//rh), int(x//rw)
+        #print((row,col))
+        return (row, col)
+
+    def _select(self, x, y):
+        self.clicked.emit(x,y)
+        self.selected_slot = self._get_slot(x,y)
+        self.selected.emit(*self.selected_slot)
+        self.repaint()
+

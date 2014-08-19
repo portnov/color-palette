@@ -68,6 +68,21 @@ class MixerHLS(Mixer):
         result.setHLS(hls)
         return result
 
+class MixerHSV(Mixer):
+    @classmethod
+    def mix(cls, c1, c2, q):
+        h1, s1, v1 = c1.getHSV()
+        h2, s2, v2 = c2.getHSV()
+        h = circular(h1, h2, q)
+        s = linear(s1, s2, q)
+        v = linear(v1, v2, q)
+
+        hsv = (h,s,v)
+        result = Color()
+        #print("HLS: " + str(hls))
+        result.setHSV(hsv)
+        return result
+
 class MixerHSI(Mixer):
     @classmethod
     def mix(cls, c1, c2, q):

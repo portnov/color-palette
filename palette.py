@@ -78,8 +78,12 @@ class Palette(object):
         self.need_recalc = True
 
     def mark_color(self, row, column):
-        slot = self.slot[row][column]
+        slot = self.slots[row][column]
         slot.mark()
+        self.recalc()
+
+    def setMixer(self, mixer):
+        self.mixer = mixer
         self.recalc()
 
     def del_column(self, col):
@@ -139,10 +143,23 @@ class Palette(object):
     def erase(self, row, column):
         self.paint(row, column, Color(0,0,0))
 
+    def getUserDefinedSlots(self):
+        """Returns list of tuples: (row, column, slot)."""
+        result = []
+        for i,row in enumerate(self.slots):
+            for j,slot in enumerate(row):
+                if slot.mode == USER_DEFINED:
+                    result.append((i,j,slot))
+        return result
+
     def getColor(self, row, column):
         if self.need_recalc:
             self.recalc()
-        return self.slots[row][column].color
+        try:
+            return self.slots[row][column].color
+        except IndexError:
+            #print("Cannot get color ({},{}): size is ({},{})".format(row,column, self.nrows, self.ncols))
+            return Color(255,255,255)
 
     def getColors(self):
         if self.need_recalc:

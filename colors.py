@@ -76,6 +76,11 @@ class Color(QtGui.QColor):
             #print(r, g, b)
             QtGui.QColor.__init__(self, r, g, b)
             self._rgb = (r, g, b)
+        elif len(args) == 1:
+            qcolor = args[0]
+            QtGui.QColor.__init__(self, qcolor)
+            r, g, b, a = qcolor.getRgb()
+            self._rgb = (r,g,b)
         else:
             QtGui.QColor.__init__(self, *args)
             self._rgb = None
@@ -174,6 +179,10 @@ class Color(QtGui.QColor):
     def invert(self):
         r, g, b = self._rgb
         return Color(255-r, 255-g, 255-b)
+    
+    def getVisibleColor(self):
+        h,s,v = self.getHSV()
+        return hsv(1-h,1.0,1-v)
     
     def verbose(self):
         r, g, b = self.getRGB1()
