@@ -62,6 +62,85 @@ def rgb_to_lch(r, g, b):
     lcms.cmsLab2LCh(lch, lab)
     return lch.L, lch.C, lch.h
     
+R=[c/255.0 for c in (254.0,39.0,18.0)]
+Y=[c/255.0 for c in (254.0,255.0,51.0)]
+B=[c/255.0 for c in (2.0, 81.0, 254.0)]
+
+def chg(x):
+    return (x*x + x)/2.
+
+def chg1(y):
+    """ Y >= -1/8. """
+    return (sqrt(8*y+1)-1)/2. 
+
+def mixRYB(qR,qY,qB):
+    r =  (qR*R[0] + qY*Y[0] + qB*B[0])
+    g =  (qR*R[1] + qY*Y[1] + qB*B[1])
+    b =  (qR*R[2] + qY*Y[2] + qB*B[2])
+    if r > 1:
+        r = 1.
+    if g > 1:
+        g = 1.
+    if b > 1:
+        b = 1.
+    return r,g,b
+
+def rgb2ryb(r,g,b):
+    rr = 1.166899171946144 * r - 1.239542922240454 * g + 0.38609912739206 * b
+    ry = - 0.16256805363876 * r + 1.240812985159507 * g - 0.39441226649859 * b
+    rb = - 0.050052025037218 * r - 0.16129799071971 * g + 1.05576866652902 * b
+# TODO: warn about color clipping
+    return (clip(rr), clip(ry), clip(rb))
+
+vY = 1.0
+vR = 0.9
+vB = 0.7
+
+hR = 0.
+hY = 1./6
+hB = 2./3
+
+def simple_mix(x1,a,x2,b):
+    if a==b==0:
+        return (x1+x2)/2.
+    q = float(b)/(a+b)
+    h = (1.-q)*x1 + q*x2
+#     print 'simple_mix/ q: %.2f' % q
+    return h
+
+def mixRYB_hsv(qR,qY,qB):
+    return colorsys.rgb_to_hsv(*mixRYB(qR,qY,qB))
+
+# RYBHSV -> RGB1
+def rybhsv2rgb(h1,s1,v1):
+    if h1 < 1./3:
+        q = h1*3
+        h2,s2,v2 = mixRYB_hsv(chg(1-q),chg(q),0.)
+    elif h1 < 2./3:
+        q = (h1-1./3)*3
+        h2,s2,v2 = mixRYB_hsv(0,chg(1-q),chg(q))
+    else:
+        q = (h1-2./3)*3
+        h2,s2,v2 = mixRYB_hsv(chg(q),0,chg(1-q))
+    #r,g,b = colorsys.hsv_to_rgb(h2, s1*s2, v1*v2)
+    #r,g,b = colorsys.hsv_to_rgb(h2, s2, v2)
+    r,g,b = colorsys.hsv_to_rgb(h2, s1, v1)
+    return r,g,b
+
+# RGB1 -> RYBHSV
+def rgb2rybhsv(r,g,b):
+    h1,s1,v1 = colorsys.rgb_to_hsv(r,g,b)
+    if h1 < 1./6:        # Between R and Y
+        q = h1*6
+        h2 = simple_mix(0.,chg1(1-q), 1./3,chg1(q))
+    elif h1 < 2./3:       # Between Y and B
+        q = (h1-1./6)*2
+        h2 = simple_mix(1./3,chg1(1-q), 2./3, chg1(q))
+    else:                # Between B and R
+        q = (h1-2./3)*3
+        h2 = simple_mix(2./3,chg1(1-q), 1.,chg1(q))
+    return h2, s1, v1
+
 def seq(start, stop, step=1):
     n = int(round((stop - start)/float(step)))
     if n > 1:
@@ -122,26 +201,12 @@ class Color(QtGui.QColor):
         r, g, b = colorsys.hls_to_rgb(*hls)
         self.setRGB((r*255, g*255, b*255))
     
-    def setRYB(self, ryb):
-        qR, qY, qB = ryb
-        r =  (qR*R[0] + qY*Y[0] + qB*B[0])
-        g =  (qR*R[1] + qY*Y[1] + qB*B[1])
-        b =  (qR*R[2] + qY*Y[2] + qB*B[2])
-        if r > 1:
-            r = 1.
-        if g > 1:
-            g = 1.
-        if b > 1:
-            b = 1.
-        self.setRGB((r*255,g*255,b*255))
+    def setRYB(self, rybhsv):
+        rgb = rybhsv2rgb(*rybhsv)
+        self.setRGB1(rgb)
     
     def getRYB(self):
-        r, g, b = self.getRGB1()
-        rr = 1.166899171946144 * r - 1.239542922240454 * g + 0.38609912739206 * b
-        ry = - 0.16256805363876 * r + 1.240812985159507 * g - 0.39441226649859 * b
-        rb = - 0.050052025037218 * r - 0.16129799071971 * g + 1.05576866652902 * b
-        # TODO: warn about color clipping
-        return (clip(rr), clip(ry), clip(rb))
+        return rgb2rybhsv(*self.getRGB1())
     
     def getCMYK(self):
         c, m, y, k, a = self.getCmykF()
@@ -248,9 +313,6 @@ def circular(h1, h2, q, circle=1.0):
     #print("Hue: "+str(h))
     return h
 
-R=[c/255.0 for c in (254.0,39.0,18.0)]
-Y=[c/255.0 for c in (254.0,255.0,51.0)]
-B=[c/255.0 for c in (2.0, 81.0, 254.0)]
 
 if __name__ == "__main__":
     l, a, b = rgb_to_lab(50, 70, 200)

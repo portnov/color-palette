@@ -27,7 +27,7 @@ class GUI(QtGui.QWidget):
                         ("RYB (experimental)", mixers.MixerRYB),
                         ("HSI (experimental)", mixers.MixerHSI)]
     
-    available_selector_mixers = [("HLS", mixers.MixerHLS), ("LCh", mixers.MixerLCh) ]
+    available_selector_mixers = [("HLS", mixers.MixerHLS), ("LCh", mixers.MixerLCh), ("RYB", mixers.MixerRYB) ]
 
     available_harmonies = [("Just opposite", harmonies.Opposite),
                            ("Three colors",  harmonies.NHues(3)),
@@ -83,11 +83,13 @@ class GUI(QtGui.QWidget):
 
         self.selector_hbox = QtGui.QHBoxLayout()
         self.selector = Selector(mixers.MixerHLS)
+        self.selector.setMinimumSize(300,300)
         self.selector.setHarmony(harmonies.Opposite)
         self.selector.selected.connect(self.on_select_color)
         self.selector_hbox.addWidget(self.selector)
 
         self.current_color = ColorWidget(self)
+        self.current_color.setMaximumSize(100,100)
         self.selector_hbox.addWidget(self.current_color)
         self.vbox_right.addLayout(self.selector_hbox)
 
@@ -97,10 +99,12 @@ class GUI(QtGui.QWidget):
         harmonizedHBox2 = QtGui.QHBoxLayout()
         for i in range(10):
             w = ColorWidget(self)
+            w.setMaximumSize(50,50)
             self.harmonized.append(w)
             harmonizedHBox1.addWidget(w)
         for i in range(10):
             w = ColorWidget(self)
+            w.setMaximumSize(50,50)
             self.harmonized.append(w)
             harmonizedHBox2.addWidget(w)
         self.harmonizedBox.addLayout(harmonizedHBox1)

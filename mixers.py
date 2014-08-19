@@ -36,11 +36,31 @@ class MixerRGB(Mixer):
 
 class MixerRYB(Mixer):
     @classmethod
+    def fromHue(cls, hue):
+        c = Color()
+        c.setRYB((hue, 1.0, 1.0))
+        return c
+
+    #@classmethod
+    #def getHue(cls, color):
+    #    return color.getRYB()[0]
+
+    @classmethod
+    def shade(cls, h, s, v):
+        c = Color()
+        c.setRYB((h, s, v))
+        return c
+
+    @classmethod
     def mix(cls, c1, c2, q):
-        ryb = linear3(c1.getRYB(),  c2.getRYB(),  q)
+        h1,s1,v1 = c1.getRYB()
+        h2,s2,v2 = c2.getRYB()
+        h = circular(h1, h2, q)
+        s = linear(s1, s2, q)
+        v = linear(v1, v2, q)
         result = Color()
-        print("RYB: " + str(ryb))
-        result.setRYB(ryb)
+        #print("RYB: " + str(ryb))
+        result.setRYB((h,s,v))
         return result
 
 class MixerHLS(Mixer):
