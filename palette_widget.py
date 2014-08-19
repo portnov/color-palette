@@ -109,12 +109,27 @@ class PaletteWidget(QtGui.QLabel):
         return [(xc, i*rh) for i in range(rows)]
 
     def _draw_delete_button(self, qp, rect):
-        qp.setBrush(Color(255,255,255))
+        qp.setBrush(Color(240,240,240))
         qp.drawEllipse(rect)
+        qp.setBrush(Color(255,0,0))
+        center = rect.center()
+        x0,y0 = center.x(), center.y()
+        x,y = x0-7, y0-2
+        w,h = 14, 4
+        qp.drawRect(x,y, w, h)
 
     def _draw_insert_button(self, qp, rect):
-        qp.setBrush(Color(0,255,0))
+        qp.setBrush(Color(240,240,240))
         qp.drawEllipse(rect)
+        qp.setBrush(Color(0,255,0))
+        center = rect.center()
+        x0,y0 = center.x(), center.y()
+        x,y = x0-7, y0-2
+        w,h = 14, 4
+        qp.drawRect(x,y, w, h)
+        x,y = x0-2, y0-7
+        w,h = 4, 14
+        qp.drawRect(x,y, w, h)
 
     def _get_col_rect(self, coln):
         image_w, image_h = self._get_image_size()
