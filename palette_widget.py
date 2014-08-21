@@ -31,10 +31,16 @@ class PaletteWidget(QtGui.QLabel):
         self.setMinimumSize(100,50)
         self.setAcceptDrops(True)
         self.setMouseTracking(True)
+        self.setSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
 
     def setMixer(self, mixer):
         self.palette.setMixer(mixer)
         self.update()
+
+    def redraw(self):
+        self.palette_image.palette = self.palette
+        self.palette_image.invalidate()
+        self.repaint()
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasColor() and self.editing_enabled:
@@ -248,33 +254,34 @@ class PaletteWidget(QtGui.QLabel):
 
         x,y = event.x(), event.y()
 
-        delete_col = self._get_delete_col_button_at_xy(x,y)
-        if delete_col is not None:
-            self._delete_rect = self._get_col_rect(delete_col)
-            self._insert_line = None
-            self.repaint()
-            return
+        if self.editing_enabled:
+            delete_col = self._get_delete_col_button_at_xy(x,y)
+            if delete_col is not None:
+                self._delete_rect = self._get_col_rect(delete_col)
+                self._insert_line = None
+                self.repaint()
+                return
 
-        delete_row = self._get_delete_row_button_at_xy(x,y)
-        if delete_row is not None:
-            self._delete_rect = self._get_row_rect(delete_row)
-            self._insert_line = None
-            self.repaint()
-            return
+            delete_row = self._get_delete_row_button_at_xy(x,y)
+            if delete_row is not None:
+                self._delete_rect = self._get_row_rect(delete_row)
+                self._insert_line = None
+                self.repaint()
+                return
 
-        insert_col = self._get_insert_col_button_at_xy(x,y)
-        if insert_col is not None:
-            self._delete_rect = None
-            self._insert_line = self._get_insert_col_line(insert_col)
-            self.repaint()
-            return
+            insert_col = self._get_insert_col_button_at_xy(x,y)
+            if insert_col is not None:
+                self._delete_rect = None
+                self._insert_line = self._get_insert_col_line(insert_col)
+                self.repaint()
+                return
 
-        insert_row = self._get_insert_row_button_at_xy(x,y)
-        if insert_row is not None:
-            self._delete_rect = None
-            self._insert_line = self._get_insert_row_line(insert_row)
-            self.repaint()
-            return
+            insert_row = self._get_insert_row_button_at_xy(x,y)
+            if insert_row is not None:
+                self._delete_rect = None
+                self._insert_line = self._get_insert_row_line(insert_row)
+                self.repaint()
+                return
 
         self._delete_rect = None
         self._insert_line = None

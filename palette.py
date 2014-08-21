@@ -47,12 +47,14 @@ class Slot(object):
         self._mode = mode
         if mode == USER_DEFINED:
             self._user_defined = True
+            self._mode = NONE
 
     mode = property(getMode, setMode)
 
     def mark(self, user_defined=None):
         if user_defined is None:
             user_defined = not self._user_defined
+        print("Mark: " + str(user_defined))
         self._user_defined = user_defined
 
     def setSources(self, slot1, row1, col1, slot2, row2, col2):
@@ -78,8 +80,10 @@ class Palette(object):
         self.need_recalc = True
 
     def mark_color(self, row, column):
+        print("Marking color at ({}, {})".format(row,column))
         slot = self.slots[row][column]
         slot.mark()
+        self.need_recalc_colors = True
         self.recalc()
 
     def setMixer(self, mixer):
@@ -167,6 +171,10 @@ class Palette(object):
         return [[slot.color for slot in row] for row in self.slots]
 
     def setSlots(self, all_slots):
+        m = len(all_slots) % self.ncols
+        if m != 0:
+            for i in range(self.ncols - m):
+                all_slots.append(Slot(Color(255,255,255)))
         self.slots = []
         row = []
         for i, slot in enumerate(all_slots):
@@ -177,6 +185,7 @@ class Palette(object):
             row.append(slot)
         self.slots.append(row)
         self.nrows = len(self.slots)
+        self.need_recalc_colors = True
         self.recalc()
 #         print(self.slots)
     
@@ -188,11 +197,15 @@ class Palette(object):
 
         #print("Searching down ({},{})".format(i,j))
         for i1 in range(i, self.nrows):
-            slot = self.slots[i1][j]
-            #print("Down: check ({},{}): {}".format(i1,j,slot))
-            if slot.mode == USER_DEFINED:
-                #print("Found down ({},{}): ({},{})".format(i,j, i1,j))
-                return True,i1,j
+            try:
+                slot = self.slots[i1][j]
+                #print("Down: check ({},{}): {}".format(i1,j,slot))
+                if slot.mode == USER_DEFINED:
+                    #print("Found down ({},{}): ({},{})".format(i,j, i1,j))
+                    return True,i1,j
+            except IndexError:
+                print("Cannot get slot at ({}, {})".format(i,j))
+                return False, self.nrows-1,j
         return False, self.nrows-1,j
 
     def user_chosen_slot_up(self, i,j):
@@ -415,5 +428,6 @@ class GimpPalette(Storage):
             else:
                 self.palette.ncols = n_colors
         self.palette.setSlots(all_slots)
+        print("Loaded palette: {}x{}".format( self.palette.nrows, self.palette.ncols ))
         return self.palette
 

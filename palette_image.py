@@ -15,6 +15,9 @@ class PaletteImage(object):
         else:
             self.background = background
 
+    def invalidate(self):
+        self.image = None
+
     def get(self, w, h):
         if w == self.w and h == self.h and self.image is not None:
             return self.image

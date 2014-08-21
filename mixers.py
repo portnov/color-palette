@@ -41,9 +41,13 @@ class MixerRYB(Mixer):
         c.setRYB((hue, 1.0, 1.0))
         return c
 
-    #@classmethod
-    #def getHue(cls, color):
-    #    return color.getRYB()[0]
+    @classmethod
+    def getHue(cls, color):
+        return color.getRYB()[0]
+    
+    @classmethod
+    def getShade(cls, color):
+        return color.getRYB()
 
     @classmethod
     def shade(cls, h, s, v):

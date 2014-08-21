@@ -249,6 +249,10 @@ class Color(QtGui.QColor):
         h,s,v = self.getHSV()
         return hsv(1-h,1.0,1-v)
     
+    def hex(self):
+        r,g,b = self.getRGB()
+        return "#{:02x}{:02x}{:02x}".format(r,g,b)
+    
     def verbose(self):
         r, g, b = self.getRGB1()
         rr, ry, rb = self.getRYB()
@@ -281,6 +285,11 @@ def hls(h, l, s):
 def hsv(h, s, v):
     color = Color()
     color.setHSV((h, s, v))
+    return color
+
+def ryb(r, y, b):
+    color = Color()
+    color.setRYB((r,y,b))
     return color
 
 def lch(l, c, h):

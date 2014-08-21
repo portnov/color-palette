@@ -38,20 +38,81 @@ class Opposite(Harmony):
             h -= 1.0
         return [color, hsv(h, s, v)]
 
-def NHues(n):
-    def circle(i, h):
-        h += i*1.0/n
-        if h > 1.0:
-            h -= 1.0
-        return h
 
+def circle(i, n, h, max=1.0):
+    h += i*max/n
+    if h > max:
+        h -= max 
+    return h
+
+def NHues(n):
     class Hues(Harmony):
         @classmethod
         def get(cls, color):
             h, s, v = color.getHSV()
-            return [hsv(circle(i,h), s, v) for i in range(n)]
+            return [hsv(circle(i,n,h), s, v) for i in range(n)]
 
     return Hues
+
+def NHuesRYB(n):
+    class Hues_RYB(Harmony):
+        @classmethod
+        def get(cls, color):
+            h, s, v = color.getRYB()
+            return [ryb(circle(i,n,h), s, v) for i in range(n)]
+
+    return Hues_RYB
+
+def NHuesLCh(n):
+    class Hues_LCh(Harmony):
+        @classmethod
+        def get(cls, color):
+            l,c,h = color.getLCh()
+            return [lch(l,c,circle(i,n,h, 360.0)) for i in range(n)]
+
+    return Hues_LCh
+
+class Cooler(Shader):
+    @classmethod
+    def shades(cls, color):
+        h,s,v = color.getHSV()
+        if h < 1.0/6.0:
+            sign = -1.0
+        elif h > 2.0/3.0:
+            sign = -1.0
+        else:
+            sign = 1.0
+        step = 0.05
+        result = [color]
+        for i in range(3):
+            h += sign*step
+            if h > 1.0:
+                h -= 1.0
+            elif h < 0.0:
+                h += 1.0
+            result.append(hsv(h,s,v))
+        return result
+
+class Warmer(Shader):
+    @classmethod
+    def shades(cls, color):
+        h,s,v = color.getHSV()
+        if h < 1.0/6.0:
+            sign = +1.0
+        elif h > 2.0/3.0:
+            sign = +1.0
+        else:
+            sign = -1.0
+        step = 0.05
+        result = [color]
+        for i in range(3):
+            h += sign*step
+            if h > 1.0:
+                h -= 1.0
+            elif h < 0.0:
+                h += 1.0
+            result.append(hsv(h,s,v))
+        return result
 
 class Saturation(Shader):
     @classmethod
