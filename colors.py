@@ -1,66 +1,76 @@
 from math import cos, acos, sqrt, pi
 from PyQt4 import QtGui, QtCore
 import colorsys
-import lcms
 
-xyz_profile = lcms.cmsCreateXYZProfile()
-D65 = lcms.cmsCIExyY()
-lcms.cmsWhitePointFromTemp(6504, D65)
-lab_profile = lcms.cmsCreateLabProfile(D65)
-rgb_profile = lcms.cmsCreate_sRGBProfile()
+try:
+    import lcms
+    use_lcms = True
+    print("LCMS is available")
+except ImportError:
+    print("LCMS is not available")
+    lcms = None
+    use_lcms = False
 
-xyz2rgb = lcms.cmsCreateTransform(xyz_profile, lcms.TYPE_XYZ_DBL,
-                                  rgb_profile, lcms.TYPE_RGB_8,
-                                  lcms.INTENT_PERCEPTUAL,
-                                  0)
 
-rgb2xyz = lcms.cmsCreateTransform(rgb_profile, lcms.TYPE_RGB_8,
-                                  xyz_profile, lcms.TYPE_XYZ_DBL,
-                                  lcms.INTENT_PERCEPTUAL,
-                                  0)
+if use_lcms:
+    xyz_profile = lcms.cmsCreateXYZProfile()
+    D65 = lcms.cmsCIExyY()
+    lcms.cmsWhitePointFromTemp(6504, D65)
+    lab_profile = lcms.cmsCreateLabProfile(D65)
+    rgb_profile = lcms.cmsCreate_sRGBProfile()
 
-lab2rgb = lcms.cmsCreateTransform(lab_profile, lcms.TYPE_Lab_DBL,
-                                  rgb_profile, lcms.TYPE_RGB_8,
-                                  lcms.INTENT_PERCEPTUAL,
-                                  0)
+    xyz2rgb = lcms.cmsCreateTransform(xyz_profile, lcms.TYPE_XYZ_DBL,
+                                      rgb_profile, lcms.TYPE_RGB_8,
+                                      lcms.INTENT_PERCEPTUAL,
+                                      0)
 
-rgb2lab = lcms.cmsCreateTransform(rgb_profile, lcms.TYPE_RGB_8,
-                                  lab_profile, lcms.TYPE_Lab_DBL,
-                                  lcms.INTENT_PERCEPTUAL,
-                                  0)
+    rgb2xyz = lcms.cmsCreateTransform(rgb_profile, lcms.TYPE_RGB_8,
+                                      xyz_profile, lcms.TYPE_XYZ_DBL,
+                                      lcms.INTENT_PERCEPTUAL,
+                                      0)
 
-def lab_to_rgb(l,a,b):
-    lab = lcms.cmsCIELab(l,a, b)
-    rgb = lcms.COLORB()
-    rgb[0] = rgb[1] = rgb[2] = 0
-    lcms.cmsDoTransform(lab2rgb, lab, rgb, 1)
+    lab2rgb = lcms.cmsCreateTransform(lab_profile, lcms.TYPE_Lab_DBL,
+                                      rgb_profile, lcms.TYPE_RGB_8,
+                                      lcms.INTENT_PERCEPTUAL,
+                                      0)
+
+    rgb2lab = lcms.cmsCreateTransform(rgb_profile, lcms.TYPE_RGB_8,
+                                      lab_profile, lcms.TYPE_Lab_DBL,
+                                      lcms.INTENT_PERCEPTUAL,
+                                      0)
+
+    def lab_to_rgb(l,a,b):
+        lab = lcms.cmsCIELab(l,a, b)
+        rgb = lcms.COLORB()
+        rgb[0] = rgb[1] = rgb[2] = 0
+        lcms.cmsDoTransform(lab2rgb, lab, rgb, 1)
 #     return rgb
-    return rgb[0]/255.0, rgb[1]/255.0, rgb[2]/255.0
+        return rgb[0]/255.0, rgb[1]/255.0, rgb[2]/255.0
 
-def rgb_to_lab(r, g, b):
-    rgb = lcms.COLORB()
-    rgb[0] = r
-    rgb[1] = g
-    rgb[2] = b    
-    lab = lcms.cmsCIELab(0, 0, 0)
-    lcms.cmsDoTransform(rgb2lab, rgb, lab, 1)
-    return lab.L, lab.a, lab.b
+    def rgb_to_lab(r, g, b):
+        rgb = lcms.COLORB()
+        rgb[0] = r
+        rgb[1] = g
+        rgb[2] = b    
+        lab = lcms.cmsCIELab(0, 0, 0)
+        lcms.cmsDoTransform(rgb2lab, rgb, lab, 1)
+        return lab.L, lab.a, lab.b
 
-def lch_to_rgb(l, c, h):
-    lch = lcms.cmsCIELCh(l, c, h)
-    #lch[0] = l
-    #lch[1] = c
-    #lch[2] = h
-    lab = lcms.cmsCIELab(0, 0, 0)
-    lcms.cmsLCh2Lab(lab, lch)
-    return lab_to_rgb(lab.L,  lab.a, lab.b)
+    def lch_to_rgb(l, c, h):
+        lch = lcms.cmsCIELCh(l, c, h)
+        #lch[0] = l
+        #lch[1] = c
+        #lch[2] = h
+        lab = lcms.cmsCIELab(0, 0, 0)
+        lcms.cmsLCh2Lab(lab, lch)
+        return lab_to_rgb(lab.L,  lab.a, lab.b)
 
-def rgb_to_lch(r, g, b):
-    l, a, b = rgb_to_lab(r, g, b)
-    lab = lcms.cmsCIELab(l, a, b)
-    lch = lcms.cmsCIELCh(0, 0, 0)
-    lcms.cmsLab2LCh(lch, lab)
-    return lch.L, lch.C, lch.h
+    def rgb_to_lch(r, g, b):
+        l, a, b = rgb_to_lab(r, g, b)
+        lab = lcms.cmsCIELab(l, a, b)
+        lch = lcms.cmsCIELCh(0, 0, 0)
+        lcms.cmsLab2LCh(lch, lab)
+        return lch.L, lch.C, lch.h
     
 R=[c/255.0 for c in (254.0,39.0,18.0)]
 Y=[c/255.0 for c in (254.0,255.0,51.0)]

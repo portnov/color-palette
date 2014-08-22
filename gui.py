@@ -65,21 +65,20 @@ class GUIWidget(QtGui.QWidget):
                         ("HLS", mixers.MixerHLS), 
                         ("CMYK", mixers.MixerCMYK), 
                         ("CMY", mixers.MixerCMY), 
-                        ("Lab", mixers.MixerLab), 
-                        ("LCh", mixers.MixerLCh), 
-                        ("LCh Desaturate", mixers.MixerLChDesaturate), 
                         ("RYB (experimental)", mixers.MixerRYB),
-                        ("HSI (experimental)", mixers.MixerHSI)]
+                        ("HSI (experimental)", mixers.MixerHSI) ] + ([("LCh", mixers.MixerLCh), 
+                          ("Lab", mixers.MixerLab), 
+                          ("LCh Desaturate", mixers.MixerLChDesaturate)] if colors.use_lcms else [])
     
-    available_selector_mixers = [("HLS", mixers.MixerHLS), ("LCh", mixers.MixerLCh), ("RYB", mixers.MixerRYB) ]
+    available_selector_mixers = [("HLS", mixers.MixerHLS),
+                                 ("RYB", mixers.MixerRYB) ] + ([("LCh", mixers.MixerLCh)] if colors.use_lcms else [])
 
     available_harmonies = [("Just opposite", harmonies.Opposite),
                            ("Three colors",  harmonies.NHues(3)),
                            ("Four colors",   harmonies.NHues(4)),
-                           ("Three colors LCh",   harmonies.NHuesLCh(3)),
-                           ("Four colors LCh",   harmonies.NHuesLCh(4)),
                            ("Three colors RYB", harmonies.NHuesRYB(3)),
-                           ("Four colors RYB", harmonies.NHuesRYB(4)) ]
+                           ("Four colors RYB", harmonies.NHuesRYB(4)) ] + ([("Three colors LCh",   harmonies.NHuesLCh(3)),
+                            ("Four colors LCh",   harmonies.NHuesLCh(4))] if colors.use_lcms else [])
 
     available_shaders = [("Saturation", harmonies.Saturation),
                          ("Value",      harmonies.Value),
@@ -168,7 +167,7 @@ class GUIWidget(QtGui.QWidget):
 
         self.svg = SvgTemplateWidget(self)
         self.svg.setMinimumSize(300,300)
-        self.svg.loadTemplate("template.svg")
+        self.svg.loadTemplate("template2.svg")
         self.svg.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         self.hbox.addWidget(self.svg)
         self.setLayout(self.hbox)

@@ -44,7 +44,7 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
             return self._svg
 
     def _render(self):
-        d = dict([("color"+str(i+1), color.hex() if color is not None else Color(255,255,255)) for i, color in enumerate(self._colors)])
+        d = dict([("color"+str(i), color.hex() if color is not None else Color(255,255,255)) for i, color in enumerate(self._colors)])
         return Template(self._template).substitute(d)
 
         

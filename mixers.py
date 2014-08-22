@@ -158,68 +158,69 @@ class MixerCMY(Mixer):
         result.setCMY((c, m, y))
         return result
 
-class MixerLab(Mixer):
-    @classmethod
-    def mix(cls, clr1, clr2, q):
-        lab1 = clr1.getLab()
-        lab2 = clr2.getLab()
-        lab = linear3(lab1, lab2, q)
-        result = Color()
-        result.setLab(lab)
-        return result
+if use_lcms:
+    class MixerLab(Mixer):
+        @classmethod
+        def mix(cls, clr1, clr2, q):
+            lab1 = clr1.getLab()
+            lab2 = clr2.getLab()
+            lab = linear3(lab1, lab2, q)
+            result = Color()
+            result.setLab(lab)
+            return result
 
-class MixerLCh(Mixer):
-    @classmethod
-    def fromHue(cls, hue):
-        c = Color()
-        c.setLCh((50.0, 100.0, hue*360.0))
-        return c
+    class MixerLCh(Mixer):
+        @classmethod
+        def fromHue(cls, hue):
+            c = Color()
+            c.setLCh((50.0, 100.0, hue*360.0))
+            return c
 
-    @classmethod
-    def getHue(cls, color):
-        return color.getLCh()[2]/360.0
+        @classmethod
+        def getHue(cls, color):
+            return color.getLCh()[2]/360.0
 
-    @classmethod
-    def getShade(cls, color):
-        l,c,h = color.getLCh()
-        return h/360.0, c/100.0, l/100.0
+        @classmethod
+        def getShade(cls, color):
+            l,c,h = color.getLCh()
+            return h/360.0, c/100.0, l/100.0
 
-    @classmethod
-    def shade(cls, h, s, v):
-        c = Color()
-        c.setLCh((v*100, s*100, h*360.0))
-        return c
+        @classmethod
+        def shade(cls, h, s, v):
+            c = Color()
+            c.setLCh((v*100, s*100, h*360.0))
+            return c
 
-    @classmethod
-    def mix(cls, clr1, clr2, q):
-        l1, c1, h1 = clr1.getLCh()
-        l2, c2, h2 = clr2.getLCh()
-        l = linear(l1, l2, q)
-        c = linear(c1, c2, q)
-        h = circular(h1, h2, q, 360)
-        result = Color()
-        result.setLCh((l, c, h))
-        return result
+        @classmethod
+        def mix(cls, clr1, clr2, q):
+            l1, c1, h1 = clr1.getLCh()
+            l2, c2, h2 = clr2.getLCh()
+            l = linear(l1, l2, q)
+            c = linear(c1, c2, q)
+            h = circular(h1, h2, q, 360)
+            result = Color()
+            result.setLCh((l, c, h))
+            return result
 
-class MixerLChDesaturate(MixerLCh):
-    @classmethod
-    def mix(cls, clr1, clr2, q):
-        l1, c1, h1 = clr1.getLCh()
-        l2, c2, h2 = clr2.getLCh()
-        
-        l = linear(l1, l2, q)
-        c = linear(c1, c2, q)
-        h = circular(h1, h2, q, 360)
-        
-        d = abs(h1-h2)
-        if d > 180.0:
-            d -= 180.0
-        dc = (1.0-2*abs(q-0.5))*d*100.0/180.0
-        print("dC: "+str(dc))
-        c = c - dc
-        if c < 0.0:
-            c = 0.0
-        result = Color()
-        result.setLCh((l, c, h))
-        return result
+    class MixerLChDesaturate(MixerLCh):
+        @classmethod
+        def mix(cls, clr1, clr2, q):
+            l1, c1, h1 = clr1.getLCh()
+            l2, c2, h2 = clr2.getLCh()
+            
+            l = linear(l1, l2, q)
+            c = linear(c1, c2, q)
+            h = circular(h1, h2, q, 360)
+            
+            d = abs(h1-h2)
+            if d > 180.0:
+                d -= 180.0
+            dc = (1.0-2*abs(q-0.5))*d*100.0/180.0
+            print("dC: "+str(dc))
+            c = c - dc
+            if c < 0.0:
+                c = 0.0
+            result = Color()
+            result.setLCh((l, c, h))
+            return result
         
