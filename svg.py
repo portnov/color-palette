@@ -1,7 +1,12 @@
 
+import re
 from lxml import etree
 
+import colors
+
 SVG_NS="http://www.w3.org/2000/svg"
+
+color_re = re.compile("#[0-9a-fA-F]+")
 
 def walk(processor, element):
      for child in element.iter():
@@ -34,11 +39,11 @@ class Collector(object):
          result = ""
          for key in attr:
              value = attr[key]
-             result += key + ": " + value + "; "
+             result += key + ":" + value + ";"
          return result
 
      def _is_color(self, val):
-         return val.startswith('#')
+         return color_re.match(val) is not None
 
      def _remember_color(self, color):
          if color not in self.colors:
@@ -79,7 +84,11 @@ def read_template(filename):
     xml = etree.parse(filename)
     collector = Collector()
     walk(collector.process, xml.getroot())
-    result = etree.tostring(xml, encoding='utf-8', xml_declaration=True, pretty_print=True)
-    open("last_template.svg",'w').write(result)
-    return result
+    svg = etree.tostring(xml, encoding='utf-8', xml_declaration=True, pretty_print=True)
+    open("last_template.svg",'w').write(svg)
+    color_dict = collector.result()
+    svg_colors = []
+    for key in color_dict:
+        svg_colors.append( colors.fromHex(key) )
+    return svg_colors, svg
 

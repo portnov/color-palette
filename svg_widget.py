@@ -3,7 +3,9 @@ from string import Template
 from PyQt4 import QtGui, QtSvg, QtCore
 
 from colors import *
+from spaces import *
 import svg
+import transform
 
 class SvgTemplateWidget(QtSvg.QSvgWidget):
     def __init__(self, *args):
@@ -12,6 +14,7 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
         self._template = None
         self._svg = None
         self._need_render = True
+        self._svg_colors = None
 
     def _get_color(self, i):
         if i < len(self._colors):
@@ -20,23 +23,29 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
             return Color(i*10, i*10, i*10)
     
     def _update(self):
-        arr = QtCore.QByteArray.fromRawData(self._get_svg())
+        arr = QtCore.QByteArray.fromRawData(self.get_svg())
         print("Data loaded: {} bytes".format(arr.length()))
         self.load(arr)
         self.update()
 
     def loadTemplate(self, filename):
-        self._template = svg.read_template(filename)
+        self._svg_colors, self._template = svg.read_template(filename)
+        print("Source SVG colors:")
+        for c in self._svg_colors:
+            print str(c)
         print("Template loaded: {}: {} bytes".format(filename, len(self._template)))
         self._need_render = True
         self._update()
 
-    def setColors(self, colors):
-        self._colors = colors
+    def setColors(self, dst_colors):
+        self._colors = transform.match_colors(RGB, self._svg_colors, dst_colors)
         self._need_render = True
         self._update()
 
-    def _get_svg(self):
+    def resetColors(self):
+        self.setColors(self._svg_colors)
+
+    def get_svg(self):
         if self._svg is not None and not self._need_render:
             return self._svg
         else:

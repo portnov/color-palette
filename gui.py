@@ -18,25 +18,26 @@ class GUI(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
         self.gui = GUIWidget(self)
         self.setCentralWidget(self.gui)
-        self.toolbar = self.addToolBar('Main')
 
-        QtGui.QIcon.setThemeName('Tango')
+        #QtGui.QIcon.setThemeName('Tango')
 
-        self.add_tool_button('document-open', "Open palette", self.on_open_palette)
-        self.add_tool_button('document-open', "Open template", self.on_open_template)
-        self.add_tool_button('document-save', "Save palette", self.on_save_palette)
+        self.add_tool_button(self.gui.toolbar_palette, QtGui.QStyle.SP_DialogOpenButton, "Open palette", self.on_open_palette)
+        self.add_tool_button(self.gui.toolbar_palette, QtGui.QStyle.SP_DialogSaveButton, "Save palette", self.on_save_palette)
+
+        self.add_tool_button(self.gui.toolbar_template, QtGui.QStyle.SP_DialogOpenButton, "Open template", self.on_open_template)
+        self.add_tool_button(self.gui.toolbar_template, QtGui.QStyle.SP_DialogSaveButton, "Save resulting SVG", self.on_save_template)
 
         self.toggle_edit = QtGui.QAction(QtGui.QIcon.fromTheme('emblem-readonly'), "Toggle readonly mode", self)
         self.toggle_edit.setCheckable(True)
         self.toggle_edit.setChecked(True)
-        self.toolbar.addAction(self.toggle_edit)
+        self.gui.toolbar_palette.addAction(self.toggle_edit)
         self.toggle_edit.triggered.connect(self.on_toggle_edit)
 
         self.resize(800, 600)
 
-    def add_tool_button(self, icon_name, title, handler):
-        action = QtGui.QAction(QtGui.QIcon.fromTheme(icon_name), title, self)
-        self.toolbar.addAction(action)
+    def add_tool_button(self, toolbar, icon_name, title, handler):
+        action = QtGui.QAction(self.style().standardIcon(icon_name), title, self)
+        toolbar.addAction(action)
         action.triggered.connect(handler)
 
     def on_save_palette(self):
@@ -61,6 +62,13 @@ class GUI(QtGui.QMainWindow):
         if filename:
             self.gui.svg.loadTemplate(str(filename))
     
+    def on_save_template(self):
+        filename = QtGui.QFileDialog.getSaveFileName(self, "Save SVG", ".", "*.svg")
+        if filename:
+            content = self.gui.svg.get_svg()
+            f = open(str(filename),'w')
+            f.write(content)
+            f.close()
     
 class GUIWidget(QtGui.QWidget):
     
@@ -96,7 +104,10 @@ class GUIWidget(QtGui.QWidget):
 
         self.mixer = mixers.MixerRGB
 
-        self.vbox_left = QtGui.QVBoxLayout()
+        vbox_left = QtGui.QVBoxLayout()
+
+        self.toolbar_palette = QtGui.QToolBar()
+        vbox_left.addWidget(self.toolbar_palette)
 
         palette = Palette(self.mixer, 7, 7)
         palette.paint(0, 0, Color(255.0, 0.0, 0.0))
@@ -106,7 +117,7 @@ class GUIWidget(QtGui.QWidget):
         palette.recalc()
 
         self.palette = PaletteWidget(palette)
-        self.palette.setMaximumSize(500,500)
+        self.palette.setMinimumSize(500,500)
         self.palette.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
         self.palette.editing_enabled = False
         self.palette.selected.connect(self.on_select_from_palette)
@@ -116,28 +127,28 @@ class GUIWidget(QtGui.QWidget):
         for mixer, _ in self.available_mixers:
             self.mixers.addItem(mixer)
         self.mixers.currentIndexChanged.connect(self.on_select_mixer)
-        self.vbox_left.addWidget(self.mixers)
-        self.vbox_left.addWidget(self.palette)
+        vbox_left.addWidget(self.mixers)
+        vbox_left.addWidget(self.palette)
         self.hbox = QtGui.QHBoxLayout()
-        self.hbox.addLayout(self.vbox_left)
+        self.hbox.addLayout(vbox_left)
 
-        self.vbox_right = QtGui.QVBoxLayout()
+        vbox_center = QtGui.QVBoxLayout()
         self.selector_mixers = QtGui.QComboBox()
         for mixer, _ in self.available_selector_mixers:
             self.selector_mixers.addItem(mixer)
         self.selector_mixers.currentIndexChanged.connect(self.on_select_selector_mixer)
-        self.vbox_right.addWidget(self.selector_mixers)
+        vbox_center.addWidget(self.selector_mixers)
         self.harmonies = QtGui.QComboBox() 
         for harmony, _ in self.available_harmonies:
             self.harmonies.addItem(harmony)
         self.harmonies.currentIndexChanged.connect(self.on_select_harmony)
-        self.vbox_right.addWidget(self.harmonies)
+        vbox_center.addWidget(self.harmonies)
         self.shaders = QtGui.QComboBox()
         for shader,_ in self.available_shaders:
             self.shaders.addItem(shader)
         self.shaders.currentIndexChanged.connect(self.on_select_shader)
         self.shader = harmonies.Saturation
-        self.vbox_right.addWidget(self.shaders)
+        vbox_center.addWidget(self.shaders)
 
         self.selector = Selector(mixers.MixerHLS)
         self.selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
@@ -145,42 +156,57 @@ class GUIWidget(QtGui.QWidget):
         self.selector.setMaximumSize(500,500)
         self.selector.setHarmony(harmonies.Opposite)
         self.selector.selected.connect(self.on_select_color)
-        self.vbox_right.addWidget(self.selector)
+        vbox_center.addWidget(self.selector)
 
         self.current_color = ColorWidget(self)
         self.current_color.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
         self.current_color.setMaximumSize(100,100)
         self.current_color.selected.connect(self.on_set_current_color)
-        self.vbox_right.addWidget(self.current_color)
+        vbox_center.addWidget(self.current_color)
 
         self.harmonized = []
         self.harmonizedBox = QtGui.QVBoxLayout()
-        harmonizedHBox1 = QtGui.QHBoxLayout()
-        harmonizedHBox2 = QtGui.QHBoxLayout()
-        for i in range(10):
-            w = ColorWidget(self)
-            w.setMaximumSize(50,50)
-            self.harmonized.append(w)
-            harmonizedHBox1.addWidget(w)
-        for i in range(10):
-            w = ColorWidget(self)
-            w.setMaximumSize(50,50)
-            self.harmonized.append(w)
-            harmonizedHBox2.addWidget(w)
-        self.harmonizedBox.addLayout(harmonizedHBox1)
-        self.harmonizedBox.addLayout(harmonizedHBox2)
-        self.vbox_right.addLayout(self.harmonizedBox)
-        self.do_harmony = QtGui.QPushButton("Harmony")
-        self.vbox_right.addWidget(self.do_harmony)
-        self.do_harmony.clicked.connect(self.on_harmony)
-        self.hbox.addLayout(self.vbox_right)
+        for j in range(4):
+            hbox = QtGui.QHBoxLayout()
+            for i in range(5):
+                w = ColorWidget(self)
+                w.setMaximumSize(50,50)
+                self.harmonized.append(w)
+                hbox.addWidget(w)
+            self.harmonizedBox.addLayout(hbox)
+
+        vbox_center.addLayout(self.harmonizedBox)
+        do_harmony = QtGui.QPushButton("Harmony")
+        vbox_center.addWidget(do_harmony)
+        do_harmony.clicked.connect(self.on_harmony)
+        self.hbox.addLayout(vbox_center)
+
+        vbox_right = QtGui.QVBoxLayout()
+
+        self.toolbar_template = QtGui.QToolBar()
+        vbox_right.addWidget(self.toolbar_template)
 
         self.svg = SvgTemplateWidget(self)
         self.svg.setMinimumSize(500,500)
         self.svg.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         self.svg.loadTemplate("template.svg")
         self.svg.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        self.hbox.addWidget(self.svg)
+        vbox_right.addWidget(self.svg)
+
+        do_color_harmony = QtGui.QPushButton("Colorize from swatches")
+        vbox_right.addWidget(do_color_harmony)
+        do_color_harmony.clicked.connect(self.on_colorize_harmony)
+
+        do_color_palette = QtGui.QPushButton("Colorize from palette")
+        vbox_right.addWidget(do_color_palette)
+        do_color_palette.clicked.connect(self.on_colorize_palette)
+
+        reset_temploate = QtGui.QPushButton("Reload image")
+        vbox_right.addWidget(reset_temploate)
+        reset_temploate.clicked.connect(self.on_reset_template)
+
+        self.hbox.addLayout(vbox_right)
+
         self.setLayout(self.hbox)
 
     def on_set_current_color(self):
@@ -231,8 +257,21 @@ class GUIWidget(QtGui.QWidget):
             if i > 19:
                 break
             self.harmonized[i].setColor(clr)
+        self.update()
+
+    def on_colorize_harmony(self):
         self.svg.setColors([w.getColor() for w in self.harmonized])
         self.update()
+
+    def on_colorize_palette(self):
+        xs = self.palette.palette.getColors()
+        self.svg.setColors(sum(xs,[]))
+        self.update()
+
+    def on_reset_template(self):
+        self.svg.resetColors()
+        self.update()
+    
     
 if __name__ == "__main__":
     

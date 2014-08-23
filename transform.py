@@ -19,6 +19,7 @@ from math import sqrt
 import itertools
 import numpy as np
 from numpy.linalg import solve, det
+from numpy.linalg.linalg import LinAlgError
 
 from colors import *
 from spaces import *
@@ -60,6 +61,8 @@ def find_transform_colors(space, cx1, cx2, cx3, cx4, cy1, cy2, cy3, cy4):
     return find_transform(x,y)
 
 def find_transform(x, y):
+    #print("X:\n"+str(x))
+    #print("Y:\n"+str(y))
     m = solve(get_A(x), get_B(y))
     a = np.array([[m[0][0], m[1][0], m[2][0]],
                   [m[3][0], m[4][0], m[5][0]],
@@ -99,13 +102,31 @@ def get_center_color(space, colors):
     c1,c2,c3 = center[0], center[1], center[2]
     return space.fromCoords((c1,c2,c3))
 
-def get_nearest(x, points):
-    #print x
-    return min(points, key = lambda p: rho(x, p))
+def get_nearest(x, occupied, points):
+    min_rho = None
+    min_p = None
+    for p in points:
+        if any([(p == o).all() for o in occupied]):
+            continue
+        r = rho(x,p)
+        if min_rho is None or r < min_rho:
+            min_rho = r
+            min_p = p
+    if min_p is not None:
+        occupied.append(min_p)
+        #print("Now occupied : " + str(x))
+        return min_p
+    #print("Was occupied : " + str(x))
+    for p in points:
+        r = rho(x,p)
+        if min_rho is None or r < min_rho:
+            min_rho = r
+            min_p = p
+    return min_p
 
-def get_nearest_color(space, cx, colors):
+def get_nearest_color(space, occupied, cx, colors):
     points = [space.getCoords(c) for c in colors]
-    cy = get_nearest(space.getCoords(cx), points)
+    cy = get_nearest(space.getCoords(cx), occupied, points)
     return space.fromCoords((cy[0], cy[1], cy[2]))
 
 def get_farest(points):
@@ -120,27 +141,34 @@ def get_farest_colors(space, colors):
     return [space.fromCoords(c) for c in farest]
 
 def match_colors(space, colors1, colors2):
-    points1 = [color_row(space, c) for c in colors1]
-    points2 = [color_row(space, c) for c in colors2]
-    farest1 = get_farest(points1)
-    farest2 = get_farest(points2)
-    best_d = None
-    best_a = None
-    best_b = None
-    for pts in itertools.permutations(farest1):
-        a, b = find_transform(pts, farest2)
-        #print("D:\n" + str(det(a)))
-        d = abs( det(a) - 1.0 )
-        if best_d is None or d < best_d:
-            best_d = d
-            best_a = a
-            best_b = b
-    #print("A:\n" + str(best_a))
-    #print("B:\n" + str(best_b))
-    #print("D:\n" + str(best_d))
-    transformed = [transform(best_a, best_b, x) for x in points1]
-    matched = [get_nearest(x, points2) for x in transformed]
-    return [space.fromCoords(x) for x in matched]
+    try:
+        points1 = [color_row(space, c) for c in colors1 if c is not None]
+        points2 = [color_row(space, c) for c in colors2 if c is not None]
+        farest1 = get_farest(points1)
+        farest2 = get_farest(points2)
+        best_d = None
+        best_a = None
+        best_b = None
+        for pts in itertools.permutations(farest1):
+            a, b = find_transform(pts, farest2)
+            #print("D:\n" + str(det(a)))
+            d = abs( det(a) - 1.0 )
+            if best_d is None or d < best_d:
+                best_d = d
+                best_a = a
+                best_b = b
+        #print("A:\n" + str(best_a))
+        #print("B:\n" + str(best_b))
+        #print("D:\n" + str(best_d))
+        transformed = [transform(best_a, best_b, x) for x in points1]
+        occupied = []
+        matched = []
+        for x in transformed:
+            y = get_nearest(x, occupied, points2)
+            matched.append(y)
+        return [space.fromCoords(x) for x in matched]
+    except LinAlgError:
+        return colors1
 
 if __name__ == "__main__":
 
