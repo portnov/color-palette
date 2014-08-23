@@ -355,6 +355,8 @@ class Selector(QtGui.QLabel):
             event.acceptProposedAction()
 
     def dropEvent(self, event):
+        lst = event.mimeData().formats()
+        #print([str(x) for x in lst])
         if event.mimeData().hasColor():
             qcolor = QtGui.QColor(event.mimeData().colorData())
             r,g,b,_ = qcolor.getRgb()

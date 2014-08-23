@@ -3,6 +3,7 @@ from string import Template
 from PyQt4 import QtGui, QtSvg, QtCore
 
 from colors import *
+import svg
 
 class SvgTemplateWidget(QtSvg.QSvgWidget):
     def __init__(self, *args):
@@ -25,7 +26,7 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
         self.update()
 
     def loadTemplate(self, filename):
-        self._template = open(filename).read()
+        self._template = svg.read_template(filename)
         print("Template loaded: {}: {} bytes".format(filename, len(self._template)))
         self._need_render = True
         self._update()

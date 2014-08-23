@@ -22,13 +22,9 @@ class GUI(QtGui.QMainWindow):
 
         QtGui.QIcon.setThemeName('Tango')
 
-        self.open = QtGui.QAction(QtGui.QIcon.fromTheme('document-open'), "Open palette", self)
-        self.toolbar.addAction(self.open)
-        self.open.triggered.connect(self.on_open)
-
-        self.save = QtGui.QAction(QtGui.QIcon.fromTheme('document-save'), "Save palette", self)
-        self.toolbar.addAction(self.save)
-        self.save.triggered.connect(self.on_save)
+        self.add_tool_button('document-open', "Open palette", self.on_open_palette)
+        self.add_tool_button('document-open', "Open template", self.on_open_template)
+        self.add_tool_button('document-save', "Save palette", self.on_save_palette)
 
         self.toggle_edit = QtGui.QAction(QtGui.QIcon.fromTheme('emblem-readonly'), "Toggle readonly mode", self)
         self.toggle_edit.setCheckable(True)
@@ -38,12 +34,17 @@ class GUI(QtGui.QMainWindow):
 
         self.resize(800, 600)
 
-    def on_save(self):
+    def add_tool_button(self, icon_name, title, handler):
+        action = QtGui.QAction(QtGui.QIcon.fromTheme(icon_name), title, self)
+        self.toolbar.addAction(action)
+        action.triggered.connect(handler)
+
+    def on_save_palette(self):
         filename = QtGui.QFileDialog.getSaveFileName(self, "Save palette", ".", "*.gpl")
         if filename:
             GimpPalette(self.gui.palette.palette).save(str(filename))
 
-    def on_open(self):
+    def on_open_palette(self):
         filename = QtGui.QFileDialog.getOpenFileName(self, "Open palette", ".", "*.gpl")
         if filename:
             self.gui.palette.palette = GimpPalette().load(mixers.MixerRGB, str(filename))
@@ -54,6 +55,11 @@ class GUI(QtGui.QMainWindow):
     def on_toggle_edit(self):
         self.gui.palette.editing_enabled = not self.gui.palette.editing_enabled
         self.gui.update()
+
+    def on_open_template(self):
+        filename = QtGui.QFileDialog.getOpenFileName(self, "Open SVG template", ".", "*.svg")
+        if filename:
+            self.gui.svg.loadTemplate(str(filename))
     
     
 class GUIWidget(QtGui.QWidget):
@@ -100,10 +106,13 @@ class GUIWidget(QtGui.QWidget):
         palette.recalc()
 
         self.palette = PaletteWidget(palette)
+        self.palette.setMaximumSize(500,500)
+        self.palette.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
         self.palette.editing_enabled = False
         self.palette.selected.connect(self.on_select_from_palette)
         
         self.mixers = QtGui.QComboBox()
+        self.mixers.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
         for mixer, _ in self.available_mixers:
             self.mixers.addItem(mixer)
         self.mixers.currentIndexChanged.connect(self.on_select_mixer)
@@ -133,6 +142,7 @@ class GUIWidget(QtGui.QWidget):
         self.selector = Selector(mixers.MixerHLS)
         self.selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
         self.selector.setMinimumSize(300,300)
+        self.selector.setMaximumSize(500,500)
         self.selector.setHarmony(harmonies.Opposite)
         self.selector.selected.connect(self.on_select_color)
         self.vbox_right.addWidget(self.selector)
@@ -166,8 +176,9 @@ class GUIWidget(QtGui.QWidget):
         self.hbox.addLayout(self.vbox_right)
 
         self.svg = SvgTemplateWidget(self)
-        self.svg.setMinimumSize(300,300)
-        self.svg.loadTemplate("template2.svg")
+        self.svg.setMinimumSize(500,500)
+        self.svg.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
+        self.svg.loadTemplate("template.svg")
         self.svg.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         self.hbox.addWidget(self.svg)
         self.setLayout(self.hbox)
