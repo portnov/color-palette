@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys
+import os
 from os.path import join, basename, dirname
 #from gettext import gettext as _
 import gettext
@@ -26,7 +27,15 @@ def locate_template(name):
 
 def locate_locales():
     thisdir = dirname(sys.argv[0])
-    return join(thisdir, "po")
+    d = join(thisdir, "po")
+    print("Using locales at " + d)
+    return d
+
+if sys.platform.startswith('win'):
+    import locale
+    if os.getenv('LANG') is None:
+        lang, enc = locale.getdefaultlocale()
+        os.environ['LANG'] = lang
 
 gettext.install("colors", localedir=locate_locales(), unicode=True)
 
@@ -47,6 +56,7 @@ class GUI(QtGui.QMainWindow):
         self.gui = GUIWidget(self)
         self.setCentralWidget(self.gui)
 
+        self.setWindowTitie(_("Palette editor"))
         self.resize(800, 600)
 
 

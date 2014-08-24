@@ -1,201 +1,205 @@
-# Palette editor
-# Copyright (C) 2014 Ilya Portnov
-# Ilya Portnov <portnov84@rambler.ru>, 2014.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2014-08-24 23:05+YEKT\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2014-08-24 23:43+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: utf-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: gui.py:56
-msgid "RGB"
-msgstr ""
-
-#: gui.py:57
-msgid "HSV"
-msgstr ""
-
-#: gui.py:58 gui.py:66
-msgid "HLS"
-msgstr ""
-
 #: gui.py:59
-msgid "CMYK"
-msgstr ""
-
-#: gui.py:60
-msgid "CMY"
-msgstr ""
-
-#: gui.py:61
-msgid "RYB (experimental)"
-msgstr ""
-
-#: gui.py:62
-msgid "HSI (experimental)"
-msgstr ""
-
-#: gui.py:62 gui.py:67
-msgid "LCh"
-msgstr ""
-
-#: gui.py:63
-msgid "Lab"
-msgstr ""
-
-#: gui.py:64
-msgid "LCh Desaturate (experimental)"
-msgstr ""
-
-#: gui.py:67
-msgid "RYB"
-msgstr ""
-
-#: gui.py:69
-msgid "Just opposite"
-msgstr ""
-
-#: gui.py:70
-msgid "Three colors"
-msgstr ""
-
-#: gui.py:71
-msgid "Four colors"
-msgstr ""
-
-#: gui.py:72
-msgid "Similar colors"
+msgid "Palette editor"
 msgstr ""
 
 #: gui.py:73
-msgid "Opposite colors RYB"
+msgid "RGB"
 msgstr ""
 
 #: gui.py:74
-msgid "Three colors RYB"
+msgid "HSV"
 msgstr ""
 
-#: gui.py:75
-msgid "Four colors RYB"
-msgstr ""
-
-#: gui.py:75
-msgid "Three colors LCh"
+#: gui.py:75 gui.py:83
+msgid "HLS"
 msgstr ""
 
 #: gui.py:76
-msgid "Four colors LCh"
+msgid "CMYK"
+msgstr ""
+
+#: gui.py:77
+msgid "CMY"
 msgstr ""
 
 #: gui.py:78
-msgid "Saturation"
+msgid "RYB (experimental)"
 msgstr ""
 
 #: gui.py:79
-msgid "Value"
+msgid "HSI (experimental)"
+msgstr ""
+
+#: gui.py:79 gui.py:84
+msgid "LCh"
 msgstr ""
 
 #: gui.py:80
-msgid "Warmer"
+msgid "Lab"
 msgstr ""
 
 #: gui.py:81
+msgid "LCh Desaturate (experimental)"
+msgstr ""
+
+#: gui.py:84
+msgid "RYB"
+msgstr ""
+
+#: gui.py:86
+msgid "Just opposite"
+msgstr ""
+
+#: gui.py:87
+msgid "Three colors"
+msgstr ""
+
+#: gui.py:88
+msgid "Four colors"
+msgstr ""
+
+#: gui.py:89
+msgid "Similar colors"
+msgstr ""
+
+#: gui.py:90
+msgid "Opposite colors RYB"
+msgstr ""
+
+#: gui.py:91
+msgid "Three colors RYB"
+msgstr ""
+
+#: gui.py:92
+msgid "Four colors RYB"
+msgstr ""
+
+#: gui.py:92
+msgid "Three colors LCh"
+msgstr ""
+
+#: gui.py:93
+msgid "Four colors LCh"
+msgstr ""
+
+#: gui.py:95
+msgid "Saturation"
+msgstr ""
+
+#: gui.py:96
+msgid "Value"
+msgstr ""
+
+#: gui.py:97
+msgid "Warmer"
+msgstr ""
+
+#: gui.py:98
 msgid "Cooler"
 msgstr ""
 
-#: gui.py:112
+#: gui.py:129
 msgid "Palette mixing model:"
 msgstr ""
 
-#: gui.py:117 gui.py:249
+#: gui.py:134 gui.py:266
 msgid "Open palette"
 msgstr ""
 
-#: gui.py:118 gui.py:244 gui.py:411
+#: gui.py:135 gui.py:261 gui.py:428
 msgid "Save palette"
 msgstr ""
 
-#: gui.py:119 gui.py:169
+#: gui.py:136 gui.py:186
 msgid "Darker"
 msgstr ""
 
-#: gui.py:120 gui.py:170
+#: gui.py:137 gui.py:187
 msgid "Lighter"
 msgstr ""
 
-#: gui.py:121 gui.py:171
+#: gui.py:138 gui.py:188
 msgid "Saturate"
 msgstr ""
 
-#: gui.py:122 gui.py:172
+#: gui.py:139 gui.py:189
 msgid "Desaturate"
 msgstr ""
 
-#: gui.py:123
+#: gui.py:140
 msgid "Toggle edit mode"
 msgstr ""
 
-#: gui.py:133
+#: gui.py:150
 msgid "Selector model:"
 msgstr ""
 
-#: gui.py:139
+#: gui.py:156
 msgid "Harmony:"
 msgstr ""
 
-#: gui.py:146
+#: gui.py:163
 msgid "Shades:"
 msgstr ""
 
-#: gui.py:168
+#: gui.py:185
 msgid "Harmony"
 msgstr ""
 
-#: gui.py:173
+#: gui.py:190
 msgid "Save as palette"
 msgstr ""
 
-#: gui.py:194
+#: gui.py:211
 msgid "Open template"
 msgstr ""
 
-#: gui.py:195
+#: gui.py:212
 msgid "Save resulting SVG"
 msgstr ""
 
-#: gui.py:196
+#: gui.py:213
 msgid "Colorize from swatches"
 msgstr ""
 
-#: gui.py:197
+#: gui.py:214
 msgid "Colorize from palette"
 msgstr ""
 
-#: gui.py:198
+#: gui.py:215
 msgid "Reset colors"
 msgstr ""
 
-#: gui.py:201
+#: gui.py:218
 msgid "Colors from original image:"
 msgstr ""
 
-#: gui.py:339
+#: gui.py:356
 msgid "Selected from palette: "
 msgstr ""
 
-#: gui.py:398
+#: gui.py:415
 msgid "Open SVG template"
 msgstr ""
 
-#: gui.py:403
+#: gui.py:420
 msgid "Save SVG"
 msgstr ""
 

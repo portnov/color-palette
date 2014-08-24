@@ -4,5 +4,6 @@
 *.dat
 *.e4p
 *.mo
+*.po~
 .eric5project/
 dist/
