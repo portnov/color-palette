@@ -54,7 +54,7 @@ class Slot(object):
     def mark(self, user_defined=None):
         if user_defined is None:
             user_defined = not self._user_defined
-        print("Mark: " + str(user_defined))
+        #print("Mark: " + str(user_defined))
         self._user_defined = user_defined
 
     def setSources(self, slot1, row1, col1, slot2, row2, col2):

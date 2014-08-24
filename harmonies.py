@@ -84,7 +84,7 @@ class Cooler(Shader):
             sign = 1.0
         step = 0.05
         result = [color]
-        for i in range(3):
+        for i in range(4):
             h += sign*step
             if h > 1.0:
                 h -= 1.0
@@ -105,7 +105,7 @@ class Warmer(Shader):
             sign = -1.0
         step = 0.05
         result = [color]
-        for i in range(3):
+        for i in range(4):
             h += sign*step
             if h > 1.0:
                 h -= 1.0

@@ -316,6 +316,26 @@ def fromHex(s):
     r,g,b = int(rs,16), int(gs,16), int(bs,16)
     return Color(r,g,b)
 
+def darker(clr, q):
+    h,s,v = clr.getHSV()
+    v = clip(v-q)
+    return hsv(h,s,v)
+
+def lighter(clr, q):
+    h,s,v = clr.getHSV()
+    v = clip(v+q)
+    return hsv(h,s,v)
+
+def saturate(clr, q):
+    h,s,v = clr.getHSV()
+    s = clip(s+q)
+    return hsv(h,s,v)
+
+def desaturate(clr, q):
+    h,s,v = clr.getHSV()
+    s = clip(s-q)
+    return hsv(h,s,v)
+
 def linear(x, y, q):
     return (1.-q)*x + q*y
 

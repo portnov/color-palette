@@ -9,8 +9,8 @@ class PaletteWidget(QtGui.QLabel):
     clicked = QtCore.pyqtSignal(int,int) # (x,y)
     selected = QtCore.pyqtSignal(int,int) # (row, column)
 
-    def __init__(self, palette, padding=2.0, background=None, *args):
-        QtGui.QLabel.__init__(self, *args)
+    def __init__(self, parent, palette, padding=2.0, background=None, *args):
+        QtGui.QLabel.__init__(self, parent, *args)
         self.palette = palette
         self.palette_image = PaletteImage(palette, padding=padding, background=background)
         self.selected_slot = None
