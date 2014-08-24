@@ -115,7 +115,7 @@ class GUIWidget(QtGui.QWidget):
         add_tool_button(self, self.toolbar_palette, "lighten.png", "Lighter", self.on_palette_lighter)
         add_tool_button(self, self.toolbar_palette, "saturate.png", "Saturate", self.on_palette_saturate)
         add_tool_button(self, self.toolbar_palette, "desaturate.png", "Desaturate", self.on_palette_desaturate)
-        toggle_edit = add_tool_button(self, self.toolbar_palette, "Gnome-colors-gtk-edit.svg", "Toggle edit mode", self.on_toggle_edit)
+        toggle_edit = add_tool_button(self, self.toolbar_palette, "Gnome-colors-gtk-edit.png", "Toggle edit mode", self.on_toggle_edit)
         toggle_edit.setCheckable(True)
         toggle_edit.setChecked(False)
 
@@ -160,7 +160,7 @@ class GUIWidget(QtGui.QWidget):
         self.toolbar_swatches = QtGui.QToolBar()
         vbox_center.addWidget(self.toolbar_swatches)
 
-        add_tool_button(self, self.toolbar_swatches, "harmony.svg", "Harmony", self.on_harmony)
+        add_tool_button(self, self.toolbar_swatches, "harmony.png", "Harmony", self.on_harmony)
         add_tool_button(self, self.toolbar_swatches, "darken.png", "Darker", self.on_swatches_darker)
         add_tool_button(self, self.toolbar_swatches, "lighten.png", "Lighter", self.on_swatches_lighter)
         add_tool_button(self, self.toolbar_swatches, "saturate.png", "Saturate", self.on_swatches_saturate)
@@ -188,9 +188,9 @@ class GUIWidget(QtGui.QWidget):
 
         add_tool_button(self, self.toolbar_template, QtGui.QStyle.SP_DialogOpenButton, "Open template", self.on_open_template)
         add_tool_button(self, self.toolbar_template, QtGui.QStyle.SP_DialogSaveButton, "Save resulting SVG", self.on_save_template)
-        add_tool_button(self, self.toolbar_template, "colorize_swatches.svg", "Colorize from swatches", self.on_colorize_harmony)
-        add_tool_button(self, self.toolbar_template, "colorize_palette.svg", "Colorize from palette", self.on_colorize_palette)
-        add_tool_button(self, self.toolbar_template, "View-refresh.svg", "Reset colors", self.on_reset_template)
+        add_tool_button(self, self.toolbar_template, "colorize_swatches.png", "Colorize from swatches", self.on_colorize_harmony)
+        add_tool_button(self, self.toolbar_template, "colorize_palette.png", "Colorize from palette", self.on_colorize_palette)
+        add_tool_button(self, self.toolbar_template, "View-refresh.png", "Reset colors", self.on_reset_template)
 
         self.svg_colors = []
         label = QtGui.QLabel("Colors from original image:")
