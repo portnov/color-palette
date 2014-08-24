@@ -186,8 +186,21 @@ class GUIWidget(QtGui.QWidget):
         self.toolbar_template = QtGui.QToolBar()
         vbox_right.addWidget(self.toolbar_template)
 
+        self.svg_colors = []
+        vbox_svg = QtGui.QVBoxLayout()
+        for j in range(3):
+            hbox_svg = QtGui.QHBoxLayout()
+            for j in range(7):
+                w = ColorWidget(self)
+                w.setMaximumSize(30,30)
+                hbox_svg.addWidget(w)
+                self.svg_colors.append(w)
+            vbox_svg.addLayout(hbox_svg)
+        vbox_right.addLayout(vbox_svg)
+
         self.svg = SvgTemplateWidget(self)
         self.svg.setMinimumSize(500,500)
+        self.svg.template_loaded.connect(self.on_template_loaded)
         self.svg.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         self.svg.loadTemplate("template.svg")
         self.svg.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
@@ -208,6 +221,12 @@ class GUIWidget(QtGui.QWidget):
         self.hbox.addLayout(vbox_right)
 
         self.setLayout(self.hbox)
+
+    def on_template_loaded(self):
+        for i, clr in enumerate(self.svg.get_svg_colors()[:21]):
+            print(" #{} -> {}".format(i, str(clr)))
+            self.svg_colors[i].setColor(clr)
+        self.update()
 
     def on_set_current_color(self):
         self.selector.setColor(self.current_color.getColor())

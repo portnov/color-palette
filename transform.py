@@ -20,6 +20,7 @@ import itertools
 import numpy as np
 from numpy.linalg import solve, det
 from numpy.linalg.linalg import LinAlgError
+from copy import deepcopy as copy
 
 from colors import *
 from spaces import *
@@ -129,11 +130,23 @@ def get_nearest_color(space, occupied, cx, colors):
     cy = get_nearest(space.getCoords(cx), occupied, points)
     return space.fromCoords((cy[0], cy[1], cy[2]))
 
+def exclude(lst, x):
+    return [p for p in lst if not (p == x).all()]
+
 def get_farest(points):
-    center = get_center(points)
+    #center = get_center(points)
     #print(str(center))
-    srt = sorted(points, key = lambda c: -rho(center, c))
-    return srt[:4]
+    points_ = copy(points)
+    darkest = min(points_, key = lambda p: p[2])
+    points_ = exclude(points_, darkest)
+    lightest = max(points_, key = lambda p: p[2])
+    points_ = exclude(points_, lightest)
+    grayest = min(points_, key = lambda p: p[1])
+    points_ = exclude(points_, grayest)
+    most_saturated = max(points_, key = lambda p: p[1])
+    return [darkest, lightest, grayest, most_saturated]
+    #srt = sorted(points, key = lambda c: -rho(center, c))
+    #return srt[:4]
 
 def get_farest_colors(space, colors):
     points = [space.getCoords(c) for c in colors]
@@ -146,28 +159,21 @@ def match_colors(space, colors1, colors2):
         points2 = [color_row(space, c) for c in colors2 if c is not None]
         farest1 = get_farest(points1)
         farest2 = get_farest(points2)
-        best_d = None
-        best_a = None
-        best_b = None
-        for pts in itertools.permutations(farest1):
-            a, b = find_transform(pts, farest2)
-            #print("D:\n" + str(det(a)))
-            d = abs( det(a) - 1.0 )
-            if best_d is None or d < best_d:
-                best_d = d
-                best_a = a
-                best_b = b
-        #print("A:\n" + str(best_a))
-        #print("B:\n" + str(best_b))
-        #print("D:\n" + str(best_d))
-        transformed = [transform(best_a, best_b, x) for x in points1]
+        a, b = find_transform(farest1, farest2)
+        #print("A:\n" + str(a))
+        #print("B:\n" + str(b))
+        print("Matching colors:")
+        for p1, p2 in zip(farest1, farest2):
+            print(" {} -> {}".format(p1,p2))
+        transformed = [transform(a, b, x) for x in points1]
         occupied = []
         matched = []
         for x in transformed:
             y = get_nearest(x, occupied, points2)
             matched.append(y)
         return [space.fromCoords(x) for x in matched]
-    except LinAlgError:
+    except LinAlgError, e:
+        print e
         return colors1
 
 if __name__ == "__main__":
