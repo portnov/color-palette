@@ -56,7 +56,7 @@ class GUI(QtGui.QMainWindow):
         self.gui = GUIWidget(self)
         self.setCentralWidget(self.gui)
 
-        self.setWindowTitie(_("Palette editor"))
+        self.setWindowTitle(_("Palette editor"))
         self.resize(800, 600)
 
 
