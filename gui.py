@@ -15,11 +15,11 @@ from palette_widget import PaletteWidget
 from svg_widget import SvgTemplateWidget
 
 def find_icon(name):
-    thisdir = dirname(sys.executable)
+    thisdir = dirname(sys.argv[0])
     return join(thisdir, "icons", name)
 
 def find_template(name):
-    thisdir = dirname(sys.executable)
+    thisdir = dirname(sys.argv[0])
     return join(thisdir, "templates", name)
 
 def add_tool_button(parent, toolbar, icon_name, title, handler):
