@@ -27,6 +27,12 @@ What can it do currently is:
   (totally independent of any GUI, except of my Color and Mixer classes, which
   are not actually GUI); one for rendering palette into QImage; and one for
   displaying and editing palette using PyQt4 widget.
+* There is also sort of "magic" SVG coloring tool. You can load SVG file, and
+  press "Colorize from swatches" (or "Colorize from palette"). Tool will change
+  colors in your picture to colors from swatches (or palette), trying to save
+  colors relationships: change contrast colors to contrast, similar to similar.
+  "AI" is poor, but in many cases you can get good results. You can also save
+  resulting SVG file.
 
 There is also some old pygtk stuff, maybe it will be usefull for someone.
 
@@ -37,5 +43,5 @@ You can try launch&play with some testing executable scripts:
 * gui.py — a script for testing GUI, showing palette editor, color selector,
   harmonic colors generation.
 
-License: BSD3.
+License: GPLv2 or any later — due to use of PyQt4.
 
