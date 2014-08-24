@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys
+from os.path import join, basename, dirname
 
 from PyQt4 import QtGui
 
@@ -13,9 +14,14 @@ from palette import Palette, GimpPalette, save_gpl
 from palette_widget import PaletteWidget
 from svg_widget import SvgTemplateWidget
 
+def find_icon(name):
+    this = sys.argv[0]
+    thisdir = dirname(this)
+    return join(thisdir, "icons", name)
+
 def add_tool_button(parent, toolbar, icon_name, title, handler):
     if type(icon_name) == str:
-        action = QtGui.QAction(QtGui.QIcon("./icons/"+icon_name), title, parent)
+        action = QtGui.QAction(QtGui.QIcon(find_icon(icon_name)), title, parent)
     elif icon_name is not None:
         action = QtGui.QAction(parent.style().standardIcon(icon_name), title, parent)
     else:
