@@ -54,6 +54,18 @@ def NHues(n):
 
     return Hues
 
+class Similar(Harmony):
+    @classmethod
+    def get(cls, color):
+        h, s, v = color.getHSV()
+        h1 = h + 0.1
+        if h1 > 1.0:
+            h1 -= 1.0
+        h2 = h - 0.1
+        if h2 < 0.0:
+            h2 += 1.0
+        return [hsv(h1,s,v), color, hsv(h2,s,v)]
+
 def NHuesRYB(n):
     class Hues_RYB(Harmony):
         @classmethod

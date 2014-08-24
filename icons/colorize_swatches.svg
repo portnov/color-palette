@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.1 r9760"
-   sodipodi:docname="harmony.svg">
+   sodipodi:docname="Новый документ 2">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,8 +25,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="31.678384"
-     inkscape:cx="12.984083"
-     inkscape:cy="10.66305"
+     inkscape:cx="13.165521"
+     inkscape:cy="11.041857"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -51,6 +51,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -59,39 +60,26 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-1028.3622)">
-    <g
-       id="g3089"
-       transform="matrix(1.1111111,0,0,1.1111111,-2.4444444,-116.70691)">
-      <path
-         transform="matrix(1.125,0,0,1.125,-1.5,1027.3622)"
-         d="m 12,8 c 0,2.209139 -1.790861,4 -4,4 C 5.790861,12 4,10.209139 4,8 4,5.790861 5.790861,4 8,4 c 2.209139,0 4,1.790861 4,4 z"
-         sodipodi:ry="4"
-         sodipodi:rx="4"
-         sodipodi:cy="8"
-         sodipodi:cx="8"
-         id="path3054"
-         style="fill:#cc0000;stroke:#000000;stroke-opacity:1"
-         sodipodi:type="arc" />
-      <path
-         sodipodi:type="arc"
-         style="fill:#edd400;stroke:#000000;stroke-opacity:1"
-         id="path3083"
-         sodipodi:cx="8"
-         sodipodi:cy="8"
-         sodipodi:rx="4"
-         sodipodi:ry="4"
-         d="m 12,8 c 0,2.209139 -1.790861,4 -4,4 C 5.790861,12 4,10.209139 4,8 4,5.790861 5.790861,4 8,4 c 2.209139,0 4,1.790861 4,4 z"
-         transform="matrix(1.125,0,0,1.125,9.5,1027.3622)" />
-      <path
-         sodipodi:type="arc"
-         style="fill:#3465a4;stroke:#000000;stroke-opacity:1"
-         id="path3087"
-         sodipodi:cx="8"
-         sodipodi:cy="8"
-         sodipodi:rx="4"
-         sodipodi:ry="4"
-         d="m 12,8 c 0,2.209139 -1.790861,4 -4,4 C 5.790861,12 4,10.209139 4,8 4,5.790861 5.790861,4 8,4 c 2.209139,0 4,1.790861 4,4 z"
-         transform="matrix(1.125,0,0,1.125,4,1037.3622)" />
-    </g>
+    <rect
+       style="fill:#3465a4;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2991"
+       width="10.000017"
+       height="10.000017"
+       x="1"
+       y="1029.3622" />
+    <rect
+       y="1035.3622"
+       x="7.9999828"
+       height="10.000017"
+       width="10.000017"
+       id="rect3761"
+       style="fill:#edd400;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <rect
+       style="fill:#cc0000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3763"
+       width="10.000017"
+       height="10.000017"
+       x="12.999983"
+       y="1041.3622" />
   </g>
 </svg>

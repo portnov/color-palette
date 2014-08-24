@@ -13,7 +13,7 @@ from widgets import *
 class GUI(QtGui.QMainWindow):
     def __init__(self, palette):
         QtGui.QMainWindow.__init__(self)
-        self.palette_widget = PaletteWidget(palette)
+        self.palette_widget = PaletteWidget(self, palette)
         self.palette_widget.editing_enabled = False
         self.palette_widget.selected.connect(self.on_select)
         self.setCentralWidget(self.palette_widget)

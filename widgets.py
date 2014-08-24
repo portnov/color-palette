@@ -33,7 +33,8 @@ class ColorWidget(QtGui.QLabel):
         self._mouse_pressed = False
         self._drag_start_pos = None
         self.select_button = QtCore.Qt.LeftButton
-        self.editing_enabled = True
+        self.drop_enabled = True
+        self.pick_enabled = True
         self.setAcceptDrops(True)
         self.show()
     
@@ -67,7 +68,7 @@ class ColorWidget(QtGui.QLabel):
     
     def mouseReleaseEvent(self, event):
         #print("Mouse released")
-        if event.button() == self.select_button and self.editing_enabled:
+        if event.button() == self.select_button and self.pick_enabled:
             self.clicked.emit()
             event.accept()
 
@@ -83,16 +84,20 @@ class ColorWidget(QtGui.QLabel):
         drag.exec_()
 
     def dragEnterEvent(self, event):
-        if event.mimeData().hasColor() and self.editing_enabled:
+        if event.mimeData().hasColor() and self.drop_enabled:
             event.acceptProposedAction()
 
     def dropEvent(self, event):
         if event.mimeData().hasColor():
             qcolor = QtGui.QColor(event.mimeData().colorData())
             r,g,b,_ = qcolor.getRgb()
-            self.setRGB((r,g,b))
+            color = colors.Color(r,g,b)
+            self.on_drop_color(color)
             self.repaint()
             self.selected.emit()
+    
+    def on_drop_color(self, color):
+        self.setColor(color)
     
     def drawWidget(self, event,  qp):
         #print("Painting " + str(self))
@@ -119,6 +124,44 @@ class ColorWidget(QtGui.QLabel):
     
     def sizeHint(self):
         return QtCore.QSize(100, 100)
+
+class TwoColorsWidget(ColorWidget):
+
+    second_color_set = QtCore.pyqtSignal()
+
+    def __init__(self, *args):
+        ColorWidget.__init__(self, *args)
+        self.pick_enabled = False
+        self._second_color = None
+
+    def get_second_color(self):
+        return self._second_color
+
+    def set_second_color(self, color):
+        self._second_color = color
+        self.repaint()
+        self.second_color_set.emit()
+
+    second_color = property(get_second_color, set_second_color)
+
+    def drawWidget(self, event, qp):
+        w, h = self.size().width(),  self.size().height()
+
+        if self.rgb is not None:
+            qp.setBrush(QtGui.QColor(*self.rgb))
+            qp.drawPolygon(QtCore.QPointF(0.0, 0.0),
+                           QtCore.QPointF(w, 0.0),
+                           QtCore.QPointF(0.0, h))
+
+        if self._second_color is not None:
+            qp.setBrush(self._second_color)
+            qp.drawPolygon(QtCore.QPointF(w, 0.0),
+                           QtCore.QPointF(w, h),
+                           QtCore.QPointF(0.0, h))
+
+    def on_drop_color(self, color):
+        #print("Drop: " + str(color))
+        self.second_color = color
 
 class CacheImage(object):
     def __init__(self, mixer, w=0, h=0):

@@ -32,9 +32,6 @@ class GUI(QtGui.QMainWindow):
 
         #QtGui.QIcon.setThemeName('Tango')
 
-        add_tool_button(self, self.gui.toolbar_template, QtGui.QStyle.SP_DialogOpenButton, "Open template", self.on_open_template)
-        add_tool_button(self, self.gui.toolbar_template, QtGui.QStyle.SP_DialogSaveButton, "Save resulting SVG", self.on_save_template)
-
         add_tool_button(self, self.gui.toolbar_swatches, "harmony.svg", "Harmony", self.gui.on_harmony)
         add_tool_button(self, self.gui.toolbar_swatches, "darken.png", "Darker", self.gui.on_swatches_darker)
         add_tool_button(self, self.gui.toolbar_swatches, "lighten.png", "Lighter", self.gui.on_swatches_lighter)
@@ -43,19 +40,6 @@ class GUI(QtGui.QMainWindow):
 
         self.resize(800, 600)
 
-
-    def on_open_template(self):
-        filename = QtGui.QFileDialog.getOpenFileName(self, "Open SVG template", ".", "*.svg")
-        if filename:
-            self.gui.svg.loadTemplate(str(filename))
-    
-    def on_save_template(self):
-        filename = QtGui.QFileDialog.getSaveFileName(self, "Save SVG", ".", "*.svg")
-        if filename:
-            content = self.gui.svg.get_svg()
-            f = open(str(filename),'w')
-            f.write(content)
-            f.close()
 
 def labelled(label, widget):
     hbox = QtGui.QHBoxLayout()
@@ -83,6 +67,8 @@ class GUIWidget(QtGui.QWidget):
     available_harmonies = [("Just opposite", harmonies.Opposite),
                            ("Three colors",  harmonies.NHues(3)),
                            ("Four colors",   harmonies.NHues(4)),
+                           ("Similar colors",harmonies.Similar),
+                           ("Opposite colors RYB", harmonies.NHuesRYB(2)),
                            ("Three colors RYB", harmonies.NHuesRYB(3)),
                            ("Four colors RYB", harmonies.NHuesRYB(4)) ] + ([("Three colors LCh",   harmonies.NHuesLCh(3)),
                             ("Four colors LCh",   harmonies.NHuesLCh(4))] if colors.use_lcms else [])
@@ -194,16 +180,25 @@ class GUIWidget(QtGui.QWidget):
         self.toolbar_template = QtGui.QToolBar()
         vbox_right.addWidget(self.toolbar_template)
 
+        add_tool_button(self, self.toolbar_template, QtGui.QStyle.SP_DialogOpenButton, "Open template", self.on_open_template)
+        add_tool_button(self, self.toolbar_template, QtGui.QStyle.SP_DialogSaveButton, "Save resulting SVG", self.on_save_template)
+        add_tool_button(self, self.toolbar_template, "colorize_swatches.svg", "Colorize from swatches", self.on_colorize_harmony)
+        add_tool_button(self, self.toolbar_template, "colorize_palette.svg", "Colorize from palette", self.on_colorize_palette)
+        add_tool_button(self, self.toolbar_template, "View-refresh.svg", "Reset colors", self.on_reset_template)
+
         self.svg_colors = []
         label = QtGui.QLabel("Colors from original image:")
         label.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Maximum)
         vbox_right.addWidget(label)
         vbox_svg = QtGui.QVBoxLayout()
+        idx = 0
         for j in range(3):
             hbox_svg = QtGui.QHBoxLayout()
             for j in range(7):
-                w = ColorWidget(self)
+                w = TwoColorsWidget(self)
                 w.setMaximumSize(30,30)
+                w.second_color_set.connect(self.on_dst_color_set(idx))
+                idx += 1
                 hbox_svg.addWidget(w)
                 self.svg_colors.append(w)
             vbox_svg.addLayout(hbox_svg)
@@ -212,26 +207,27 @@ class GUIWidget(QtGui.QWidget):
         self.svg = SvgTemplateWidget(self)
         self.svg.setMinimumSize(400,400)
         self.svg.template_loaded.connect(self.on_template_loaded)
+        self.svg.colors_matched.connect(self.on_colors_matched)
         self.svg.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         self.svg.loadTemplate("template.svg")
         self.svg.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         vbox_right.addWidget(self.svg)
 
-        do_color_harmony = QtGui.QPushButton("Colorize from swatches")
-        vbox_right.addWidget(do_color_harmony)
-        do_color_harmony.clicked.connect(self.on_colorize_harmony)
-
-        do_color_palette = QtGui.QPushButton("Colorize from palette")
-        vbox_right.addWidget(do_color_palette)
-        do_color_palette.clicked.connect(self.on_colorize_palette)
-
-        reset_temploate = QtGui.QPushButton("Reload image")
-        vbox_right.addWidget(reset_temploate)
-        reset_temploate.clicked.connect(self.on_reset_template)
-
         self.hbox.addLayout(vbox_right)
 
         self.setLayout(self.hbox)
+
+    def on_dst_color_set(self, idx):
+        def handler():
+            self.svg.set_color(idx, self.svg_colors[idx].second_color)
+        return handler
+
+    def on_colors_matched(self):
+        dst_colors = self.svg.get_dst_colors()
+        n = len(self.svg_colors)
+        for i, clr in enumerate(dst_colors[:n]):
+            self.svg_colors[i]._second_color = clr
+        self.update()
 
     def on_save_palette(self):
         filename = QtGui.QFileDialog.getSaveFileName(self, "Save palette", ".", "*.gpl")
@@ -288,7 +284,7 @@ class GUIWidget(QtGui.QWidget):
 
     def on_template_loaded(self):
         for i, clr in enumerate(self.svg.get_svg_colors()[:21]):
-            print(" #{} -> {}".format(i, str(clr)))
+            #print(" #{} -> {}".format(i, str(clr)))
             self.svg_colors[i].setColor(clr)
         self.update()
 
@@ -354,7 +350,19 @@ class GUIWidget(QtGui.QWidget):
     def on_reset_template(self):
         self.svg.resetColors()
         self.update()
+
+    def on_open_template(self):
+        filename = QtGui.QFileDialog.getOpenFileName(self, "Open SVG template", ".", "*.svg")
+        if filename:
+            self.svg.loadTemplate(str(filename))
     
+    def on_save_template(self):
+        filename = QtGui.QFileDialog.getSaveFileName(self, "Save SVG", ".", "*.svg")
+        if filename:
+            content = self.svg.get_svg()
+            f = open(str(filename),'w')
+            f.write(content)
+            f.close()
     
 if __name__ == "__main__":
     

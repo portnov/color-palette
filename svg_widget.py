@@ -10,6 +10,7 @@ import matching
 
 class SvgTemplateWidget(QtSvg.QSvgWidget):
     template_loaded = QtCore.pyqtSignal()
+    colors_matched = QtCore.pyqtSignal()
 
     def __init__(self, *args):
         QtSvg.QSvgWidget.__init__(self, *args)
@@ -19,6 +20,7 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
         self._svg = None
         self._need_render = True
         self._svg_colors = None
+        self._dst_colors = None
 
     def _get_color(self, i):
         if i < len(self._colors):
@@ -43,10 +45,17 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
         self._update()
         self.template_loaded.emit()
 
+    def set_color(self, idx, color):
+        self._colors[idx] = color
+        self._need_render = True
+        self._update()
+
     def setColors(self, dst_colors):
+        self._dst_colors = dst_colors
         self._colors = matching.match_colors(self._svg_colors, dst_colors)
         self._need_render = True
         self._update()
+        self.colors_matched.emit()
 
     def resetColors(self):
         self.load(self._template_filename)
@@ -54,6 +63,9 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
 
     def get_svg_colors(self):
         return self._svg_colors
+    
+    def get_dst_colors(self):
+        return self._colors
 
     def get_svg(self):
         if self._svg is not None and not self._need_render:
