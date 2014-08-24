@@ -115,7 +115,7 @@ class MixerHSI(Mixer):
         h = mixH(h1*2*pi, h2*2*pi, s1, s2, v1*pi, v2*pi, 1.0-q, q)/(2*pi)
         s = linear(s1, s2, q)
         v = linear(v1, v2, q)
-        print("HSI/HSV: " + str((h, s, v)))
+        #print("HSI/HSV: " + str((h, s, v)))
         r, g, b = colorsys.hsv_to_rgb(h, s, v)
         c = Color(r*255, g*255, b*255)
         return c
@@ -216,7 +216,7 @@ if use_lcms:
             if d > 180.0:
                 d -= 180.0
             dc = (1.0-2*abs(q-0.5))*d*100.0/180.0
-            print("dC: "+str(dc))
+            #print("dC: "+str(dc))
             c = c - dc
             if c < 0.0:
                 c = 0.0

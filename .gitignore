@@ -3,4 +3,6 @@
 *.gpl
 *.dat
 *.e4p
+*.mo
 .eric5project/
+dist/

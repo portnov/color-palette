@@ -268,7 +268,6 @@ class Color(QtGui.QColor):
         rr, ry, rb = self.getRYB()
         h, s, l = self.getHLS()
         result = "RGB: {:.2f} {:.2f} {:.2f}\n".format(r, g, b)
-        result += "RYB: {:.2f} {:.2f} {:.2f}\n".format(rr, ry, rb)
         result += "HLS: {:.2f} {:.2f} {:.2f}\n".format(h, l, s)
         h, s, v = self.getHSV()
         result += "HSV: {:.2f} {:.2f} {:.2f}".format(h, s, v)

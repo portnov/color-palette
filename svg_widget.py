@@ -34,6 +34,17 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
         self.load(arr)
         self.update()
 
+    def _get_image(self):
+        w,h = self.size().width(), self.size().height()
+        image = QtGui.QImage(w, h,  QtGui.QImage.Format_ARGB32_Premultiplied)
+        image.fill(0)
+        qp = QtGui.QPainter()
+        qp.begin(image)
+        #self.renderer().render(qp, QtCore.QRectF(0.0, 0.0, w, h))
+        self.renderer().render(qp, QtCore.QRectF(0.0, 0.0, w, h))
+        qp.end()
+        return image
+
     def loadTemplate(self, filename):
         self._template_filename = filename
         self._svg_colors, self._template = svg.read_template(filename)
@@ -76,7 +87,24 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
             return self._svg
 
     def _render(self):
-        d = dict([("color"+str(i), color.hex() if color is not None else Color(255,255,255)) for i, color in enumerate(self._colors)])
+        #d = dict([("color"+str(i), color.hex() if color is not None else Color(255,255,255)) for i, color in enumerate(self._colors)])
+        d = ColorDict(self._colors)
+        #self._image = self._get_image()
         return Template(self._template).substitute(d)
+
+class ColorDict(object):
+    def __init__(self, colors):
+        self._colors = colors
+
+    def __getitem__(self, key):
+        if key.startswith("color"):
+            n = int( key[5:] )
+            if n < len(self._colors):
+                return self._colors[n].hex()
+            else:
+                return "#ffffff"
+        else:
+            raise KeyError(key)
+
 
         
