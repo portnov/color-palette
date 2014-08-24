@@ -338,6 +338,27 @@ class Storage(object):
 
 marker = '# Colors not marked with #USER are auto-generated'
 
+def save_gpl(name, ncols, clrs, file_w):
+    if type(file_w) in [str,unicode]:
+        pf = open(file_w, 'w')
+        do_close = True
+    elif hasattr(file_w,'write'):
+        pf = file_w
+        do_close = False
+    else:
+        raise ValueError("Invalid argument type in save_gpl: {}".format(type(file_w)))
+    pf.write('GIMP Palette\n')
+    pf.write('Name: '+name+'\n')
+    if ncols is not None:
+        pf.write('Columns: %s\n' % ncols)
+    for color in clrs:
+        r, g, b = color.getRGB()
+        n = 'Untitled'
+        s = '%d %d %d %s\n' % (r, g, b, n)
+        pf.write(s)
+    if do_close:
+        pf.close()
+
 class GimpPalette(Storage):
 
     def save(self, file_w=None):
@@ -354,7 +375,7 @@ class GimpPalette(Storage):
             if type(file_w) in [str, unicode]:
                 self.palette.name = basename(file_w)
             else:
-                self.palette.name='MyPaint'
+                self.palette.name='Colors'
         pf.write('Name: '+self.palette.name+'\n')
         if hasattr(self.palette, 'ncols') and self.palette.ncols:
             pf.write('Columns: %s\n' % self.palette.ncols)

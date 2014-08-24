@@ -9,7 +9,7 @@ import colors
 from colors import Color
 import mixers
 import harmonies
-from palette import Palette, GimpPalette
+from palette import Palette, GimpPalette, save_gpl
 from palette_widget import PaletteWidget
 from svg_widget import SvgTemplateWidget
 
@@ -29,14 +29,6 @@ class GUI(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
         self.gui = GUIWidget(self)
         self.setCentralWidget(self.gui)
-
-        #QtGui.QIcon.setThemeName('Tango')
-
-        add_tool_button(self, self.gui.toolbar_swatches, "harmony.svg", "Harmony", self.gui.on_harmony)
-        add_tool_button(self, self.gui.toolbar_swatches, "darken.png", "Darker", self.gui.on_swatches_darker)
-        add_tool_button(self, self.gui.toolbar_swatches, "lighten.png", "Lighter", self.gui.on_swatches_lighter)
-        add_tool_button(self, self.gui.toolbar_swatches, "saturate.png", "Saturate", self.gui.on_swatches_saturate)
-        add_tool_button(self, self.gui.toolbar_swatches, "desaturate.png", "Desaturate", self.gui.on_swatches_desaturate)
 
         self.resize(800, 600)
 
@@ -106,19 +98,20 @@ class GUIWidget(QtGui.QWidget):
         for mixer, _ in self.available_mixers:
             self.mixers.addItem(mixer)
         self.mixers.currentIndexChanged.connect(self.on_select_mixer)
-        #vbox_left.addLayout(labelled("Palette mixing mode:", self.mixers))
+        vbox_left.addLayout(labelled("Palette mixing model:", self.mixers))
         vbox_left.addWidget(self.palette)
         self.hbox = QtGui.QHBoxLayout()
         self.hbox.addLayout(vbox_left)
 
         add_tool_button(self, self.toolbar_palette, QtGui.QStyle.SP_DialogOpenButton, "Open palette", self.on_open_palette)
         add_tool_button(self, self.toolbar_palette, QtGui.QStyle.SP_DialogSaveButton, "Save palette", self.on_save_palette)
+        add_tool_button(self, self.toolbar_palette, "darken.png", "Darker", self.on_palette_darker)
+        add_tool_button(self, self.toolbar_palette, "lighten.png", "Lighter", self.on_palette_lighter)
+        add_tool_button(self, self.toolbar_palette, "saturate.png", "Saturate", self.on_palette_saturate)
+        add_tool_button(self, self.toolbar_palette, "desaturate.png", "Desaturate", self.on_palette_desaturate)
         toggle_edit = add_tool_button(self, self.toolbar_palette, "Gnome-colors-gtk-edit.svg", "Toggle edit mode", self.on_toggle_edit)
         toggle_edit.setCheckable(True)
         toggle_edit.setChecked(False)
-
-        self.toolbar_palette.addWidget(QtGui.QLabel("Palette mixing mode:"))
-        self.toolbar_palette.addWidget(self.mixers)
 
         vbox_center = QtGui.QVBoxLayout()
         grid = QtGui.QGridLayout()
@@ -160,6 +153,13 @@ class GUIWidget(QtGui.QWidget):
         
         self.toolbar_swatches = QtGui.QToolBar()
         vbox_center.addWidget(self.toolbar_swatches)
+
+        add_tool_button(self, self.toolbar_swatches, "harmony.svg", "Harmony", self.on_harmony)
+        add_tool_button(self, self.toolbar_swatches, "darken.png", "Darker", self.on_swatches_darker)
+        add_tool_button(self, self.toolbar_swatches, "lighten.png", "Lighter", self.on_swatches_lighter)
+        add_tool_button(self, self.toolbar_swatches, "saturate.png", "Saturate", self.on_swatches_saturate)
+        add_tool_button(self, self.toolbar_swatches, "desaturate.png", "Desaturate", self.on_swatches_desaturate)
+        add_tool_button(self, self.toolbar_swatches, QtGui.QStyle.SP_DialogSaveButton, "Save as palette", self.on_swatches_save)
 
         self.harmonized = []
         self.harmonizedBox = QtGui.QVBoxLayout()
@@ -282,6 +282,38 @@ class GUIWidget(QtGui.QWidget):
             w.setColor(clr)
             w.update()
 
+    def on_palette_darker(self):
+        for row, col, slot in self.palette.palette.getUserDefinedSlots():
+            clr = slot.getColor()
+            clr = colors.darker(clr, 0.1)
+            slot.setColor(clr)
+        self.palette.palette.recalc()
+        self.palette.update()
+
+    def on_palette_lighter(self):
+        for row, col, slot in self.palette.palette.getUserDefinedSlots():
+            clr = slot.getColor()
+            clr = colors.lighter(clr, 0.1)
+            slot.setColor(clr)
+        self.palette.palette.recalc()
+        self.palette.update()
+
+    def on_palette_saturate(self):
+        for row, col, slot in self.palette.palette.getUserDefinedSlots():
+            clr = slot.getColor()
+            clr = colors.saturate(clr, 0.1)
+            slot.setColor(clr)
+        self.palette.palette.recalc()
+        self.palette.update()
+
+    def on_palette_desaturate(self):
+        for row, col, slot in self.palette.palette.getUserDefinedSlots():
+            clr = slot.getColor()
+            clr = colors.desaturate(clr, 0.1)
+            slot.setColor(clr)
+        self.palette.palette.recalc()
+        self.palette.update()
+
     def on_template_loaded(self):
         for i, clr in enumerate(self.svg.get_svg_colors()[:21]):
             #print(" #{} -> {}".format(i, str(clr)))
@@ -363,6 +395,12 @@ class GUIWidget(QtGui.QWidget):
             f = open(str(filename),'w')
             f.write(content)
             f.close()
+    
+    def on_swatches_save(self):
+        filename = QtGui.QFileDialog.getSaveFileName(self, "Save palette", ".", "*.gpl")
+        if filename:
+            clrs = [w.getColor() for w in self.harmonized if w.getColor() is not None]
+            save_gpl("Swatches", 5, clrs, str(filename))
     
 if __name__ == "__main__":
     
