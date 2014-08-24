@@ -19,6 +19,11 @@ def find_icon(name):
     thisdir = dirname(this)
     return join(thisdir, "icons", name)
 
+def find_template(name):
+    this = sys.argv[0]
+    thisdir = dirname(this)
+    return join(thisdir, "templates", name)
+
 def add_tool_button(parent, toolbar, icon_name, title, handler):
     if type(icon_name) == str:
         action = QtGui.QAction(QtGui.QIcon(find_icon(icon_name)), title, parent)
@@ -94,7 +99,8 @@ class GUIWidget(QtGui.QWidget):
         palette.recalc()
 
         self.palette = PaletteWidget(self, palette)
-        self.palette.setMinimumSize(400,400)
+        self.palette.setMinimumSize(300,300)
+        self.palette.setMaximumSize(700,700)
         self.palette.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
         self.palette.editing_enabled = False
         self.palette.selected.connect(self.on_select_from_palette)
@@ -215,7 +221,7 @@ class GUIWidget(QtGui.QWidget):
         self.svg.template_loaded.connect(self.on_template_loaded)
         self.svg.colors_matched.connect(self.on_colors_matched)
         self.svg.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
-        self.svg.loadTemplate("template.svg")
+        self.svg.loadTemplate(find_template("template.svg"))
         self.svg.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         vbox_right.addWidget(self.svg)
 
