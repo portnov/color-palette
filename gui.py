@@ -15,7 +15,9 @@ import mixers
 import harmonies
 from palette import Palette, GimpPalette, save_gpl
 from palette_widget import PaletteWidget
+from palette_image import PaletteImage
 from svg_widget import SvgTemplateWidget
+import filedialog
 
 def locate_icon(name):
     thisdir = dirname(sys.argv[0])
@@ -280,9 +282,17 @@ class GUIWidget(QtGui.QWidget):
             image = self.palette.get_image()
             image.save(filename)
 
+    def _preview_palette(self, path):
+        if path.endswith(".gpl"):
+            palette = GimpPalette().load(mixers.MixerRGB, path)
+            image = PaletteImage(palette).get(160, 160)
+            return image
+        else:
+            return None
 
     def on_open_palette(self):
-        filename = QtGui.QFileDialog.getOpenFileName(self, _("Open palette"), ".", "*.gpl")
+        filename = filedialog.get_filename(self, _("Open palette"), ".", "*.gpl", self._preview_palette)
+        #filename = QtGui.QFileDialog.getOpenFileName(self, _("Open palette"), ".", "*.gpl")
         if filename:
             self.palette.palette = GimpPalette().load(mixers.MixerRGB, str(filename))
             self.palette.selected_slot = None
