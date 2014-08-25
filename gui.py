@@ -39,11 +39,21 @@ if sys.platform.startswith('win'):
 
 gettext.install("colors", localedir=locate_locales(), unicode=True)
 
-def add_tool_button(parent, toolbar, icon_name, title, handler):
-    if type(icon_name) == str:
-        action = QtGui.QAction(QtGui.QIcon(locate_icon(icon_name)), title, parent)
-    elif icon_name is not None:
-        action = QtGui.QAction(parent.style().standardIcon(icon_name), title, parent)
+def compose_icon(icon, filename):
+    icon_pixmap = icon.pixmap(24,24)
+    qp = QtGui.QPainter(icon_pixmap)
+    image = QtGui.QImage(locate_icon(filename))
+    qp.drawImage(0, 0, image)
+    qp.end()
+    return QtGui.QIcon(icon_pixmap)
+
+def add_tool_button(parent, toolbar, icon, title, handler):
+    if type(icon) == str:
+        action = QtGui.QAction(QtGui.QIcon(locate_icon( icon)), title, parent)
+    elif type(icon) == QtGui.QIcon:
+        action = QtGui.QAction(icon, title, parent)
+    elif icon is not None:
+        action = QtGui.QAction(parent.style().standardIcon(icon), title, parent)
     else:
         action = QtGui.QAction(title, parent)
     toolbar.addAction(action)
@@ -133,6 +143,8 @@ class GUIWidget(QtGui.QWidget):
 
         add_tool_button(self, self.toolbar_palette, QtGui.QStyle.SP_DialogOpenButton, _("Open palette"), self.on_open_palette)
         add_tool_button(self, self.toolbar_palette, QtGui.QStyle.SP_DialogSaveButton, _("Save palette"), self.on_save_palette)
+        icon = compose_icon(self.style().standardIcon(QtGui.QStyle.SP_DialogSaveButton), "palette_small.png")
+        add_tool_button(self, self.toolbar_palette, icon, _("Save palette as image"), self.on_save_palette_image)
         add_tool_button(self, self.toolbar_palette, "darken.png", _("Darker"), self.on_palette_darker)
         add_tool_button(self, self.toolbar_palette, "lighten.png", _("Lighter"), self.on_palette_lighter)
         add_tool_button(self, self.toolbar_palette, "saturate.png", _("Saturate"), self.on_palette_saturate)
@@ -261,6 +273,13 @@ class GUIWidget(QtGui.QWidget):
         filename = QtGui.QFileDialog.getSaveFileName(self, _("Save palette"), ".", "*.gpl")
         if filename:
             GimpPalette(self.palette.palette).save(str(filename))
+
+    def on_save_palette_image(self):
+        filename = QtGui.QFileDialog.getSaveFileName(self, _("Save palette image"), ".", "*.png")
+        if filename:
+            image = self.palette.get_image()
+            image.save(filename)
+
 
     def on_open_palette(self):
         filename = QtGui.QFileDialog.getOpenFileName(self, _("Open palette"), ".", "*.gpl")

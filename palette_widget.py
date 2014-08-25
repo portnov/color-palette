@@ -199,6 +199,14 @@ class PaletteWidget(QtGui.QLabel):
                 return rown
         return None
 
+    def get_image(self, width=None, height=None):
+        if width is None:
+            width = self.palette.ncols * 48
+        if height is None:
+            height = self.palette.nrows * 48
+        image = self.palette_image.get(width, height)
+        return image
+
     def paintEvent(self, event):
         w, h = self.size().width(),  self.size().height()
         image_w, image_h = self._get_image_size()

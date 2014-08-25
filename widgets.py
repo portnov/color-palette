@@ -116,7 +116,11 @@ class ColorWidget(QtGui.QLabel):
         
     def on_click(self):
         #print("CLICK")
-        clr = QtGui.QColorDialog.getColor()
+        current = self.getColor()
+        if current is not None:
+            clr = QtGui.QColorDialog.getColor(current)
+        else:
+            clr = QtGui.QColorDialog.getColor()
         r, g, b, a = clr.getRgb()
         self.setRGB((r, g, b))
         self.repaint()
