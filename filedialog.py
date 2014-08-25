@@ -7,7 +7,7 @@ from PyQt4 import QtGui, QtCore
 class PreviewFileDialog(QtGui.QFileDialog):
     def __init__(self, *args, **kwargs):
         QtGui.QFileDialog.__init__(self, *args, **kwargs)
-        self.setObjectName("PreviewFileDialog")
+        #self.setObjectName("PreviewFileDialog")
 
         box = QtGui.QVBoxLayout()
         label = QtGui.QLabel("Preview:")
@@ -65,11 +65,18 @@ def get_filename(parent=None, caption=None, directory=None, filter=None, make_pr
     else:
         return None
 
+def get_image_filename(parent=None, caption=None, directory=None, filter=None):
+    dialog = ImagePreviewFileDialog(parent=parent, caption=caption, directory=directory, filter=filter)
+    dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen)
+    if dialog.exec_():
+        return str( dialog.selectedFiles()[0] )
+    else:
+        return None
+
 if __name__ == "__main__":
 
     app = QtGui.QApplication(sys.argv)
-    dialog = ImagePreviewFileDialog(caption="Open", directory=".", filter="*.png")
+    dialog = ImagePreviewFileDialog(caption="Open", directory=".", filter="*.svg")
     dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen)
-    filename = dialog.exec_()
-    print(filename)
+    dialog.exec_()
     
