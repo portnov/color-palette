@@ -96,6 +96,7 @@ class GUIWidget(QtGui.QWidget):
                                  (_("RYB"), mixers.MixerRYB) ] + ([(_("LCh"), mixers.MixerLCh)] if colors.use_lcms else [])
 
     available_harmonies = [(_("Just opposite"), harmonies.Opposite),
+                           (_("Two opposite"),  harmonies.TwoOpposite),
                            (_("Three colors"),  harmonies.NHues(3)),
                            (_("Four colors"),   harmonies.NHues(4)),
                            (_("Similar colors"),harmonies.Similar),
@@ -112,111 +113,24 @@ class GUIWidget(QtGui.QWidget):
     def __init__(self,*args):
         QtGui.QWidget.__init__(self, *args)
 
+        splitter = QtGui.QSplitter(QtCore.Qt.Horizontal)
+
         self.mixer = mixers.MixerRGB
 
-        vbox_left = QtGui.QVBoxLayout()
+        palette_widget = self._init_palette_widgets()
+        harmonies_widget = self._init_harmonies_widgets()
+        svg_widget = self._init_svg_widgets()
 
-        self.toolbar_palette = QtGui.QToolBar()
-        vbox_left.addWidget(self.toolbar_palette)
+        splitter.addWidget(palette_widget)
+        splitter.addWidget(harmonies_widget)
+        splitter.addWidget(svg_widget)
 
-        palette = Palette(self.mixer, 7, 7)
-        palette.paint(0, 0, Color(255.0, 0.0, 0.0))
-        palette.paint(0, 6, Color(0.0, 0.0, 0.0))
-        palette.paint(6, 0, Color(255.0, 255.0, 255.0))
-        palette.paint(6, 6, Color(0.0, 255.0, 0.0))
-        palette.recalc()
+        hbox = QtGui.QHBoxLayout()
+        hbox.addWidget(splitter)
+        self.setLayout(hbox)
 
-        self.palette = PaletteWidget(self, palette)
-        self.palette.setMinimumSize(300,300)
-        self.palette.setMaximumSize(700,700)
-        self.palette.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
-        self.palette.editing_enabled = False
-        self.palette.selected.connect(self.on_select_from_palette)
-        
-        self.mixers = QtGui.QComboBox()
-        self.mixers.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
-        for mixer, nothing in self.available_mixers:
-            self.mixers.addItem(mixer)
-        self.mixers.currentIndexChanged.connect(self.on_select_mixer)
-        vbox_left.addLayout(labelled(_("Palette mixing model:"), self.mixers))
-        vbox_left.addWidget(self.palette)
-        self.hbox = QtGui.QHBoxLayout()
-        self.hbox.addLayout(vbox_left)
-
-        add_tool_button(self, self.toolbar_palette, QtGui.QStyle.SP_DialogOpenButton, _("Open palette"), self.on_open_palette)
-        add_tool_button(self, self.toolbar_palette, QtGui.QStyle.SP_DialogSaveButton, _("Save palette"), self.on_save_palette)
-        icon = compose_icon(self.style().standardIcon(QtGui.QStyle.SP_DialogSaveButton), "palette_small.png")
-        add_tool_button(self, self.toolbar_palette, icon, _("Save palette as image"), self.on_save_palette_image)
-        add_tool_button(self, self.toolbar_palette, "darken.png", _("Darker"), self.on_palette_darker)
-        add_tool_button(self, self.toolbar_palette, "lighten.png", _("Lighter"), self.on_palette_lighter)
-        add_tool_button(self, self.toolbar_palette, "saturate.png", _("Saturate"), self.on_palette_saturate)
-        add_tool_button(self, self.toolbar_palette, "desaturate.png", _("Desaturate"), self.on_palette_desaturate)
-        toggle_edit = add_tool_button(self, self.toolbar_palette, "Gnome-colors-gtk-edit.png", _("Toggle edit mode"), self.on_toggle_edit)
-        toggle_edit.setCheckable(True)
-        toggle_edit.setChecked(False)
-
-        vbox_center = QtGui.QVBoxLayout()
-        grid = QtGui.QGridLayout()
-        self.selector_mixers = QtGui.QComboBox()
-        for mixer, nothing in self.available_selector_mixers:
-            self.selector_mixers.addItem(mixer)
-        self.selector_mixers.currentIndexChanged.connect(self.on_select_selector_mixer)
-        grid.addWidget(QtGui.QLabel(_("Selector model:")), 0, 0)
-        grid.addWidget(self.selector_mixers, 0, 1)
-        self.harmonies = QtGui.QComboBox() 
-        for harmony, nothing in self.available_harmonies:
-            self.harmonies.addItem(harmony)
-        self.harmonies.currentIndexChanged.connect(self.on_select_harmony)
-        grid.addWidget(QtGui.QLabel(_("Harmony:")), 1, 0)
-        grid.addWidget(self.harmonies, 1, 1)
-        self.shaders = QtGui.QComboBox()
-        for shader,nothing in self.available_shaders:
-            self.shaders.addItem(shader)
-        self.shaders.currentIndexChanged.connect(self.on_select_shader)
-        self.shader = harmonies.Saturation
-        grid.addWidget(QtGui.QLabel(_("Shades:")), 2, 0)
-        grid.addWidget(self.shaders, 2,1)
-
-        vbox_center.addLayout(grid)
-
-        self.selector = Selector(mixers.MixerHLS)
-        self.selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
-        self.selector.setMinimumSize(300,300)
-        self.selector.setMaximumSize(500,500)
-        self.selector.setHarmony(harmonies.Opposite)
-        self.selector.selected.connect(self.on_select_color)
-        vbox_center.addWidget(self.selector)
-
-        self.current_color = ColorWidget(self)
-        self.current_color.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
-        self.current_color.setMaximumSize(100,100)
-        self.current_color.selected.connect(self.on_set_current_color)
-        vbox_center.addWidget(self.current_color)
-        
-        self.toolbar_swatches = QtGui.QToolBar()
-        vbox_center.addWidget(self.toolbar_swatches)
-
-        add_tool_button(self, self.toolbar_swatches, "harmony.png", _("Harmony"), self.on_harmony)
-        add_tool_button(self, self.toolbar_swatches, "darken.png", _("Darker"), self.on_swatches_darker)
-        add_tool_button(self, self.toolbar_swatches, "lighten.png", _("Lighter"), self.on_swatches_lighter)
-        add_tool_button(self, self.toolbar_swatches, "saturate.png", _("Saturate"), self.on_swatches_saturate)
-        add_tool_button(self, self.toolbar_swatches, "desaturate.png", _("Desaturate"), self.on_swatches_desaturate)
-        add_tool_button(self, self.toolbar_swatches, QtGui.QStyle.SP_DialogSaveButton, _("Save as palette"), self.on_swatches_save)
-
-        self.harmonized = []
-        self.harmonizedBox = QtGui.QVBoxLayout()
-        for j in range(4):
-            hbox = QtGui.QHBoxLayout()
-            for i in range(5):
-                w = ColorWidget(self)
-                w.setMaximumSize(50,50)
-                self.harmonized.append(w)
-                hbox.addWidget(w)
-            self.harmonizedBox.addLayout(hbox)
-
-        vbox_center.addLayout(self.harmonizedBox)
-        self.hbox.addLayout(vbox_center)
-
+    def _init_svg_widgets(self):
+        widget = QtGui.QWidget()
         vbox_right = QtGui.QVBoxLayout()
 
         self.toolbar_template = QtGui.QToolBar()
@@ -246,18 +160,132 @@ class GUIWidget(QtGui.QWidget):
             vbox_svg.addLayout(hbox_svg)
         vbox_right.addLayout(vbox_svg)
 
+        vbox_right.addStretch()
+
         self.svg = SvgTemplateWidget(self)
-        self.svg.setMinimumSize(400,400)
+        #self.svg.setMinimumSize(300,300)
+        #self.svg.setMaximumSize(500,500)
         self.svg.template_loaded.connect(self.on_template_loaded)
         self.svg.colors_matched.connect(self.on_colors_matched)
-        self.svg.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
-        self.svg.loadTemplate(locate_template("template.svg"))
+        #self.svg.setSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
+        #self.svg.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         self.svg.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        self.svg.loadTemplate(locate_template("template.svg"))
         vbox_right.addWidget(self.svg)
+        vbox_right.addStretch()
+        
+        widget.setLayout(vbox_right)
+        return widget
 
-        self.hbox.addLayout(vbox_right)
+    def _init_palette_widgets(self):
+        widget = QtGui.QWidget()
 
-        self.setLayout(self.hbox)
+        vbox_left = QtGui.QVBoxLayout()
+
+        self.toolbar_palette = QtGui.QToolBar()
+        vbox_left.addWidget(self.toolbar_palette)
+
+        palette = Palette(self.mixer, 7, 7)
+        palette.paint(0, 0, Color(255.0, 0.0, 0.0))
+        palette.paint(0, 6, Color(0.0, 0.0, 0.0))
+        palette.paint(6, 0, Color(255.0, 255.0, 255.0))
+        palette.paint(6, 6, Color(0.0, 255.0, 0.0))
+        palette.recalc()
+
+        self.palette = PaletteWidget(self, palette)
+        self.palette.setMinimumSize(300,300)
+        self.palette.setMaximumSize(700,700)
+        self.palette.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
+        self.palette.editing_enabled = False
+        self.palette.selected.connect(self.on_select_from_palette)
+        
+        self.mixers = QtGui.QComboBox()
+        self.mixers.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
+        for mixer, nothing in self.available_mixers:
+            self.mixers.addItem(mixer)
+        self.mixers.currentIndexChanged.connect(self.on_select_mixer)
+        vbox_left.addLayout(labelled(_("Palette mixing model:"), self.mixers))
+        vbox_left.addWidget(self.palette)
+
+        add_tool_button(self, self.toolbar_palette, QtGui.QStyle.SP_DialogOpenButton, _("Open palette"), self.on_open_palette)
+        add_tool_button(self, self.toolbar_palette, QtGui.QStyle.SP_DialogSaveButton, _("Save palette"), self.on_save_palette)
+        icon = compose_icon(self.style().standardIcon(QtGui.QStyle.SP_DialogSaveButton), "palette_small.png")
+        add_tool_button(self, self.toolbar_palette, icon, _("Save palette as image"), self.on_save_palette_image)
+        add_tool_button(self, self.toolbar_palette, "darken.png", _("Darker"), self.on_palette_darker)
+        add_tool_button(self, self.toolbar_palette, "lighten.png", _("Lighter"), self.on_palette_lighter)
+        add_tool_button(self, self.toolbar_palette, "saturate.png", _("Saturate"), self.on_palette_saturate)
+        add_tool_button(self, self.toolbar_palette, "desaturate.png", _("Desaturate"), self.on_palette_desaturate)
+        toggle_edit = add_tool_button(self, self.toolbar_palette, "Gnome-colors-gtk-edit.png", _("Toggle edit mode"), self.on_toggle_edit)
+        toggle_edit.setCheckable(True)
+        toggle_edit.setChecked(False)
+    
+        widget.setLayout(vbox_left)
+        return widget
+
+    def _init_harmonies_widgets(self):
+        widget = QtGui.QWidget()
+        vbox_center = QtGui.QVBoxLayout()
+        grid = QtGui.QGridLayout()
+        self.selector_mixers = QtGui.QComboBox()
+        for mixer, nothing in self.available_selector_mixers:
+            self.selector_mixers.addItem(mixer)
+        self.selector_mixers.currentIndexChanged.connect(self.on_select_selector_mixer)
+        grid.addWidget(QtGui.QLabel(_("Selector model:")), 0, 0)
+        grid.addWidget(self.selector_mixers, 0, 1)
+        self.harmonies = QtGui.QComboBox() 
+        for harmony, nothing in self.available_harmonies:
+            self.harmonies.addItem(harmony)
+        self.harmonies.currentIndexChanged.connect(self.on_select_harmony)
+        grid.addWidget(QtGui.QLabel(_("Harmony:")), 1, 0)
+        grid.addWidget(self.harmonies, 1, 1)
+        self.shaders = QtGui.QComboBox()
+        for shader,nothing in self.available_shaders:
+            self.shaders.addItem(shader)
+        self.shaders.currentIndexChanged.connect(self.on_select_shader)
+        self.shader = harmonies.Saturation
+        grid.addWidget(QtGui.QLabel(_("Shades:")), 2, 0)
+        grid.addWidget(self.shaders, 2,1)
+
+        vbox_center.addLayout(grid)
+
+        self.selector = Selector(mixers.MixerHLS)
+        self.selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
+        self.selector.setMinimumSize(150,150)
+        self.selector.setMaximumSize(500,500)
+        self.selector.setHarmony(harmonies.Opposite)
+        self.selector.selected.connect(self.on_select_color)
+        vbox_center.addWidget(self.selector, 3)
+
+        self.current_color = ColorWidget(self)
+        self.current_color.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
+        self.current_color.setMaximumSize(100,50)
+        self.current_color.selected.connect(self.on_set_current_color)
+        vbox_center.addWidget(self.current_color)
+        
+        self.toolbar_swatches = QtGui.QToolBar()
+        vbox_center.addWidget(self.toolbar_swatches)
+
+        add_tool_button(self, self.toolbar_swatches, "harmony.png", _("Harmony"), self.on_harmony)
+        add_tool_button(self, self.toolbar_swatches, "darken.png", _("Darker"), self.on_swatches_darker)
+        add_tool_button(self, self.toolbar_swatches, "lighten.png", _("Lighter"), self.on_swatches_lighter)
+        add_tool_button(self, self.toolbar_swatches, "saturate.png", _("Saturate"), self.on_swatches_saturate)
+        add_tool_button(self, self.toolbar_swatches, "desaturate.png", _("Desaturate"), self.on_swatches_desaturate)
+        add_tool_button(self, self.toolbar_swatches, QtGui.QStyle.SP_DialogSaveButton, _("Save as palette"), self.on_swatches_save)
+
+        self.harmonized = []
+        self.harmonizedBox = QtGui.QVBoxLayout()
+        for j in range(4):
+            hbox = QtGui.QHBoxLayout()
+            for i in range(5):
+                w = ColorWidget(self)
+                w.setMaximumSize(50,50)
+                self.harmonized.append(w)
+                hbox.addWidget(w)
+            self.harmonizedBox.addLayout(hbox)
+
+        vbox_center.addLayout(self.harmonizedBox)
+        widget.setLayout(vbox_center)
+        return widget
 
     def on_dst_color_set(self, idx):
         def handler():

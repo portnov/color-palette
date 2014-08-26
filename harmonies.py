@@ -38,6 +38,19 @@ class Opposite(Harmony):
             h -= 1.0
         return [color, hsv(h, s, v)]
 
+class TwoOpposite(Harmony):
+    @classmethod
+    def get(cls, color):
+        h, s, v = color.getHSV()
+        h += 0.4
+        if h > 1.0:
+            h -= 1.0
+        c1 = hsv(h,s,v)
+        h += 0.2
+        if h > 1.0:
+            h -= 1.0
+        c2 = hsv(h,s,v)
+        return [c1, color, c2]
 
 def circle(i, n, h, max=1.0):
     h += i*max/n
