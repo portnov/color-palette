@@ -59,6 +59,22 @@ class ColorWidget(QtGui.QLabel):
         self.drawWidget(event, qp)
         qp.end()
     
+    def wheelEvent(self, event):
+        if (not self.pick_enabled) or (self.rgb is None):
+            event.ignore()
+        event.accept()
+        clr = self.getColor()
+        steps = event.delta()/120.0
+        if event.modifiers() & QtCore.Qt.ControlModifier:
+            clr = colors.increment_hue(clr, 0.01*steps)
+        elif event.modifiers() & QtCore.Qt.ShiftModifier:
+            clr = colors.lighter(clr, 0.1*steps)
+        else:
+            clr = colors.saturate(clr, 0.1*steps)
+        self.setColor(clr)
+        self.repaint()
+        self.selected.emit()
+
     def mousePressEvent(self, event):
         #print("Mouse pressed")
         self._mouse_pressed = True

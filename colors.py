@@ -335,6 +335,15 @@ def desaturate(clr, q):
     s = clip(s-q)
     return hsv(h,s,v)
 
+def increment_hue(clr, q):
+    h,s,v = clr.getHSV()
+    h += q
+    if h > 1.0:
+        h -= 1.0
+    if h < 1.0:
+        h += 1.0
+    return hsv(h,s,v)
+
 def linear(x, y, q):
     return (1.-q)*x + q*y
 
