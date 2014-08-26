@@ -109,7 +109,7 @@ class GUI(QtGui.QMainWindow):
                 "contrast-down.png", _("Decrease contras&t"), self.gui.on_palette_contrast_down)
         toggle_edit = create_action(self, self.gui.toolbar_palette, menu,
                 "Gnome-colors-gtk-edit.png",
-                _("Toggle edit mode"), self.gui.on_toggle_edit)
+                _("Toggle edit &mode"), self.gui.on_toggle_edit)
         toggle_edit.setCheckable(True)
         toggle_edit.setChecked(False)
 
@@ -131,7 +131,7 @@ class GUI(QtGui.QMainWindow):
         create_action(self, self.gui.toolbar_swatches, menu,
                 "hue-clockwise.png", _("Rotate colors clock&wise"), self.gui.on_swatches_clockwise)
         create_action(self, self.gui.toolbar_swatches, menu,
-                "contrast-up.png", _("&Increase contrast"), self.gui.on_swatches_contrast_up)
+                "contrast-up.png", _("Increase &contrast"), self.gui.on_swatches_contrast_up)
         create_action(self, self.gui.toolbar_swatches, menu,
                 "contrast-down.png", _("Decrease contras&t"), self.gui.on_swatches_contrast_down)
         menu.addSeparator()
