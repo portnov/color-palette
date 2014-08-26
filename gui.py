@@ -539,6 +539,8 @@ class GUIWidget(QtGui.QWidget):
     def on_select_from_palette(self, row, col):
         color = self.palette.palette.getColor(row, col)
         print(_("Selected from palette: ") + str(color))
+        self.current_color.setColor(color)
+        self.current_color.selected.emit()
 
     def on_select_color(self):
         color = self.selector.selected_color
