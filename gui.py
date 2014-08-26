@@ -203,7 +203,7 @@ class GUIWidget(QtGui.QWidget):
         for mixer, nothing in self.available_mixers:
             self.mixers.addItem(mixer)
         self.mixers.currentIndexChanged.connect(self.on_select_mixer)
-        vbox_left.addLayout(labelled(_("Palette mixing model:"), self.mixers))
+        vbox_left.addLayout(labelled(_("Mixing model:"), self.mixers))
         vbox_left.addWidget(self.palette)
 
         add_tool_button(self, self.toolbar_palette, QtGui.QStyle.SP_DialogOpenButton, _("Open palette"), self.on_open_palette)
@@ -216,6 +216,8 @@ class GUIWidget(QtGui.QWidget):
         add_tool_button(self, self.toolbar_palette, "desaturate.png", _("Desaturate"), self.on_palette_desaturate)
         add_tool_button(self, self.toolbar_palette, "hue-counterclockwise.png", _("Rotate colors counterclockwise"), self.on_palette_counterclockwise)
         add_tool_button(self, self.toolbar_palette, "hue-clockwise.png", _("Rotate colors clockwise"), self.on_palette_clockwise)
+        add_tool_button(self, self.toolbar_palette, "contrast-up.png", _("Increase contrast"), self.on_palette_contrast_up)
+        add_tool_button(self, self.toolbar_palette, "contrast-down.png", _("Decrease contrast"), self.on_palette_contrast_down)
         toggle_edit = add_tool_button(self, self.toolbar_palette, "Gnome-colors-gtk-edit.png", _("Toggle edit mode"), self.on_toggle_edit)
         toggle_edit.setCheckable(True)
         toggle_edit.setChecked(False)
@@ -273,6 +275,8 @@ class GUIWidget(QtGui.QWidget):
         add_tool_button(self, self.toolbar_swatches, "desaturate.png", _("Desaturate"), self.on_swatches_desaturate)
         add_tool_button(self, self.toolbar_swatches, "hue-counterclockwise.png", _("Rotate colors counterclockwise"), self.on_swatches_counterclockwise)
         add_tool_button(self, self.toolbar_swatches, "hue-clockwise.png", _("Rotate colors clockwise"), self.on_swatches_clockwise)
+        add_tool_button(self, self.toolbar_swatches, "contrast-up.png", _("Increase contrast"), self.on_swatches_contrast_up)
+        add_tool_button(self, self.toolbar_swatches, "contrast-down.png", _("Decrease contrast"), self.on_swatches_contrast_down)
         add_tool_button(self, self.toolbar_swatches, QtGui.QStyle.SP_DialogSaveButton, _("Save as palette"), self.on_swatches_save)
 
         self.harmonized = []
@@ -388,6 +392,24 @@ class GUIWidget(QtGui.QWidget):
             w.setColor(clr)
             w.update()
 
+    def on_swatches_contrast_up(self):
+        for w in self.harmonized:
+            clr = w.getColor()
+            if clr is None:
+                continue
+            clr = colors.contrast(clr, 0.1)
+            w.setColor(clr)
+            w.update()
+
+    def on_swatches_contrast_down(self):
+        for w in self.harmonized:
+            clr = w.getColor()
+            if clr is None:
+                continue
+            clr = colors.contrast(clr, -0.1)
+            w.setColor(clr)
+            w.update()
+
     def on_palette_darker(self):
         for row, col, slot in self.palette.palette.getUserDefinedSlots():
             clr = slot.getColor()
@@ -432,6 +454,22 @@ class GUIWidget(QtGui.QWidget):
         for row, col, slot in self.palette.palette.getUserDefinedSlots():
             clr = slot.getColor()
             clr = colors.increment_hue(clr, -0.03)
+            slot.setColor(clr)
+        self.palette.palette.recalc()
+        self.palette.update()
+
+    def on_palette_contrast_up(self):
+        for row, col, slot in self.palette.palette.getUserDefinedSlots():
+            clr = slot.getColor()
+            clr = colors.contrast(clr, 0.1)
+            slot.setColor(clr)
+        self.palette.palette.recalc()
+        self.palette.update()
+
+    def on_palette_contrast_down(self):
+        for row, col, slot in self.palette.palette.getUserDefinedSlots():
+            clr = slot.getColor()
+            clr = colors.contrast(clr, -0.1)
             slot.setColor(clr)
         self.palette.palette.recalc()
         self.palette.update()
