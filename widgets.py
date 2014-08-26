@@ -62,6 +62,7 @@ class ColorWidget(QtGui.QLabel):
     def wheelEvent(self, event):
         if (not self.pick_enabled) or (self.rgb is None):
             event.ignore()
+            return
         event.accept()
         clr = self.getColor()
         steps = event.delta()/120.0
@@ -502,6 +503,7 @@ class Selector(QtGui.QLabel):
     def wheelEvent(self, event):
         if self.selected_color is None:
             event.ignore()
+            return
         event.accept()
         clr = self.selected_color
         steps = event.delta()/120.0
