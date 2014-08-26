@@ -167,7 +167,6 @@ class GUIWidget(QtGui.QWidget):
         #self.svg.setMaximumSize(500,500)
         self.svg.template_loaded.connect(self.on_template_loaded)
         self.svg.colors_matched.connect(self.on_colors_matched)
-        #self.svg.setSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
         #self.svg.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         self.svg.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         self.svg.loadTemplate(locate_template("template.svg"))
@@ -215,6 +214,8 @@ class GUIWidget(QtGui.QWidget):
         add_tool_button(self, self.toolbar_palette, "lighten.png", _("Lighter"), self.on_palette_lighter)
         add_tool_button(self, self.toolbar_palette, "saturate.png", _("Saturate"), self.on_palette_saturate)
         add_tool_button(self, self.toolbar_palette, "desaturate.png", _("Desaturate"), self.on_palette_desaturate)
+        add_tool_button(self, self.toolbar_palette, "hue-counterclockwise.png", _("Rotate colors counterclockwise"), self.on_palette_counterclockwise)
+        add_tool_button(self, self.toolbar_palette, "hue-clockwise.png", _("Rotate colors clockwise"), self.on_palette_clockwise)
         toggle_edit = add_tool_button(self, self.toolbar_palette, "Gnome-colors-gtk-edit.png", _("Toggle edit mode"), self.on_toggle_edit)
         toggle_edit.setCheckable(True)
         toggle_edit.setChecked(False)
@@ -270,6 +271,8 @@ class GUIWidget(QtGui.QWidget):
         add_tool_button(self, self.toolbar_swatches, "lighten.png", _("Lighter"), self.on_swatches_lighter)
         add_tool_button(self, self.toolbar_swatches, "saturate.png", _("Saturate"), self.on_swatches_saturate)
         add_tool_button(self, self.toolbar_swatches, "desaturate.png", _("Desaturate"), self.on_swatches_desaturate)
+        add_tool_button(self, self.toolbar_swatches, "hue-counterclockwise.png", _("Rotate colors counterclockwise"), self.on_swatches_counterclockwise)
+        add_tool_button(self, self.toolbar_swatches, "hue-clockwise.png", _("Rotate colors clockwise"), self.on_swatches_clockwise)
         add_tool_button(self, self.toolbar_swatches, QtGui.QStyle.SP_DialogSaveButton, _("Save as palette"), self.on_swatches_save)
 
         self.harmonized = []
@@ -367,6 +370,24 @@ class GUIWidget(QtGui.QWidget):
             w.setColor(clr)
             w.update()
 
+    def on_swatches_counterclockwise(self):
+        for w in self.harmonized:
+            clr = w.getColor()
+            if clr is None:
+                continue
+            clr = colors.increment_hue(clr, 0.03)
+            w.setColor(clr)
+            w.update()
+
+    def on_swatches_clockwise(self):
+        for w in self.harmonized:
+            clr = w.getColor()
+            if clr is None:
+                continue
+            clr = colors.increment_hue(clr, -0.03)
+            w.setColor(clr)
+            w.update()
+
     def on_palette_darker(self):
         for row, col, slot in self.palette.palette.getUserDefinedSlots():
             clr = slot.getColor()
@@ -395,6 +416,22 @@ class GUIWidget(QtGui.QWidget):
         for row, col, slot in self.palette.palette.getUserDefinedSlots():
             clr = slot.getColor()
             clr = colors.desaturate(clr, 0.1)
+            slot.setColor(clr)
+        self.palette.palette.recalc()
+        self.palette.update()
+
+    def on_palette_counterclockwise(self):
+        for row, col, slot in self.palette.palette.getUserDefinedSlots():
+            clr = slot.getColor()
+            clr = colors.increment_hue(clr, 0.03)
+            slot.setColor(clr)
+        self.palette.palette.recalc()
+        self.palette.update()
+
+    def on_palette_clockwise(self):
+        for row, col, slot in self.palette.palette.getUserDefinedSlots():
+            clr = slot.getColor()
+            clr = colors.increment_hue(clr, -0.03)
             slot.setColor(clr)
         self.palette.palette.recalc()
         self.palette.update()

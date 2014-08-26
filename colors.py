@@ -344,6 +344,12 @@ def increment_hue(clr, q):
         h += 1.0
     return hsv(h,s,v)
 
+def contrast(clr, q):
+    h,s,v = clr.getHSV()
+    v = (v - 0.5)*(1.0 + q) + 0.5
+    v = clip(v)
+    return hsv(h,s,v)
+
 def linear(x, y, q):
     return (1.-q)*x + q*y
 
