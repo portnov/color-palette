@@ -110,6 +110,34 @@ hR = 0.
 hY = 1./6
 hB = 2./3
 
+HCYwts = 0.299, 0.587, 0.114
+
+def hue_to_rgb(h):
+    r = abs(h*6 - 3) - 1
+    g = 2 - abs(h*6 - 2)
+    b = 2 - abs(h*6 - 4)
+    #return r,g,b
+    return clip(r), clip(g), clip(b)
+
+epsilon = 1e-10
+
+def rgb_to_hcv(rgb):
+    r,g,b = rgb
+    if g < b:
+        p = (b, g, -1.0, 2.0/3.0)
+    else:
+        p = (g, b, 0.0, -1.0/3.0)
+    if r < p[0]:
+        q = (p[0], p[1], p[3], r)
+    else:
+        q = (r, p[1], p[2], p[0])
+    c = q[0] - min(q[3], q[1])
+    h = abs((q[3] - q[1]) / (6*c + epsilon) + q[2])
+    return h, c, q[0]
+
+def dot(xs,ys):
+    return sum([x*y for x,y in zip(xs,ys)])
+
 def simple_mix(x1,a,x2,b):
     if a==b==0:
         return (x1+x2)/2.
@@ -250,7 +278,32 @@ class Color(QtGui.QColor):
     def setLCh(self, lch):
         r, g, b = lch_to_rgb(*lch)
         self.setRGB1((r, g, b))
-    
+
+    def setHCY(self, hcy):
+        h,c,y = hcy
+        r,g,b = rgb = hue_to_rgb(h)
+        z = dot(HCYwts, rgb)
+        if y < z:
+            c *= (y/z)
+        elif z < 1.0:
+            c *= (1-y)/(1.0-z)
+        r = (r-z)*c + y
+        g = (g-z)*c + y
+        b = (b-z)*c + y
+        self.setRGB1((r,g,b))
+
+    def getHCY(self):
+        r,g,b = rgb = self.getRGB1()
+        h,c,v = rgb_to_hcv(rgb)
+        y = dot(HCYwts, rgb)
+        if c != 0:
+            z = dot(hue_to_rgb(h), HCYwts)
+            if y > z:
+                y = 1 - y
+                z = 1 - z
+            c *= z/y
+        return h, c, y
+
     def invert(self):
         r, g, b = self._rgb
         return Color(255-r, 255-g, 255-b)

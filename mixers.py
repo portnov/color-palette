@@ -107,6 +107,39 @@ class MixerHSV(Mixer):
         result.setHSV(hsv)
         return result
 
+class MixerHCY(Mixer):
+    @classmethod
+    def fromHue(cls, hue):
+        c = Color()
+        c.setHCY((hue, 1.0, 0.5))
+        return c
+
+    @classmethod
+    def getHue(cls, color):
+        return color.getHCY()[0]
+
+    @classmethod
+    def shade(cls, h, c, y):
+        result = Color()
+        result.setHCY((h,c,y))
+        return result
+
+    @classmethod
+    def getShade(cls, color):
+        return color.getHCY()
+
+    @classmethod
+    def mix(cls, clr1, clr2, q):
+        h1, c1, y1 = clr1.getHCY()
+        h2, c2, y2 = clr2.getHCY()
+        h = circular(h1, h2, q)
+        c = linear(c1, c2, q)
+        y = linear(y1, y2, q)
+
+        result = Color()
+        result.setHCY((h,c,y))
+        return result
+
 class MixerHSI(Mixer):
     @classmethod
     def mix(cls, c1, c2, q):
