@@ -49,7 +49,7 @@ def compose_icon(icon, filename):
     qp.end()
     return QtGui.QIcon(icon_pixmap)
 
-def add_tool_button(parent, toolbar, icon, title, handler):
+def create_action(parent, toolbar, menu, icon, title, handler):
     if type(icon) == str:
         action = QtGui.QAction(QtGui.QIcon(locate_icon( icon)), title, parent)
     elif type(icon) == QtGui.QIcon:
@@ -59,6 +59,7 @@ def add_tool_button(parent, toolbar, icon, title, handler):
     else:
         action = QtGui.QAction(title, parent)
     toolbar.addAction(action)
+    menu.addAction(action)
     action.triggered.connect(handler)
     return action
 
@@ -66,10 +67,93 @@ class GUI(QtGui.QMainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
         self.gui = GUIWidget(self)
+
+        self._init_palette_actions()
+        self._init_harmonies_actions()
+        self._init_svg_actions()
+
         self.setCentralWidget(self.gui)
 
         self.setWindowTitle(_("Palette editor"))
         self.resize(800, 600)
+
+    def _init_palette_actions(self):
+        menu = self.menuBar().addMenu(_("&Palette"))
+        open_palette = create_action(self, self.gui.toolbar_palette, menu,
+                QtGui.QStyle.SP_DialogOpenButton,
+                _("&Open palette"), self.gui.on_open_palette)
+        create_action(self, self.gui.toolbar_palette, menu,
+                QtGui.QStyle.SP_DialogSaveButton,
+                _("&Save palette"), self.gui.on_save_palette)
+        icon = compose_icon(self.style().standardIcon(QtGui.QStyle.SP_DialogSaveButton), "palette_small.png")
+        create_action(self, self.gui.toolbar_palette, menu,
+                icon, _("Save palette as &image"), self.gui.on_save_palette_image)
+        menu.addSeparator()
+        create_action(self, self.gui.toolbar_palette, menu,
+                "darken.png", _("&Darker"), self.gui.on_palette_darker)
+        create_action(self, self.gui.toolbar_palette, menu,
+                "lighten.png", _("&Lighter"), self.gui.on_palette_lighter)
+        create_action(self, self.gui.toolbar_palette, menu,
+                "saturate.png", _("S&aturate"), self.gui.on_palette_saturate)
+        create_action(self, self.gui.toolbar_palette, menu,
+                "desaturate.png", _("D&esaturate"), self.gui.on_palette_desaturate)
+        create_action(self, self.gui.toolbar_palette, menu,
+                "hue-counterclockwise.png",
+                _("&Rotate colors counterclockwise"), self.gui.on_palette_counterclockwise)
+        create_action(self, self.gui.toolbar_palette, menu,
+                "hue-clockwise.png",
+                _("Rotate colors clock&wise"), self.gui.on_palette_clockwise)
+        create_action(self, self.gui.toolbar_palette, menu,
+                "contrast-up.png", _("Increase &contrast"), self.gui.on_palette_contrast_up)
+        create_action(self, self.gui.toolbar_palette, menu,
+                "contrast-down.png", _("Decrease contras&t"), self.gui.on_palette_contrast_down)
+        toggle_edit = create_action(self, self.gui.toolbar_palette, menu,
+                "Gnome-colors-gtk-edit.png",
+                _("Toggle edit mode"), self.gui.on_toggle_edit)
+        toggle_edit.setCheckable(True)
+        toggle_edit.setChecked(False)
+
+    def _init_harmonies_actions(self):
+        menu = self.menuBar().addMenu(_("&Swatches"))
+        create_action(self, self.gui.toolbar_swatches, menu,
+                "harmony.png", _("&Harmony"), self.gui.on_harmony)
+        create_action(self, self.gui.toolbar_swatches, menu,
+                "darken.png", _("&Darker"), self.gui.on_swatches_darker)
+        create_action(self, self.gui.toolbar_swatches, menu,
+                "lighten.png", _("&Lighter"), self.gui.on_swatches_lighter)
+        create_action(self, self.gui.toolbar_swatches, menu,
+                "saturate.png", _("S&aturate"), self.gui.on_swatches_saturate)
+        create_action(self, self.gui.toolbar_swatches, menu,
+                "desaturate.png", _("D&esaturate"), self.gui.on_swatches_desaturate)
+        create_action(self, self.gui.toolbar_swatches, menu,
+                "hue-counterclockwise.png", _("&Rotate colors counterclockwise"),
+                self.gui.on_swatches_counterclockwise)
+        create_action(self, self.gui.toolbar_swatches, menu,
+                "hue-clockwise.png", _("Rotate colors clock&wise"), self.gui.on_swatches_clockwise)
+        create_action(self, self.gui.toolbar_swatches, menu,
+                "contrast-up.png", _("&Increase contrast"), self.gui.on_swatches_contrast_up)
+        create_action(self, self.gui.toolbar_swatches, menu,
+                "contrast-down.png", _("Decrease contras&t"), self.gui.on_swatches_contrast_down)
+        menu.addSeparator()
+        create_action(self, self.gui.toolbar_swatches, menu,
+                QtGui.QStyle.SP_DialogSaveButton, _("&Save as palette"), self.gui.on_swatches_save)
+
+    def _init_svg_actions(self):
+        menu = self.menuBar().addMenu(_("&Image"))
+        create_action(self, self.gui.toolbar_template, menu,
+                QtGui.QStyle.SP_DialogOpenButton,
+                _("&Open template"), self.gui.on_open_template)
+        create_action(self, self.gui.toolbar_template, menu,
+                QtGui.QStyle.SP_DialogSaveButton,
+                _("&Save resulting SVG"), self.gui.on_save_template)
+        menu.addSeparator()
+        create_action(self, self.gui.toolbar_template, menu,
+                "colorize_swatches.png",
+                _("Colorize from s&watches"), self.gui.on_colorize_harmony)
+        create_action(self, self.gui.toolbar_template, menu,
+                "colorize_palette.png", _("Colorize from &palette"), self.gui.on_colorize_palette)
+        create_action(self, self.gui.toolbar_template, menu,
+                "View-refresh.png", _("&Reset colors"), self.gui.on_reset_template)
 
 
 def labelled(label, widget):
@@ -136,11 +220,6 @@ class GUIWidget(QtGui.QWidget):
         self.toolbar_template = QtGui.QToolBar()
         vbox_right.addWidget(self.toolbar_template)
 
-        add_tool_button(self, self.toolbar_template, QtGui.QStyle.SP_DialogOpenButton, _("Open template"), self.on_open_template)
-        add_tool_button(self, self.toolbar_template, QtGui.QStyle.SP_DialogSaveButton, _("Save resulting SVG"), self.on_save_template)
-        add_tool_button(self, self.toolbar_template, "colorize_swatches.png", _("Colorize from swatches"), self.on_colorize_harmony)
-        add_tool_button(self, self.toolbar_template, "colorize_palette.png", _("Colorize from palette"), self.on_colorize_palette)
-        add_tool_button(self, self.toolbar_template, "View-refresh.png", _("Reset colors"), self.on_reset_template)
 
         self.svg_colors = []
         label = QtGui.QLabel(_("Colors from original image:"))
@@ -206,21 +285,6 @@ class GUIWidget(QtGui.QWidget):
         vbox_left.addLayout(labelled(_("Mixing model:"), self.mixers))
         vbox_left.addWidget(self.palette)
 
-        add_tool_button(self, self.toolbar_palette, QtGui.QStyle.SP_DialogOpenButton, _("Open palette"), self.on_open_palette)
-        add_tool_button(self, self.toolbar_palette, QtGui.QStyle.SP_DialogSaveButton, _("Save palette"), self.on_save_palette)
-        icon = compose_icon(self.style().standardIcon(QtGui.QStyle.SP_DialogSaveButton), "palette_small.png")
-        add_tool_button(self, self.toolbar_palette, icon, _("Save palette as image"), self.on_save_palette_image)
-        add_tool_button(self, self.toolbar_palette, "darken.png", _("Darker"), self.on_palette_darker)
-        add_tool_button(self, self.toolbar_palette, "lighten.png", _("Lighter"), self.on_palette_lighter)
-        add_tool_button(self, self.toolbar_palette, "saturate.png", _("Saturate"), self.on_palette_saturate)
-        add_tool_button(self, self.toolbar_palette, "desaturate.png", _("Desaturate"), self.on_palette_desaturate)
-        add_tool_button(self, self.toolbar_palette, "hue-counterclockwise.png", _("Rotate colors counterclockwise"), self.on_palette_counterclockwise)
-        add_tool_button(self, self.toolbar_palette, "hue-clockwise.png", _("Rotate colors clockwise"), self.on_palette_clockwise)
-        add_tool_button(self, self.toolbar_palette, "contrast-up.png", _("Increase contrast"), self.on_palette_contrast_up)
-        add_tool_button(self, self.toolbar_palette, "contrast-down.png", _("Decrease contrast"), self.on_palette_contrast_down)
-        toggle_edit = add_tool_button(self, self.toolbar_palette, "Gnome-colors-gtk-edit.png", _("Toggle edit mode"), self.on_toggle_edit)
-        toggle_edit.setCheckable(True)
-        toggle_edit.setChecked(False)
     
         widget.setLayout(vbox_left)
         return widget
@@ -267,17 +331,6 @@ class GUIWidget(QtGui.QWidget):
         
         self.toolbar_swatches = QtGui.QToolBar()
         vbox_center.addWidget(self.toolbar_swatches)
-
-        add_tool_button(self, self.toolbar_swatches, "harmony.png", _("Harmony"), self.on_harmony)
-        add_tool_button(self, self.toolbar_swatches, "darken.png", _("Darker"), self.on_swatches_darker)
-        add_tool_button(self, self.toolbar_swatches, "lighten.png", _("Lighter"), self.on_swatches_lighter)
-        add_tool_button(self, self.toolbar_swatches, "saturate.png", _("Saturate"), self.on_swatches_saturate)
-        add_tool_button(self, self.toolbar_swatches, "desaturate.png", _("Desaturate"), self.on_swatches_desaturate)
-        add_tool_button(self, self.toolbar_swatches, "hue-counterclockwise.png", _("Rotate colors counterclockwise"), self.on_swatches_counterclockwise)
-        add_tool_button(self, self.toolbar_swatches, "hue-clockwise.png", _("Rotate colors clockwise"), self.on_swatches_clockwise)
-        add_tool_button(self, self.toolbar_swatches, "contrast-up.png", _("Increase contrast"), self.on_swatches_contrast_up)
-        add_tool_button(self, self.toolbar_swatches, "contrast-down.png", _("Decrease contrast"), self.on_swatches_contrast_down)
-        add_tool_button(self, self.toolbar_swatches, QtGui.QStyle.SP_DialogSaveButton, _("Save as palette"), self.on_swatches_save)
 
         self.harmonized = []
         self.harmonizedBox = QtGui.QVBoxLayout()
