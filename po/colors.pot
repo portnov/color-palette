@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-08-24 23:43+YEKT\n"
+"POT-Creation-Date: 2014-08-26 21:21+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,191 +15,219 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: gui.py:59
+#: gui.py:71
 msgid "Palette editor"
 msgstr ""
 
-#: gui.py:73
+#: gui.py:85
 msgid "RGB"
 msgstr ""
 
-#: gui.py:74
+#: gui.py:86
 msgid "HSV"
 msgstr ""
 
-#: gui.py:75 gui.py:83
+#: gui.py:87 gui.py:95
 msgid "HLS"
 msgstr ""
 
-#: gui.py:76
+#: gui.py:88
 msgid "CMYK"
 msgstr ""
 
-#: gui.py:77
+#: gui.py:89
 msgid "CMY"
 msgstr ""
 
-#: gui.py:78
+#: gui.py:90
 msgid "RYB (experimental)"
 msgstr ""
 
-#: gui.py:79
+#: gui.py:91
 msgid "HSI (experimental)"
 msgstr ""
 
-#: gui.py:79 gui.py:84
+#: gui.py:91 gui.py:96
 msgid "LCh"
 msgstr ""
 
-#: gui.py:80
+#: gui.py:92
 msgid "Lab"
 msgstr ""
 
-#: gui.py:81
+#: gui.py:93
 msgid "LCh Desaturate (experimental)"
 msgstr ""
 
-#: gui.py:84
+#: gui.py:96
 msgid "RYB"
 msgstr ""
 
-#: gui.py:86
+#: gui.py:98
 msgid "Just opposite"
 msgstr ""
 
-#: gui.py:87
+#: gui.py:99
+msgid "Two opposite"
+msgstr ""
+
+#: gui.py:100
 msgid "Three colors"
 msgstr ""
 
-#: gui.py:88
+#: gui.py:101
 msgid "Four colors"
 msgstr ""
 
-#: gui.py:89
+#: gui.py:102
 msgid "Similar colors"
 msgstr ""
 
-#: gui.py:90
+#: gui.py:103
 msgid "Opposite colors RYB"
 msgstr ""
 
-#: gui.py:91
+#: gui.py:104
 msgid "Three colors RYB"
 msgstr ""
 
-#: gui.py:92
+#: gui.py:105
 msgid "Four colors RYB"
 msgstr ""
 
-#: gui.py:92
+#: gui.py:105
 msgid "Three colors LCh"
 msgstr ""
 
-#: gui.py:93
+#: gui.py:106
 msgid "Four colors LCh"
 msgstr ""
 
-#: gui.py:95
+#: gui.py:108
 msgid "Saturation"
 msgstr ""
 
-#: gui.py:96
+#: gui.py:109
 msgid "Value"
 msgstr ""
 
-#: gui.py:97
+#: gui.py:110
 msgid "Warmer"
 msgstr ""
 
-#: gui.py:98
+#: gui.py:111
 msgid "Cooler"
 msgstr ""
 
-#: gui.py:129
-msgid "Palette mixing model:"
-msgstr ""
-
-#: gui.py:134 gui.py:266
-msgid "Open palette"
-msgstr ""
-
-#: gui.py:135 gui.py:261 gui.py:428
-msgid "Save palette"
-msgstr ""
-
-#: gui.py:136 gui.py:186
-msgid "Darker"
-msgstr ""
-
-#: gui.py:137 gui.py:187
-msgid "Lighter"
-msgstr ""
-
-#: gui.py:138 gui.py:188
-msgid "Saturate"
-msgstr ""
-
-#: gui.py:139 gui.py:189
-msgid "Desaturate"
-msgstr ""
-
-#: gui.py:140
-msgid "Toggle edit mode"
-msgstr ""
-
-#: gui.py:150
-msgid "Selector model:"
-msgstr ""
-
-#: gui.py:156
-msgid "Harmony:"
-msgstr ""
-
-#: gui.py:163
-msgid "Shades:"
-msgstr ""
-
-#: gui.py:185
-msgid "Harmony"
-msgstr ""
-
-#: gui.py:190
-msgid "Save as palette"
-msgstr ""
-
-#: gui.py:211
+#: gui.py:139
 msgid "Open template"
 msgstr ""
 
-#: gui.py:212
+#: gui.py:140
 msgid "Save resulting SVG"
 msgstr ""
 
-#: gui.py:213
+#: gui.py:141
 msgid "Colorize from swatches"
 msgstr ""
 
-#: gui.py:214
+#: gui.py:142
 msgid "Colorize from palette"
 msgstr ""
 
-#: gui.py:215
+#: gui.py:143
 msgid "Reset colors"
 msgstr ""
 
-#: gui.py:218
+#: gui.py:146
 msgid "Colors from original image:"
 msgstr ""
 
-#: gui.py:356
+#: gui.py:206
+msgid "Mixing model:"
+msgstr ""
+
+#: gui.py:209 gui.py:327
+msgid "Open palette"
+msgstr ""
+
+#: gui.py:210 gui.py:308 gui.py:540
+msgid "Save palette"
+msgstr ""
+
+#: gui.py:212
+msgid "Save palette as image"
+msgstr ""
+
+#: gui.py:213 gui.py:272
+msgid "Darker"
+msgstr ""
+
+#: gui.py:214 gui.py:273
+msgid "Lighter"
+msgstr ""
+
+#: gui.py:215 gui.py:274
+msgid "Saturate"
+msgstr ""
+
+#: gui.py:216 gui.py:275
+msgid "Desaturate"
+msgstr ""
+
+#: gui.py:217 gui.py:276
+msgid "Rotate colors counterclockwise"
+msgstr ""
+
+#: gui.py:218 gui.py:277
+msgid "Rotate colors clockwise"
+msgstr ""
+
+#: gui.py:219
+msgid "Increase contrast"
+msgstr ""
+
+#: gui.py:220
+msgid "Decrease contrast"
+msgstr ""
+
+#: gui.py:221
+msgid "Toggle edit mode"
+msgstr ""
+
+#: gui.py:236
+msgid "Selector model:"
+msgstr ""
+
+#: gui.py:242
+msgid "Harmony:"
+msgstr ""
+
+#: gui.py:249
+msgid "Shades:"
+msgstr ""
+
+#: gui.py:271
+msgid "Harmony"
+msgstr ""
+
+#: gui.py:278
+msgid "Save as palette"
+msgstr ""
+
+#: gui.py:313
+msgid "Save palette image"
+msgstr ""
+
+#: gui.py:468
 msgid "Selected from palette: "
 msgstr ""
 
-#: gui.py:415
+#: gui.py:527
 msgid "Open SVG template"
 msgstr ""
 
-#: gui.py:420
+#: gui.py:532
 msgid "Save SVG"
 msgstr ""
 
