@@ -499,6 +499,22 @@ class Selector(QtGui.QLabel):
 
         qp.end()
 
+    def wheelEvent(self, event):
+        if self.selected_color is None:
+            event.ignore()
+        event.accept()
+        clr = self.selected_color
+        steps = event.delta()/120.0
+        if event.modifiers() & QtCore.Qt.ControlModifier:
+            clr = colors.increment_hue(clr, 0.01*steps)
+        elif event.modifiers() & QtCore.Qt.ShiftModifier:
+            clr = colors.lighter(clr, 0.1*steps)
+        else:
+            clr = colors.saturate(clr, 0.1*steps)
+        self.setColor(clr)
+        self.repaint()
+        self.selected.emit()
+
     def mousePressEvent(self, event):
         #print("Mouse pressed")
         self.setFocus(QtCore.Qt.OtherFocusReason)
