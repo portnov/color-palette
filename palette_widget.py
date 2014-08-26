@@ -251,6 +251,30 @@ class PaletteWidget(QtGui.QLabel):
 
         qp.end()
 
+    def wheelEvent(self, event):
+        if not self.editing_enabled:
+            event.ignore()
+            return
+        row,col = self._get_slot(event.x(), event.y())
+        slot = self.palette.slots[row][col]
+        #print("{} at ({}, {})".format(str(slot), row, col))
+        if slot.mode != USER_DEFINED:
+            event.ignore()
+            return
+
+        event.accept()
+        clr = slot.getColor()
+        steps = event.delta()/120.0
+        if event.modifiers() & QtCore.Qt.ControlModifier:
+            clr = colors.increment_hue(clr, 0.01*steps)
+        elif event.modifiers() & QtCore.Qt.ShiftModifier:
+            clr = colors.lighter(clr, 0.1*steps)
+        else:
+            clr = colors.saturate(clr, 0.1*steps)
+        self.palette.paint(row, col, clr)
+        self.palette.recalc()
+        self.repaint()
+
     def mousePressEvent(self, event):
         #print("Mouse pressed")
         self.setFocus(QtCore.Qt.OtherFocusReason)
