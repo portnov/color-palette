@@ -47,8 +47,11 @@ class ColorWidget(QtGui.QLabel):
         return colors.Color(*self.rgb)
     
     def setColor(self, clr):
-        self.setRGB(clr.getRGB())
-        self.setToolTip(clr.verbose())
+        if clr is None:
+            self.rgb = None
+        else:
+            self.setRGB(clr.getRGB())
+            self.setToolTip(clr.verbose())
     
     def paintEvent(self, event):
         clr = self.getColor()

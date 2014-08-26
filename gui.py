@@ -528,6 +528,9 @@ class GUIWidget(QtGui.QWidget):
         self.palette.update()
 
     def on_template_loaded(self):
+        for w in self.svg_colors:
+            w.setColor(None)
+
         for i, clr in enumerate(self.svg.get_svg_colors()[:21]):
             #print(" #{} -> {}".format(i, str(clr)))
             self.svg_colors[i].setColor(clr)
