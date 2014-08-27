@@ -15,6 +15,7 @@ exe = EXE(pyz,
           console=False )
 coll = COLLECT(exe,
                Tree("templates", prefix="templates"),
+               Tree("palettes", prefix="palettes"),
                Tree("icons", prefix="icons"),
                Tree("po", prefix="po"),
                a.binaries,
