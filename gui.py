@@ -364,7 +364,7 @@ class GUIWidget(QtGui.QWidget):
     def on_save_palette(self):
         filename = QtGui.QFileDialog.getSaveFileName(self, _("Save palette"), ".", "*.gpl")
         if filename:
-            GimpPalette(self.palette.palette).save(str(filename))
+            GimpPalette(self.palette.palette).save(unicode(filename))
 
     def on_save_palette_image(self):
         filename = QtGui.QFileDialog.getSaveFileName(self, _("Save palette image"), ".", "*.png")
@@ -385,7 +385,7 @@ class GUIWidget(QtGui.QWidget):
         #filename = QtGui.QFileDialog.getOpenFileName(self, _("Open palette"), ".", "*.gpl")
         if filename:
             self.mixers.setCurrentIndex(0)
-            self.palette.palette = GimpPalette().load(mixers.MixerRGB, str(filename))
+            self.palette.palette = GimpPalette().load(mixers.MixerRGB, unicode(filename))
             self.palette.selected_slot = None
             self.palette.redraw()
             self.update()
@@ -613,7 +613,7 @@ class GUIWidget(QtGui.QWidget):
         filename = QtGui.QFileDialog.getSaveFileName(self, _("Save SVG"), ".", "*.svg")
         if filename:
             content = self.svg.get_svg()
-            f = open(str(filename),'w')
+            f = open(unicode(filename),'w')
             f.write(content)
             f.close()
     
@@ -621,7 +621,7 @@ class GUIWidget(QtGui.QWidget):
         filename = QtGui.QFileDialog.getSaveFileName(self, _("Save palette"), ".", "*.gpl")
         if filename:
             clrs = [w.getColor() for w in self.harmonized if w.getColor() is not None]
-            save_gpl("Swatches", 5, clrs, str(filename))
+            save_gpl("Swatches", 5, clrs, unicode(filename))
     
 if __name__ == "__main__":
     

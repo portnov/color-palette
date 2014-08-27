@@ -26,7 +26,7 @@ class PreviewFileDialog(QtGui.QFileDialog):
         self.currentChanged.connect(self.on_current_changed)
 
     def on_current_changed(self, qstr):
-        path = str(qstr)
+        path = unicode(qstr)
         image = self.get_preview_image(path)
         if image is None:
             self.preview.setText("No preview")
@@ -61,7 +61,7 @@ def get_filename(parent=None, caption=None, directory=None, filter=None, make_pr
     dialog = Dialog(parent=parent, caption=caption, directory=directory, filter=filter)
     dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen)
     if dialog.exec_():
-        return str( dialog.selectedFiles()[0] )
+        return unicode( dialog.selectedFiles()[0] )
     else:
         return None
 
