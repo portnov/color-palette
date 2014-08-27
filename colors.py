@@ -434,6 +434,11 @@ def hsv(h, s, v):
     color.setHSV((h, s, v))
     return color
 
+def hcy(h, c, y):
+    color = Color()
+    color.setHCY((h,c,y))
+    return color
+
 def ryb(r, y, b):
     color = Color()
     color.setRYB((r,y,b))

@@ -146,12 +146,26 @@ class Saturation(Shader):
         ss = [clip(x) for x in variate(s, 0.3, 0.6)]
         return [hsv(h,s,v) for s in ss]
 
-
 class Value(Shader):
     @classmethod
     def shades(cls, color):
         h, s, v = color.getHSV()
         vs = [clip(x) for x in variate(v, 0.2, 0.4)]
         return [hsv(h,s,v) for v in vs]
+
+class Chroma(Shader):
+    @classmethod
+    def shades(cls, color):
+        h, c, y = color.getHCY()
+        cs = [clip(x) for x in variate(c, 0.2, 0.4)]
+        return [hcy(h,c,y) for c in cs]
+
+class Luma(Shader):
+    @classmethod
+    def shades(cls, color):
+        h, c, y = color.getHCY()
+        ys = [clip(x) for x in variate(y, 0.15, 0.3)]
+        return [hcy(h,c,y) for y in ys]
+
 
 

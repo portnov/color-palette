@@ -193,6 +193,8 @@ class GUIWidget(QtGui.QWidget):
 
     available_shaders = [(_("Saturation"), harmonies.Saturation),
                          (_("Value"),      harmonies.Value),
+                         (_("Chroma"),     harmonies.Chroma),
+                         (_("Luma"),       harmonies.Luma),
                          (_("Warmer"),     harmonies.Warmer),
                          (_("Cooler"),     harmonies.Cooler) ]
     
