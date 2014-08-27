@@ -257,18 +257,10 @@ if use_lcms:
             l2, c2, h2 = clr2.getLCh()
             
             l = linear(l1, l2, q)
-            c = linear(c1, c2, q)
-            h = circular(h1, h2, q, 360)
+            h1 = h1/360.0
+            h2 = h2/360.0
+            h, c = mix_wheel(h1,c1, h2,c2, q)
+            h = h * 360.0
+
+            return lch(l, c, h)
             
-            d = abs(h1-h2)
-            if d > 180.0:
-                d -= 180.0
-            dc = (1.0-2*abs(q-0.5))*d*100.0/180.0
-            #print("dC: "+str(dc))
-            c = c - dc
-            if c < 0.0:
-                c = 0.0
-            result = Color()
-            result.setLCh((l, c, h))
-            return result
-        

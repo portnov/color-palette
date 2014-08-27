@@ -169,13 +169,13 @@ class GUIWidget(QtGui.QWidget):
     available_mixers = [(_("RGB"), mixers.MixerRGB),
                         (_("HSV"), mixers.MixerHSV), 
                         (_("HLS"), mixers.MixerHLS), 
+                        (_("HCY"), mixers.MixerHCY), 
+                        (_("RYB"), mixers.MixerRYB),
                         (_("CMYK"), mixers.MixerCMYK), 
                         (_("CMY"), mixers.MixerCMY), 
-                        (_("HCY (experimental)"), mixers.MixerHCY), 
-                        (_("RYB (experimental)"), mixers.MixerRYB),
                         (_("HSI (experimental)"), mixers.MixerHSI) ] + ([(_("LCh"), mixers.MixerLCh), 
                           (_("Lab"), mixers.MixerLab), 
-                          (_("LCh Desaturate (experimental)"), mixers.MixerLChDesaturate)] if colors.use_lcms else [])
+                          (_("LCh Desaturate"), mixers.MixerLChDesaturate)] if colors.use_lcms else [])
     
     available_selector_mixers = [(_("HLS"), mixers.MixerHLS),
                                  (_("HCY"), mixers.MixerHCY),
