@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-08-27 21:48+YEKT\n"
+"POT-Creation-Date: 2014-08-27 22:18+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,54 +200,62 @@ msgid "Value"
 msgstr ""
 
 #: gui.py:196
-msgid "Warmer"
+msgid "Chroma"
 msgstr ""
 
 #: gui.py:197
+msgid "Luma"
+msgstr ""
+
+#: gui.py:198
+msgid "Warmer"
+msgstr ""
+
+#: gui.py:199
 msgid "Cooler"
 msgstr ""
 
-#: gui.py:227
+#: gui.py:229
 msgid "Colors from original image:"
 msgstr ""
 
-#: gui.py:287
+#: gui.py:289
 msgid "Mixing model:"
 msgstr ""
 
-#: gui.py:302
+#: gui.py:304
 msgid "Selector model:"
 msgstr ""
 
-#: gui.py:308
+#: gui.py:310
 msgid "Harmony:"
 msgstr ""
 
-#: gui.py:315
+#: gui.py:317
 msgid "Shades:"
 msgstr ""
 
-#: gui.py:365 gui.py:620
+#: gui.py:367 gui.py:623
 msgid "Save palette"
 msgstr ""
 
-#: gui.py:370
+#: gui.py:372
 msgid "Save palette image"
 msgstr ""
 
-#: gui.py:384
+#: gui.py:386
 msgid "Open palette"
 msgstr ""
 
-#: gui.py:546
+#: gui.py:549
 msgid "Selected from palette: "
 msgstr ""
 
-#: gui.py:607
+#: gui.py:610
 msgid "Open SVG template"
 msgstr ""
 
-#: gui.py:612
+#: gui.py:615
 msgid "Save SVG"
 msgstr ""
 
