@@ -1,4 +1,5 @@
 
+from math import sin, cos, atan2, sqrt, pi
 from colors import *
 
 def mixH(H1, H2, S1, S2, I1, I2, k1, k2):
@@ -34,11 +35,25 @@ class MixerRGB(Mixer):
         rgb = linear3(c1.getRGB(),  c2.getRGB(), q)
         return Color(*rgb)
 
+def mix_trigonometric(r1,f1, r2,f2, q):
+    x = (1-q)*r1*cos(f1) + q*r2*cos(f2)
+    y = (1-q)*r1*sin(f1) + q*r2*sin(f2)
+    rho = sqrt( q**2 * r2**2 + 2*q*(1-q)*r1*r2*cos(f2-f1) + (1-q)**2 * r1**2 )
+    phi = atan2(y, x)
+    return (rho, phi)
+
+def mix_wheel(h1,c1, h2, c2, q):
+    c, phi = mix_trigonometric(c1, h1*2*pi, c2, h2*2*pi, q)
+    h = phi/(2*pi) % 1.0
+    return (h, c)
+
 class MixerRYB(Mixer):
     @classmethod
     def fromHue(cls, hue):
         c = Color()
-        c.setRYB((hue, 1.0, 0.5))
+        luma = hue_to_luma(rybhue_to_hue(hue))
+        #print luma
+        c.setRYB((hue, 1.0, luma))
         return c
 
     @classmethod
@@ -56,15 +71,14 @@ class MixerRYB(Mixer):
         return c
 
     @classmethod
-    def mix(cls, c1, c2, q):
-        h1,s1,v1 = c1.getRYB()
-        h2,s2,v2 = c2.getRYB()
-        h = circular(h1, h2, q)
-        s = linear(s1, s2, q)
-        v = linear(v1, v2, q)
+    def mix(cls, clr1, clr2, q):
+        h1,c1,y1 = clr1.getRYB()
+        h2,c2,y2 = clr2.getRYB()
+        h,c = mix_wheel(h1,c1, h2,c2, q)
+        y = linear(y1, y2, q)
         result = Color()
         #print("RYB: " + str(ryb))
-        result.setRYB((h,s,v))
+        result.setRYB((h,c,y))
         return result
 
 class MixerHLS(Mixer):
@@ -111,7 +125,8 @@ class MixerHCY(Mixer):
     @classmethod
     def fromHue(cls, hue):
         c = Color()
-        c.setHCY((hue, 1.0, 0.5))
+        luma = hue_to_luma(hue)
+        c.setHCY((hue, 1.0, luma))
         return c
 
     @classmethod

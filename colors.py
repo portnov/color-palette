@@ -215,6 +215,16 @@ def HCY_to_RGB(hcy):
     elif h < 5: return (o, n, p)
     else:       return (p, n, o)
 
+def hue_to_rgb(h):
+    r = abs(h*6 - 3) - 1
+    g = 2 - abs(h*6 - 2)
+    b = 2 - abs(h*6 - 4)
+    return clip(r), clip(g), clip(b)
+
+def hue_to_luma(h):
+    r,g,b = hue_to_rgb(h)
+    return _HCY_RED_LUMA*r + _HCY_GREEN_LUMA*g + _HCY_BLUE_LUMA*b
+
 R=[c/255.0 for c in (254.0,39.0,18.0)]
 Y=[c/255.0 for c in (254.0,255.0,51.0)]
 B=[c/255.0 for c in (2.0, 81.0, 254.0)]
@@ -226,8 +236,7 @@ hB = 0.6144179894179894
 oneThird = 1.0/3.0
 twoThirds = 2.0/3.0
 
-def RGB_to_RYBHCY(r,g,b):
-    h,c,y = RGB_to_HCY((r,g,b))
+def hue_to_rybhue(h):
     if h < hY:
         q = h/hY
         h = q * oneThird
@@ -237,9 +246,9 @@ def RGB_to_RYBHCY(r,g,b):
     else: # h > hB
         q = (h-hB)/(1.0-hB)
         h = twoThirds + q*oneThird
-    return (h, c, y)
+    return h
 
-def RYBHCY_to_RGB(h,c,y):
+def rybhue_to_hue(h):
     if h < oneThird:
         q = h * 3.0
         h = q*hY
@@ -249,7 +258,28 @@ def RYBHCY_to_RGB(h,c,y):
     else: # h > 2/3
         q = (h-twoThirds)*3.0
         h = hB + q*(1.0-hB)
+    return h
+
+def RGB_to_RYBHCY(r,g,b):
+    h,c,y = RGB_to_HCY((r,g,b))
+    h = hue_to_rybhue(h)
+    return (h, c, y)
+
+def RYBHCY_to_RGB(h,c,y):
+    h = rybhue_to_hue(h)
     return HCY_to_RGB((h,c,y))
+
+def rgb_to_ryb(r,g,b):
+    rr = 1.166899171946144 * r - 1.239542922240454 * g + 0.38609912739206 * b
+    ry = - 0.16256805363876 * r + 1.240812985159507 * g - 0.39441226649859 * b
+    rb = - 0.050052025037218 * r - 0.16129799071971 * g + 1.05576866652902 * b
+    return (rr, ry, rb)
+
+def ryb_to_rgb(qR, qY, qB):
+    r =  (qR*R[0] + qY*Y[0] + qB*B[0])
+    g =  (qR*R[1] + qY*Y[1] + qB*B[1])
+    b =  (qR*R[2] + qY*Y[2] + qB*B[2])
+    return (r,g,b)
 
 def seq(start, stop, step=1):
     n = int(round((stop - start)/float(step)))
