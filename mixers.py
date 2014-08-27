@@ -38,7 +38,7 @@ class MixerRYB(Mixer):
     @classmethod
     def fromHue(cls, hue):
         c = Color()
-        c.setRYB((hue, 1.0, 1.0))
+        c.setRYB((hue, 1.0, 0.5))
         return c
 
     @classmethod
