@@ -1,0 +1,1241 @@
+<colors>
+  <group>
+    <group>
+      <layout columns="16" expanded="True" />
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="1.0" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.8" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.6" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.4" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.2" r="0.2" />
+      </color>
+      <color>
+        <sRGB b="0.0" g="0.0" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.8" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.6" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.4" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.2" r="1.0" />
+      </color>
+      <color>
+        <sRGB b="0.133333333333" g="0.266666666667" r="0.8" />
+      </color>
+      <color>
+        <sRGB b="0.266666666667" g="0.333333333333" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.4" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.6" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.8" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.0" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.0" r="0.0" />
+      </color>
+      <color>
+        <sRGB b="0.65" g="0.85" r="0.8" />
+      </color>
+      <color>
+        <sRGB b="0.45" g="0.65" r="0.6" />
+      </color>
+      <color>
+        <sRGB b="0.266666666667" g="0.4" r="0.4" />
+      </color>
+      <color>
+        <sRGB b="0.133333333333" g="0.333333333333" r="0.333333333333" />
+      </color>
+      <color>
+        <sRGB b="0.0" g="0.266666666667" r="0.266666666667" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.8" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.8" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.6" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.4" r="1.0" />
+      </color>
+      <color>
+        <sRGB b="0.222222222222" g="0.355555555556" r="0.844444444444" />
+      </color>
+      <color>
+        <sRGB b="0.244444444444" g="0.311111111111" r="0.688888888889" />
+      </color>
+      <color>
+        <sRGB b="0.266666666667" g="0.266666666667" r="0.533333333333" />
+      </color>
+      <color>
+        <sRGB b="0.4" g="0.4" r="0.733333333333" />
+      </color>
+      <color>
+        <sRGB b="0.7" g="0.65" r="0.85" />
+      </color>
+      <color>
+        <sRGB b="0.05" g="0.0" r="0.25" />
+      </color>
+      <color>
+        <sRGB b="0.0" g="0.333333333333" r="0.266666666667" />
+      </color>
+      <color>
+        <sRGB b="0.5" g="0.9" r="0.8" />
+      </color>
+      <color>
+        <sRGB b="0.3" g="0.7" r="0.6" />
+      </color>
+      <color>
+        <sRGB b="0.133333333333" g="0.4" r="0.4" />
+      </color>
+      <color>
+        <sRGB b="0.0666666666667" g="0.466666666667" r="0.466666666667" />
+      </color>
+      <color>
+        <sRGB b="0.0" g="0.533333333333" r="0.533333333333" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.6" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.6" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.4" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.2" r="0.8" />
+      </color>
+      <color>
+        <sRGB b="0.0444444444444" g="0.177777777778" r="0.755555555556" />
+      </color>
+      <color>
+        <sRGB b="0.0888888888889" g="0.155555555556" r="0.711111111111" />
+      </color>
+      <color>
+        <sRGB b="0.133333333333" g="0.133333333333" r="0.666666666667" />
+      </color>
+      <color>
+        <sRGB b="0.2" g="0.2" r="0.866666666667" />
+      </color>
+      <color>
+        <sRGB b="0.6" g="0.5" r="0.9" />
+      </color>
+      <color>
+        <sRGB b="0.1" g="0.0" r="0.5" />
+      </color>
+      <color>
+        <sRGB b="0.0" g="0.666666666667" r="0.533333333333" />
+      </color>
+      <color>
+        <sRGB b="0.35" g="0.95" r="0.8" />
+      </color>
+      <color>
+        <sRGB b="0.15" g="0.75" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.4" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.6" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.8" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="1.0" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.4" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.2" r="0.6" />
+      </color>
+      <color>
+        <sRGB b="0.1" g="0.2" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.0" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.0" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.0" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.0" r="1.0" />
+      </color>
+      <color>
+        <sRGB b="0.5" g="0.35" r="0.95" />
+      </color>
+      <color>
+        <sRGB b="0.15" g="0.0" r="0.75" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="1.0" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="1.0" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.8" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.4" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.6" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.8" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="1.0" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.2" r="0.4" />
+      </color>
+      <color>
+        <sRGB b="0.0" g="0.3" r="0.7" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.2" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.2" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.2" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.2" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.0" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.2" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.0" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="1.0" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="1.0" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.8" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.6" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.6" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.8" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="1.0" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.4" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.4" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.4" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.4" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.4" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.0" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.2" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.4" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.0" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="1.0" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="1.0" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.8" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.6" r="0.2" />
+      </color>
+      <color>
+        <sRGB b="0.2" g="0.7" r="0.5" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.8" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="1.0" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.6" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.6" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.6" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.6" r="1.0" />
+      </color>
+      <color>
+        <sRGB b="0.4" g="0.3" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.0" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.2" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.4" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.0" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="1.0" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="1.0" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.8" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.4" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.8" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="1.0" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="1.0" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.8" r="1.0" />
+      </color>
+      <color>
+        <sRGB b="0.314285714286" g="0.628571428571" r="0.942857142857" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.8" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.4" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.2" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.0" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.0" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.2" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.0" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="1.0" r="0.0" />
+      </color>
+      <color>
+        <sRGB b="0.2" g="1.0" r="0.3" />
+      </color>
+      <color>
+        <sRGB b="0.2" g="0.9" r="0.3" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.6" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.8" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="1.0" r="0.8" />
+      </color>
+      <color>
+        <sRGB b="0.833333333333" g="1.0" r="0.966666666667" />
+      </color>
+      <color>
+        <sRGB b="0.657142857143" g="0.771428571429" r="0.885714285714" />
+      </color>
+      <color>
+        <sRGB b="0.428571428571" g="0.657142857143" r="0.885714285714" />
+      </color>
+      <color>
+        <sRGB b="0.833333333333" g="0.8" r="0.966666666667" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.6" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.2" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.0" r="0.8" />
+      </color>
+      <color>
+        <sRGB b="0.6" g="0.2" r="0.7" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.2" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.0" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.8" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="1.0" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="1.0" r="0.4" />
+      </color>
+      <color>
+        <sRGB b="0.4" g="0.8" r="0.5" />
+      </color>
+      <color>
+        <sRGB b="0.6" g="0.9" r="0.7" />
+      </color>
+      <color>
+        <sRGB b="0.65" g="1.0" r="0.75" />
+      </color>
+      <color>
+        <sRGB b="0.866666666667" g="1.0" r="0.933333333333" />
+      </color>
+      <color>
+        <sRGB b="0.714285714286" g="0.742857142857" r="0.771428571429" />
+      </color>
+      <color>
+        <sRGB b="0.542857142857" g="0.685714285714" r="0.828571428571" />
+      </color>
+      <color>
+        <sRGB b="0.866666666667" g="0.8" r="0.933333333333" />
+      </color>
+      <color>
+        <sRGB b="0.85" g="0.6" r="0.95" />
+      </color>
+      <color>
+        <sRGB b="0.8" g="0.5" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.6" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.4" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.2" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.0" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.6" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.8" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.8" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="1.0" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="1.0" r="0.8" />
+      </color>
+      <color>
+        <sRGB b="0.7" g="1.0" r="0.7" />
+      </color>
+      <color>
+        <sRGB b="0.9" g="1.0" r="0.9" />
+      </color>
+      <color>
+        <sRGB b="0.771428571429" g="0.714285714286" r="0.657142857143" />
+      </color>
+      <color>
+        <sRGB b="0.657142857143" g="0.714285714286" r="0.771428571429" />
+      </color>
+      <color>
+        <sRGB b="0.9" g="0.8" r="0.9" />
+      </color>
+      <color>
+        <sRGB b="0.9" g="0.6" r="0.9" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.8" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.6" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.4" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.2" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.0" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.4" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.6" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.6" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.8" r="0.6" />
+      </color>
+      <color>
+        <sRGB b="0.7" g="1.0" r="0.5" />
+      </color>
+      <color>
+        <sRGB b="0.75" g="1.0" r="0.65" />
+      </color>
+      <color>
+        <sRGB b="0.933333333333" g="1.0" r="0.866666666667" />
+      </color>
+      <color>
+        <sRGB b="0.828571428571" g="0.685714285714" r="0.542857142857" />
+      </color>
+      <color>
+        <sRGB b="0.771428571429" g="0.742857142857" r="0.714285714286" />
+      </color>
+      <color>
+        <sRGB b="0.933333333333" g="0.8" r="0.866666666667" />
+      </color>
+      <color>
+        <sRGB b="0.95" g="0.6" r="0.85" />
+      </color>
+      <color>
+        <sRGB b="0.9" g="0.6" r="0.8" />
+      </color>
+      <color>
+        <sRGB b="0.8" g="0.4" r="0.7" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.4" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.2" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.0" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.2" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.4" r="0.2" />
+      </color>
+      <color>
+        <sRGB b="0.3" g="0.7" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.8" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="1.0" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="1.0" r="0.6" />
+      </color>
+      <color>
+        <sRGB b="0.966666666667" g="1.0" r="0.833333333333" />
+      </color>
+      <color>
+        <sRGB b="0.885714285714" g="0.657142857143" r="0.428571428571" />
+      </color>
+      <color>
+        <sRGB b="0.885714285714" g="0.771428571429" r="0.657142857143" />
+      </color>
+      <color>
+        <sRGB b="0.966666666667" g="0.8" r="0.833333333333" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.6" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.4" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.2" r="0.4" />
+      </color>
+      <color>
+        <sRGB b="0.9" g="0.2" r="0.8" />
+      </color>
+      <color>
+        <sRGB b="1.0" g="0.2" r="0.9" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.0" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="1.0" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="1.0" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.8" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.4" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.6" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.8" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="1.0" r="0.8" />
+      </color>
+      <color>
+        <sRGB b="0.942857142857" g="0.628571428571" r="0.314285714286" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.8" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.8" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.2" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.0" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.0" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.0" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.2" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.0" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="1.0" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="1.0" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.8" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.6" r="0.0" />
+      </color>
+      <color>
+        <sRGB b="0.7" g="0.8" r="0.3" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="1.0" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.8" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.6" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.6" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.6" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.6" r="0.6" />
+      </color>
+      <color>
+        <sRGB b="0.7" g="0.2" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.0" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.2" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.4" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.0" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="1.0" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="1.0" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.8" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.6" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="1.0" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.8" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.6" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.4" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.4" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.4" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.4" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.4" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.0" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.2" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.4" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.0" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="1.0" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="1.0" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.8" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="1.0" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.8" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.6" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.4" r="0.2" />
+      </color>
+      <color>
+        <sRGB b="0.7" g="0.4" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.2" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.2" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.2" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.2" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.2" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.0" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.2" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.0" r="0.2" />
+      </color>
+      <color>
+        <sRGB b="0.4" g="0.5" r="0.0" />
+      </color>
+      <color>
+        <sRGB b="0.7" g="0.75" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="1.0" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.8" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.6" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.4" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.2" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.4" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.2" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.0" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.0" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.0" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.0" r="0.0" />
+      </color>
+      <color>
+        <sRGB b="0.75" g="0.15" r="0.3" />
+      </color>
+      <color>
+        <sRGB b="0.95" g="0.35" r="0.5" />
+      </color>
+      <color>
+        <sRGB b="1.0" g="0.25" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.0" r="0.0" />
+      </color>
+      <color>
+        <sRGB b="0.133333333333" g="0.1" r="0.0" />
+      </color>
+      <color>
+        <sRGB b="0.266666666667" g="0.2" r="0.0" />
+      </color>
+      <color>
+        <sRGB b="0.4" g="0.3" r="0.0" />
+      </color>
+      <color>
+        <sRGB b="0.533333333333" g="0.4" r="0.0" />
+      </color>
+      <color>
+        <sRGB b="0.666666666667" g="0.5" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.6" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.6" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.4" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.2" r="0.0" />
+      </color>
+      <color>
+        <sRGB b="0.533333333333" g="0.0" r="0.0" />
+      </color>
+      <color>
+        <sRGB b="0.466666666667" g="0.0666666666667" r="0.0666666666667" />
+      </color>
+      <color>
+        <sRGB b="0.4" g="0.133333333333" r="0.133333333333" />
+      </color>
+      <color>
+        <sRGB b="0.7" g="0.3" r="0.4" />
+      </color>
+      <color>
+        <sRGB b="0.9" g="0.5" r="0.6" />
+      </color>
+      <color>
+        <sRGB b="1.0" g="0.5" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.0" r="0.0" />
+      </color>
+      <color>
+        <sRGB b="0.166666666667" g="0.133333333333" r="0.0333333333333" />
+      </color>
+      <color>
+        <sRGB b="0.333333333333" g="0.266666666667" r="0.0666666666667" />
+      </color>
+      <color>
+        <sRGB b="0.5" g="0.4" r="0.1" />
+      </color>
+      <color>
+        <sRGB b="0.666666666667" g="0.533333333333" r="0.133333333333" />
+      </color>
+      <color>
+        <sRGB b="0.833333333333" g="0.666666666667" r="0.166666666667" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.8" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.8" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.6" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.4" r="0.2" />
+      </color>
+      <color>
+        <sRGB b="0.266666666667" g="0.0" r="0.0" />
+      </color>
+      <color>
+        <sRGB b="0.333333333333" g="0.133333333333" r="0.133333333333" />
+      </color>
+      <color>
+        <sRGB b="0.4" g="0.266666666667" r="0.266666666667" />
+      </color>
+      <color>
+        <sRGB b="0.65" g="0.45" r="0.5" />
+      </color>
+      <color>
+        <sRGB b="0.85" g="0.65" r="0.7" />
+      </color>
+      <color>
+        <sRGB b="1.0" g="0.75" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="1.0" r="1.0" />
+      </color>
+      <color>
+        <sRGB b="1.0" g="0.966666666667" r="0.833333333333" />
+      </color>
+      <color>
+        <sRGB b="1.0" g="0.933333333333" r="0.666666666667" />
+      </color>
+      <color>
+        <sRGB b="1.0" g="0.9" r="0.5" />
+      </color>
+      <color>
+        <sRGB b="1.0" g="0.866666666667" r="0.333333333333" />
+      </color>
+      <color>
+        <sRGB b="1.0" g="0.833333333333" r="0.166666666667" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.8" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.6" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.4" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="0.2" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.0" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.2" g="0.2" r="0.2" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.4" r="0.4" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.6" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.8" g="0.8" r="0.8" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="1.0" r="1.0" />
+      </color>
+    </group>
+  </group>
+</colors>

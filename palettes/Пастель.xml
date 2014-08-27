@@ -1,0 +1,118 @@
+<colors>
+  <group>
+    <label lang="en">Soft Pastel Set</label>
+    <layout columns="7" expanded="True" />
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.454901960784" g="0.541176470588" r="0.23137254902" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.388235294118" g="0.478431372549" r="0.156862745098" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.427450980392" g="0.694117647059" r="0.36862745098" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.427450980392" g="0.623529411765" r="0.552941176471" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.191775387198" g="0.246967269398" r="0.27537956817" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.23137254902" g="0.341176470588" r="0.619607843137" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.313725490196" g="0.607843137255" r="0.709803921569" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.470588235294" g="0.792156862745" r="0.913725490196" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.282352941176" g="0.494117647059" r="0.733333333333" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.6" g="0.627450980392" r="0.6" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.270588235294" g="0.278431372549" r="0.23137254902" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.113725490196" g="0.133333333333" r="0.0745098039216" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.862745098039" g="0.858823529412" r="0.843137254902" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.490196078431" g="0.890196078431" r="0.847058823529" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.403921568627" g="0.882352941176" r="0.882352941176" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.254901960784" g="0.474509803922" r="0.917647058824" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.294117647059" g="0.352941176471" r="0.78431372549" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.203921568627" g="0.258823529412" r="0.698039215686" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.43137254902" g="0.294117647059" r="0.756862745098" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.501960784314" g="0.282352941176" r="0.333333333333" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.470588235294" g="0.278431372549" r="0.247058823529" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.611764705882" g="0.286274509804" r="0.176470588235" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.6" g="0.305882352941" r="0.156862745098" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.690196078431" g="0.572549019608" r="0.262745098039" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.780819409476" g="0.683237964446" r="0.426214999619" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.727153429465" g="0.849591821164" r="0.677988860914" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.494270237278" g="0.882963302052" r="0.988540474556" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.289906157015" g="0.783794918746" r="0.987151903563" />
+    </color>
+  </group>
+</colors>

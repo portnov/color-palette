@@ -1,0 +1,642 @@
+<colors>
+  <group>
+    <group>
+      <label lang="en">Soft Pastel Set</label>
+      <layout columns="7" expanded="True" />
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.454901960784" g="0.541176470588" r="0.23137254902" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.388235294118" g="0.478431372549" r="0.156862745098" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.427450980392" g="0.694117647059" r="0.36862745098" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.427450980392" g="0.623529411765" r="0.552941176471" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.191775387198" g="0.246967269398" r="0.27537956817" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.23137254902" g="0.341176470588" r="0.619607843137" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.313725490196" g="0.607843137255" r="0.709803921569" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.470588235294" g="0.792156862745" r="0.913725490196" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.282352941176" g="0.494117647059" r="0.733333333333" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.627450980392" r="0.6" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.270588235294" g="0.278431372549" r="0.23137254902" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.113725490196" g="0.133333333333" r="0.0745098039216" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.862745098039" g="0.858823529412" r="0.843137254902" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.490196078431" g="0.890196078431" r="0.847058823529" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.403921568627" g="0.882352941176" r="0.882352941176" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.254901960784" g="0.474509803922" r="0.917647058824" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.294117647059" g="0.352941176471" r="0.78431372549" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.203921568627" g="0.258823529412" r="0.698039215686" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.43137254902" g="0.294117647059" r="0.756862745098" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.501960784314" g="0.282352941176" r="0.333333333333" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.470588235294" g="0.278431372549" r="0.247058823529" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.611764705882" g="0.286274509804" r="0.176470588235" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.6" g="0.305882352941" r="0.156862745098" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.690196078431" g="0.572549019608" r="0.262745098039" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.780819409476" g="0.683237964446" r="0.426214999619" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.727153429465" g="0.849591821164" r="0.677988860914" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.494270237278" g="0.882963302052" r="0.988540474556" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.289906157015" g="0.783794918746" r="0.987151903563" />
+      </color>
+    </group>
+    <group>
+      <label lang="en">Drawing set</label>
+      <layout columns="7" expanded="False" />
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.0" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0657816433967" g="0.179278248264" r="0.345265888457" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.126924544137" g="0.269840543221" r="0.66620889601" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.345189593347" g="0.452384222171" r="0.749660486763" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.563454642557" g="0.634927901122" r="0.833112077516" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.78173495079" g="0.817471580072" r="0.916563668269" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="1.0" r="1.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.0" r="0.0" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.166674296178" g="0.166674296178" r="0.166674296178" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.333333333333" g="0.333333333333" r="0.333333333333" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.500007629511" g="0.500007629511" r="0.500007629511" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.666666666667" g="0.666666666667" r="0.666666666667" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.833325703822" g="0.833325703822" r="0.833325703822" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="1.0" r="1.0" />
+      </color>
+    </group>
+    <group>
+      <label lang="en">Nature_Grass.gpl</label>
+      <layout columns="0" expanded="True" />
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.486274509804" g="0.901960784314" r="0.721568627451" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.317647058824" g="0.623529411765" r="0.576470588235" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0627450980392" g="0.63137254902" r="0.396078431373" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.372549019608" g="0.517647058824" r="0.376470588235" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.239215686275" g="0.435294117647" r="0.282352941176" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.125490196078" g="0.294117647059" r="0.188235294118" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.105882352941" g="0.243137254902" r="0.223529411765" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.607843137255" g="0.905882352941" r="0.988235294118" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.43137254902" g="0.698039215686" r="0.882352941176" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.282352941176" g="0.796078431373" r="0.929411764706" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.470588235294" g="0.643137254902" r="0.78431372549" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.258823529412" g="0.462745098039" r="0.580392156863" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.356862745098" g="0.498039215686" r="0.501960784314" />
+      </color>
+    </group>
+    <group>
+      <label lang="en">Fabric_colored.gpl</label>
+      <layout columns="0" expanded="True" />
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.235294117647" g="0.247058823529" r="0.835294117647" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0901960784314" g="0.117647058824" r="0.462745098039" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0980392156863" g="0.078431372549" r="0.364705882353" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.529411764706" g="0.435294117647" r="0.858823529412" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.376470588235" g="0.309803921569" r="0.619607843137" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.113725490196" g="0.376470588235" r="0.835294117647" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.643137254902" r="0.811764705882" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.352941176471" g="0.960784313725" r="0.945098039216" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.439215686275" g="0.980392156863" r="0.894117647059" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.36862745098" g="0.905882352941" r="0.882352941176" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.501960784314" g="0.627450980392" r="0.490196078431" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0823529411765" g="0.349019607843" r="0.305882352941" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.23137254902" g="0.458823529412" r="0.0313725490196" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.21568627451" g="0.298039215686" r="0.196078431373" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.945098039216" g="0.627450980392" r="0.501960784314" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.81568627451" g="0.345098039216" r="0.207843137255" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.78431372549" g="0.419607843137" r="0.0901960784314" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.635294117647" g="0.219607843137" r="0.250980392157" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.290196078431" g="0.274509803922" r="0.203921568627" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.901960784314" g="0.898039215686" r="0.81568627451" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.756862745098" g="0.776470588235" r="0.772549019608" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.560784313725" g="0.603921568627" r="0.662745098039" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.239215686275" g="0.223529411765" r="0.211764705882" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.192156862745" g="0.176470588235" r="0.2" />
+      </color>
+    </group>
+  </group>
+  <group>
+    <group>
+      <label lang="en">Tango</label>
+      <layout columns="5" expanded="True" />
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.309803921569" g="0.913725490196" r="0.988235294118" />
+      </color>
+      <color>
+        <sRGB b="0.154901960784" g="0.872542676739" r="0.958816438563" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.831359863281" r="0.929397583008" />
+      </color>
+      <color>
+        <sRGB b="0.0" g="0.729405421837" r="0.849012516994" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.627450980392" r="0.76862745098" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.243137254902" g="0.686274509804" r="0.988235294118" />
+      </color>
+      <color>
+        <sRGB b="0.121568627451" g="0.580392156863" r="0.974509803922" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.474509803922" r="0.960784313725" />
+      </color>
+      <color>
+        <sRGB b="0.0" g="0.417647058824" r="0.88431372549" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.360784313725" r="0.807843137255" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.43137254902" g="0.725490196078" r="0.913725490196" />
+      </color>
+      <color>
+        <sRGB b="0.249019607843" g="0.607843137255" r="0.835294117647" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0666666666667" g="0.490196078431" r="0.756862745098" />
+      </color>
+      <color>
+        <sRGB b="0.0372549019608" g="0.419607843137" r="0.658823529412" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0078431372549" g="0.349019607843" r="0.560784313725" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.203921568627" g="0.886274509804" r="0.541176470588" />
+      </color>
+      <color>
+        <sRGB b="0.203921568627" g="0.886274509804" r="0.541176470588" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.203921568627" g="0.886274509804" r="0.541176470588" />
+      </color>
+      <color>
+        <sRGB b="0.113725490196" g="0.745098039216" r="0.423529411765" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0235294117647" g="0.603921568627" r="0.305882352941" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.811764705882" g="0.623529411765" r="0.447058823529" />
+      </color>
+      <color>
+        <sRGB b="0.727450980392" g="0.509803921569" r="0.325490196078" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.643137254902" g="0.396078431373" r="0.203921568627" />
+      </color>
+      <color>
+        <sRGB b="0.586274509804" g="0.343137254902" r="0.164705882353" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.529411764706" g="0.290196078431" r="0.125490196078" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.658823529412" g="0.498039215686" r="0.678431372549" />
+      </color>
+      <color>
+        <sRGB b="0.570588235294" g="0.405882352941" r="0.56862745098" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.482352941176" g="0.313725490196" r="0.458823529412" />
+      </color>
+      <color>
+        <sRGB b="0.441176470588" g="0.260784313725" r="0.409803921569" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.4" g="0.207843137255" r="0.360784313725" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.160784313725" g="0.160784313725" r="0.937254901961" />
+      </color>
+      <color>
+        <sRGB b="0.0803921568627" g="0.0803921568627" r="0.86862745098" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.0" r="0.8" />
+      </color>
+      <color>
+        <sRGB b="0.0" g="0.0" r="0.721568627451" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.0" r="0.643137254902" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.933333333333" g="0.933333333333" r="0.933333333333" />
+      </color>
+      <color>
+        <sRGB b="0.872549019608" g="0.888235294118" r="0.880392156863" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.811764705882" g="0.843137254902" r="0.827450980392" />
+      </color>
+      <color>
+        <sRGB b="0.762745098039" g="0.792156862745" r="0.778431372549" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.713725490196" g="0.741176470588" r="0.729411764706" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.521568627451" g="0.541176470588" r="0.533333333333" />
+      </color>
+      <color>
+        <sRGB b="0.423529411765" g="0.441176470588" r="0.433333333333" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.325490196078" g="0.341176470588" r="0.333333333333" />
+      </color>
+      <color>
+        <sRGB b="0.26862745098" g="0.272549019608" r="0.256862745098" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.211764705882" g="0.203921568627" r="0.180392156863" />
+      </color>
+    </group>
+    <group>
+      <label lang="en">Greens</label>
+      <layout columns="7" expanded="False" />
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.1474609375" g="0.988525390625" r="0.950393676758" />
+      </color>
+      <color>
+        <sRGB b="0.106150309245" g="0.860321044922" r="0.735555013021" />
+      </color>
+      <color>
+        <sRGB b="0.0648396809896" g="0.732116699219" r="0.520716349284" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0235290527344" g="0.603912353516" r="0.305877685547" />
+      </color>
+      <color>
+        <sRGB b="0.0836588541666" g="0.698028564453" r="0.384307861328" />
+      </color>
+      <color>
+        <sRGB b="0.143788655599" g="0.792144775391" r="0.46273803711" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.203918457031" g="0.886260986328" r="0.541168212891" />
+      </color>
+      <color>
+        <sRGB b="0.0983072916667" g="0.902150472005" r="0.916595458985" />
+      </color>
+      <color>
+        <sRGB b="0.0746205647787" g="0.753356933594" r="0.679236518012" />
+      </color>
+      <color>
+        <sRGB b="0.0509338378906" g="0.604563395182" r="0.44187757704" />
+      </color>
+      <color>
+        <sRGB b="0.0272471110026" g="0.455769856771" r="0.204518636068" />
+      </color>
+      <color>
+        <sRGB b="0.130364312066" g="0.60558573405" r="0.342225816515" />
+      </color>
+      <color>
+        <sRGB b="0.233481513129" g="0.755401611328" r="0.479932996962" />
+      </color>
+      <color>
+        <sRGB b="0.336598714192" g="0.905217488607" r="0.617640177409" />
+      </color>
+      <color>
+        <sRGB b="0.0491536458333" g="0.815775553386" r="0.882797241211" />
+      </color>
+      <color>
+        <sRGB b="0.0430908203125" g="0.646392822266" r="0.622918023004" />
+      </color>
+      <color>
+        <sRGB b="0.0370279947917" g="0.477010091146" r="0.363038804796" />
+      </color>
+      <color>
+        <sRGB b="0.0309651692709" g="0.307627360026" r="0.103159586589" />
+      </color>
+      <color>
+        <sRGB b="0.177069769965" g="0.513142903646" r="0.300143771702" />
+      </color>
+      <color>
+        <sRGB b="0.32317437066" g="0.718658447266" r="0.497127956814" />
+      </color>
+      <color>
+        <sRGB b="0.469278971354" g="0.924173990885" r="0.694112141927" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0" g="0.729400634766" r="0.848999023438" />
+      </color>
+      <color>
+        <sRGB b="0.0115610758464" g="0.539428710938" r="0.566599527995" />
+      </color>
+      <color>
+        <sRGB b="0.0231221516927" g="0.349456787109" r="0.284200032552" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.0346832275391" g="0.159484863281" r="0.00180053710938" />
+      </color>
+      <color>
+        <sRGB b="0.223775227865" g="0.420700073242" r="0.258061726888" />
+      </color>
+      <color>
+        <sRGB b="0.41286722819" g="0.681915283203" r="0.514322916667" />
+      </color>
+      <color>
+        <sRGB b="0.601959228515" g="0.943130493164" r="0.770584106446" />
+      </color>
+      <color>
+        <sRGB b="0.541168212891" g="0.658813476563" r="0.581034342448" />
+      </color>
+      <color>
+        <sRGB b="0.478249443902" g="0.554606119792" r="0.438591851129" />
+      </color>
+      <color>
+        <sRGB b="0.415330674913" g="0.450398763021" r="0.296149359809" />
+      </color>
+      <color>
+        <sRGB b="0.352411905924" g="0.34619140625" r="0.15370686849" />
+      </color>
+      <color>
+        <sRGB b="0.524047851562" g="0.557808770074" r="0.410313924154" />
+      </color>
+      <color>
+        <sRGB b="0.6956837972" g="0.769426133897" r="0.666920979818" />
+      </color>
+      <color>
+        <sRGB b="0.867319742838" g="0.981043497721" r="0.923528035482" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.811752319336" g="0.623519897461" r="0.447052001953" />
+      </color>
+      <color>
+        <sRGB b="0.71159362793" g="0.562194824219" r="0.374588012695" />
+      </color>
+      <color>
+        <sRGB b="0.611434936523" g="0.500869750976" r="0.302124023438" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="0.511276245117" g="0.439544677734" r="0.22966003418" />
+      </color>
+      <color>
+        <sRGB b="0.674184163411" g="0.626363118489" r="0.486440022787" />
+      </color>
+      <color>
+        <sRGB b="0.837092081706" g="0.813181559245" r="0.743220011393" />
+      </color>
+      <color>
+        <meta name="user_chosen">True</meta>
+        <sRGB b="1.0" g="1.0" r="1.0" />
+      </color>
+    </group>
+  </group>
+</colors>

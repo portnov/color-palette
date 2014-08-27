@@ -1,0 +1,90 @@
+<colors>
+  <group>
+    <label lang="en">Basic Oil Set</label>
+    <layout columns="7" expanded="True" />
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.975494010834" g="0.975494010834" r="0.987670710307" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.654612039368" g="0.781368734264" r="0.987670710307" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.14746318761" g="0.988540474556" r="0.950408178836" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.127809567407" g="0.908873121233" r="0.987670710307" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.0121766994736" g="0.237735561151" r="0.987655451286" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.00637827115282" g="0.0696879530022" r="0.895445181964" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.0" g="0.0" r="0.818677042802" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.862638284886" g="0.52140077821" r="0.0" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.576928358892" g="0.109636072328" r="0.0316777294575" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.263736934463" g="0.00579842832074" r="0.0879835202564" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.0655069810025" g="0.85165178912" r="0.701396200504" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.172869459068" g="0.423071641108" r="0.0371862363622" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.0383916990921" g="0.616617074846" r="0.873624780652" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.0" g="0.261005569543" r="0.719783321889" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.0579690241855" g="0.166216525521" r="0.329671168078" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.307698176547" g="0.0896009765774" r="0.27409781033" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.0" g="0.0" r="0.0" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.274509803922" g="0.266865033951" r="0.259098191806" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.491981383993" g="0.514900434882" r="0.532967116808" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="1.0" g="1.0" r="1.0" />
+    </color>
+    <color>
+      <meta name="user_chosen">True</meta>
+      <sRGB b="0.0" g="0.0" r="0.0" />
+    </color>
+  </group>
+</colors>
