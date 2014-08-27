@@ -18,7 +18,7 @@ class PaletteWidget(QtGui.QLabel):
         self._drag_start_pos = None
 
         self.select_button = QtCore.Qt.LeftButton
-        self.mark_button = QtCore.Qt.MiddleButton
+        self.mark_button = QtCore.Qt.RightButton
 
         self.selection_enabled = True
         self.editing_enabled = True
