@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-08-26 22:46+YEKT\n"
+"POT-Creation-Date: 2014-08-27 21:48+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -115,139 +115,139 @@ msgstr ""
 msgid "HSV"
 msgstr ""
 
-#: gui.py:171 gui.py:179
+#: gui.py:171 gui.py:180
 msgid "HLS"
 msgstr ""
 
-#: gui.py:172
-msgid "CMYK"
+#: gui.py:172 gui.py:181
+msgid "HCY"
 msgstr ""
 
-#: gui.py:173
-msgid "CMY"
-msgstr ""
-
-#: gui.py:174
-msgid "RYB (experimental)"
-msgstr ""
-
-#: gui.py:175
-msgid "HSI (experimental)"
-msgstr ""
-
-#: gui.py:175 gui.py:180
-msgid "LCh"
-msgstr ""
-
-#: gui.py:176
-msgid "Lab"
-msgstr ""
-
-#: gui.py:177
-msgid "LCh Desaturate (experimental)"
-msgstr ""
-
-#: gui.py:180
+#: gui.py:173 gui.py:182
 msgid "RYB"
 msgstr ""
 
-#: gui.py:182
-msgid "Just opposite"
+#: gui.py:174
+msgid "CMYK"
 msgstr ""
 
-#: gui.py:183
-msgid "Two opposite"
+#: gui.py:175
+msgid "CMY"
+msgstr ""
+
+#: gui.py:176
+msgid "HSI (experimental)"
+msgstr ""
+
+#: gui.py:176 gui.py:182
+msgid "LCh"
+msgstr ""
+
+#: gui.py:177
+msgid "Lab"
+msgstr ""
+
+#: gui.py:178
+msgid "LCh Desaturate"
 msgstr ""
 
 #: gui.py:184
-msgid "Three colors"
+msgid "Just opposite"
 msgstr ""
 
 #: gui.py:185
-msgid "Four colors"
+msgid "Two opposite"
 msgstr ""
 
 #: gui.py:186
-msgid "Similar colors"
+msgid "Three colors"
 msgstr ""
 
 #: gui.py:187
-msgid "Opposite colors RYB"
+msgid "Four colors"
 msgstr ""
 
 #: gui.py:188
-msgid "Three colors RYB"
+msgid "Similar colors"
 msgstr ""
 
 #: gui.py:189
-msgid "Four colors RYB"
-msgstr ""
-
-#: gui.py:189
-msgid "Three colors LCh"
+msgid "Opposite colors RYB"
 msgstr ""
 
 #: gui.py:190
-msgid "Four colors LCh"
+msgid "Three colors RYB"
+msgstr ""
+
+#: gui.py:191
+msgid "Four colors RYB"
+msgstr ""
+
+#: gui.py:191
+msgid "Three colors LCh"
 msgstr ""
 
 #: gui.py:192
-msgid "Saturation"
-msgstr ""
-
-#: gui.py:193
-msgid "Value"
+msgid "Four colors LCh"
 msgstr ""
 
 #: gui.py:194
-msgid "Warmer"
+msgid "Saturation"
 msgstr ""
 
 #: gui.py:195
+msgid "Value"
+msgstr ""
+
+#: gui.py:196
+msgid "Warmer"
+msgstr ""
+
+#: gui.py:197
 msgid "Cooler"
 msgstr ""
 
-#: gui.py:225
+#: gui.py:227
 msgid "Colors from original image:"
 msgstr ""
 
-#: gui.py:285
+#: gui.py:287
 msgid "Mixing model:"
 msgstr ""
 
-#: gui.py:300
+#: gui.py:302
 msgid "Selector model:"
 msgstr ""
 
-#: gui.py:306
+#: gui.py:308
 msgid "Harmony:"
 msgstr ""
 
-#: gui.py:313
+#: gui.py:315
 msgid "Shades:"
 msgstr ""
 
-#: gui.py:363 gui.py:615
+#: gui.py:365 gui.py:620
 msgid "Save palette"
 msgstr ""
 
-#: gui.py:368
+#: gui.py:370
 msgid "Save palette image"
 msgstr ""
 
-#: gui.py:382
+#: gui.py:384
 msgid "Open palette"
 msgstr ""
 
-#: gui.py:541
+#: gui.py:546
 msgid "Selected from palette: "
 msgstr ""
 
-#: gui.py:602
+#: gui.py:607
 msgid "Open SVG template"
 msgstr ""
 
-#: gui.py:607
+#: gui.py:612
 msgid "Save SVG"
 msgstr ""
 
