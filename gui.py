@@ -384,6 +384,7 @@ class GUIWidget(QtGui.QWidget):
         filename = filedialog.get_filename(self, _("Open palette"), ".", "*.gpl", self._preview_palette)
         #filename = QtGui.QFileDialog.getOpenFileName(self, _("Open palette"), ".", "*.gpl")
         if filename:
+            self.mixers.setCurrentIndex(0)
             self.palette.palette = GimpPalette().load(mixers.MixerRGB, str(filename))
             self.palette.selected_slot = None
             self.palette.redraw()
