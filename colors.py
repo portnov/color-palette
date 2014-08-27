@@ -1,3 +1,6 @@
+
+# coding: utf-8
+
 from math import cos, acos, sqrt, pi
 from PyQt4 import QtGui, QtCore
 import colorsys
@@ -110,33 +113,145 @@ hR = 0.
 hY = 1./6
 hB = 2./3
 
-HCYwts = 0.299, 0.587, 0.114
+#HCYwts = 0.299, 0.587, 0.114
 
-def hue_to_rgb(h):
-    r = abs(h*6 - 3) - 1
-    g = 2 - abs(h*6 - 2)
-    b = 2 - abs(h*6 - 4)
-    #return r,g,b
-    return clip(r), clip(g), clip(b)
 
-epsilon = 1e-10
+## HCY colour space.
+#
+# Copy&Paste from https://raw.githubusercontent.com/mypaint/mypaint/master/gui/colors/uicolor.py
+# Copyright (C) 2012-2013 by Andrew Chadwick <andrewc-git@piffle.org>
+#
 
-def rgb_to_hcv(rgb):
-    r,g,b = rgb
-    if g < b:
-        p = (b, g, -1.0, 2.0/3.0)
+# Frequently referred to as HSY, Hue/Chroma/Luma, HsY, HSI etc.  It can be
+# thought of as a cylindrical remapping of the YCbCr solid: the "C" term is the
+# proportion of the maximum permissible chroma within the RGB gamut at a given
+# hue and luma. Planes of constant Y are equiluminant.
+# 
+# ref https://code.google.com/p/colour-space-viewer/
+# ref git://anongit.kde.org/kdelibs in kdeui/colors/kcolorspaces.cpp
+# ref http://blog.publicfields.net/2011/12/rgb-hue-saturation-luma.html
+# ref Joblove G.H., Greenberg D., Color spaces for computer graphics.
+# ref http://www.cs.rit.edu/~ncs/color/t_convert.html
+# ref http://en.literateprograms.org/RGB_to_HSV_color_space_conversion_(C)
+# ref http://lodev.org/cgtutor/color.html
+# ref Levkowitz H., Herman G.T., "GLHS: a generalized lightness, hue, and
+#     saturation color model"
+
+# For consistency, use the same weights that the Color and Luminosity layer
+# blend modes use, as also used by brushlib's Colorize brush blend mode. We
+# follow http://www.w3.org/TR/compositing/ here. BT.601 YCbCr has a nearly
+# identical definition of luma.
+
+_HCY_RED_LUMA = 0.299
+_HCY_GREEN_LUMA = 0.587
+_HCY_BLUE_LUMA = 0.114
+
+def RGB_to_HCY(rgb):
+    """RGB → HCY: R,G,B,H,C,Y ∈ [0, 1]
+
+    :param rgb: Color expressed as an additive RGB triple.
+    :type rgb: tuple (r, g, b) where 0≤r≤1, 0≤g≤1, 0≤b≤1.
+    :rtype: tuple (h, c, y) where 0≤h<1, but 0≤c≤2 and 0≤y≤1.
+
+    """
+    r, g, b = rgb
+
+    # Luma is just a weighted sum of the three components.
+    y = _HCY_RED_LUMA*r + _HCY_GREEN_LUMA*g + _HCY_BLUE_LUMA*b
+
+    # Hue. First pick a sector based on the greatest RGB component, then add
+    # the scaled difference of the other two RGB components.
+    p = max(r, g, b)
+    n = min(r, g, b)
+    d = p - n   # An absolute measure of chroma: only used for scaling.
+    if n == p:
+        h = 0.0
+    elif p == r:
+        h = (g - b)/d
+        if h < 0:
+            h += 6.0
+    elif p == g:
+        h = ((b - r)/d) + 2.0
+    else: # p==b
+        h = ((r - g)/d) + 4.0
+    h /= 6.0
+
+    # Chroma, relative to the RGB gamut envelope.
+    if r == g == b:
+        # Avoid a division by zero for the achromatic case.
+        c = 0.0
     else:
-        p = (g, b, 0.0, -1.0/3.0)
-    if r < p[0]:
-        q = (p[0], p[1], p[3], r)
-    else:
-        q = (r, p[1], p[2], p[0])
-    c = q[0] - min(q[3], q[1])
-    h = abs((q[3] - q[1]) / (6*c + epsilon) + q[2])
-    return h, c, q[0]
+        # For the derivation, see the GLHS paper.
+        c = max((y-n)/y, (p-y)/(1-y))
+    return h, c, y
 
-def dot(xs,ys):
-    return sum([x*y for x,y in zip(xs,ys)])
+def HCY_to_RGB(hcy):
+    """HCY → RGB: R,G,B,H,C,Y ∈ [0, 1]
+
+    :param hcy: Color expressed as a Hue/relative-Chroma/Luma triple.
+    :type hcy: tuple (h, c, y) where 0≤h<1, but 0≤c≤2 and 0≤y≤1.
+    :rtype: tuple (r, g, b) where 0≤r≤1, 0≤g≤1, 0≤b≤1.
+
+    >>> n = 32
+    >>> diffs = [sum( [abs(c1-c2) for c1, c2 in
+    ...                zip( HCY_to_RGB(RGB_to_HCY([r/n, g/n, b/n])),
+    ...                     [r/n, g/n, b/n] ) ] )
+    ...          for r in range(int(n+1))
+    ...            for g in range(int(n+1))
+    ...              for b in range(int(n+1))]
+    >>> sum(diffs) < n*1e-6
+    True
+
+    """
+    h, c, y = hcy
+
+    if c == 0:
+        return y, y, y
+
+    h %= 1.0
+    h *= 6.0
+    if h < 1:
+        #implies (p==r and h==(g-b)/d and g>=b)
+        th = h
+        tm = _HCY_RED_LUMA + _HCY_GREEN_LUMA * th
+    elif h < 2:
+        #implies (p==g and h==((b-r)/d)+2.0 and b<r)
+        th = 2.0 - h
+        tm = _HCY_GREEN_LUMA + _HCY_RED_LUMA * th
+    elif h < 3:
+        #implies (p==g and h==((b-r)/d)+2.0 and b>=g)
+        th = h - 2.0
+        tm = _HCY_GREEN_LUMA + _HCY_BLUE_LUMA * th
+    elif h < 4:
+        #implies (p==b and h==((r-g)/d)+4.0 and r<g)
+        th = 4.0 - h
+        tm = _HCY_BLUE_LUMA + _HCY_GREEN_LUMA * th
+    elif h < 5:
+        #implies (p==b and h==((r-g)/d)+4.0 and r>=g)
+        th = h - 4.0
+        tm = _HCY_BLUE_LUMA + _HCY_RED_LUMA * th
+    else:
+        #implies (p==r and h==(g-b)/d and g<b)
+        th = 6.0 - h
+        tm = _HCY_RED_LUMA + _HCY_BLUE_LUMA * th
+
+    # Calculate the RGB components in sorted order
+    if tm >= y:
+        p = y + y*c*(1-tm)/tm
+        o = y + y*c*(th-tm)/tm
+        n = y - (y*c)
+    else:
+        p = y + (1-y)*c
+        o = y + (1-y)*c*(th-tm)/(1-tm)
+        n = y - (1-y)*c*tm/(1-tm)
+
+    # Back to RGB order
+    if h < 1:   return (p, o, n)
+    elif h < 2: return (o, p, n)
+    elif h < 3: return (n, p, o)
+    elif h < 4: return (n, o, p)
+    elif h < 5: return (o, n, p)
+    else:       return (p, n, o)
 
 def simple_mix(x1,a,x2,b):
     if a==b==0:
@@ -280,29 +395,12 @@ class Color(QtGui.QColor):
         self.setRGB1((r, g, b))
 
     def setHCY(self, hcy):
-        h,c,y = hcy
-        r,g,b = rgb = hue_to_rgb(h)
-        z = dot(HCYwts, rgb)
-        if y < z:
-            c *= (y/z)
-        elif z < 1.0:
-            c *= (1-y)/(1.0-z)
-        r = (r-z)*c + y
-        g = (g-z)*c + y
-        b = (b-z)*c + y
-        self.setRGB1((r,g,b))
+        rgb = HCY_to_RGB(hcy)
+        self.setRGB1(rgb)
 
     def getHCY(self):
-        r,g,b = rgb = self.getRGB1()
-        h,c,v = rgb_to_hcv(rgb)
-        y = dot(HCYwts, rgb)
-        if c != 0:
-            z = dot(hue_to_rgb(h), HCYwts)
-            if y > z:
-                y = 1 - y
-                z = 1 - z
-            c *= z/y
-        return h, c, y
+        rgb = self.getRGB1()
+        return RGB_to_HCY(rgb)
 
     def invert(self):
         r, g, b = self._rgb
