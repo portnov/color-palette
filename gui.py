@@ -8,16 +8,16 @@ import gettext
 
 from PyQt4 import QtGui
 
-from widgets import *
-import colors
-from colors import Color
-import mixers
-import harmonies
-from palette import Palette, GimpPalette, save_gpl
-from palette_widget import PaletteWidget
-from palette_image import PaletteImage
-from svg_widget import SvgTemplateWidget
-import filedialog
+sys.path.append(dirname(sys.argv[0]))
+
+from widgets.widgets import *
+from color import colors, mixers, harmonies
+from color.colors import Color
+from palette.palette import Palette, GimpPalette, save_gpl
+from palette.widget import PaletteWidget
+from palette.image import PaletteImage
+from matching.svg_widget import SvgTemplateWidget
+from dialogs import filedialog
 
 def locate_icon(name):
     thisdir = dirname(sys.argv[0])

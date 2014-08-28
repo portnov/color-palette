@@ -1,6 +1,6 @@
 
 from math import sin, cos, atan2, sqrt, pi
-from colors import *
+from color.colors import *
 
 def mixH(H1, H2, S1, S2, I1, I2, k1, k2):
     numerator = I1*S1*k1*cos(H1) + I2*S2*k2*cos(H2)

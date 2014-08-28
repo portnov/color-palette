@@ -1,6 +1,6 @@
 
 from PyQt4 import QtGui
-from colors import *
+from color.colors import *
 
 def allShades(base_colors, shader):
     if shader is None:

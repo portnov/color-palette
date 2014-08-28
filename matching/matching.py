@@ -1,6 +1,6 @@
 
-from colors import *
-from spaces import *
+from color.colors import *
+from color.spaces import *
 
 def find_min(idx, occupied, d):
     best_i = None

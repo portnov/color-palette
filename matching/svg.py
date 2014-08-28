@@ -2,7 +2,7 @@
 import re
 from lxml import etree
 
-import colors
+from color import colors
 
 SVG_NS="http://www.w3.org/2000/svg"
 

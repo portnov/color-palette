@@ -2,10 +2,9 @@
 
 import sys
 from PyQt4 import QtGui
-from widgets import *
-import colors
-import mixers
-import harmonies
+
+from widgets.widgets import *
+from color import colors, mixers, harmonies
 
 def on_select(w):
     def handler():

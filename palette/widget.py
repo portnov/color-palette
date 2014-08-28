@@ -1,9 +1,10 @@
 
 from PyQt4 import QtGui, QtCore
+
+from color.colors import *
+from widgets.widgets import *
 from palette import *
-from colors import *
-from widgets import *
-from palette_image import PaletteImage
+from image import PaletteImage
 
 class PaletteWidget(QtGui.QLabel):
     clicked = QtCore.pyqtSignal(int,int) # (x,y)

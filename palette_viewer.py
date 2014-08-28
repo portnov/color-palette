@@ -3,12 +3,12 @@
 import sys
 from PyQt4 import QtGui, QtCore
 
-from palette import *
-from mixers import *
-from viewer import PaletteViewWindow
-from palette_image import PaletteImage
-from palette_widget import *
-from widgets import *
+from color.mixers import *
+from palette.palette import *
+from palette.viewer import PaletteViewWindow
+from palette.image import PaletteImage
+from palette.widget import *
+from widgets.widgets import *
 
 class GUI(QtGui.QMainWindow):
     def __init__(self, palette):

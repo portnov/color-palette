@@ -1,7 +1,7 @@
 
 from os.path import join, basename
-from colors import *
-import mixers
+from color.colors import *
+from color import mixers
 
 NONE = 0
 USER_DEFINED = 1

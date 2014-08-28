@@ -1,7 +1,8 @@
 
 from PyQt4 import QtGui, QtCore
+
 from palette import *
-from colors import *
+from color.colors import *
 
 class PaletteImage(object):
     def __init__(self, palette, w=None, h=None, padding=2.0, background=None):

@@ -2,11 +2,9 @@
 from string import Template
 from PyQt4 import QtGui, QtSvg, QtCore
 
-from colors import *
-from spaces import *
-import svg
-import transform
-import matching
+from color.colors import *
+from color.spaces import *
+import svg, transform, matching
 
 class SvgTemplateWidget(QtSvg.QSvgWidget):
     template_loaded = QtCore.pyqtSignal()

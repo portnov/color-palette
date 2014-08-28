@@ -1,9 +1,9 @@
 from PyQt4 import QtGui
 
 from palette import *
-from colors import *
-from widgets import *
-from mixers import *
+from color.colors import *
+from color.mixers import *
+from widgets.widgets import *
 
 class PaletteViewWindow(QtGui.QWidget):
     def __init__(self, palette):

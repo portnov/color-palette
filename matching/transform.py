@@ -22,8 +22,8 @@ from numpy.linalg import solve, det
 from numpy.linalg.linalg import LinAlgError
 from copy import deepcopy as copy
 
-from colors import *
-from spaces import *
+from color.colors import *
+from color.spaces import *
 
 def get_A(x):
     return np.array([[x[0][0], x[0][1], x[0][2], 0, 0, 0, 0, 0, 0, 1, 0, 0],

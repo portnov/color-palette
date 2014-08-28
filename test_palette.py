@@ -2,10 +2,11 @@
 
 import sys
 from PyQt4 import QtGui
-from colors import *
-from palette import *
-from mixers import *
-from viewer import PaletteViewWindow
+
+from color.colors import *
+from color.mixers import *
+from palette.palette import *
+from palette.viewer import PaletteViewWindow
 
 palette = Palette(MixerRGB, 5, 5)
 palette.paint(0, 0, Color(255.0, 0.0, 0.0))

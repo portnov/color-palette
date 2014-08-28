@@ -3,8 +3,8 @@
 from math import cos, sin, pi, sqrt, atan2
 from PyQt4 import QtGui, QtCore
 
-import colors
-from colors import seq
+from color import colors
+from color.colors import seq
 
 def dnd_pixmap(color):
     pixmap = QtGui.QPixmap(32,32)

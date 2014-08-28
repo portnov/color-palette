@@ -1,5 +1,5 @@
 
-from colors import *
+from color.colors import *
 
 class Space(object):
     @classmethod
