@@ -6,6 +6,7 @@ from PyQt4 import QtGui
 from color.colors import *
 from color.mixers import *
 from palette.palette import *
+from palette.storage.gimp import *
 from palette.viewer import PaletteViewWindow
 
 palette = Palette(MixerRGB, 5, 5)

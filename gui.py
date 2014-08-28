@@ -13,7 +13,8 @@ sys.path.append(dirname(sys.argv[0]))
 from widgets.widgets import *
 from color import colors, mixers, harmonies
 from color.colors import Color
-from palette.palette import Palette, GimpPalette, save_gpl
+from palette.palette import Palette
+from palette.storage.gimp import GimpPalette, save_gpl
 from palette.widget import PaletteWidget
 from palette.image import PaletteImage
 from matching.svg_widget import SvgTemplateWidget
