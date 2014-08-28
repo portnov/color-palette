@@ -14,11 +14,11 @@ from widgets.widgets import *
 from color import colors, mixers, harmonies
 from color.colors import Color
 from palette.palette import Palette
-from palette.storage.gimp import GimpPalette, save_gpl
+from palette.storage.gimp import save_gpl
 from palette.widget import PaletteWidget
 from palette.image import PaletteImage
 from matching.svg_widget import SvgTemplateWidget
-from dialogs import open_palette
+from dialogs.open_palette import *
 
 def locate_icon(name):
     thisdir = dirname(sys.argv[0])
@@ -366,9 +366,9 @@ class GUIWidget(QtGui.QWidget):
         self.update()
 
     def on_save_palette(self):
-        filename = QtGui.QFileDialog.getSaveFileName(self, _("Save palette"), ".", "*.gpl")
+        filename = save_palette_filename(self, _("Save palette"))
         if filename:
-            GimpPalette(self.palette.palette).save(unicode(filename))
+            save_palette(self.palette.palette, filename)
 
     def on_save_palette_image(self):
         filename = QtGui.QFileDialog.getSaveFileName(self, _("Save palette image"), ".", "*.png")
@@ -376,20 +376,11 @@ class GUIWidget(QtGui.QWidget):
             image = self.palette.get_image()
             image.save(filename)
 
-#     def _preview_palette(self, path):
-#         if path.endswith(".gpl"):
-#             palette = GimpPalette().load(mixers.MixerRGB, path)
-#             image = PaletteImage(palette).get(160, 160)
-#             return image
-#         else:
-#             return None
-
     def on_open_palette(self):
-        filename = open_palette.get_palette_filename(self, _("Open palette"), ".")
-        #filename = QtGui.QFileDialog.getOpenFileName(self, _("Open palette"), ".", "*.gpl")
-        if filename:
+        palette = open_palette_dialog(self, _("Open palette"))
+        if palette:
             self.mixers.setCurrentIndex(0)
-            self.palette.palette = GimpPalette().load(mixers.MixerRGB, unicode(filename))
+            self.palette.palette = palette
             self.palette.selected_slot = None
             self.palette.redraw()
             self.update()

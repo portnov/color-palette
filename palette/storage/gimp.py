@@ -1,6 +1,7 @@
 
 from os.path import join, basename
 from gettext import gettext as _
+from PyQt4 import QtGui
 
 from color.colors import *
 from color import mixers
@@ -34,6 +35,42 @@ class GimpPalette(Storage):
     title = _("Gimp palette")
     filters = ["*.gpl"]
 
+    @staticmethod
+    def get_options_widget(dialog, filename):
+
+        def on_columns_changed(n):
+            dialog.options = n
+            dialog.on_current_changed(filename)
+
+        ncols = None
+        pf = open(filename,'r')
+        l = pf.readline().strip()
+        if l != 'GIMP Palette':
+            pf.close()
+            return None
+        for line in pf:
+            line = line.strip()
+            lst = line.split()
+            if lst[0]=='Columns:':
+                ncols = int( lst[1] )
+                break
+        pf.close()
+
+        widget = QtGui.QWidget()
+        box = QtGui.QHBoxLayout()
+        label = QtGui.QLabel(_("Columns: "))
+        spinbox = QtGui.QSpinBox()
+        spinbox.setMinimum(2)
+        spinbox.setMaximum(100)
+        if ncols is None:
+            ncols = MAX_COLS
+        spinbox.setValue(ncols)
+        box.addWidget(label)
+        box.addWidget(spinbox)
+        spinbox.valueChanged.connect(on_columns_changed)
+        widget.setLayout(box)
+        return widget
+
     def save(self, file_w=None):
         if type(file_w) in [str,unicode]:
             pf = open(file_w, 'w')
@@ -66,7 +103,7 @@ class GimpPalette(Storage):
         if do_close:
             pf.close()
 
-    def load(self,mixer,file_r):
+    def load(self, mixer, file_r, force_ncols=None):
         self.palette = Palette(mixer)
         self.palette.ncols = None
         if not file_r:
@@ -121,6 +158,8 @@ class GimpPalette(Storage):
                 self.palette.ncols = MAX_COLS
             else:
                 self.palette.ncols = n_colors
+        if force_ncols is not None:
+            self.palette.ncols = force_ncols
         self.palette.setSlots(all_slots)
         print("Loaded palette: {}x{}".format( self.palette.nrows, self.palette.ncols ))
         return self.palette

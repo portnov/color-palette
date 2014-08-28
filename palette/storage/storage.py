@@ -17,6 +17,10 @@ class Storage(object):
     def check(filename):
         return True
 
+    @staticmethod
+    def get_options_widget(dialog, filename):
+        return None
+
     def load(self, mixer, file_r, *args, **kwargs):
         raise NotImplemented
 
