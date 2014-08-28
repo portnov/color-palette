@@ -9,7 +9,7 @@ class Storage(object):
     def __init__(self, palette=None):
         self.palette = palette
 
-    def load(self, mixer, file_r):
+    def load(self, mixer, file_r, *args, **kwargs):
         raise NotImplemented
 
     def save(self, file_w):
