@@ -47,8 +47,8 @@ def find_max(idx, occupied, d):
     return best_i
 
 def match_colors(colors1, colors2):
-    hsvs1 = dict(enumerate([c.getHSV() for c in colors1 if c is not None]))
-    hsvs2 = dict(enumerate([c.getHSV() for c in colors2 if c is not None]))
+    hsvs1 = dict(enumerate([c.getHCY() for c in colors1 if c is not None]))
+    hsvs2 = dict(enumerate([c.getHCY() for c in colors2 if c is not None]))
     occupied = []
     result = {}
     while len(hsvs1.keys()) > 0:
