@@ -155,6 +155,15 @@ class MixerHCY(Mixer):
         result.setHCY((h,c,y))
         return result
 
+class MixerHCYDesaturate(MixerHCY):
+    @classmethod
+    def mix(cls, clr1, clr2, q):
+        h1, c1, y1 = clr1.getHCY()
+        h2, c2, y2 = clr2.getHCY()
+        h,c = mix_wheel(h1,c1, h2,c2, q)
+        y = linear(y1, y2, q)
+        return hcy(h,c,y)
+
 class MixerHSI(Mixer):
     @classmethod
     def mix(cls, c1, c2, q):

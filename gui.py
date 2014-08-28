@@ -170,6 +170,7 @@ class GUIWidget(QtGui.QWidget):
                         (_("HSV"), mixers.MixerHSV), 
                         (_("HLS"), mixers.MixerHLS), 
                         (_("HCY"), mixers.MixerHCY), 
+                        (_("HCY Desaturate"), mixers.MixerHCYDesaturate), 
                         (_("RYB"), mixers.MixerRYB),
                         (_("CMYK"), mixers.MixerCMYK), 
                         (_("CMY"), mixers.MixerCMY), 
