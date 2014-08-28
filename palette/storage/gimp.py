@@ -1,5 +1,6 @@
 
 from os.path import join, basename
+from gettext import gettext as _
 
 from color.colors import *
 from color import mixers
@@ -29,6 +30,9 @@ def save_gpl(name, ncols, clrs, file_w):
         pf.close()
 
 class GimpPalette(Storage):
+
+    title = _("Gimp palette")
+    filters = ["*.gpl"]
 
     def save(self, file_w=None):
         if type(file_w) in [str,unicode]:

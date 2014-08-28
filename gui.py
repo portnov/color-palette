@@ -18,7 +18,7 @@ from palette.storage.gimp import GimpPalette, save_gpl
 from palette.widget import PaletteWidget
 from palette.image import PaletteImage
 from matching.svg_widget import SvgTemplateWidget
-from dialogs import filedialog
+from dialogs import open_palette
 
 def locate_icon(name):
     thisdir = dirname(sys.argv[0])
@@ -376,16 +376,16 @@ class GUIWidget(QtGui.QWidget):
             image = self.palette.get_image()
             image.save(filename)
 
-    def _preview_palette(self, path):
-        if path.endswith(".gpl"):
-            palette = GimpPalette().load(mixers.MixerRGB, path)
-            image = PaletteImage(palette).get(160, 160)
-            return image
-        else:
-            return None
+#     def _preview_palette(self, path):
+#         if path.endswith(".gpl"):
+#             palette = GimpPalette().load(mixers.MixerRGB, path)
+#             image = PaletteImage(palette).get(160, 160)
+#             return image
+#         else:
+#             return None
 
     def on_open_palette(self):
-        filename = filedialog.get_filename(self, _("Open palette"), ".", "*.gpl", self._preview_palette)
+        filename = open_palette.get_palette_filename(self, _("Open palette"), ".")
         #filename = QtGui.QFileDialog.getOpenFileName(self, _("Open palette"), ".", "*.gpl")
         if filename:
             self.mixers.setCurrentIndex(0)
