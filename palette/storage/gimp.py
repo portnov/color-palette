@@ -108,8 +108,7 @@ class GimpPalette(Storage):
         self.palette.ncols = None
         if not file_r:
             palette.filename = None
-            palette.name = 'MyPaint'
-            palette['MyPaint'] = []
+            palette.name = 'Gimp'
             return
         elif hasattr(file_r,'read'):
             pf = file_r

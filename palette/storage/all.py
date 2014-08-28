@@ -1,10 +1,12 @@
 
 from gettext import gettext as _
 from fnmatch import fnmatch
+from os.path import exists
 
 from gimp import GimpPalette
+from xml import XmlPalette
 
-storages = [GimpPalette]
+storages = [GimpPalette, XmlPalette]
 
 def get_all_filters():
     result = ""
@@ -17,7 +19,7 @@ def detect_storage(filename):
     for cls in storages:
         if not any([fnmatch(filename, mask) for mask in cls.filters]):
             continue
-        if not cls.check(filename):
+        if exists(filename) and not cls.check(filename):
             continue
         return cls
     return None
