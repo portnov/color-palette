@@ -31,10 +31,14 @@ class PaletteOpenDialog(PreviewFileDialog):
 
     def get_options_widget(self, filename):
         loader = detect_storage(filename)
+        if loader is None:
+            return None
         return loader.get_options_widget(self, filename)
 
     def get_preview_image(self, path):
         palette = load_palette(path, options=self.options)
+        if palette is None:
+            return None
         image = PaletteImage(palette).get(160, 160)
         return image
 
