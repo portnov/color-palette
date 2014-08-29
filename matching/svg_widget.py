@@ -60,6 +60,8 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
         self._update()
 
     def setColors(self, dst_colors):
+        if not dst_colors:
+            return
         self._dst_colors = dst_colors
         self._colors = matching.match_colors(self._svg_colors, dst_colors)
         self._need_render = True

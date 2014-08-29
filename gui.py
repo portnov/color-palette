@@ -610,7 +610,7 @@ class GUIWidget(QtGui.QWidget):
         self.update()
 
     def on_colorize_harmony(self):
-        self.svg.setColors([w.getColor() for w in self.harmonized])
+        self.svg.setColors([w.getColor() for w in self.harmonized if w.getColor() is not None])
         self.update()
 
     def on_colorize_palette(self):

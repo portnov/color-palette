@@ -22,6 +22,7 @@ def find_min(idx, occupied, d):
             best_i = i
             best_y = y
             best_clr = clr
+    assert best_i is not None
     return best_i
 
 def find_max(idx, occupied, d):
@@ -44,6 +45,7 @@ def find_max(idx, occupied, d):
             best_i = i
             best_y = y
             best_clr = clr
+    assert best_i is not None
     return best_i
 
 def match_colors(colors1, colors2):
