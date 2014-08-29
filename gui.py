@@ -14,7 +14,6 @@ from widgets.widgets import *
 from color import colors, mixers, harmonies
 from color.colors import Color
 from palette.palette import Palette
-from palette.storage.gimp import save_gpl
 from palette.widget import PaletteWidget
 from palette.image import PaletteImage
 from matching.svg_widget import SvgTemplateWidget
@@ -385,6 +384,17 @@ class GUIWidget(QtGui.QWidget):
             self.palette.redraw()
             self.update()
 
+    def on_swatches_save(self):
+        filename = save_palette_filename(self, _("Save palette"))
+        if filename:
+            clrs = [w.getColor() for w in self.harmonized if w.getColor() is not None]
+            palette = Palette(mixers.MixerRGB, nrows=4, ncols=5)
+            for row in range(4):
+                for col in range(5):
+                    palette.slots[row][col].color = clrs[row*5 + col]
+                    palette.slots[row][col].mark(True)
+            save_palette(palette, filename)
+    
     def on_toggle_edit(self):
         self.palette.editing_enabled = not self.palette.editing_enabled
         self.update()
@@ -611,12 +621,6 @@ class GUIWidget(QtGui.QWidget):
             f = open(unicode(filename),'w')
             f.write(content)
             f.close()
-    
-    def on_swatches_save(self):
-        filename = QtGui.QFileDialog.getSaveFileName(self, _("Save palette"), ".", "*.gpl")
-        if filename:
-            clrs = [w.getColor() for w in self.harmonized if w.getColor() is not None]
-            save_gpl("Swatches", 5, clrs, unicode(filename))
     
 if __name__ == "__main__":
     
