@@ -18,6 +18,7 @@ from palette.widget import PaletteWidget
 from palette.image import PaletteImage
 from matching.svg_widget import SvgTemplateWidget
 from dialogs.open_palette import *
+from dialogs import filedialog
 
 def locate_icon(name):
     thisdir = dirname(sys.argv[0])
@@ -326,7 +327,7 @@ class GUIWidget(QtGui.QWidget):
         grid.addWidget(QtGui.QLabel(_("Shades:")), 2, 0)
         grid.addWidget(self.shaders, 2,1)
 
-        vbox_center.addLayout(grid)
+        vbox_center.addLayout(grid, 1)
 
         self.selector = Selector(mixers.MixerHLS)
         self.selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
@@ -334,7 +335,7 @@ class GUIWidget(QtGui.QWidget):
         self.selector.setMaximumSize(500,500)
         self.selector.setHarmony(harmonies.Opposite)
         self.selector.selected.connect(self.on_select_color)
-        vbox_center.addWidget(self.selector, 3)
+        vbox_center.addWidget(self.selector, 2)
 
         self.current_color = ColorWidget(self)
         self.current_color.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
@@ -351,12 +352,13 @@ class GUIWidget(QtGui.QWidget):
             hbox = QtGui.QHBoxLayout()
             for i in range(5):
                 w = ColorWidget(self)
+                w.setMinimumSize(30,30)
                 w.setMaximumSize(50,50)
                 self.harmonized.append(w)
                 hbox.addWidget(w)
             self.harmonizedBox.addLayout(hbox)
 
-        vbox_center.addLayout(self.harmonizedBox)
+        vbox_center.addLayout(self.harmonizedBox, 1)
         widget.setLayout(vbox_center)
         return widget
 
