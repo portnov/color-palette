@@ -89,6 +89,14 @@ class GUI(QtGui.QMainWindow):
         create_action(self, self.gui.toolbar_palette, menu,
                 icon, _("Save palette as &image"), self.gui.on_save_palette_image)
         menu.addSeparator()
+        self.gui.toolbar_palette.addSeparator()
+        toggle_edit = create_action(self, self.gui.toolbar_palette, menu,
+                "Gnome-colors-gtk-edit.png",
+                _("Toggle edit &mode"), self.gui.on_toggle_edit)
+        toggle_edit.setCheckable(True)
+        toggle_edit.setChecked(False)
+        menu.addSeparator()
+        self.gui.toolbar_palette.addSeparator()
         create_action(self, self.gui.toolbar_palette, menu,
                 "darken.png", _("&Darker"), self.gui.on_palette_darker)
         create_action(self, self.gui.toolbar_palette, menu,
@@ -107,11 +115,6 @@ class GUI(QtGui.QMainWindow):
                 "contrast-up.png", _("Increase &contrast"), self.gui.on_palette_contrast_up)
         create_action(self, self.gui.toolbar_palette, menu,
                 "contrast-down.png", _("Decrease contras&t"), self.gui.on_palette_contrast_down)
-        toggle_edit = create_action(self, self.gui.toolbar_palette, menu,
-                "Gnome-colors-gtk-edit.png",
-                _("Toggle edit &mode"), self.gui.on_toggle_edit)
-        toggle_edit.setCheckable(True)
-        toggle_edit.setChecked(False)
 
     def _init_harmonies_actions(self):
         menu = self.menuBar().addMenu(_("&Swatches"))
