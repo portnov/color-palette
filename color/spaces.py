@@ -28,3 +28,12 @@ class HSV(Space):
     def fromCoords(cls, coords):
         return hsv(*coords)
 
+class HCY(Space):
+    @classmethod
+    def getCoords(cls, color):
+        return color.getHCY()
+
+    @classmethod
+    def fromCoords(cls, coords):
+        return hcy(*coords)
+
