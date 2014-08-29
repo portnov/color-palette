@@ -117,6 +117,8 @@ class GUI(QtGui.QMainWindow):
         menu = self.menuBar().addMenu(_("&Swatches"))
         create_action(self, self.gui.toolbar_swatches, menu,
                 "harmony.png", _("&Harmony"), self.gui.on_harmony)
+        menu.addSeparator()
+        self.gui.toolbar_swatches.addSeparator()
         create_action(self, self.gui.toolbar_swatches, menu,
                 "darken.png", _("&Darker"), self.gui.on_swatches_darker)
         create_action(self, self.gui.toolbar_swatches, menu,
@@ -135,6 +137,9 @@ class GUI(QtGui.QMainWindow):
         create_action(self, self.gui.toolbar_swatches, menu,
                 "contrast-down.png", _("Decrease contras&t"), self.gui.on_swatches_contrast_down)
         menu.addSeparator()
+        self.gui.toolbar_swatches.addSeparator()
+        create_action(self, self.gui.toolbar_swatches, menu,
+                "Edit-clear_mirrored.png", _("C&lear swatches"), self.gui.on_clear_swatches)
         create_action(self, self.gui.toolbar_swatches, menu,
                 QtGui.QStyle.SP_DialogSaveButton, _("&Save as palette"), self.gui.on_swatches_save)
 
@@ -398,6 +403,11 @@ class GUIWidget(QtGui.QWidget):
     def on_toggle_edit(self):
         self.palette.editing_enabled = not self.palette.editing_enabled
         self.update()
+
+    def on_clear_swatches(self):
+        for w in self.harmonized:
+            w.setColor(None)
+            w.update()
 
     def on_swatches_darker(self):
         for w in self.harmonized:
