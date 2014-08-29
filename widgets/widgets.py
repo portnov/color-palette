@@ -24,15 +24,18 @@ def create_qdrag_color(widget, color):
 class ColorWidget(QtGui.QLabel):
     clicked = QtCore.pyqtSignal()
     selected = QtCore.pyqtSignal()
+    cleared = QtCore.pyqtSignal()
     
     def __init__(self, *args):
         super(ColorWidget, self).__init__(*args);
         self.setMinimumSize(18, 18)
         self.clicked.connect(self.on_click)
+        self.cleared.connect(self.on_clear)
         self.rgb = None
         self._mouse_pressed = False
         self._drag_start_pos = None
         self.select_button = QtCore.Qt.LeftButton
+        self.clear_button = QtCore.Qt.RightButton
         self.drop_enabled = True
         self.pick_enabled = True
         self.setAcceptDrops(True)
@@ -88,9 +91,13 @@ class ColorWidget(QtGui.QLabel):
     
     def mouseReleaseEvent(self, event):
         #print("Mouse released")
-        if event.button() == self.select_button and self.pick_enabled:
-            self.clicked.emit()
-            event.accept()
+        if self.pick_enabled:
+            if event.button() == self.select_button:
+                self.clicked.emit()
+                event.accept()
+            elif event.button() == self.clear_button:
+                self.cleared.emit()
+                event.accept()
 
     def mouseMoveEvent(self, event):
         if not self._mouse_pressed:
@@ -143,6 +150,11 @@ class ColorWidget(QtGui.QLabel):
             clr = QtGui.QColorDialog.getColor()
         r, g, b, a = clr.getRgb()
         self.setRGB((r, g, b))
+        self.repaint()
+        self.selected.emit()
+
+    def on_clear(self):
+        self.setColor(None)
         self.repaint()
         self.selected.emit()
     
@@ -406,16 +418,17 @@ class Selector(QtGui.QLabel):
         self.setAcceptDrops(True)
 
     def setColor(self, color):
-        self.selected_color = color
-        h = self.mixer.getHue(self.selected_color)
-        self.selected_hue = h*2*pi
-        self.square.setHue(h)
-        self.selectedHue.emit(h)
-        _,s,v = self.mixer.getShade(self.selected_color)
-        self.selected_sv = s,v
-        self._update_harmony()
-        self.repaint()
-        self.selected.emit()
+        if color is not None:
+            self.selected_color = color
+            h = self.mixer.getHue(self.selected_color)
+            self.selected_hue = h*2*pi
+            self.square.setHue(h)
+            self.selectedHue.emit(h)
+            _,s,v = self.mixer.getShade(self.selected_color)
+            self.selected_sv = s,v
+            self._update_harmony()
+            self.repaint()
+            self.selected.emit()
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasColor():
