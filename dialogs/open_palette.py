@@ -53,7 +53,7 @@ def open_palette_dialog(parent=None, caption=None):
         return None
 
 def save_palette_filename(parent=None, caption=None):
-    filename = QtGui.QFileDialog.getSaveFileName(parent, caption=caption, filter=get_all_filters())
+    filename = QtGui.QFileDialog.getSaveFileName(parent, caption=caption, filter=get_all_filters(save=True))
     return unicode(filename)
 
 def load_palette(filename, mixer=None, options=None):
@@ -66,7 +66,7 @@ def load_palette(filename, mixer=None, options=None):
     return palette
 
 def save_palette(palette, path):
-    loader = detect_storage(path)
+    loader = detect_storage(path, save=True)
     if loader is None:
         raise RuntimeError("Unknown file type!")
     loader(palette).save(path)
