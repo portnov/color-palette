@@ -271,7 +271,6 @@ class SliderWidget(QtGui.QWidget):
         QtGui.QWidget.__init__(self)
         self.cache = Slider()
         self.mouse_pressed = False
-        self._selected = None
         self.luma = 0.5
 
     def mousePressEvent(self, event):
@@ -298,28 +297,26 @@ class SliderWidget(QtGui.QWidget):
         qp = QtGui.QPainter()
         qp.begin(self)
         qp.drawImage(0, 0, image)
-        if self._selected is not None:
-            y0 = self._selected
+        if self.luma is not None:
+            y0 = self.luma * h
             qp.setPen(Color(0,0,0))
-            qp.drawLine(0,y0, w, y0)
+            w = min(w, 35)
+            qp.drawRect(0,y0-2, w, 4)
         qp.end()
 
     def _select(self, y):
         w, h = self.width(), self.height()
-        self._selected = y
         self.luma = float(y)/float(h)
+        #print("Slider._select({})".format(self.luma))
         self.repaint()
         self.clicked.emit(self.luma)
 
     def select(self, luma):
         self.luma = luma
-        self._selected = luma * self.height()
+        #print("Slider.select({})".format(self.luma))
     
     def get_luma(self):
-        if self._selected is None:
-            return None
-        h = self.height()
-        return self._selected / float(h)
+        return self.luma
 
 class HCYSelector(QtGui.QWidget):
 
@@ -346,7 +343,7 @@ class HCYSelector(QtGui.QWidget):
     
     def set_enable_editing(self, value):
         self.wheel.enable_editing = value
-        print("Enable editing: {}".format(value))
+        #print("Enable editing: {}".format(value))
         if value and self.wheel._harmonized is None:
             self.wheel._harmonized = [(0,0.9), (0, 0.3), (0.5, 0.3), (0.5, 0.9)]
 

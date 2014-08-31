@@ -303,6 +303,16 @@ class Color(QtGui.QColor):
         else:
             QtGui.QColor.__init__(self, *args)
             self._rgb = None
+        self._reset_cache()
+
+    def _reset_cache(self):
+        self._hcy = None
+        self._hls = None
+        self._lch = None
+        self._lab = None
+        self._hsv = None
+        self._ryb = None
+        self._cmy = None
     
     def getRGB(self):
         r, g, b, a = self.getRgb()
@@ -323,6 +333,8 @@ class Color(QtGui.QColor):
         self._rgb = rgb
     
     def getHSV(self):
+        if self._hsv is not None:
+            return self._hsv
         r, g, b = self._rgb
         eps = 0.001
         if abs(max(r,g,b)) < eps:
@@ -330,22 +342,32 @@ class Color(QtGui.QColor):
         return colorsys.rgb_to_hsv(r/255., g/255., b/255.)
     
     def getHLS(self):
+        if self._hls is not None:
+            return self._hls
         r, g, b = self._rgb
         return colorsys.rgb_to_hls(r/255., g/255., b/255.)
     
     def setHSV(self, hsv):
+        self._reset_cache()
+        self._hsv = hsv
         rgb = colorsys.hsv_to_rgb(*hsv)
         self.setRGB1(rgb)
     
     def setHLS(self, hls):
+        self._reset_cache()
+        self._hls = hls
         r, g, b = colorsys.hls_to_rgb(*hls)
         self.setRGB((r*255, g*255, b*255))
     
     def setRYB(self, rybhcy):
+        self._reset_cache()
+        self._ryb = rybhcy
         rgb = RYBHCY_to_RGB(*rybhcy)
         self.setRGB1(rgb)
     
     def getRYB(self):
+        if self._ryb is not None:
+            return self._ryb
         return RGB_to_RYBHCY(*self.getRGB1())
     
     def getCMYK(self):
@@ -358,34 +380,50 @@ class Color(QtGui.QColor):
         self._rgb = (r, g, b)
     
     def getCMY(self):
+        if self._cmy is not None:
+            return self._cmy
         r, g, b = self.getRGB1()
         return (1.0-r, 1.0-g, 1.0-b)
     
     def setCMY(self, cmy):
+        self._reset_cache()
+        self._cmy = cmy
         c, m, y = cmy
         self.setRGB1((1.0-c, 1.0-m, 1.0-y))
         
     def getLab(self):
+        if self._lab is not None:
+            return self._lab
         r, g, b = self.getRGB()
         return rgb_to_lab(r, g, b)
     
     def setLab(self, lab):
+        self._reset_cache()
+        self._lab = lab
         r, g, b = lab_to_rgb(*lab)
         self.setRGB1((r, g, b))
         
     def getLCh(self):
+        if self._lch is not None:
+            return self._lch
         r, g, b = self.getRGB()
         return rgb_to_lch(r, g, b)
     
     def setLCh(self, lch):
+        self._reset_cache()
+        self._lch = lch
         r, g, b = lch_to_rgb(*lch)
         self.setRGB1((r, g, b))
 
     def setHCY(self, hcy):
+        self._reset_cache()
+        self._hcy = hcy
         rgb = HCY_to_RGB(hcy)
         self.setRGB1(rgb)
 
     def getHCY(self):
+        if self._hcy is not None:
+            return self._hcy
         rgb = self.getRGB1()
         return RGB_to_HCY(rgb)
 
