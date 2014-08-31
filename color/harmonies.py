@@ -94,6 +94,15 @@ class SimilarAndOpposite(Harmony):
             h3 -= 1.0
         return [hcy(h1,c,y), color, hcy(h2,c,y), hcy(h3,c,y)]
 
+class Rectangle(Harmony):
+    @classmethod
+    def get(cls, color):
+        h, c, y = color.getHCY()
+        h1 = (h + 0.1) % 1.0
+        h2 = (h1 + 0.5) % 1.0
+        h3 = (h + 0.5) % 1.0
+        return [color, hcy(h1,c,y), hcy(h2,c,y), hcy(h3,c,y)]
+
 def NHuesRYB(n):
     class Hues_RYB(Harmony):
         @classmethod

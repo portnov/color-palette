@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-08-31 15:20+YEKT\n"
+"POT-Creation-Date: 2014-08-31 15:38+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -176,110 +176,114 @@ msgid "Four colors"
 msgstr ""
 
 #: ./gui.py:200
-msgid "Similar colors"
+msgid "Rectangle"
 msgstr ""
 
 #: ./gui.py:201
-msgid "Similar and opposite"
+msgid "Similar colors"
 msgstr ""
 
 #: ./gui.py:202
-msgid "Opposite colors RYB"
+msgid "Similar and opposite"
 msgstr ""
 
 #: ./gui.py:203
+msgid "Opposite colors RYB"
+msgstr ""
+
+#: ./gui.py:204
 msgid "Three colors RYB"
 msgstr ""
 
-#: ./gui.py:204
+#: ./gui.py:205
 msgid "Four colors RYB"
 msgstr ""
 
-#: ./gui.py:204
+#: ./gui.py:205
 msgid "Three colors LCh"
 msgstr ""
 
-#: ./gui.py:205
+#: ./gui.py:206
 msgid "Four colors LCh"
 msgstr ""
 
-#: ./gui.py:207
+#: ./gui.py:208
 msgid "Saturation"
 msgstr ""
 
-#: ./gui.py:208
+#: ./gui.py:209
 msgid "Value"
 msgstr ""
 
-#: ./gui.py:209
+#: ./gui.py:210
 msgid "Chroma"
 msgstr ""
 
-#: ./gui.py:210
+#: ./gui.py:211
 msgid "Luma"
 msgstr ""
 
-#: ./gui.py:211
+#: ./gui.py:212
 msgid "Warmer"
 msgstr ""
 
-#: ./gui.py:212
+#: ./gui.py:213
 msgid "Cooler"
 msgstr ""
 
-#: ./gui.py:242
+#: ./gui.py:243
 msgid "Colors from original image:"
 msgstr ""
 
-#: ./gui.py:302
+#: ./gui.py:303
 msgid "Mixing model:"
 msgstr ""
 
-#: ./gui.py:324
+#: ./gui.py:325
 msgid "Selector model:"
 msgstr ""
 
-#: ./gui.py:331 ./gui.py:354
+#: ./gui.py:332 ./gui.py:355
 msgid "Harmony:"
 msgstr ""
 
-#: ./gui.py:344
+#: ./gui.py:345
 msgid "Square"
 msgstr ""
 
-#: ./gui.py:352
+#: ./gui.py:353
 msgid "Manual"
 msgstr ""
 
-#: ./gui.py:375
+#: ./gui.py:376
 msgid "HCY Wheel"
 msgstr ""
 
-#: ./gui.py:391
+#: ./gui.py:392
 msgid "Shades:"
 msgstr ""
 
-#: ./gui.py:425 ./gui.py:445
+#: ./gui.py:426 ./gui.py:446
 msgid "Save palette"
 msgstr ""
 
-#: ./gui.py:430
+#: ./gui.py:431
 msgid "Save palette image"
 msgstr ""
 
-#: ./gui.py:436
+#: ./gui.py:437
 msgid "Open palette"
 msgstr ""
 
-#: ./gui.py:640
+#: ./gui.py:641
 msgid "Selected from palette: "
 msgstr ""
 
-#: ./gui.py:726
+#: ./gui.py:727
 msgid "Open SVG template"
 msgstr ""
 
-#: ./gui.py:731
+#: ./gui.py:732
 msgid "Save SVG"
 msgstr ""
 

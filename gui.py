@@ -197,6 +197,7 @@ class GUIWidget(QtGui.QWidget):
                            (_("Two opposite"),  harmonies.TwoOpposite),
                            (_("Three colors"),  harmonies.NHues(3)),
                            (_("Four colors"),   harmonies.NHues(4)),
+                           (_("Rectangle"),   harmonies.Rectangle),
                            (_("Similar colors"),harmonies.Similar),
                            (_("Similar and opposite"),harmonies.SimilarAndOpposite),
                            (_("Opposite colors RYB"), harmonies.NHuesRYB(2)),

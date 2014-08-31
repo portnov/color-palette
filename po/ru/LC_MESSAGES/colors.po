@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2014-08-31 15:20+YEKT\n"
+"POT-Creation-Date: 2014-08-31 15:38+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -176,110 +176,114 @@ msgid "Four colors"
 msgstr "Четыре цвета"
 
 #: gui.py:200
+msgid "Rectangle"
+msgstr "Прямоугольник"
+
+#: gui.py:201
 msgid "Similar colors"
 msgstr "Похожие цвета"
 
-#: gui.py:201
+#: gui.py:202
 msgid "Similar and opposite"
 msgstr "Похожие и противоположный"
 
-#: gui.py:202
+#: gui.py:203
 msgid "Opposite colors RYB"
 msgstr "Противоположные RYB"
 
-#: gui.py:203
+#: gui.py:204
 msgid "Three colors RYB"
 msgstr "Три цвета RYB"
 
-#: gui.py:204
+#: gui.py:205
 msgid "Four colors RYB"
 msgstr "Четыре цвета RYB"
 
-#: gui.py:204
+#: gui.py:205
 msgid "Three colors LCh"
 msgstr "Три цвета LCh"
 
-#: gui.py:205
+#: gui.py:206
 msgid "Four colors LCh"
 msgstr "Четыре цвета LCh"
 
-#: gui.py:207
+#: gui.py:208
 msgid "Saturation"
 msgstr "Насыщенность"
 
-#: gui.py:208
+#: gui.py:209
 msgid "Value"
 msgstr "Значение"
 
-#: gui.py:209
+#: gui.py:210
 msgid "Chroma"
 msgstr "Хрома"
 
-#: gui.py:210
+#: gui.py:211
 msgid "Luma"
 msgstr "Светимость"
 
-#: gui.py:211
+#: gui.py:212
 msgid "Warmer"
 msgstr "Теплее"
 
-#: gui.py:212
+#: gui.py:213
 msgid "Cooler"
 msgstr "Холоднее"
 
-#: gui.py:242
+#: gui.py:243
 msgid "Colors from original image:"
 msgstr "Цвета из исходного изображения:"
 
-#: gui.py:302
+#: gui.py:303
 msgid "Mixing model:"
 msgstr "Модель смешивания:"
 
-#: gui.py:324
+#: gui.py:325
 msgid "Selector model:"
 msgstr "Модель выбора:"
 
-#: gui.py:331 gui.py:354
+#: gui.py:332 gui.py:355
 msgid "Harmony:"
 msgstr "Гармония:"
 
-#: gui.py:344
+#: gui.py:345
 msgid "Square"
 msgstr "Квадрат"
 
-#: gui.py:352
+#: gui.py:353
 msgid "Manual"
 msgstr "Ручная"
 
-#: gui.py:375
+#: gui.py:376
 msgid "HCY Wheel"
 msgstr "Круг HCY"
 
-#: gui.py:391
+#: gui.py:392
 msgid "Shades:"
 msgstr "Оттенки:"
 
-#: gui.py:425 gui.py:445
+#: gui.py:426 gui.py:446
 msgid "Save palette"
 msgstr "Сохранить палитру"
 
-#: gui.py:430
+#: gui.py:431
 msgid "Save palette image"
 msgstr "Сохранить изображение палитры"
 
-#: gui.py:436
+#: gui.py:437
 msgid "Open palette"
 msgstr "Открыть палитру"
 
-#: gui.py:640
+#: gui.py:641
 msgid "Selected from palette: "
 msgstr "Выбрано из палитры: "
 
-#: gui.py:726
+#: gui.py:727
 msgid "Open SVG template"
 msgstr "Открыть шаблон SVG"
 
-#: gui.py:731
+#: gui.py:732
 msgid "Save SVG"
 msgstr "Сохранить SVG"
 
