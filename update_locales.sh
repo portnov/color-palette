@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pygettext -v -o po/colors.pot *.py
+pygettext -v -o po/colors.pot {.,color,dialogs,matching,palette,widgets}/*.py palette/storage/*.py
 cd po
 for D in $(ls -d *)
 do if [ -d $D ]

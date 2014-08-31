@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2014-08-27 22:18+YEKT\n"
+"POT-Creation-Date: 2014-08-29 22:11+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -15,246 +15,286 @@ msgstr ""
 "Content-Transfer-Encoding: utf-8\n"
 "Generated-By: pygettext.py 1.5\n"
 
-#: gui.py:77
+#: gui.py:78
 msgid "Palette editor"
 msgstr "Редактор палитр"
 
-#: gui.py:81
+#: gui.py:82
 msgid "&Palette"
 msgstr "&Палитра"
 
-#: gui.py:84
+#: gui.py:85
 msgid "&Open palette"
 msgstr "&Открыть палитру"
 
-#: gui.py:87
+#: gui.py:88
 msgid "&Save palette"
 msgstr "&Сохранить палитру"
 
-#: gui.py:90
+#: gui.py:91
 msgid "Save palette as &image"
 msgstr "Сохранить палитру как &изображение"
 
-#: gui.py:93 gui.py:121
-msgid "&Darker"
-msgstr "&Темнее"
-
-#: gui.py:95 gui.py:123
-msgid "&Lighter"
-msgstr "С&ветлее"
-
-#: gui.py:97 gui.py:125
-msgid "S&aturate"
-msgstr "&Насыщеннее"
-
-#: gui.py:99 gui.py:127
-msgid "D&esaturate"
-msgstr "Ум&еньшить насыщенность"
-
-#: gui.py:102 gui.py:129
-msgid "&Rotate colors counterclockwise"
-msgstr "&Повернуть цвета против часовой стрелки"
-
-#: gui.py:105 gui.py:132
-msgid "Rotate colors clock&wise"
-msgstr "Повернуть цвета по &часовой стрелке"
-
-#: gui.py:107 gui.py:134
-msgid "Increase &contrast"
-msgstr "Увеличить &контраст"
-
-#: gui.py:109 gui.py:136
-msgid "Decrease contras&t"
-msgstr "&Уменьшить контраст"
-
-#: gui.py:112
+#: gui.py:96
 msgid "Toggle edit &mode"
 msgstr "Переключить &режим редактирования"
 
-#: gui.py:117
+#: gui.py:102 gui.py:127
+msgid "&Darker"
+msgstr "&Темнее"
+
+#: gui.py:104 gui.py:129
+msgid "&Lighter"
+msgstr "С&ветлее"
+
+#: gui.py:106 gui.py:131
+msgid "S&aturate"
+msgstr "&Насыщеннее"
+
+#: gui.py:108 gui.py:133
+msgid "D&esaturate"
+msgstr "Ум&еньшить насыщенность"
+
+#: gui.py:111 gui.py:135
+msgid "&Rotate colors counterclockwise"
+msgstr "&Повернуть цвета против часовой стрелки"
+
+#: gui.py:114 gui.py:138
+msgid "Rotate colors clock&wise"
+msgstr "Повернуть цвета по &часовой стрелке"
+
+#: gui.py:116 gui.py:140
+msgid "Increase &contrast"
+msgstr "Увеличить &контраст"
+
+#: gui.py:118 gui.py:142
+msgid "Decrease contras&t"
+msgstr "&Уменьшить контраст"
+
+#: gui.py:121
 msgid "&Swatches"
 msgstr "&Образцы"
 
-#: gui.py:119
+#: gui.py:123
 msgid "&Harmony"
 msgstr "&Гармония"
 
-#: gui.py:139
+#: gui.py:146
+msgid "C&lear swatches"
+msgstr "&Очистить образцы"
+
+#: gui.py:148
 msgid "&Save as palette"
 msgstr "&Сохранить как палитру"
 
-#: gui.py:142
+#: gui.py:151
 msgid "&Image"
 msgstr "&Изображение"
 
-#: gui.py:145
+#: gui.py:154
 msgid "&Open template"
 msgstr "&Открыть шаблон"
 
-#: gui.py:148
+#: gui.py:157
 msgid "&Save resulting SVG"
 msgstr "&Сохранить получившийся SVG"
 
-#: gui.py:152
+#: gui.py:161
 msgid "Colorize from s&watches"
 msgstr "Раскрасить из &образцов"
 
-#: gui.py:154
+#: gui.py:163
 msgid "Colorize from &palette"
 msgstr "Раскрасить из &палитры"
 
-#: gui.py:156
+#: gui.py:165
 msgid "&Reset colors"
 msgstr "Сбросить &цвета"
 
-#: gui.py:169
+#: gui.py:178
 msgid "RGB"
 msgstr "RGB"
 
-#: gui.py:170
+#: gui.py:179
 msgid "HSV"
 msgstr "HSV"
 
-#: gui.py:171 gui.py:180
+#: gui.py:180 gui.py:190
 msgid "HLS"
 msgstr "HLS"
 
-#: gui.py:172 gui.py:181
+#: gui.py:181 gui.py:191
 msgid "HCY"
 msgstr "HCY"
 
-#: gui.py:173 gui.py:182
+#: gui.py:182
+msgid "HCY Desaturate"
+msgstr "HCY ненасыщенный"
+
+#: gui.py:183 gui.py:192
 msgid "RYB"
 msgstr "RYB"
 
-#: gui.py:174
+#: gui.py:184
 msgid "CMYK"
 msgstr "CMYK"
 
-#: gui.py:175
+#: gui.py:185
 msgid "CMY"
 msgstr "CMY"
 
-#: gui.py:176
+#: gui.py:186
 msgid "HSI (experimental)"
 msgstr "HSI (эксперимент)"
 
-#: gui.py:176 gui.py:182
+#: gui.py:186 gui.py:192
 msgid "LCh"
 msgstr "LCh"
 
-#: gui.py:177
+#: gui.py:187
 msgid "Lab"
 msgstr "Lab"
 
-#: gui.py:178
+#: gui.py:188
 msgid "LCh Desaturate"
 msgstr "LCh ненасыщенный"
 
-#: gui.py:184
+#: gui.py:194
 msgid "Just opposite"
 msgstr "Противоположные"
 
-#: gui.py:185
+#: gui.py:195
 msgid "Two opposite"
 msgstr "Два противоположных"
 
-#: gui.py:186
+#: gui.py:196
 msgid "Three colors"
 msgstr "Три цвета"
 
-#: gui.py:187
+#: gui.py:197
 msgid "Four colors"
 msgstr "Четыре цвета"
 
-#: gui.py:188
+#: gui.py:198
 msgid "Similar colors"
 msgstr "Похожие цвета"
 
-#: gui.py:189
+#: gui.py:199
 msgid "Opposite colors RYB"
 msgstr "Противоположные RYB"
 
-#: gui.py:190
+#: gui.py:200
 msgid "Three colors RYB"
 msgstr "Три цвета RYB"
 
-#: gui.py:191
+#: gui.py:201
 msgid "Four colors RYB"
 msgstr "Четыре цвета RYB"
 
-#: gui.py:191
+#: gui.py:201
 msgid "Three colors LCh"
 msgstr "Три цвета LCh"
 
-#: gui.py:192
+#: gui.py:202
 msgid "Four colors LCh"
 msgstr "Четыре цвета LCh"
 
-#: gui.py:194
+#: gui.py:204
 msgid "Saturation"
 msgstr "Насыщенность"
 
-#: gui.py:195
+#: gui.py:205
 msgid "Value"
 msgstr "Значение"
 
-#: gui.py:196
+#: gui.py:206
 msgid "Chroma"
 msgstr "Хрома"
 
-#: gui.py:197
+#: gui.py:207
 msgid "Luma"
 msgstr "Светимость"
 
-#: gui.py:198
+#: gui.py:208
 msgid "Warmer"
 msgstr "Теплее"
 
-#: gui.py:199
+#: gui.py:209
 msgid "Cooler"
 msgstr "Холоднее"
 
-#: gui.py:229
+#: gui.py:239
 msgid "Colors from original image:"
 msgstr "Цвета из исходного изображения:"
 
-#: gui.py:289
+#: gui.py:299
 msgid "Mixing model:"
 msgstr "Модель смешивания:"
 
-#: gui.py:304
+#: gui.py:314
 msgid "Selector model:"
 msgstr "Модель выбора:"
 
-#: gui.py:310
+#: gui.py:320
 msgid "Harmony:"
 msgstr "Гармония:"
 
-#: gui.py:317
+#: gui.py:327
 msgid "Shades:"
 msgstr "Оттенки:"
 
-#: gui.py:367 gui.py:623
+#: gui.py:378 gui.py:398
 msgid "Save palette"
 msgstr "Сохранить палитру"
 
-#: gui.py:372
+#: gui.py:383
 msgid "Save palette image"
 msgstr "Сохранить изображение палитры"
 
-#: gui.py:386
+#: gui.py:389
 msgid "Open palette"
 msgstr "Открыть палитру"
 
-#: gui.py:549
+#: gui.py:567
 msgid "Selected from palette: "
 msgstr "Выбрано из палитры: "
 
-#: gui.py:610
+#: gui.py:628
 msgid "Open SVG template"
 msgstr "Открыть шаблон SVG"
 
-#: gui.py:615
+#: gui.py:633
 msgid "Save SVG"
 msgstr "Сохранить SVG"
+
+#: dialogs/filedialog.py:14
+msgid "Preview:"
+msgstr "Предпросмотр:"
+
+#: dialogs/filedialog.py:33
+msgid "No preview"
+msgstr "Нет предпросмотра"
+
+#: dialogs/open_palette.py:13
+msgid "No options"
+msgstr "Нет параметров"
+
+#: palette/storage/all.py:15
+msgid "All files (*)"
+msgstr "Все файлы (*)"
+
+#: palette/storage/gimp.py:35
+msgid "Палитры Gimp"
+msgstr "Открыть палитру"
+
+#: palette/storage/gimp.py:61
+msgid "Columns: "
+msgstr "Столбцов: "
+
+#: palette/storage/xml.py:12
+msgid "MyPaint palette"
+msgstr "Палитры MyPaint"
+
+#: palette/storage/xml.py:30
+msgid "Group: "
+msgstr "Группа: "

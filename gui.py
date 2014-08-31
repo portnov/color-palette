@@ -2,7 +2,7 @@
 
 import sys
 import os
-from os.path import join, basename, dirname
+from os.path import join, basename, dirname, abspath
 #from gettext import gettext as _
 import gettext
 
@@ -10,7 +10,22 @@ from PyQt4 import QtGui
 
 sys.path.append(dirname(sys.argv[0]))
 
+def locate_locales():
+    thisdir = dirname(sys.argv[0])
+    d = abspath( join(thisdir, "po") )
+    print("Using locales at " + d)
+    return d
+
+if sys.platform.startswith('win'):
+    import locale
+    if os.getenv('LANG') is None:
+        lang, enc = locale.getdefaultlocale()
+        os.environ['LANG'] = lang
+
+gettext.install("colors", localedir=locate_locales(), unicode=True)
+
 from widgets.widgets import *
+from widgets.wheel import HCYSelector
 from color import colors, mixers, harmonies
 from color.colors import Color
 from palette.palette import Palette
@@ -27,20 +42,6 @@ def locate_icon(name):
 def locate_template(name):
     thisdir = dirname(sys.argv[0])
     return join(thisdir, "templates", name)
-
-def locate_locales():
-    thisdir = dirname(sys.argv[0])
-    d = join(thisdir, "po")
-    print("Using locales at " + d)
-    return d
-
-if sys.platform.startswith('win'):
-    import locale
-    if os.getenv('LANG') is None:
-        lang, enc = locale.getdefaultlocale()
-        os.environ['LANG'] = lang
-
-gettext.install("colors", localedir=locate_locales(), unicode=True)
 
 def compose_icon(icon, filename):
     icon_pixmap = icon.pixmap(24,24)
@@ -306,28 +307,27 @@ class GUIWidget(QtGui.QWidget):
     def _init_harmonies_widgets(self):
         widget = QtGui.QWidget()
         vbox_center = QtGui.QVBoxLayout()
-        grid = QtGui.QGridLayout()
+
+        self.tabs = QtGui.QTabWidget()
+
+        selector_box = QtGui.QVBoxLayout()
+        selector_w = QtGui.QWidget()
+        form = QtGui.QFormLayout()
+
         self.selector_mixers = QtGui.QComboBox()
         for mixer, nothing in self.available_selector_mixers:
             self.selector_mixers.addItem(mixer)
         self.selector_mixers.currentIndexChanged.connect(self.on_select_selector_mixer)
-        grid.addWidget(QtGui.QLabel(_("Selector model:")), 0, 0)
-        grid.addWidget(self.selector_mixers, 0, 1)
+
+        form.addRow(_("Selector model:"), self.selector_mixers)
+
         self.harmonies = QtGui.QComboBox() 
         for harmony, nothing in self.available_harmonies:
             self.harmonies.addItem(harmony)
         self.harmonies.currentIndexChanged.connect(self.on_select_harmony)
-        grid.addWidget(QtGui.QLabel(_("Harmony:")), 1, 0)
-        grid.addWidget(self.harmonies, 1, 1)
-        self.shaders = QtGui.QComboBox()
-        for shader,nothing in self.available_shaders:
-            self.shaders.addItem(shader)
-        self.shaders.currentIndexChanged.connect(self.on_select_shader)
-        self.shader = harmonies.Saturation
-        grid.addWidget(QtGui.QLabel(_("Shades:")), 2, 0)
-        grid.addWidget(self.shaders, 2,1)
 
-        vbox_center.addLayout(grid, 1)
+        form.addRow(_("Harmony:"), self.harmonies)
+        selector_box.addLayout(form)
 
         self.selector = Selector(mixers.MixerHLS)
         self.selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
@@ -335,7 +335,34 @@ class GUIWidget(QtGui.QWidget):
         self.selector.setMaximumSize(500,500)
         self.selector.setHarmony(harmonies.Opposite)
         self.selector.selected.connect(self.on_select_color)
-        vbox_center.addWidget(self.selector, 2)
+
+        selector_box.addWidget(self.selector)
+        selector_w.setLayout(selector_box)
+
+        self.tabs.addTab(selector_w, _("Selector"))
+
+        hcy_widget = QtGui.QWidget()
+        hcy_box = QtGui.QVBoxLayout()
+
+        self.hcy_selector = HCYSelector()
+        self.hcy_selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
+        self.hcy_selector.setMinimumSize(150,150)
+        self.hcy_selector.setMaximumSize(500,500)
+        self.hcy_selector.selected.connect(self.on_select_hcy)
+
+        hcy_box.addWidget(self.hcy_selector, 5)
+
+        toggle = QtGui.QPushButton("Edit")
+        toggle.setIcon(QtGui.QIcon(locate_icon("Gnome-colors-gtk-edit.png")))
+        toggle.setCheckable(True)
+        toggle.toggled.connect(self.on_hcy_edit_toggled)
+
+        hcy_box.addWidget(toggle, 1)
+        hcy_widget.setLayout(hcy_box)
+
+        self.tabs.addTab(hcy_widget, _("HCY Selector"))
+
+        vbox_center.addWidget(self.tabs, 2)
 
         self.current_color = ColorWidget(self)
         self.current_color.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
@@ -343,6 +370,14 @@ class GUIWidget(QtGui.QWidget):
         self.current_color.selected.connect(self.on_set_current_color)
         vbox_center.addWidget(self.current_color)
         
+        self.shaders = QtGui.QComboBox()
+        for shader,nothing in self.available_shaders:
+            self.shaders.addItem(shader)
+        self.shaders.currentIndexChanged.connect(self.on_select_shader)
+        self.shader = harmonies.Saturation
+
+        vbox_center.addLayout(labelled(_("Shades:"), self.shaders))
+
         self.toolbar_swatches = QtGui.QToolBar()
         vbox_center.addWidget(self.toolbar_swatches)
 
@@ -408,6 +443,10 @@ class GUIWidget(QtGui.QWidget):
     def on_toggle_edit(self):
         self.palette.editing_enabled = not self.palette.editing_enabled
         self.update()
+
+    def on_hcy_edit_toggled(self,val):
+        self.hcy_selector.enable_editing = val
+        self.hcy_selector.repaint()
 
     def on_clear_swatches(self):
         for w in self.harmonized:
@@ -561,6 +600,7 @@ class GUIWidget(QtGui.QWidget):
 
     def on_set_current_color(self):
         self.selector.setColor(self.current_color.getColor())
+        self.hcy_selector.setColor(self.current_color.getColor())
 
     def on_select_from_palette(self, row, col):
         color = self.palette.palette.getColor(row, col)
@@ -572,6 +612,14 @@ class GUIWidget(QtGui.QWidget):
         color = self.selector.selected_color
         self.current_color.setColor(color)
         self.current_color.update()
+        self.hcy_selector.setColor(color)
+
+    def on_select_hcy(self, h, c, y):
+        #print("H: {:.2f}, C: {:.2f}, Y: {:.2f}".format(h,c,y))
+        color = colors.hcy(h,c,y)
+        self.current_color.setColor(color)
+        self.current_color.update()
+        self.selector.setColor(color)
 
     def on_select_harmony(self, idx):
         _, harmony = self.available_harmonies[idx]
@@ -605,10 +653,19 @@ class GUIWidget(QtGui.QWidget):
         self.update()
 
     def on_harmony(self):
-        for i,clr in enumerate(harmonies.allShades(self.selector.harmonized, self.shader)):
+        if self.tabs.currentIndex() != 1:
+            colors = harmonies.allShades(self.selector.harmonized, self.shader)
+        else:
+            harmonized = self.hcy_selector.get_harmonized()
+            if harmonized is None:
+                return
+            colors = harmonies.allShades(harmonized, self.shader)
+
+        for i,clr in enumerate(colors):
             if i > 19:
                 break
             self.harmonized[i].setColor(clr)
+        #self.hcy_selector.set_harmonized(colors)
         self.update()
 
     def on_colorize_harmony(self):

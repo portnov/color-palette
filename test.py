@@ -4,21 +4,19 @@ import sys
 from PyQt4 import QtGui
 
 from widgets.widgets import *
+from widgets.wheel import *
 from color import colors, mixers, harmonies
 
-def on_select(w):
-    def handler():
-        clr = w.selected_color
-        print("Selected: " + str(clr))
+def click(w):
+    def handler(hue, chroma, luma):
+        print("H: {:.2f}, C: {:.2f}, Y: {:.2f}".format(hue, chroma, luma))
     return handler
-
 
 if __name__ == "__main__":
 
     app = QtGui.QApplication(sys.argv)
-    w = Selector(mixers.MixerLCh)
-    w.setHarmony(harmonies.SimpleHarmony)
-    w.selected.connect(on_select(w))
+    w = HCYSelector()
+    w.selected.connect(click(w))
     w.show()
     sys.exit(app.exec_())
 

@@ -1,5 +1,6 @@
 
 from PyQt4 import QtGui, QtCore
+from gettext import gettext as _
 
 from color import mixers
 from palette.image import PaletteImage
@@ -9,7 +10,7 @@ from filedialog import *
 class PaletteOpenDialog(PreviewFileDialog):
     def __init__(self, *args, **kwargs):
         PreviewFileDialog.__init__(self, *args, **kwargs)
-        self.options_widget = QtGui.QLabel("No options")
+        self.options_widget = QtGui.QLabel(_("No options"))
         self.options = None
         self._show_options()
         self.currentChanged.connect(self.show_options)

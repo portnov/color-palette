@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys
+from gettext import gettext as _
 
 from PyQt4 import QtGui, QtCore
 
@@ -10,7 +11,7 @@ class PreviewFileDialog(QtGui.QFileDialog):
         #self.setObjectName("PreviewFileDialog")
 
         box = QtGui.QVBoxLayout()
-        label = QtGui.QLabel("Preview:")
+        label = QtGui.QLabel(_("Preview:"))
         box.addWidget(label)
         box.addStretch()
         self.preview = QtGui.QLabel()
@@ -29,7 +30,7 @@ class PreviewFileDialog(QtGui.QFileDialog):
         path = unicode(qstr)
         image = self.get_preview_image(path)
         if image is None:
-            self.preview.setText("No preview")
+            self.preview.setText(_("No preview"))
         elif type(image) == QtGui.QPixmap:
             pixmap = image
             self.preview.setPixmap(pixmap.scaled(self.preview.width(), self.preview.height(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
