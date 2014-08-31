@@ -6,8 +6,9 @@ from os.path import exists
 from gimp import GimpPalette
 from xml import XmlPalette
 from paletton import Paletton
+from css import *
 
-storages = [GimpPalette, XmlPalette, Paletton]
+storages = [GimpPalette, XmlPalette, Paletton, CSS]
 
 def get_all_filters(save=False):
     result = ""
