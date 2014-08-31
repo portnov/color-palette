@@ -27,6 +27,12 @@ What can it do currently is:
   (totally independent of any GUI, except of my Color and Mixer classes, which
   are not actually GUI); one for rendering palette into QImage; and one for
   displaying and editing palette using PyQt4 widget.
+* Palettes can be saved or loaded from different formats. Currently supported are:
+  - Gimp palettes (gpl) - read and write
+  - XML palettes from old MyPaint implementation - read only
+  - XML palettes from paletton.com - read only
+  - CSS files - read and write. NB: when saving CSS, only colors are saved, other
+    rules are not.
 * There is also sort of "magic" SVG coloring tool. You can load SVG file, and
   press "Colorize from swatches" (or "Colorize from palette"). Tool will change
   colors in your picture to colors from swatches (or palette), trying to save
