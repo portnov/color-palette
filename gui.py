@@ -344,20 +344,30 @@ class GUIWidget(QtGui.QWidget):
         hcy_widget = QtGui.QWidget()
         hcy_box = QtGui.QVBoxLayout()
 
+        self.hcy_harmonies = hcy_harmonies = QtGui.QComboBox() 
+        for harmony, nothing in self.available_harmonies:
+            hcy_harmonies.addItem(harmony)
+        hcy_harmonies.addItem(_("Manual"))
+        hcy_harmonies.currentIndexChanged.connect(self.on_select_hcy_harmony)
+        hcy_box.addLayout(labelled(_("Harmony:"), hcy_harmonies), 1)
+
         self.hcy_selector = HCYSelector()
         self.hcy_selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
         self.hcy_selector.setMinimumSize(150,150)
         self.hcy_selector.setMaximumSize(500,500)
+        self.hcy_selector.enable_editing = True
+        self.hcy_selector.set_harmony(harmonies.Opposite)
         self.hcy_selector.selected.connect(self.on_select_hcy)
+        self.hcy_selector.edited.connect(self.on_hcy_edit)
 
         hcy_box.addWidget(self.hcy_selector, 5)
 
-        toggle = QtGui.QPushButton("Edit")
-        toggle.setIcon(QtGui.QIcon(locate_icon("Gnome-colors-gtk-edit.png")))
-        toggle.setCheckable(True)
-        toggle.toggled.connect(self.on_hcy_edit_toggled)
+#         toggle = QtGui.QPushButton("Edit")
+#         toggle.setIcon(QtGui.QIcon(locate_icon("Gnome-colors-gtk-edit.png")))
+#         toggle.setCheckable(True)
+#         toggle.toggled.connect(self.on_hcy_edit_toggled)
 
-        hcy_box.addWidget(toggle, 1)
+        #hcy_box.addWidget(toggle, 1)
         hcy_widget.setLayout(hcy_box)
 
         self.tabs.addTab(hcy_widget, _("HCY Selector"))
@@ -447,6 +457,11 @@ class GUIWidget(QtGui.QWidget):
     def on_hcy_edit_toggled(self,val):
         self.hcy_selector.enable_editing = val
         self.hcy_selector.repaint()
+
+    def on_hcy_edit(self):
+        pass
+        #n = len(self.available_harmonies)
+        #self.hcy_harmonies.setCurrentIndex(n)
 
     def on_clear_swatches(self):
         for w in self.harmonized:
@@ -625,6 +640,14 @@ class GUIWidget(QtGui.QWidget):
         _, harmony = self.available_harmonies[idx]
         print("Selected harmony: " + str(harmony))
         self.selector.setHarmony(harmony)
+
+    def on_select_hcy_harmony(self, idx):
+        if idx >= len(self.available_harmonies):
+            self.hcy_selector.set_harmony(None)
+            return
+        _, harmony = self.available_harmonies[idx]
+        print("Selected harmony: " + str(harmony))
+        self.hcy_selector.set_harmony(harmony)
 
     def on_select_shader(self, idx):
         _, shader = self.available_shaders[idx]

@@ -492,6 +492,7 @@ class Selector(QtGui.QLabel):
             y0 = v*ih + dy
             x,y = x0-3, y0-3
             w = h = 6
+            qp.setBrush(QtGui.QColor(255,255,255, 127))
             qp.setPen(colors.Color(0,0,0))
             qp.drawEllipse(x,y,w,h)
 

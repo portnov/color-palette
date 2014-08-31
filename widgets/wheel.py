@@ -104,6 +104,7 @@ class Slider(CacheImage):
 class WheelWidget(QtGui.QWidget):
 
     clicked = QtCore.pyqtSignal(float, float)
+    edited = QtCore.pyqtSignal()
 
     def __init__(self):
         QtGui.QWidget.__init__(self)
@@ -114,6 +115,7 @@ class WheelWidget(QtGui.QWidget):
         self.chroma = 0
         self.luma = 0
         self._harmonized = None
+        self._harmony = None
         self._dragged = None
         self.enable_editing = False
 
@@ -143,7 +145,8 @@ class WheelWidget(QtGui.QWidget):
         #print("Mouse pressed")
         self.setFocus(QtCore.Qt.OtherFocusReason)
         self.mouse_pressed = True
-        self._dragged = self._get_nearest(event.x(), event.y())
+        if self._harmony is None:
+            self._dragged = self._get_nearest(event.x(), event.y())
         event.accept()
 
     def mouseReleaseEvent(self, event):
@@ -172,8 +175,12 @@ class WheelWidget(QtGui.QWidget):
 
         if self._selected is not None:
             x,y = self._selected
+            qp.setBrush(QtGui.QColor(255,255,255, 127))
             qp.setPen(Color(0,0,0))
-            qp.drawEllipse(x-3, y-3, 6, 6)
+            qp.drawEllipse(x-4, y-4, 8, 8)
+
+#         if self._harmony is not None:
+#             self._calc_harmony(self.get_color())
 
         if self._harmonized is not None:
             x0, y0 = w/2.0, h/2.0
@@ -202,6 +209,7 @@ class WheelWidget(QtGui.QWidget):
         hue = atan2(-dy, dx)/(2*pi)
         self._harmonized[self._dragged] = (hue, chroma)
         self.repaint()
+        self.edited.emit()
 
     def _select(self, x, y):
         w, h = self.width(), self.height()
@@ -216,6 +224,10 @@ class WheelWidget(QtGui.QWidget):
         self.repaint()
         self.hue = hue
         self.chroma = chroma
+
+        if self._harmony is not None:
+            self._calc_harmony(self.get_color())
+
         self.clicked.emit(hue, chroma)
 
     def select(self, hue, chroma):
@@ -225,11 +237,31 @@ class WheelWidget(QtGui.QWidget):
         x = x0 + chroma*R*cos(hue*2*pi)
         y = y0 - chroma*R*sin(hue*2*pi)
         self._selected = x,y
+        self._calc_harmony(hcy(hue, chroma, self.luma))
+        #self.repaint()
+
+    def get_color(self):
+        return hcy(self.hue, self.chroma, self.luma)
 
     def set_luma(self, luma):
         self.luma = luma
         self.cache.luma = luma
         self.cache.redraw(self.width(), self.height())
+
+    def _calc_harmony(self, current):
+        if self._harmony is None:
+            return
+        #print("Calc harmony from {}".format(str(current)))
+        colors = self._harmony.get(current)
+        self._harmonized = []
+        for clr in colors:
+            h,c,y = clr.getHCY()
+            self._harmonized.append((h,c))
+
+    def set_harmony(self, harmony, current):
+        self._harmony = harmony
+        self._calc_harmony(current)
+        self.repaint()
 
 class SliderWidget(QtGui.QWidget):
 
@@ -280,12 +312,19 @@ class SliderWidget(QtGui.QWidget):
         self.clicked.emit(self.luma)
 
     def select(self, luma):
+        self.luma = luma
         self._selected = luma * self.height()
     
+    def get_luma(self):
+        if self._selected is None:
+            return None
+        h = self.height()
+        return self._selected / float(h)
 
 class HCYSelector(QtGui.QWidget):
 
     selected = QtCore.pyqtSignal(float,float,float)
+    edited = QtCore.pyqtSignal()
 
     def __init__(self, *args):
         QtGui.QWidget.__init__(self, *args)
@@ -296,7 +335,11 @@ class HCYSelector(QtGui.QWidget):
         self.box.addWidget(self.wheel, 5)
         self.setLayout(self.box)
         self.wheel.clicked.connect(self._on_click_wheel)
+        self.wheel.edited.connect(self._on_wheel_edited)
         self.slider.clicked.connect(self._on_click_slider)
+
+    def _on_wheel_edited(self):
+        self.edited.emit()
 
     def get_enable_editing(self):
         return self.wheel.enable_editing
@@ -331,10 +374,19 @@ class HCYSelector(QtGui.QWidget):
         self.wheel.select(h,c)
         self.update()
 
+    def getColor(self):
+        return self.wheel.get_color()
+
     def set_harmonized(self, list):
         pass
         #self.wheel._harmonized = list
         #self.repaint()
+
+    def set_harmony(self, harmony):
+        current = self.getColor()
+        if current is None:
+            return
+        self.wheel.set_harmony(harmony, current)
 
     def get_harmonized(self):
         if self.wheel._harmonized is None:
