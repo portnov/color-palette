@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2014-08-31 15:38+YEKT\n"
+"POT-Creation-Date: 2014-08-31 17:49+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -299,22 +299,30 @@ msgstr "Нет предпросмотра"
 msgid "No options"
 msgstr "Нет параметров"
 
-#: palette/storage/all.py:15
+#: palette/storage/all.py:21
 msgid "All files (*)"
 msgstr "Все файлы (*)"
+
+#: palette/storage/css.py:18
+msgid "CSS cascading stylesheet"
+msgstr "Каскадные таблицы стилей CSS"
 
 #: palette/storage/gimp.py:35
 msgid "Gimp palette"
 msgstr "Палитра Gimp"
 
-#: palette/storage/gimp.py:61
+#: palette/storage/gimp.py:63
 msgid "Columns: "
 msgstr "Столбцов: "
+
+#: palette/storage/paletton.py:12
+msgid "Paletton.com palette"
+msgstr "Палитры Paletton.com"
 
 #: palette/storage/xml.py:12
 msgid "MyPaint palette"
 msgstr "Палитры MyPaint"
 
-#: palette/storage/xml.py:30
+#: palette/storage/xml.py:32
 msgid "Group: "
 msgstr "Группа: "

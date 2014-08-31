@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-08-31 15:38+YEKT\n"
+"POT-Creation-Date: 2014-08-31 17:49+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -299,23 +299,31 @@ msgstr ""
 msgid "No options"
 msgstr ""
 
-#: palette/storage/all.py:15
+#: palette/storage/all.py:21
 msgid "All files (*)"
+msgstr ""
+
+#: palette/storage/css.py:18
+msgid "CSS cascading stylesheet"
 msgstr ""
 
 #: palette/storage/gimp.py:35
 msgid "Gimp palette"
 msgstr ""
 
-#: palette/storage/gimp.py:61
+#: palette/storage/gimp.py:63
 msgid "Columns: "
+msgstr ""
+
+#: palette/storage/paletton.py:12
+msgid "Paletton.com palette"
 msgstr ""
 
 #: palette/storage/xml.py:12
 msgid "MyPaint palette"
 msgstr ""
 
-#: palette/storage/xml.py:30
+#: palette/storage/xml.py:32
 msgid "Group: "
 msgstr ""
 
