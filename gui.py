@@ -144,6 +144,8 @@ class GUI(QtGui.QMainWindow):
         menu.addSeparator()
         self.gui.toolbar_swatches.addSeparator()
         create_action(self, self.gui.toolbar_swatches, menu,
+                "swatches_to_palette.png", _("To &palette"), self.gui.on_swatches_to_palette)
+        create_action(self, self.gui.toolbar_swatches, menu,
                 "Edit-clear_mirrored.png", _("C&lear swatches"), self.gui.on_clear_swatches)
         create_action(self, self.gui.toolbar_swatches, menu,
                 QtGui.QStyle.SP_DialogSaveButton, _("&Save as palette"), self.gui.on_swatches_save)
@@ -448,6 +450,22 @@ class GUIWidget(QtGui.QWidget):
                     palette.slots[row][col].color = clrs[row*5 + col]
                     palette.slots[row][col].mark(True)
             save_palette(palette, filename)
+
+    def on_swatches_to_palette(self):
+        clrs = [w.getColor() for w in self.harmonized]
+        palette = Palette(self.mixer, nrows=4, ncols=5)
+        for row in range(4):
+            for col in range(5):
+                clr = clrs[row*5 + col]
+                if clr is None:
+                    palette.slots[row][col].mark(False)
+                else:
+                    palette.slots[row][col].color = clr
+                    palette.slots[row][col].mark(True)
+        self.palette.palette = palette
+        self.palette.selected_slot = None
+        self.palette.redraw()
+        self.update()
     
     def on_toggle_edit(self):
         self.palette.editing_enabled = not self.palette.editing_enabled
