@@ -79,6 +79,21 @@ class Similar(Harmony):
             h2 += 1.0
         return [hsv(h1,s,v), color, hsv(h2,s,v)]
 
+class SimilarAndOpposite(Harmony):
+    @classmethod
+    def get(cls, color):
+        h, c, y = color.getHCY()
+        h1 = h + 0.1
+        if h1 > 1.0:
+            h1 -= 1.0
+        h2 = h - 0.1
+        if h2 < 0.0:
+            h2 += 1.0
+        h3 = h + 0.5
+        if h3 > 1.0:
+            h3 -= 1.0
+        return [hcy(h1,c,y), color, hcy(h2,c,y), hcy(h3,c,y)]
+
 def NHuesRYB(n):
     class Hues_RYB(Harmony):
         @classmethod

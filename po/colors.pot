@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-08-31 14:15+YEKT\n"
+"POT-Creation-Date: 2014-08-31 15:20+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,202 +80,206 @@ msgid "&Harmony"
 msgstr ""
 
 #: ./gui.py:147
-msgid "C&lear swatches"
+msgid "To &palette"
 msgstr ""
 
 #: ./gui.py:149
+msgid "C&lear swatches"
+msgstr ""
+
+#: ./gui.py:151
 msgid "&Save as palette"
 msgstr ""
 
-#: ./gui.py:152
+#: ./gui.py:154
 msgid "&Image"
 msgstr ""
 
-#: ./gui.py:155
+#: ./gui.py:157
 msgid "&Open template"
 msgstr ""
 
-#: ./gui.py:158
+#: ./gui.py:160
 msgid "&Save resulting SVG"
 msgstr ""
 
-#: ./gui.py:162
+#: ./gui.py:164
 msgid "Colorize from s&watches"
 msgstr ""
 
-#: ./gui.py:164
+#: ./gui.py:166
 msgid "Colorize from &palette"
 msgstr ""
 
-#: ./gui.py:166
+#: ./gui.py:168
 msgid "&Reset colors"
 msgstr ""
 
-#: ./gui.py:179
+#: ./gui.py:181
 msgid "RGB"
 msgstr ""
 
-#: ./gui.py:180
+#: ./gui.py:182
 msgid "HSV"
 msgstr ""
 
-#: ./gui.py:181 ./gui.py:191
+#: ./gui.py:183 ./gui.py:192
 msgid "HLS"
 msgstr ""
 
-#: ./gui.py:182 ./gui.py:192
+#: ./gui.py:184 ./gui.py:193
 msgid "HCY"
 msgstr ""
 
-#: ./gui.py:183
+#: ./gui.py:185
 msgid "HCY Desaturate"
 msgstr ""
 
-#: ./gui.py:184 ./gui.py:193
+#: ./gui.py:186 ./gui.py:194
 msgid "RYB"
 msgstr ""
 
-#: ./gui.py:185
+#: ./gui.py:187
 msgid "CMYK"
 msgstr ""
 
-#: ./gui.py:186
+#: ./gui.py:188
 msgid "CMY"
 msgstr ""
 
-#: ./gui.py:187
+#: ./gui.py:189
 msgid "HSI (experimental)"
 msgstr ""
 
-#: ./gui.py:187 ./gui.py:193
+#: ./gui.py:189 ./gui.py:194
 msgid "LCh"
 msgstr ""
 
-#: ./gui.py:188
+#: ./gui.py:190
 msgid "Lab"
 msgstr ""
 
-#: ./gui.py:189
-msgid "LCh Desaturate"
-msgstr ""
-
-#: ./gui.py:195
+#: ./gui.py:196
 msgid "Just opposite"
 msgstr ""
 
-#: ./gui.py:196
+#: ./gui.py:197
 msgid "Two opposite"
 msgstr ""
 
-#: ./gui.py:197
+#: ./gui.py:198
 msgid "Three colors"
 msgstr ""
 
-#: ./gui.py:198
+#: ./gui.py:199
 msgid "Four colors"
 msgstr ""
 
-#: ./gui.py:199
+#: ./gui.py:200
 msgid "Similar colors"
 msgstr ""
 
-#: ./gui.py:200
+#: ./gui.py:201
+msgid "Similar and opposite"
+msgstr ""
+
+#: ./gui.py:202
 msgid "Opposite colors RYB"
 msgstr ""
 
-#: ./gui.py:201
+#: ./gui.py:203
 msgid "Three colors RYB"
 msgstr ""
 
-#: ./gui.py:202
+#: ./gui.py:204
 msgid "Four colors RYB"
 msgstr ""
 
-#: ./gui.py:202
+#: ./gui.py:204
 msgid "Three colors LCh"
 msgstr ""
 
-#: ./gui.py:203
+#: ./gui.py:205
 msgid "Four colors LCh"
 msgstr ""
 
-#: ./gui.py:205
+#: ./gui.py:207
 msgid "Saturation"
 msgstr ""
 
-#: ./gui.py:206
+#: ./gui.py:208
 msgid "Value"
 msgstr ""
 
-#: ./gui.py:207
+#: ./gui.py:209
 msgid "Chroma"
 msgstr ""
 
-#: ./gui.py:208
+#: ./gui.py:210
 msgid "Luma"
 msgstr ""
 
-#: ./gui.py:209
+#: ./gui.py:211
 msgid "Warmer"
 msgstr ""
 
-#: ./gui.py:210
+#: ./gui.py:212
 msgid "Cooler"
 msgstr ""
 
-#: ./gui.py:240
+#: ./gui.py:242
 msgid "Colors from original image:"
 msgstr ""
 
-#: ./gui.py:300
+#: ./gui.py:302
 msgid "Mixing model:"
 msgstr ""
 
-#: ./gui.py:322
+#: ./gui.py:324
 msgid "Selector model:"
 msgstr ""
 
-#: ./gui.py:329 ./gui.py:352
+#: ./gui.py:331 ./gui.py:354
 msgid "Harmony:"
 msgstr ""
 
-#: ./gui.py:342
+#: ./gui.py:344
 msgid "Square"
 msgstr ""
 
-#: ./gui.py:350
+#: ./gui.py:352
 msgid "Manual"
 msgstr ""
 
-#: ./gui.py:373
+#: ./gui.py:375
 msgid "HCY Wheel"
 msgstr ""
 
-#: ./gui.py:389
+#: ./gui.py:391
 msgid "Shades:"
 msgstr ""
 
-#: ./gui.py:423 ./gui.py:443
+#: ./gui.py:425 ./gui.py:445
 msgid "Save palette"
 msgstr ""
 
-#: ./gui.py:428
+#: ./gui.py:430
 msgid "Save palette image"
 msgstr ""
 
-#: ./gui.py:434
+#: ./gui.py:436
 msgid "Open palette"
 msgstr ""
 
-#: ./gui.py:622
+#: ./gui.py:640
 msgid "Selected from palette: "
 msgstr ""
 
-#: ./gui.py:708
+#: ./gui.py:726
 msgid "Open SVG template"
 msgstr ""
 
-#: ./gui.py:713
+#: ./gui.py:731
 msgid "Save SVG"
 msgstr ""
 
