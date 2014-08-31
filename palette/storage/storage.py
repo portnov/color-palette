@@ -10,6 +10,9 @@ class Storage(object):
     title = None
     filters = []
 
+    can_load = False
+    can_save = False
+
     def __init__(self, palette=None):
         self.palette = palette
 

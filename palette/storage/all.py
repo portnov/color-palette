@@ -5,18 +5,27 @@ from os.path import exists
 
 from gimp import GimpPalette
 from xml import XmlPalette
+from paletton import Paletton
 
-storages = [GimpPalette, XmlPalette]
+storages = [GimpPalette, XmlPalette, Paletton]
 
-def get_all_filters():
+def get_all_filters(save=False):
     result = ""
     for cls in storages:
+        if save and not cls.can_save:
+            continue
+        if not save and not cls.can_load:
+            continue
         result += "{} ({});; ".format(cls.title, " ".join(cls.filters))
     result += _("All files (*)")
     return result
 
-def detect_storage(filename):
+def detect_storage(filename, save=False):
     for cls in storages:
+        if save and not cls.can_save:
+            continue
+        if not save and not cls.can_load:
+            continue
         if not any([fnmatch(filename, mask) for mask in cls.filters]):
             continue
         if exists(filename) and not cls.check(filename):

@@ -34,6 +34,8 @@ class GimpPalette(Storage):
 
     title = _("Gimp palette")
     filters = ["*.gpl"]
+    can_save = True
+    can_load = True
 
     @staticmethod
     def get_options_widget(dialog, filename):

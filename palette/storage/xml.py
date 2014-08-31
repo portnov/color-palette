@@ -11,6 +11,8 @@ from palette.storage.storage import *
 class XmlPalette(Storage):
     title = _("MyPaint palette")
     filters = ["*.xml"]
+    can_load = True
+    can_save = False
 
     @staticmethod
     def check(filename):

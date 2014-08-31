@@ -12,11 +12,11 @@ DEFAULT_GROUP_SIZE = 7
 MAX_COLS = 10
 
 class Slot(object):
-    def __init__(self, color=None, name='Untitled'):
+    def __init__(self, color=None, name='Untitled', user_defined=False):
         self.name = name
         self._color = color
         self._mode = NONE
-        self._user_defined = False
+        self._user_defined = user_defined
         self._src_slot1 = None
         self._src_row1 = None
         self._src_col1 = None
