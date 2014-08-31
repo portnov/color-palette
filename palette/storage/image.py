@@ -25,7 +25,19 @@ class Image(Storage):
         image.save(file_w)
 
     def load(self, mixer, file_r, options=None):
+        def _cmp(clr1,clr2):
+            h1,s1,v1 = clr1.getHSV()
+            h2,s2,v2 = clr2.getHSV()
+            x = cmp(h1,h2)
+            if x != 0:
+                return x
+            x = cmp(v1,v2)
+            if x != 0:
+                return x
+            return cmp(s1,s2)
+
         colors = get_common_colors(file_r)
+        colors.sort(cmp=_cmp)
         self.palette = create_palette(colors, mixer)
         return self.palette
 
