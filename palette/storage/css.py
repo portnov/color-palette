@@ -73,7 +73,7 @@ class CSS(Storage):
                     all_slots.append(slot)
         n_colors = len(all_slots)
         if n_colors > MAX_COLS:
-            self.palette.ncols = int( floor(sqrt(n_colors)) )
+            self.palette.ncols = max( int( floor(sqrt(n_colors)) ), 1)
         else:
             self.palette.ncols = n_colors
         self.palette.setSlots(all_slots)
