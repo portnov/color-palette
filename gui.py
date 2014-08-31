@@ -87,9 +87,9 @@ class GUI(QtGui.QMainWindow):
         create_action(self, self.gui.toolbar_palette, menu,
                 QtGui.QStyle.SP_DialogSaveButton,
                 _("&Save palette"), self.gui.on_save_palette)
-        icon = compose_icon(self.style().standardIcon(QtGui.QStyle.SP_DialogSaveButton), "palette_small.png")
-        create_action(self, self.gui.toolbar_palette, menu,
-                icon, _("Save palette as &image"), self.gui.on_save_palette_image)
+#         icon = compose_icon(self.style().standardIcon(QtGui.QStyle.SP_DialogSaveButton), "palette_small.png")
+#         create_action(self, self.gui.toolbar_palette, menu,
+#                 icon, _("Save palette as &image"), self.gui.on_save_palette_image)
         menu.addSeparator()
         self.gui.toolbar_palette.addSeparator()
         toggle_edit = create_action(self, self.gui.toolbar_palette, menu,

@@ -8,8 +8,9 @@ from xml import XmlPalette
 from paletton import Paletton
 from css import *
 from svg import SVG
+from image import Image
 
-storages = [GimpPalette, XmlPalette, Paletton, CSS, SVG]
+storages = [GimpPalette, XmlPalette, Paletton, CSS, SVG, Image]
 
 def get_all_filters(save=False):
     result = ""
