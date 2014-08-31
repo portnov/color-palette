@@ -339,7 +339,7 @@ class GUIWidget(QtGui.QWidget):
         selector_box.addWidget(self.selector)
         selector_w.setLayout(selector_box)
 
-        self.tabs.addTab(selector_w, _("Selector"))
+        self.tabs.addTab(selector_w, _("Square"))
 
         hcy_widget = QtGui.QWidget()
         hcy_box = QtGui.QVBoxLayout()
@@ -370,7 +370,7 @@ class GUIWidget(QtGui.QWidget):
         #hcy_box.addWidget(toggle, 1)
         hcy_widget.setLayout(hcy_box)
 
-        self.tabs.addTab(hcy_widget, _("HCY Selector"))
+        self.tabs.addTab(hcy_widget, _("HCY Wheel"))
 
         vbox_center.addWidget(self.tabs, 2)
 
