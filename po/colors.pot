@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-08-31 17:49+YEKT\n"
+"POT-Creation-Date: 2014-09-02 00:11+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,10 +29,6 @@ msgstr ""
 
 #: ./gui.py:89
 msgid "&Save palette"
-msgstr ""
-
-#: ./gui.py:92
-msgid "Save palette as &image"
 msgstr ""
 
 #: ./gui.py:97
@@ -299,7 +295,7 @@ msgstr ""
 msgid "No options"
 msgstr ""
 
-#: palette/storage/all.py:21
+#: palette/storage/all.py:23
 msgid "All files (*)"
 msgstr ""
 
@@ -315,8 +311,16 @@ msgstr ""
 msgid "Columns: "
 msgstr ""
 
+#: palette/storage/image.py:13
+msgid "Raster image"
+msgstr ""
+
 #: palette/storage/paletton.py:12
 msgid "Paletton.com palette"
+msgstr ""
+
+#: palette/storage/svg.py:14
+msgid "SVG images"
 msgstr ""
 
 #: palette/storage/xml.py:12

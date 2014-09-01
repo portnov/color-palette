@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2014-08-31 17:49+YEKT\n"
+"POT-Creation-Date: 2014-09-02 00:11+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -30,10 +30,6 @@ msgstr "&Открыть палитру"
 #: gui.py:89
 msgid "&Save palette"
 msgstr "&Сохранить палитру"
-
-#: gui.py:92
-msgid "Save palette as &image"
-msgstr "Сохранить палитру как &изображение"
 
 #: gui.py:97
 msgid "Toggle edit &mode"
@@ -299,7 +295,7 @@ msgstr "Нет предпросмотра"
 msgid "No options"
 msgstr "Нет параметров"
 
-#: palette/storage/all.py:21
+#: palette/storage/all.py:23
 msgid "All files (*)"
 msgstr "Все файлы (*)"
 
@@ -315,9 +311,17 @@ msgstr "Палитра Gimp"
 msgid "Columns: "
 msgstr "Столбцов: "
 
+#: palette/storage/image.py:13
+msgid "Raster image"
+msgstr "Растровое изображение"
+
 #: palette/storage/paletton.py:12
 msgid "Paletton.com palette"
 msgstr "Палитры Paletton.com"
+
+#: palette/storage/svg.py:14
+msgid "SVG images"
+msgstr "Изображения SVG"
 
 #: palette/storage/xml.py:12
 msgid "MyPaint palette"
