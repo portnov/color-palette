@@ -9,6 +9,8 @@ What can it do currently is:
   can convert it from/to different color models. There are some standard models
   supported (RGB, CMYK, HSV) as well as some experimental (RYB). Some models
   implementation is depending on python LCMS bindings (LCh, Lab).
+* RYB color model implementation is based on HCY: it is in fact H'CY, where
+  C and Y are the same as in HCY, but Hue is adopted for RYB color wheel.
 * Mix colors. There are some set of color-mixing algorithms. Currently
   implemented algorithms just convert color to some color space (LCh, for
   example), and do linear interpolation in that space.
@@ -20,7 +22,11 @@ What can it do currently is:
 * There is some set of color-related widgets for PyQt4, for example - a widget
   which displays color and lets you select another color by clicking on it.
 * There is also a color-selector widget, which can work with different color
-  models. Currently, it works more or less well with HLS and LCh models.
+  models. Currently, it works more or less well with HLS, HCY, RYB and LCh
+  models.
+* Another color-selector widget is specific for HCY model; but this widget
+  also indicates harmonized colors more clearly. And moreover, it allows user
+  to edit color harmony manually by dragging harmonized color indicators.
 * There is a port of my palette implementation for MyPaint
   (http://wiki.mypaint.info/Iportnovs_en#Palette) to PyQt4. This implementation
   is split into several modules: one for palette generation and handling
@@ -31,8 +37,11 @@ What can it do currently is:
   - Gimp palettes (gpl) - read and write
   - XML palettes from old MyPaint implementation - read only
   - XML palettes from paletton.com - read only
-  - CSS files - read and write. NB: when saving CSS, only colors are saved, other
-    rules are not.
+  - CSS files - read and write. NB: when saving CSS, only colors are saved,
+    other rules are not.
+  - SVG files - read only
+  - Raster images (JPEG, PNG etc). Most used colors are extracted from image
+    by using simplified cluster-analysis algorithm.
 * There is also sort of "magic" SVG coloring tool. You can load SVG file, and
   press "Colorize from swatches" (or "Colorize from palette"). Tool will change
   colors in your picture to colors from swatches (or palette), trying to save
@@ -45,7 +54,8 @@ There is also some old pygtk stuff, maybe it will be usefull for someone.
 Documentation is actually almost absent at the moment, so you can just read source :)
 
 You can try launch&play with some testing executable scripts:
-* palette_viewer.py — a viewer for `*.gpl' (Gimp palette) files
+* palette_viewer.py — a viewer for palette files. All formats listed above are
+  supported.
 * gui.py — a script for testing GUI, showing palette editor, color selector,
   harmonic colors generation.
 
