@@ -124,17 +124,13 @@ class WheelWidget(QtGui.QWidget):
             return None
         if not self._harmonized:
             return None
-        w, h = self.size().width(),  self.size().height()
-        x0, y0 = w/2.0, h/2.0
-        R = min(x0,y0)
         rho_min = None
         result = None
         for idx, pair in enumerate(self._harmonized):
             hue, chroma = pair
-            x1 = x0 + chroma*R*cos(hue*2*pi)
-            y1 = y0 - chroma*R*sin(hue*2*pi)
+            x1,y1 = self._hc_to_xy(hue, chroma)
             rho2 = (x-x1)**2 + (y-y1)**2
-            if rho2 < 16:
+            if rho2 < 25:
                 if rho_min is None or rho2 < rho_min:
                     rho_min = rho2
                     result = idx
@@ -166,6 +162,54 @@ class WheelWidget(QtGui.QWidget):
             else:
                 self._drag(x,y)
 
+    def wheelEvent(self, event):
+        steps = event.delta()/120.0
+        apply_to_harmonized = self.enable_editing and self._harmonized
+
+        if event.modifiers() & QtCore.Qt.ControlModifier:
+            fn = lambda h,c : ((h+0.01*steps)%1, c)
+        else:
+            fn = lambda h,c : (h, clip(c+0.1*steps))
+
+        if apply_to_harmonized:
+            self._harmonized = [fn(h,c) for h,c in self._harmonized]
+
+        if self._selected:
+            h,c = self._xy_to_hc(*self._selected)
+            h1,c1 = fn(h,c)
+            self._selected = self._hc_to_xy(h1,c1)
+            self.hue = h1
+            self.chroma = c1
+            self.clicked.emit(h1,c1)
+
+        self.repaint()
+        if apply_to_harmonized:
+            self.edited.emit()
+
+    def _xy_to_hc(self, x,y):
+        w, h = self.size().width(),  self.size().height()
+        x0, y0 = w/2.0, h/2.0
+        R = min(x0,y0)
+        dx, dy = x-x0, y-y0
+        chroma = sqrt(dx**2 + dy**2)/R
+        if chroma > 1.0:
+            return None
+        hue = atan2(-dy, dx)/(2*pi)
+        return (hue, chroma)
+
+    def _hc_to_xy(self, hue, chroma):
+        w, h = self.size().width(),  self.size().height()
+        x0, y0 = w/2.0, h/2.0
+        R = min(x0,y0)
+        x = x0 + chroma*R*cos(hue*2*pi)
+        y = y0 - chroma*R*sin(hue*2*pi)
+        return (x,y)
+
+    def _apply_hc(self, fn, xy):
+        h,c = self._xy_to_hc(*xy)
+        h1,c1 = fn(h,c)
+        return self._hc_to_xy(h1,c1)
+
     def paintEvent(self, event):
         w, h = self.size().width(),  self.size().height()
         image = self.cache.get(w, h)
@@ -179,16 +223,10 @@ class WheelWidget(QtGui.QWidget):
             qp.setPen(Color(0,0,0))
             qp.drawEllipse(x-4, y-4, 8, 8)
 
-#         if self._harmony is not None:
-#             self._calc_harmony(self.get_color())
-
         if self._harmonized is not None:
-            x0, y0 = w/2.0, h/2.0
-            R = min(x0,y0)
             for idx, pair in enumerate(self._harmonized):
                 hue, chroma = pair
-                x = x0 + chroma*R*cos(hue*2*pi)
-                y = y0 - chroma*R*sin(hue*2*pi)
+                x,y = self._hc_to_xy(hue, chroma)
                 if self._dragged == idx:
                     qp.setBrush(Color(255,255,255))
                 else:
@@ -199,14 +237,11 @@ class WheelWidget(QtGui.QWidget):
         qp.end()
 
     def _drag(self, x,y):
-        w, h = self.width(), self.height()
-        x0, y0 = w/2.0, h/2.0
-        dx, dy = x-x0, y-y0
-        R = min(x0,y0)
-        chroma = sqrt(dx**2 + dy**2)/R
-        if chroma > 1.0:
+        s = self._xy_to_hc(x,y)
+        if s is None:
             return
-        hue = atan2(-dy, dx)/(2*pi)
+
+        hue,chroma = s
         self._harmonized[self._dragged] = (hue, chroma)
         self.repaint()
         self.edited.emit()
@@ -231,11 +266,7 @@ class WheelWidget(QtGui.QWidget):
         self.clicked.emit(hue, chroma)
 
     def select(self, hue, chroma):
-        w, h = self.width(), self.height()
-        x0, y0 = w/2.0, h/2.0
-        R = min(x0,y0)
-        x = x0 + chroma*R*cos(hue*2*pi)
-        y = y0 - chroma*R*sin(hue*2*pi)
+        x,y = self._hc_to_xy(hue, chroma)
         self._selected = x,y
         self._calc_harmony(hcy(hue, chroma, self.luma))
         #self.repaint()
