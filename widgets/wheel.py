@@ -322,6 +322,13 @@ class SliderWidget(QtGui.QWidget):
         if self.mouse_pressed:
             self._select(y)
 
+    def wheelEvent(self, event):
+        steps = event.delta()/120.0
+        if self.luma is not None:
+            self.luma = clip(self.luma + 0.05*steps)
+            self.repaint()
+            self.clicked.emit(self.luma)
+
     def paintEvent(self, event):
         w, h = self.size().width(),  self.size().height()
         image = self.cache.get(w, h)
