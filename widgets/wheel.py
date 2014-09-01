@@ -83,7 +83,7 @@ class Slider(CacheImage):
     def calc(self):
         self.colors = []
         for i in range(self.N):
-            self.colors.append(hcy(self.hue, 1.0, i/float(self.N)))
+            self.colors.append(hcy(self.hue, 1.0, 1.0 - i/float(self.N)))
 
     def draw(self, w, h):
         w = min(w, 30)
@@ -336,7 +336,7 @@ class SliderWidget(QtGui.QWidget):
         qp.begin(self)
         qp.drawImage(0, 0, image)
         if self.luma is not None:
-            y0 = self.luma * h
+            y0 = (1.0 - self.luma) * h
             qp.setPen(Color(0,0,0))
             w = min(w, 35)
             qp.drawRect(0,y0-2, w, 4)
@@ -344,7 +344,7 @@ class SliderWidget(QtGui.QWidget):
 
     def _select(self, y):
         w, h = self.width(), self.height()
-        self.luma = float(y)/float(h)
+        self.luma = float(h-y)/float(h)
         #print("Slider._select({})".format(self.luma))
         self.repaint()
         self.clicked.emit(self.luma)
