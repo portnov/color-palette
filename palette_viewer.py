@@ -8,8 +8,8 @@ from palette.palette import *
 from palette.viewer import PaletteViewWindow
 from palette.image import PaletteImage
 from palette.widget import *
-from palette.storage.gimp import *
 from widgets.widgets import *
+from dialogs.open_palette import load_palette
 
 class GUI(QtGui.QMainWindow):
     def __init__(self, palette):
@@ -30,6 +30,6 @@ class GUI(QtGui.QMainWindow):
         print("Selected ({},{}): {}".format(row,col, color))
 
 app = QtGui.QApplication(sys.argv)
-palette = GimpPalette().load(MixerRGB, sys.argv[1])
+palette = load_palette(sys.argv[1])
 gui = GUI(palette)
 sys.exit(app.exec_())
