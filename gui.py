@@ -377,11 +377,20 @@ class GUIWidget(QtGui.QWidget):
 
         vbox_center.addWidget(self.tabs, 2)
 
+        box = QtGui.QHBoxLayout()
+
         self.current_color = ColorWidget(self)
         self.current_color.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
         self.current_color.setMaximumSize(100,50)
         self.current_color.selected.connect(self.on_set_current_color)
-        vbox_center.addWidget(self.current_color)
+        box.addWidget(self.current_color)
+
+        self.auto_harmony = QtGui.QPushButton(_("Auto"))
+        self.auto_harmony.setIcon(self.style().standardIcon(QtGui.QStyle.SP_ArrowDown))
+        self.auto_harmony.setCheckable(True)
+        box.addWidget(self.auto_harmony)
+
+        vbox_center.addLayout(box)
         
         self.shaders = QtGui.QComboBox()
         for shader,nothing in self.available_shaders:
@@ -478,7 +487,7 @@ class GUIWidget(QtGui.QWidget):
         self.hcy_selector.repaint()
 
     def on_hcy_edit(self):
-        pass
+        self._auto_harmony()
         #n = len(self.available_harmonies)
         #self.hcy_harmonies.setCurrentIndex(n)
 
@@ -632,9 +641,14 @@ class GUIWidget(QtGui.QWidget):
             self.svg_colors[i].setColor(clr)
         self.update()
 
+    def _auto_harmony(self):
+        if self.auto_harmony.isChecked():
+            self.on_harmony()
+
     def on_set_current_color(self):
         self.selector.setColor(self.current_color.getColor())
         self.hcy_selector.setColor(self.current_color.getColor())
+        self._auto_harmony()
 
     def on_select_from_palette(self, row, col):
         color = self.palette.palette.getColor(row, col)
@@ -647,6 +661,7 @@ class GUIWidget(QtGui.QWidget):
         self.current_color.setColor(color)
         self.current_color.update()
         self.hcy_selector.setColor(color)
+        self._auto_harmony()
 
     def on_select_hcy(self, h, c, y):
         #print("H: {:.2f}, C: {:.2f}, Y: {:.2f}".format(h,c,y))
@@ -654,11 +669,13 @@ class GUIWidget(QtGui.QWidget):
         self.current_color.setColor(color)
         self.current_color.update()
         self.selector.setColor(color)
+        self._auto_harmony()
 
     def on_select_harmony(self, idx):
         _, harmony = self.available_harmonies[idx]
         print("Selected harmony: " + str(harmony))
         self.selector.setHarmony(harmony)
+        self._auto_harmony()
 
     def on_select_hcy_harmony(self, idx):
         if idx >= len(self.available_harmonies):
@@ -672,6 +689,7 @@ class GUIWidget(QtGui.QWidget):
         _, shader = self.available_shaders[idx]
         print("Selected shader: " + str(shader))
         self.shader = shader
+        self._auto_harmony()
     
     def on_select_mixer(self, idx):
         _,  self.mixer = self.available_mixers[idx]
@@ -694,7 +712,7 @@ class GUIWidget(QtGui.QWidget):
             self.results[i].setColor(clr)
         self.update()
 
-    def on_harmony(self):
+    def _do_harmony(self):
         if self.tabs.currentIndex() != 1:
             colors = harmonies.allShades(self.selector.harmonized, self.shader)
         else:
@@ -708,6 +726,9 @@ class GUIWidget(QtGui.QWidget):
                 break
             self.harmonized[i].setColor(clr)
         #self.hcy_selector.set_harmonized(colors)
+
+    def on_harmony(self):
+        self._do_harmony()
         self.update()
 
     def on_colorize_harmony(self):
