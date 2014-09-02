@@ -10,18 +10,31 @@ from filedialog import *
 class PaletteOpenDialog(PreviewFileDialog):
     def __init__(self, *args, **kwargs):
         PreviewFileDialog.__init__(self, *args, **kwargs)
-        self.options_widget = QtGui.QLabel(_("No options"))
+        #self.no_options = QtGui.QLabel(_("No options"))
+        self.options_widget = None
         self.options = None
         self._show_options()
         self.currentChanged.connect(self.show_options)
      
     def _show_options(self, widget=None):
-        if widget is None:
-            widget = self.options_widget
+        # Just remove old widget if no options widget
+        if widget is None and self.options_widget is not None:
+            self.layout().removeWidget(self.options_widget)
+            self.options_widget.hide()
+            self.options_widget = None
+            return 
+
+        # Do not do anything if it's the same widget
         if widget is self.options_widget:
             return
+
+        # Remove old options widget
         if self.options_widget is not None:
             self.layout().removeWidget(self.options_widget)
+            self.options_widget.hide()
+
+        # Add new options widget
+        self.options_widget = widget
         self.layout().addWidget(widget, 4,0, 1,3)
      
     def show_options(self, qstr):
