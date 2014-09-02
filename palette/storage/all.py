@@ -9,8 +9,9 @@ from paletton import Paletton
 from css import *
 from svg import SVG
 from image import Image
+from scribus import Scribus
 
-storages = [GimpPalette, XmlPalette, Paletton, CSS, SVG, Image]
+storages = [GimpPalette, XmlPalette, Paletton, CSS, SVG, Image, Scribus]
 
 def get_all_filters(save=False):
     result = ""
