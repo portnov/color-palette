@@ -85,7 +85,7 @@ def read_template(filename):
     collector = Collector()
     walk(collector.process, xml.getroot())
     svg = etree.tostring(xml, encoding='utf-8', xml_declaration=True, pretty_print=True)
-    open("last_template.svg",'w').write(svg)
+    #open("last_template.svg",'w').write(svg)
     color_dict = collector.result()
     colors_inv = dict((v,k) for k, v in color_dict.iteritems())
     svg_colors = []
