@@ -39,9 +39,13 @@ What can it do currently is:
   - XML palettes from paletton.com - read only
   - CSS files - read and write. NB: when saving CSS, only colors are saved,
     other rules are not.
-  - SVG files - read only
+  - Scribus XML color swatches files - read and write. It reads RGB and CMYK 
+    values, but writes only RGB.
+  - SVG files - read and write. When saving, an image of table with square
+    swatches is saved.
   - Raster images (JPEG, PNG etc). Most used colors are extracted from image
-    by using simplified cluster-analysis algorithm.
+    by using simplified cluster-analysis algorithm. When saving, an image of
+    table with square swatches is saved.
 * There is also sort of "magic" SVG coloring tool. You can load SVG file, and
   press "Colorize from swatches" (or "Colorize from palette"). Tool will change
   colors in your picture to colors from swatches (or palette), trying to save
