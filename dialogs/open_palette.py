@@ -1,6 +1,7 @@
 
+# coding: utf-8
+
 from PyQt4 import QtGui, QtCore
-from gettext import gettext as _
 
 from color import mixers
 from palette.image import PaletteImage

@@ -1,9 +1,10 @@
 #!/usr/bin/python
 
 import sys
-from gettext import gettext as _
 
 from PyQt4 import QtGui, QtCore
+
+from l10n import _
 
 class PreviewFileDialog(QtGui.QFileDialog):
     def __init__(self, *args, **kwargs):

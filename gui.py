@@ -3,24 +3,13 @@
 import sys
 import os
 from os.path import join, basename, dirname, abspath
-#from gettext import gettext as _
 import gettext
 
 from PyQt4 import QtGui
 
 sys.path.append(dirname(sys.argv[0]))
 
-def locate_locales():
-    thisdir = dirname(sys.argv[0])
-    d = abspath( join(thisdir, "po") )
-    print("Using locales at " + d)
-    return d
-
-if sys.platform.startswith('win'):
-    import locale
-    if os.getenv('LANG') is None:
-        lang, enc = locale.getdefaultlocale()
-        os.environ['LANG'] = lang
+from l10n import locate_locales
 
 gettext.install("colors", localedir=locate_locales(), unicode=True)
 

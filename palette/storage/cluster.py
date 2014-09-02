@@ -94,8 +94,8 @@ if (pylab_available or pil_available) and cluster_analysis_available:
         image = imread(filename)
         w,h,d = tuple(image.shape)
         image_array = np.array( np.reshape(image, (w * h, d)), dtype=np.float64 )
-        if image.dtype == 'uint8':
-            image_array = image_array / 255.0
+        #if image.dtype == 'uint8':
+        #    image_array = image_array / 255.0
         image_array_sample = shuffle(image_array, random_state=0)[:N]
         bandwidth = estimate_bandwidth(image_array_sample, quantile=0.01, n_samples=500)
         ms = MeanShift(bandwidth=bandwidth, bin_seeding=True)

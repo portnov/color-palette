@@ -1,8 +1,9 @@
+# coding: utf-8
 
-from gettext import gettext as _
 from fnmatch import fnmatch
 from os.path import exists
 
+from l10n import _
 from gimp import GimpPalette
 from xml import XmlPalette
 from paletton import Paletton
@@ -20,7 +21,7 @@ def get_all_filters(save=False):
             continue
         if not save and not cls.can_load:
             continue
-        result += "{} ({});; ".format(cls.title, " ".join(cls.filters))
+        result += u"{} ({});; ".format(cls.title, u" ".join(cls.filters))
     result += _("All files (*)")
     return result
 

@@ -1,8 +1,8 @@
 
 from os.path import join, basename
 from math import sqrt, floor
-from gettext import gettext as _
 
+from l10n import _
 from color.colors import *
 from color import mixers
 from palette.image import PaletteImage
