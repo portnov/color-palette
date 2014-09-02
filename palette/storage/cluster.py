@@ -2,14 +2,6 @@
 from math import sqrt, isnan
 import numpy as np
 
-try: 
-    from pylab import imread
-    pylab_available = True
-    print("Image loading is available")
-except ImportError:
-    pylab_available = False
-    print("Image loading is not available")
-
 try:
     from sklearn.cluster import MeanShift, estimate_bandwidth
     from sklearn.utils import shuffle
@@ -36,7 +28,7 @@ except ImportError:
 
 from color.colors import *
 
-if not pylab_available and pil_available:
+if pil_available:
 
     def imread(filename):
         img = Image.open(filename)
@@ -86,7 +78,7 @@ class Box(object):
         self._array = smaller
         return Box(bigger)
 
-if (pylab_available or pil_available) and cluster_analysis_available:
+if pil_available and cluster_analysis_available:
 
     # Use Means Shift algorithm for cluster analysis
 
@@ -175,10 +167,10 @@ if pil_available:
         result = [box.mean_color() for box in boxes if box.mean_color() is not None]
         return result
 
-image_loading_supported = pil_available or (cluster_analysis_available and pylab_available)
+image_loading_supported = pil_available or cluster_analysis_available
 
 if pil_available:
     get_common_colors = bin_divide_colors
-elif cluster_analysis_available and pylab_available:
+elif cluster_analysis_available :
     get_common_colors = cluster_analyze
 
