@@ -14,11 +14,11 @@ class SVG(Storage):
     title = _("SVG images")
     filters = ["*.svg"]
     can_load = True
-    can_save = False
+    can_save = True
 
     @staticmethod
     def check(filename):
-        return ET.parse(filename).getroot().tag == '{http://www.w3.org/2000/svg}svg'
+        return True
 
     def load(self, mixer, file_r, options=None):
         self.palette = Palette(mixer)
@@ -49,4 +49,35 @@ class SVG(Storage):
         self.palette.setSlots(all_slots)
         print("Loaded palette: {}x{}".format( self.palette.nrows, self.palette.ncols ))
         return self.palette
+
+    def save(self, file_w):
+        SVG_NS = "http://www.w3.org/2000/svg"
+        NSMAP = dict(svg=SVG_NS)
+
+        padding=2.0
+        slotsz = 48.0
+        
+        rw = slotsz - padding
+        rh = slotsz - padding
+
+        svg = ET.Element("svg", nsmap=NSMAP)
+        group = ET.SubElement(svg, "g", id="palette")
+
+        def rect(x,y,w,h, color):
+            ET.SubElement(group, "rect", x=str(x), y=str(y), width=str(w), height=str(h), fill=color.hex())
+
+        for i in range(self.palette.nrows):
+            for j in range(self.palette.ncols):
+                x = slotsz * j + padding/2.0
+                y = slotsz * i + padding/2.0
+                color = self.palette.getColor(i,j)
+                rect(x,y, rw, rh, color)
+
+        svg.attrib['width']  = str( slotsz*self.palette.ncols )
+        svg.attrib['height'] = str( slotsz*self.palette.nrows )
+
+        ET.ElementTree(svg).write(file_w, encoding="utf-8", pretty_print=True, xml_declaration=True)
+
+
+
 
