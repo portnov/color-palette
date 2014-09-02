@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2014-09-02 00:11+YEKT\n"
+"POT-Creation-Date: 2014-09-02 22:49+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -255,31 +255,35 @@ msgstr "Ручная"
 msgid "HCY Wheel"
 msgstr "Круг HCY"
 
-#: gui.py:392
+#: gui.py:388
+msgid "Auto"
+msgstr "Авто"
+
+#: gui.py:401
 msgid "Shades:"
 msgstr "Оттенки:"
 
-#: gui.py:426 gui.py:446
+#: gui.py:435 gui.py:455
 msgid "Save palette"
 msgstr "Сохранить палитру"
 
-#: gui.py:431
+#: gui.py:440
 msgid "Save palette image"
 msgstr "Сохранить изображение палитры"
 
-#: gui.py:437
+#: gui.py:446
 msgid "Open palette"
 msgstr "Открыть палитру"
 
-#: gui.py:641
+#: gui.py:655
 msgid "Selected from palette: "
 msgstr "Выбрано из палитры: "
 
-#: gui.py:727
+#: gui.py:748
 msgid "Open SVG template"
 msgstr "Открыть шаблон SVG"
 
-#: gui.py:732
+#: gui.py:753
 msgid "Save SVG"
 msgstr "Сохранить SVG"
 
@@ -291,11 +295,7 @@ msgstr "Предпросмотр:"
 msgid "No preview"
 msgstr "Нет предпросмотра"
 
-#: dialogs/open_palette.py:13
-msgid "No options"
-msgstr "Нет параметров"
-
-#: palette/storage/all.py:23
+#: palette/storage/all.py:24
 msgid "All files (*)"
 msgstr "Все файлы (*)"
 
@@ -319,6 +319,10 @@ msgstr "Растровое изображение"
 msgid "Paletton.com palette"
 msgstr "Палитры Paletton.com"
 
+#: palette/storage/scribus.py:23
+msgid "Scribus color swatches"
+msgstr "Образцы цветов Scribus"
+
 #: palette/storage/svg.py:14
 msgid "SVG images"
 msgstr "Изображения SVG"
@@ -330,3 +334,6 @@ msgstr "Палитры MyPaint"
 #: palette/storage/xml.py:32
 msgid "Group: "
 msgstr "Группа: "
+
+#~ msgid "No options"
+#~ msgstr "Нет параметров"

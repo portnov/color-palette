@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-09-02 00:11+YEKT\n"
+"POT-Creation-Date: 2014-09-02 22:49+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -255,31 +255,35 @@ msgstr ""
 msgid "HCY Wheel"
 msgstr ""
 
-#: ./gui.py:392
+#: ./gui.py:388
+msgid "Auto"
+msgstr ""
+
+#: ./gui.py:401
 msgid "Shades:"
 msgstr ""
 
-#: ./gui.py:426 ./gui.py:446
+#: ./gui.py:435 ./gui.py:455
 msgid "Save palette"
 msgstr ""
 
-#: ./gui.py:431
+#: ./gui.py:440
 msgid "Save palette image"
 msgstr ""
 
-#: ./gui.py:437
+#: ./gui.py:446
 msgid "Open palette"
 msgstr ""
 
-#: ./gui.py:641
+#: ./gui.py:655
 msgid "Selected from palette: "
 msgstr ""
 
-#: ./gui.py:727
+#: ./gui.py:748
 msgid "Open SVG template"
 msgstr ""
 
-#: ./gui.py:732
+#: ./gui.py:753
 msgid "Save SVG"
 msgstr ""
 
@@ -291,11 +295,7 @@ msgstr ""
 msgid "No preview"
 msgstr ""
 
-#: dialogs/open_palette.py:13
-msgid "No options"
-msgstr ""
-
-#: palette/storage/all.py:23
+#: palette/storage/all.py:24
 msgid "All files (*)"
 msgstr ""
 
@@ -317,6 +317,10 @@ msgstr ""
 
 #: palette/storage/paletton.py:12
 msgid "Paletton.com palette"
+msgstr ""
+
+#: palette/storage/scribus.py:23
+msgid "Scribus color swatches"
 msgstr ""
 
 #: palette/storage/svg.py:14
