@@ -208,6 +208,8 @@ class GUIWidget(QtGui.QWidget):
 
         self.mixer = mixers.MixerRGB
 
+        self._shades_parameter = 0.5
+
         palette_widget = self._init_palette_widgets()
         harmonies_widget = self._init_harmonies_widgets()
         svg_widget = self._init_svg_widgets()
@@ -326,6 +328,7 @@ class GUIWidget(QtGui.QWidget):
         slider.setMaximum(100)
         slider.setValue(50)
         slider.valueChanged.connect(self.on_harmony_parameter)
+        slider.setEnabled(False)
         selector_box.addWidget(slider,1)
 
         self.selector = Selector(mixers.MixerHLS)
@@ -355,6 +358,7 @@ class GUIWidget(QtGui.QWidget):
         slider.setMaximum(100)
         slider.setValue(50)
         slider.valueChanged.connect(self.on_harmony_parameter)
+        slider.setEnabled(False)
         hcy_box.addWidget(slider,1)
 
         self.hcy_selector = HCYSelector()
@@ -402,6 +406,13 @@ class GUIWidget(QtGui.QWidget):
         self.shader = harmonies.Saturation
 
         vbox_center.addLayout(labelled(_("Shades:"), self.shaders))
+
+        self.shades_slider = slider = QtGui.QSlider(QtCore.Qt.Horizontal)
+        slider.setMinimum(0)
+        slider.setMaximum(100)
+        slider.setValue(50)
+        slider.valueChanged.connect(self.on_shades_parameter)
+        vbox_center.addWidget(slider,1)
 
         self.toolbar_swatches = QtGui.QToolBar()
         vbox_center.addWidget(self.toolbar_swatches)
@@ -719,12 +730,12 @@ class GUIWidget(QtGui.QWidget):
 
     def _do_harmony(self):
         if self.tabs.currentIndex() != 1:
-            colors = harmonies.allShades(self.selector.harmonized, self.shader)
+            colors = harmonies.allShades(self.selector.harmonized, self.shader, self._shades_parameter)
         else:
             harmonized = self.hcy_selector.get_harmonized()
             if harmonized is None:
                 return
-            colors = harmonies.allShades(harmonized, self.shader)
+            colors = harmonies.allShades(harmonized, self.shader, self._shades_parameter)
 
         for i,clr in enumerate(colors):
             if i > 19:
@@ -740,6 +751,11 @@ class GUIWidget(QtGui.QWidget):
         p = float(value)/100.0
         self.selector.set_harmony_parameter(p)
         self.hcy_selector.set_harmony_parameter(p)
+        self._auto_harmony()
+
+    def on_shades_parameter(self, value):
+        p = float(value)/100.0
+        self._shades_parameter = p
         self._auto_harmony()
 
     def on_colorize_harmony(self):

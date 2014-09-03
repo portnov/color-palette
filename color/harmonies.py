@@ -2,11 +2,11 @@
 from PyQt4 import QtGui
 from color.colors import *
 
-def allShades(base_colors, shader):
+def allShades(base_colors, shader, parameter):
     if shader is None:
         return base_colors
     else:
-        all_colors = map(shader.shades, base_colors)
+        all_colors = [shader.shades(c, parameter) for c in base_colors]
         return sum(all_colors, [])
 
 def variate(x, step=1.0, dmin=1.0, dmax=None):
@@ -123,8 +123,9 @@ def NHuesLCh(n):
     return Hues_LCh
 
 class Cooler(Shader):
+    uses_parameter = True
     @classmethod
-    def shades(cls, color):
+    def shades(cls, color, parameter):
         h,s,v = color.getHSV()
         if h < 1.0/6.0:
             sign = -1.0
@@ -132,7 +133,7 @@ class Cooler(Shader):
             sign = -1.0
         else:
             sign = 1.0
-        step = 0.05
+        step = 0.1*parameter
         result = [color]
         for i in range(4):
             h += sign*step
@@ -144,8 +145,9 @@ class Cooler(Shader):
         return result
 
 class Warmer(Shader):
+    uses_parameter = True
     @classmethod
-    def shades(cls, color):
+    def shades(cls, color, parameter):
         h,s,v = color.getHSV()
         if h < 1.0/6.0:
             sign = +1.0
@@ -153,7 +155,7 @@ class Warmer(Shader):
             sign = +1.0
         else:
             sign = -1.0
-        step = 0.05
+        step = 0.1*parameter
         result = [color]
         for i in range(4):
             h += sign*step
@@ -165,31 +167,35 @@ class Warmer(Shader):
         return result
 
 class Saturation(Shader):
+    uses_parameter = True
     @classmethod
-    def shades(cls, color):
+    def shades(cls, color, parameter):
         h, s, v = color.getHSV()
-        ss = [clip(x) for x in variate(s, 0.3, 0.6)]
+        ss = [clip(x) for x in variate(s, 0.6*parameter, 1.2*parameter)]
         return [hsv(h,s,v) for s in ss]
 
 class Value(Shader):
+    uses_parameter = True
     @classmethod
-    def shades(cls, color):
+    def shades(cls, color, parameter):
         h, s, v = color.getHSV()
-        vs = [clip(x) for x in variate(v, 0.2, 0.4)]
+        vs = [clip(x) for x in variate(v, 0.4*parameter, 0.8*parameter)]
         return [hsv(h,s,v) for v in vs]
 
 class Chroma(Shader):
+    uses_parameter = True
     @classmethod
-    def shades(cls, color):
+    def shades(cls, color, parameter):
         h, c, y = color.getHCY()
-        cs = [clip(x) for x in variate(c, 0.2, 0.4)]
+        cs = [clip(x) for x in variate(c, 0.4*parameter, 0.8*parameter)]
         return [hcy(h,c,y) for c in cs]
 
 class Luma(Shader):
+    uses_parameter = True
     @classmethod
-    def shades(cls, color):
+    def shades(cls, color, parameter):
         h, c, y = color.getHCY()
-        ys = [clip(x) for x in variate(y, 0.15, 0.3)]
+        ys = [clip(x) for x in variate(y, 0.3*parameter, 0.6*parameter)]
         return [hcy(h,c,y) for y in ys]
 
 
