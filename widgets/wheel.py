@@ -116,6 +116,7 @@ class WheelWidget(QtGui.QWidget):
         self.luma = 0
         self._harmonized = None
         self._harmony = None
+        self._harmony_parameter = 0.5
         self._dragged = None
         self.enable_editing = False
 
@@ -283,7 +284,7 @@ class WheelWidget(QtGui.QWidget):
         if self._harmony is None:
             return
         #print("Calc harmony from {}".format(str(current)))
-        colors = self._harmony.get(current)
+        colors = self._harmony.get(current, self._harmony_parameter)
         self._harmonized = []
         for clr in colors:
             h,c,y = clr.getHCY()
@@ -291,6 +292,11 @@ class WheelWidget(QtGui.QWidget):
 
     def set_harmony(self, harmony, current):
         self._harmony = harmony
+        self._calc_harmony(current)
+        self.repaint()
+
+    def set_harmony_parameter(self, value, current):
+        self._harmony_parameter = value
         self._calc_harmony(current)
         self.repaint()
 
@@ -422,6 +428,9 @@ class HCYSelector(QtGui.QWidget):
         if current is None:
             return
         self.wheel.set_harmony(harmony, current)
+
+    def set_harmony_parameter(self, value):
+        self.wheel.set_harmony_parameter(value, self.getColor())
 
     def get_harmonized(self):
         if self.wheel._harmonized is None:

@@ -413,6 +413,7 @@ class Selector(QtGui.QLabel):
         self.selected_hue = 0.0
         self.selected_color = None
         self.harmony = None
+        self._harmony_parameter = 0.5
         self.harmonized = []
         self.setMinimumSize(100,100)
         self.setAcceptDrops(True)
@@ -452,8 +453,15 @@ class Selector(QtGui.QLabel):
     def setHarmony(self, harmony):
         self.harmony = harmony
         if self.selected_color is not None and self.harmony is not None:
-            self.harmonized = self.harmony.get(self.selected_color)
+            self.harmonized = self.harmony.get(self.selected_color, self._harmony_parameter)
         self.repaint()
+
+    def set_harmony_parameter(self, value):
+        self._harmony_parameter = value
+        if self.selected_color is not None and self.harmony is not None:
+            self.harmonized = self.harmony.get(self.selected_color, self._harmony_parameter)
+            self.repaint()
+            self.selected.emit()
 
     def setMixer(self, mixer):
         self.mixer = mixer
@@ -498,7 +506,7 @@ class Selector(QtGui.QLabel):
 
         if self.harmony is not None and self.selected_color is not None:
             h_selected = self.mixer.getHue(self.selected_color)
-            clrs = self.harmony.get(self.selected_color)
+            clrs = self.harmony.get(self.selected_color, self._harmony_parameter)
             for clr in clrs:
                 h,s,v = self.mixer.getShade(clr)
                 if abs(h-h_selected) < 0.01:
@@ -574,7 +582,7 @@ class Selector(QtGui.QLabel):
     
     def _update_harmony(self):
         if self.harmony is not None:
-            self.harmonized = self.harmony.get(self.selected_color)
+            self.harmonized = self.harmony.get(self.selected_color, self._harmony_parameter)
 
     def _select(self, x, y):
         if self.ls_square.contains(x,y):

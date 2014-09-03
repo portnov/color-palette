@@ -321,6 +321,13 @@ class GUIWidget(QtGui.QWidget):
         form.addRow(_("Harmony:"), self.harmonies)
         selector_box.addLayout(form)
 
+        self.harmony_slider = slider = QtGui.QSlider(QtCore.Qt.Horizontal)
+        slider.setMinimum(0)
+        slider.setMaximum(100)
+        slider.setValue(50)
+        slider.valueChanged.connect(self.on_harmony_parameter)
+        selector_box.addWidget(slider,1)
+
         self.selector = Selector(mixers.MixerHLS)
         self.selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
         self.selector.setMinimumSize(150,150)
@@ -342,6 +349,13 @@ class GUIWidget(QtGui.QWidget):
         hcy_harmonies.addItem(_("Manual"))
         hcy_harmonies.currentIndexChanged.connect(self.on_select_hcy_harmony)
         hcy_box.addLayout(labelled(_("Harmony:"), hcy_harmonies), 1)
+
+        self.hcy_harmony_slider = slider = QtGui.QSlider(QtCore.Qt.Horizontal)
+        slider.setMinimum(0)
+        slider.setMaximum(100)
+        slider.setValue(50)
+        slider.valueChanged.connect(self.on_harmony_parameter)
+        hcy_box.addWidget(slider,1)
 
         self.hcy_selector = HCYSelector()
         self.hcy_selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
@@ -664,6 +678,7 @@ class GUIWidget(QtGui.QWidget):
         _, harmony = self.available_harmonies[idx]
         print("Selected harmony: " + str(harmony))
         self.selector.setHarmony(harmony)
+        self.harmony_slider.setEnabled(harmony.uses_parameter)
         self._auto_harmony()
 
     def on_select_hcy_harmony(self, idx):
@@ -673,6 +688,7 @@ class GUIWidget(QtGui.QWidget):
         _, harmony = self.available_harmonies[idx]
         print("Selected harmony: " + str(harmony))
         self.hcy_selector.set_harmony(harmony)
+        self.hcy_harmony_slider.setEnabled(harmony.uses_parameter)
 
     def on_select_shader(self, idx):
         _, shader = self.available_shaders[idx]
@@ -719,6 +735,12 @@ class GUIWidget(QtGui.QWidget):
     def on_harmony(self):
         self._do_harmony()
         self.update()
+
+    def on_harmony_parameter(self, value):
+        p = float(value)/100.0
+        self.selector.set_harmony_parameter(p)
+        self.hcy_selector.set_harmony_parameter(p)
+        self._auto_harmony()
 
     def on_colorize_harmony(self):
         self.svg.setColors([w.getColor() for w in self.harmonized if w.getColor() is not None])

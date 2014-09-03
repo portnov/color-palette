@@ -20,18 +20,12 @@ class Harmony(object):
 class Shader(object):
     pass
 
-class SimpleHarmony(Harmony):
-    @classmethod
-    def get(cls, color):
-        l, c, h = color.getLCh()
-        #print("Harmony for Hue: " + str(h))
-        cs = [clip(x,0.0,100.0) for x in variate(c, 10, 10)]
-        ls = [clip(x,0.0,100.0) for x in variate(l, 10, 10)]
-        return [lch(l,c,h) for l in ls for c in cs]
-
 class Opposite(Harmony):
+
+    uses_parameter = False
+
     @classmethod
-    def get(cls, color):
+    def get(cls, color, parameter=None):
         h, s, v = color.getHSV()
         h = h + 0.5
         if h > 1.0:
@@ -39,14 +33,15 @@ class Opposite(Harmony):
         return [color, hsv(h, s, v)]
 
 class TwoOpposite(Harmony):
+    uses_parameter = True
     @classmethod
-    def get(cls, color):
+    def get(cls, color, parameter):
         h, s, v = color.getHSV()
-        h += 0.4
+        h += (1.0 - 0.4*parameter)/2.0
         if h > 1.0:
             h -= 1.0
         c1 = hsv(h,s,v)
-        h += 0.2
+        h += 0.4*parameter
         if h > 1.0:
             h -= 1.0
         c2 = hsv(h,s,v)
@@ -60,33 +55,36 @@ def circle(i, n, h, max=1.0):
 
 def NHues(n):
     class Hues(Harmony):
+        uses_parameter = False
         @classmethod
-        def get(cls, color):
+        def get(cls, color, parameter=None):
             h, s, v = color.getHSV()
             return [hsv(circle(i,n,h), s, v) for i in range(n)]
 
     return Hues
 
 class Similar(Harmony):
+    uses_parameter = True
     @classmethod
-    def get(cls, color):
+    def get(cls, color, parameter):
         h, s, v = color.getHSV()
-        h1 = h + 0.1
+        h1 = h + 0.2*parameter
         if h1 > 1.0:
             h1 -= 1.0
-        h2 = h - 0.1
+        h2 = h - 0.2*parameter
         if h2 < 0.0:
             h2 += 1.0
         return [hsv(h1,s,v), color, hsv(h2,s,v)]
 
 class SimilarAndOpposite(Harmony):
+    uses_parameter = True
     @classmethod
-    def get(cls, color):
+    def get(cls, color, parameter):
         h, c, y = color.getHCY()
-        h1 = h + 0.1
+        h1 = h + 0.2*parameter
         if h1 > 1.0:
             h1 -= 1.0
-        h2 = h - 0.1
+        h2 = h - 0.2*parameter
         if h2 < 0.0:
             h2 += 1.0
         h3 = h + 0.5
@@ -95,18 +93,20 @@ class SimilarAndOpposite(Harmony):
         return [hcy(h1,c,y), color, hcy(h2,c,y), hcy(h3,c,y)]
 
 class Rectangle(Harmony):
+    uses_parameter = True
     @classmethod
-    def get(cls, color):
+    def get(cls, color, parameter):
         h, c, y = color.getHCY()
-        h1 = (h + 0.1) % 1.0
+        h1 = (h + 0.2*parameter) % 1.0
         h2 = (h1 + 0.5) % 1.0
         h3 = (h + 0.5) % 1.0
         return [color, hcy(h1,c,y), hcy(h2,c,y), hcy(h3,c,y)]
 
 def NHuesRYB(n):
     class Hues_RYB(Harmony):
+        uses_parameter = False
         @classmethod
-        def get(cls, color):
+        def get(cls, color, parameter=None):
             h, s, v = color.getRYB()
             return [ryb(circle(i,n,h), s, v) for i in range(n)]
 
@@ -114,8 +114,9 @@ def NHuesRYB(n):
 
 def NHuesLCh(n):
     class Hues_LCh(Harmony):
+        uses_parameter = False
         @classmethod
-        def get(cls, color):
+        def get(cls, color, parameter=None):
             l,c,h = color.getLCh()
             return [lch(l,c,circle(i,n,h, 360.0)) for i in range(n)]
 
