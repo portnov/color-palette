@@ -16,6 +16,6 @@ if sys.platform.startswith('win'):
         lang, enc = locale.getdefaultlocale()
         os.environ['LANG'] = lang
 
-t = gettext.translation("colors", localedir=locate_locales())
+t = gettext.translation("colors", localedir=locate_locales(), fallback=True)
 _ = t.ugettext
 
