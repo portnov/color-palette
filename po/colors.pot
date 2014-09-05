@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-09-02 22:49+YEKT\n"
+"POT-Creation-Date: 2014-09-05 20:44+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,275 +15,275 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: ./gui.py:79
+#: ./gui.py:82
 msgid "Palette editor"
 msgstr ""
 
-#: ./gui.py:83
+#: ./gui.py:86
 msgid "&Palette"
 msgstr ""
 
-#: ./gui.py:86
+#: ./gui.py:89
 msgid "&Open palette"
 msgstr ""
 
-#: ./gui.py:89
+#: ./gui.py:92
 msgid "&Save palette"
 msgstr ""
 
-#: ./gui.py:97
+#: ./gui.py:100
 msgid "Toggle edit &mode"
 msgstr ""
 
-#: ./gui.py:103 ./gui.py:128
+#: ./gui.py:106 ./gui.py:131
 msgid "&Darker"
 msgstr ""
 
-#: ./gui.py:105 ./gui.py:130
+#: ./gui.py:108 ./gui.py:133
 msgid "&Lighter"
 msgstr ""
 
-#: ./gui.py:107 ./gui.py:132
+#: ./gui.py:110 ./gui.py:135
 msgid "S&aturate"
 msgstr ""
 
-#: ./gui.py:109 ./gui.py:134
+#: ./gui.py:112 ./gui.py:137
 msgid "D&esaturate"
 msgstr ""
 
-#: ./gui.py:112 ./gui.py:136
+#: ./gui.py:115 ./gui.py:139
 msgid "&Rotate colors counterclockwise"
 msgstr ""
 
-#: ./gui.py:115 ./gui.py:139
+#: ./gui.py:118 ./gui.py:142
 msgid "Rotate colors clock&wise"
 msgstr ""
 
-#: ./gui.py:117 ./gui.py:141
+#: ./gui.py:120 ./gui.py:144
 msgid "Increase &contrast"
 msgstr ""
 
-#: ./gui.py:119 ./gui.py:143
+#: ./gui.py:122 ./gui.py:146
 msgid "Decrease contras&t"
 msgstr ""
 
-#: ./gui.py:122
+#: ./gui.py:125
 msgid "&Swatches"
 msgstr ""
 
-#: ./gui.py:124
+#: ./gui.py:127
 msgid "&Harmony"
 msgstr ""
 
-#: ./gui.py:147
+#: ./gui.py:150
 msgid "To &palette"
 msgstr ""
 
-#: ./gui.py:149
+#: ./gui.py:152
 msgid "C&lear swatches"
 msgstr ""
 
-#: ./gui.py:151
+#: ./gui.py:154
 msgid "&Save as palette"
 msgstr ""
 
-#: ./gui.py:154
+#: ./gui.py:157
 msgid "&Image"
 msgstr ""
 
-#: ./gui.py:157
+#: ./gui.py:160
 msgid "&Open template"
 msgstr ""
 
-#: ./gui.py:160
+#: ./gui.py:163
 msgid "&Save resulting SVG"
 msgstr ""
 
-#: ./gui.py:164
+#: ./gui.py:167
 msgid "Colorize from s&watches"
 msgstr ""
 
-#: ./gui.py:166
+#: ./gui.py:169
 msgid "Colorize from &palette"
 msgstr ""
 
-#: ./gui.py:168
+#: ./gui.py:171
 msgid "&Reset colors"
 msgstr ""
 
-#: ./gui.py:181
+#: ./gui.py:184
 msgid "RGB"
 msgstr ""
 
-#: ./gui.py:182
+#: ./gui.py:185
 msgid "HSV"
 msgstr ""
 
-#: ./gui.py:183 ./gui.py:192
+#: ./gui.py:186 ./gui.py:195
 msgid "HLS"
 msgstr ""
 
-#: ./gui.py:184 ./gui.py:193
+#: ./gui.py:187 ./gui.py:196
 msgid "HCY"
 msgstr ""
 
-#: ./gui.py:185
+#: ./gui.py:188
 msgid "HCY Desaturate"
 msgstr ""
 
-#: ./gui.py:186 ./gui.py:194
+#: ./gui.py:189 ./gui.py:197
 msgid "RYB"
 msgstr ""
 
-#: ./gui.py:187
+#: ./gui.py:190
 msgid "CMYK"
 msgstr ""
 
-#: ./gui.py:188
+#: ./gui.py:191
 msgid "CMY"
 msgstr ""
 
-#: ./gui.py:189
+#: ./gui.py:192
 msgid "HSI (experimental)"
 msgstr ""
 
-#: ./gui.py:189 ./gui.py:194
+#: ./gui.py:192 ./gui.py:197
 msgid "LCh"
 msgstr ""
 
-#: ./gui.py:190
+#: ./gui.py:193
 msgid "Lab"
 msgstr ""
 
-#: ./gui.py:196
+#: ./gui.py:199
 msgid "Just opposite"
 msgstr ""
 
-#: ./gui.py:197
+#: ./gui.py:200
 msgid "Two opposite"
 msgstr ""
 
-#: ./gui.py:198
+#: ./gui.py:201
 msgid "Three colors"
 msgstr ""
 
-#: ./gui.py:199
+#: ./gui.py:202
 msgid "Four colors"
 msgstr ""
 
-#: ./gui.py:200
+#: ./gui.py:203
 msgid "Rectangle"
 msgstr ""
 
-#: ./gui.py:201
+#: ./gui.py:204
 msgid "Similar colors"
 msgstr ""
 
-#: ./gui.py:202
+#: ./gui.py:205
 msgid "Similar and opposite"
 msgstr ""
 
-#: ./gui.py:203
+#: ./gui.py:206
 msgid "Opposite colors RYB"
 msgstr ""
 
-#: ./gui.py:204
+#: ./gui.py:207
 msgid "Three colors RYB"
 msgstr ""
 
-#: ./gui.py:205
+#: ./gui.py:208
 msgid "Four colors RYB"
 msgstr ""
 
-#: ./gui.py:205
+#: ./gui.py:208
 msgid "Three colors LCh"
 msgstr ""
 
-#: ./gui.py:206
+#: ./gui.py:209
 msgid "Four colors LCh"
 msgstr ""
 
-#: ./gui.py:208
+#: ./gui.py:211
 msgid "Saturation"
 msgstr ""
 
-#: ./gui.py:209
+#: ./gui.py:212
 msgid "Value"
 msgstr ""
 
-#: ./gui.py:210
+#: ./gui.py:213
 msgid "Chroma"
 msgstr ""
 
-#: ./gui.py:211
+#: ./gui.py:214
 msgid "Luma"
 msgstr ""
 
-#: ./gui.py:212
+#: ./gui.py:215
 msgid "Warmer"
 msgstr ""
 
-#: ./gui.py:213
+#: ./gui.py:216
 msgid "Cooler"
 msgstr ""
 
-#: ./gui.py:243
+#: ./gui.py:248
 msgid "Colors from original image:"
 msgstr ""
 
-#: ./gui.py:303
+#: ./gui.py:308
 msgid "Mixing model:"
 msgstr ""
 
-#: ./gui.py:325
+#: ./gui.py:330
 msgid "Selector model:"
 msgstr ""
 
-#: ./gui.py:332 ./gui.py:355
+#: ./gui.py:337 ./gui.py:368
 msgid "Harmony:"
 msgstr ""
 
-#: ./gui.py:345
+#: ./gui.py:358
 msgid "Square"
 msgstr ""
 
-#: ./gui.py:353
+#: ./gui.py:366
 msgid "Manual"
 msgstr ""
 
-#: ./gui.py:376
+#: ./gui.py:397
 msgid "HCY Wheel"
 msgstr ""
 
-#: ./gui.py:388
+#: ./gui.py:409
 msgid "Auto"
 msgstr ""
 
-#: ./gui.py:401
+#: ./gui.py:422
 msgid "Shades:"
 msgstr ""
 
-#: ./gui.py:435 ./gui.py:455
+#: ./gui.py:463 ./gui.py:483
 msgid "Save palette"
 msgstr ""
 
-#: ./gui.py:440
+#: ./gui.py:468
 msgid "Save palette image"
 msgstr ""
 
-#: ./gui.py:446
+#: ./gui.py:474
 msgid "Open palette"
 msgstr ""
 
-#: ./gui.py:655
+#: ./gui.py:683
 msgid "Selected from palette: "
 msgstr ""
 
-#: ./gui.py:748
+#: ./gui.py:789
 msgid "Open SVG template"
 msgstr ""
 
-#: ./gui.py:753
+#: ./gui.py:794
 msgid "Save SVG"
 msgstr ""
 
@@ -299,39 +299,39 @@ msgstr ""
 msgid "All files (*)"
 msgstr ""
 
-#: palette/storage/css.py:18
+#: palette/storage/css.py:17
 msgid "CSS cascading stylesheet"
 msgstr ""
 
-#: palette/storage/gimp.py:35
+#: palette/storage/gimp.py:34
 msgid "Gimp palette"
 msgstr ""
 
-#: palette/storage/gimp.py:63
+#: palette/storage/gimp.py:62
 msgid "Columns: "
 msgstr ""
 
-#: palette/storage/image.py:13
+#: palette/storage/image.py:12
 msgid "Raster image"
 msgstr ""
 
-#: palette/storage/paletton.py:12
+#: palette/storage/paletton.py:11
 msgid "Paletton.com palette"
 msgstr ""
 
-#: palette/storage/scribus.py:23
+#: palette/storage/scribus.py:22
 msgid "Scribus color swatches"
 msgstr ""
 
-#: palette/storage/svg.py:14
+#: palette/storage/svg.py:13
 msgid "SVG images"
 msgstr ""
 
-#: palette/storage/xml.py:12
+#: palette/storage/xml.py:11
 msgid "MyPaint palette"
 msgstr ""
 
-#: palette/storage/xml.py:32
+#: palette/storage/xml.py:31
 msgid "Group: "
 msgstr ""
 
