@@ -3,7 +3,6 @@
 from fnmatch import fnmatch
 from os.path import exists
 
-from l10n import _
 from gimp import GimpPalette
 from xml import XmlPalette
 from paletton import Paletton

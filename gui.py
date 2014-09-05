@@ -9,7 +9,21 @@ from PyQt4 import QtGui
 
 sys.path.append(dirname(sys.argv[0]))
 
-from l10n import locate_locales
+def locate_locales():
+    thisdir = dirname(sys.argv[0])
+    d = abspath( join(thisdir, "po") )
+    print("Using locales at " + d)
+    return d
+
+if sys.platform.startswith('win'):
+    import locale
+    if os.getenv('LANG') is None:
+        lang, enc = locale.getdefaultlocale()
+        os.environ['LANG'] = lang
+
+# translation = gettext.translation("colors", localedir=locate_locales(), fallback=True)
+# _ = translation.ugettext
+
 
 gettext.install("colors", localedir=locate_locales(), unicode=True)
 

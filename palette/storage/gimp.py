@@ -2,7 +2,6 @@
 from os.path import join, basename
 from PyQt4 import QtGui
 
-from l10n import _
 from color.colors import *
 from color import mixers
 from palette.storage.storage import *
