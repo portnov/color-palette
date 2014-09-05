@@ -6,3 +6,4 @@
 *.po~
 .eric5project/
 dist/
+palette_editor.egg-info/

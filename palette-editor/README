@@ -1,0 +1,67 @@
+color-palette
+=============
+
+Set of Python (+Qt) scripts to work with colors, color harmonies, mixing of colors, and edit color palettes.
+
+What can it do currently is:
+
+* Work with colors. There is Color class in color.py (based on QColor), and you
+  can convert it from/to different color models. There are some standard models
+  supported (RGB, CMYK, HSV) as well as some experimental (RYB). Some models
+  implementation is depending on python LCMS bindings (LCh, Lab).
+* RYB color model implementation is based on HCY: it is in fact H'CY, where
+  C and Y are the same as in HCY, but Hue is adopted for RYB color wheel.
+* Mix colors. There are some set of color-mixing algorithms. Currently
+  implemented algorithms just convert color to some color space (LCh, for
+  example), and do linear interpolation in that space.
+* Calculate color harmonies. There are two basic classes: Harmony and Shader.
+  Harmony is an algorithm how to get some list of harmonic (well, in some way)
+  colors from one color. Shader is an algorithm how to get a list of similar
+  shades of one color. Combining Harmonies and Shaders, one can potentially get
+  some interesting results.
+* There is some set of color-related widgets for PyQt4, for example - a widget
+  which displays color and lets you select another color by clicking on it.
+* There is also a color-selector widget, which can work with different color
+  models. Currently, it works more or less well with HLS, HCY, RYB and LCh
+  models.
+* Another color-selector widget is specific for HCY model; but this widget
+  also indicates harmonized colors more clearly. And moreover, it allows user
+  to edit color harmony manually by dragging harmonized color indicators.
+* There is a port of my palette implementation for MyPaint
+  (http://wiki.mypaint.info/Iportnovs_en#Palette) to PyQt4. This implementation
+  is split into several modules: one for palette generation and handling
+  (totally independent of any GUI, except of my Color and Mixer classes, which
+  are not actually GUI); one for rendering palette into QImage; and one for
+  displaying and editing palette using PyQt4 widget.
+* Palettes can be saved or loaded from different formats. Currently supported are:
+  - Gimp palettes (gpl) - read and write
+  - XML palettes from old MyPaint implementation - read only
+  - XML palettes from paletton.com - read only
+  - CSS files - read and write. NB: when saving CSS, only colors are saved,
+    other rules are not.
+  - Scribus XML color swatches files - read and write. It reads RGB and CMYK 
+    values, but writes only RGB.
+  - SVG files - read and write. When saving, an image of table with square
+    swatches is saved.
+  - Raster images (JPEG, PNG etc). Most used colors are extracted from image
+    by using simplified cluster-analysis algorithm. When saving, an image of
+    table with square swatches is saved.
+* There is also sort of "magic" SVG coloring tool. You can load SVG file, and
+  press "Colorize from swatches" (or "Colorize from palette"). Tool will change
+  colors in your picture to colors from swatches (or palette), trying to save
+  colors relationships: change contrast colors to contrast, similar to similar.
+  "AI" is poor, but in many cases you can get good results. You can also save
+  resulting SVG file.
+
+There is also some old pygtk stuff, maybe it will be usefull for someone.
+
+Documentation is actually almost absent at the moment, so you can just read source :)
+
+You can try launch&play with some testing executable scripts:
+* palette_viewer.py — a viewer for palette files. All formats listed above are
+  supported.
+* gui.py — a script for testing GUI, showing palette editor, color selector,
+  harmonic colors generation.
+
+License: GPLv2 or any later — due to use of PyQt4.
+

@@ -1,0 +1,46 @@
+0.0.3, 2014/09/03
+  * Implement "Auto" mode, when harmonized colors are recalculated automatically 
+    when changing current color.
+  * Add sliders for adjusting harmonies and shaders.
+  * Implement saving palette as SVG image.
+  * Loading and saving of Scribus XML palettes.
+  * Do not write "last_template.svg" anymore.
+0.0.2, 2014/09/02
+  * Preview in palette opening dialog.
+  * Add "Two opposite" (aka "Separte compilmentary") harmony.
+  * Add "Similar and opposite" harmony.
+  * Add "Rectangle" harmony.
+  * Implement mouse wheel events for color widgets:
+    - Scroll - saturate/desaturate color
+    - Shift+Scroll - make color lighter/darker
+    - Ctrl+Scroll - change color hue clockwise/counterclockwise
+  * Same wheel control for color selector
+  * Same wheel control for palette (in edit mode only)
+  * Use right mouse button for marking/unmarking colors in palette.
+  * Use right mouse button for clear any color swatch.
+  * More commands for changing all colors in palette or swatches:
+    - change color hue clockwise/counterclockwise
+    - increase/decrease contrast
+  * Add menubar.
+  * Add new color selector: HCY wheel with separate slider for Luma.
+  * With HCY wheel, standard harmonies may be used, and also it's possible to
+    edit harmony by dragging indicators.
+  * Mouse wheel control for HCY selector:
+    - Scroll - change Chroma
+    - Ctrl+Scroll - change color hue
+    - Scroll on Luma slider - change Luma.
+  * Copy implementation of HCY from MyPaint.
+  * Re-implement RYB via HCY.
+  * Add new shaders: "Luma" and "Chroma".
+  * New colors mixing model: "HCY Desaturate".
+  * Slightly better implementation of colors matching for SVG (by using HCY space).
+  * Implement loading XML files from old implementation of MyPaint palette.
+  * Implement loading XML palettes from paletton.com.
+  * Implement loading/saving palettes from/to CSS files. NB:
+      1. Loading of CSS will work only when 'tinycss' installed (pip install tinycss).
+      2. When saving palette as CSS, only color rules are saved.
+  * Implement loading palettes from SVG files (all colors from image are loaded).
+  * Implement loading palette from raster images (most common colors are used).
+  * Saving palette as raster image.
+  * Add palette samples.
+0.0.1, 2014/08/24 -- Initial release.

@@ -1,0 +1,29 @@
+Installation procedures
+-----------------------
+
+Currently there is no proper Python package. I'll appreticate any help in
+creating it, as I'm not experienced in creating them. So, list of depencencies:
+
+* Python v. 2.5, 2.6, 2.7. I think it should also work with 3.*, but i've not tested it.
+* PyQt4.
+* Numpy.
+* lxml.
+* LCMS bindings (v. 1.19 will be OK) - optional, used for LCh and Lab color
+  models. They simply will not be available if you have not LCMS bindings
+  installed.
+* TinyCSS - optional. Used for loading (parsing) CSS files.
+* PIL or Pillow - optional. Used for loading raster images as palettes.
+* scikit-learn - optional, not used by default. Can be used as alternative
+  variant for loading raster images as palettes.
+
+On most Linux distributions, you can just run "gui.py" after installing that depencencies.
+
+For Windows, distribution can be created with PyInstaller and (optionally) NSIS:
+
+* To compile scripts into Windows executable files, run "pyinstaller
+  windows\gui.spec" (under Windows or under Wine) This will create a folder
+  "dist\gui" with set of binary files (gui.exe is the main executable file).
+  You can distribute that folder any way you want.
+* To create proper installer, run "makensis colors.nsis" (this can be done
+  under Linux or Windows). This will create file "dist\palette-editor.exe".
+

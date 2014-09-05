@@ -2,16 +2,23 @@
 
 import sys
 import os
-from os.path import join, basename, dirname, abspath
+from os.path import join, basename, dirname, abspath, exists
 import gettext
 
 from PyQt4 import QtGui
 
-sys.path.append(dirname(sys.argv[0]))
+bindir = dirname(sys.argv[0])
+rootdir = dirname(bindir)
+sys.path.append(rootdir)
+
+datarootdir = join( rootdir, "share" )
+datarootdir_installed = join( datarootdir, "palette-editor" )
+if not sys.platform.startswith('win'):
+    if exists(datarootdir_installed):
+        datarootdir = datarootdir_installed
 
 def locate_locales():
-    thisdir = dirname(sys.argv[0])
-    d = abspath( join(thisdir, "po") )
+    d = abspath( join(rootdir, "share", "locale") )
     print("Using locales at " + d)
     return d
 
@@ -39,12 +46,10 @@ from dialogs.open_palette import *
 from dialogs import filedialog
 
 def locate_icon(name):
-    thisdir = dirname(sys.argv[0])
-    return join(thisdir, "icons", name)
+    return join(datarootdir, "icons", name)
 
 def locate_template(name):
-    thisdir = dirname(sys.argv[0])
-    return join(thisdir, "templates", name)
+    return join(datarootdir, "templates", name)
 
 def compose_icon(icon, filename):
     icon_pixmap = icon.pixmap(24,24)

@@ -1,7 +1,9 @@
 #!/bin/bash
 
-pygettext -v -o po/colors.pot {.,color,dialogs,matching,palette,widgets}/*.py palette/storage/*.py
-cd po
+cd palette-editor/
+
+pygettext -v -o share/locale/colors.pot {.,bin,color,dialogs,matching,palette,widgets}/*.py palette/storage/*.py
+cd share/locale
 for D in $(ls -d *)
 do if [ -d $D ]
    then pushd $D/LC_MESSAGES

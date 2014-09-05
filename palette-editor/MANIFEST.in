@@ -1,0 +1,5 @@
+include LICENSE INSTALL CHANGES.txt
+recursive-include share/icons *.png
+recursive-include share/palettes *.xml *.gpl *.css
+recursive-include share/templates *.svg
+recursive-include share/locale *.po *.pot *.mo
