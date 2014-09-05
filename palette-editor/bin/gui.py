@@ -12,13 +12,20 @@ rootdir = dirname(bindir)
 sys.path.append(rootdir)
 
 datarootdir = join( rootdir, "share" )
-datarootdir_installed = join( datarootdir, "palette-editor" )
 if not sys.platform.startswith('win'):
+    datarootdir_installed = join( datarootdir, "palette-editor" )
     if exists(datarootdir_installed):
         datarootdir = datarootdir_installed
+else:
+    datarootdir_compiled = join( bindir, "share" )
+    if exists(datarootdir_compiled):
+        datarootdir = datarootdir_compiled
 
 def locate_locales():
     d = abspath( join(rootdir, "share", "locale") )
+    if sys.platform.startswith('win'):
+        if not exists(d):
+            d = abspath( join(bindir, "share", "locale") )
     print("Using locales at " + d)
     return d
 

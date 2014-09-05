@@ -1,6 +1,6 @@
 # -*- mode: python -*-
-a = Analysis(['gui.py'],
-             pathex=['C:\\Python\\installer\\colors'],
+a = Analysis(['bin\\gui.py'],
+             pathex=['C:\\Python\\installer\\colors\\palette-editor'],
              hiddenimports=[],
              hookspath=None,
              runtime_hooks=None)
@@ -14,10 +14,7 @@ exe = EXE(pyz,
           upx=True,
           console=False )
 coll = COLLECT(exe,
-               Tree("templates", prefix="templates"),
-               Tree("palettes", prefix="palettes"),
-               Tree("icons", prefix="icons"),
-               Tree("po", prefix="po"),
+               Tree("share", prefix="share"),
                a.binaries,
                a.zipfiles,
                a.datas,
