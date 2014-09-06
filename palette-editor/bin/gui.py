@@ -285,6 +285,7 @@ class GUIWidget(QtGui.QWidget):
         #self.svg.setMaximumSize(500,500)
         self.svg.template_loaded.connect(self.on_template_loaded)
         self.svg.colors_matched.connect(self.on_colors_matched)
+        self.svg.file_dropped.connect(self.on_svg_file_dropped)
         #self.svg.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         self.svg.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         self.svg.loadTemplate(locate_template("template.svg"))
@@ -511,6 +512,11 @@ class GUIWidget(QtGui.QWidget):
         palette = load_palette(path)
         if palette:
             self._load_palette(palette)
+
+    def on_svg_file_dropped(self, path):
+        path = unicode(path)
+        if path.endswith(".svg"):
+            self.svg.loadTemplate(path)
 
     def on_swatches_save(self):
         filename = save_palette_filename(self, _("Save palette"))

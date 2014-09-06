@@ -9,9 +9,11 @@ import svg, transform, matching
 class SvgTemplateWidget(QtSvg.QSvgWidget):
     template_loaded = QtCore.pyqtSignal()
     colors_matched = QtCore.pyqtSignal()
+    file_dropped = QtCore.pyqtSignal(unicode)
 
     def __init__(self, *args):
         QtSvg.QSvgWidget.__init__(self, *args)
+        self.setAcceptDrops(True)
         self._colors = [Color(i*10,i*10,i*10) for i in range(20)]
         self._template = None
         self._template_filename = None
@@ -19,6 +21,16 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
         self._need_render = True
         self._svg_colors = None
         self._dst_colors = None
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.acceptProposedAction()
+
+    def dropEvent(self, event):
+        if event.mimeData().hasUrls():
+            urls = event.mimeData().urls()
+            path = unicode( urls[0].path() )
+            self.file_dropped.emit(path)
 
     def _get_color(self, i):
         if i < len(self._colors):
