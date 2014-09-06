@@ -52,6 +52,7 @@ from palette.image import PaletteImage
 from matching.svg_widget import SvgTemplateWidget
 from dialogs.open_palette import *
 from dialogs import filedialog
+from dialogs.colorlovers import *
 
 def locate_icon(name):
     return join(datarootdir, "icons", name)
@@ -97,15 +98,17 @@ class GUI(QtGui.QMainWindow):
 
     def _init_palette_actions(self):
         menu = self.menuBar().addMenu(_("&Palette"))
-        open_palette = create_action(self, self.gui.toolbar_palette, menu,
+        create_action(self, self.gui.toolbar_palette, menu,
                 QtGui.QStyle.SP_DialogOpenButton,
                 _("&Open palette"), self.gui.on_open_palette)
+        if colorlovers_available:
+            create_action(self, self.gui.toolbar_palette, menu,
+                    "download.png",
+                    _("Download palette from Colorlovers.com"),
+                    self.gui.on_download_colorlovers)
         create_action(self, self.gui.toolbar_palette, menu,
                 QtGui.QStyle.SP_DialogSaveButton,
                 _("&Save palette"), self.gui.on_save_palette)
-#         icon = compose_icon(self.style().standardIcon(QtGui.QStyle.SP_DialogSaveButton), "palette_small.png")
-#         create_action(self, self.gui.toolbar_palette, menu,
-#                 icon, _("Save palette as &image"), self.gui.on_save_palette_image)
         menu.addSeparator()
         self.gui.toolbar_palette.addSeparator()
         toggle_edit = create_action(self, self.gui.toolbar_palette, menu,
@@ -517,6 +520,11 @@ class GUIWidget(QtGui.QWidget):
 
     def on_open_palette(self):
         palette = open_palette_dialog(self, _("Open palette"))
+        if palette:
+            self._load_palette(palette)
+
+    def on_download_colorlovers(self):
+        palette = download_palette(self)
         if palette:
             self._load_palette(palette)
 
