@@ -45,6 +45,7 @@ from widgets.widgets import *
 from widgets.wheel import HCYSelector
 from color import colors, mixers, harmonies
 from color.colors import Color
+from color.spaces import *
 from palette.palette import Palette
 from palette.widget import PaletteWidget
 from palette.image import PaletteImage
@@ -208,18 +209,30 @@ class GUIWidget(QtGui.QWidget):
                                  (_("HCY"), mixers.MixerHCY),
                                  (_("RYB"), mixers.MixerRYB) ] + ([(_("LCh"), mixers.MixerLCh)] if colors.use_lcms else [])
 
-    available_harmonies = [(_("Just opposite"), harmonies.Opposite),
-                           (_("Two opposite"),  harmonies.TwoOpposite),
-                           (_("Three colors"),  harmonies.NHues(3)),
-                           (_("Four colors"),   harmonies.NHues(4)),
-                           (_("Rectangle"),   harmonies.Rectangle),
-                           (_("Similar colors"),harmonies.Similar),
-                           (_("Similar and opposite"),harmonies.SimilarAndOpposite),
-                           (_("Opposite colors RYB"), harmonies.NHuesRYB(2)),
-                           (_("Three colors RYB"), harmonies.NHuesRYB(3)),
-                           (_("Four colors RYB"), harmonies.NHuesRYB(4)) ] + ([(_("Three colors LCh"),   harmonies.NHuesLCh(3)),
-                            (_("Four colors LCh"),   harmonies.NHuesLCh(4))] if colors.use_lcms else [])
+    harmonies_LCh = [(_("Opposite colors LCh"), harmonies.Opposite(LCh)),
+                     (_("Split complimentary LCh"),  harmonies.SplitComplimentary(LCh)),
+                     (_("Similar colors LCh"),harmonies.Similar(LCh)),
+                     (_("Similar and opposite LCh"),harmonies.SimilarAndOpposite(LCh)),
+                     (_("Rectangle LCh"),   harmonies.Rectangle(LCh)),
+                     (_("Three colors LCh"),   harmonies.NHues(LCh, 3)),
+                     (_("Four colors LCh"),   harmonies.NHues(LCh, 4))
+                    ] 
 
+    available_harmonies = [(_("Just opposite"), harmonies.Opposite(HSV)),
+                           (_("Split complimentary"),  harmonies.SplitComplimentary(HSV)),
+                           (_("Three colors"),  harmonies.NHues(HSV, 3)),
+                           (_("Four colors"),   harmonies.NHues(HSV, 4)),
+                           (_("Rectangle"),   harmonies.Rectangle(HSV)),
+                           (_("Similar colors"),harmonies.Similar(HSV)),
+                           (_("Similar and opposite"),harmonies.SimilarAndOpposite(HSV)),
+                           (_("Split complimentary RYB"),  harmonies.SplitComplimentary(RYB)),
+                           (_("Similar colors RYB"),harmonies.Similar(RYB)),
+                           (_("Similar and opposite RYB"),harmonies.SimilarAndOpposite(RYB)),
+                           (_("Rectangle RYB"),   harmonies.Rectangle(RYB)),
+                           (_("Opposite colors RYB"), harmonies.NHues(RYB, 2)),
+                           (_("Three colors RYB"), harmonies.NHues(RYB, 3)),
+                           (_("Four colors RYB"), harmonies.NHues(RYB, 4)) ] + (harmonies_LCh if colors.use_lcms else [])
+    
     available_shaders = [(_("Saturation"), harmonies.Saturation),
                          (_("Value"),      harmonies.Value),
                          (_("Chroma"),     harmonies.Chroma),
@@ -374,7 +387,7 @@ class GUIWidget(QtGui.QWidget):
         self.selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
         self.selector.setMinimumSize(150,150)
         self.selector.setMaximumSize(500,500)
-        self.selector.setHarmony(harmonies.Opposite)
+        self.selector.setHarmony(harmonies.Opposite(HSV))
         self.selector.selected.connect(self.on_select_color)
 
         selector_box.addWidget(self.selector)
@@ -405,7 +418,7 @@ class GUIWidget(QtGui.QWidget):
         self.hcy_selector.setMinimumSize(150,150)
         self.hcy_selector.setMaximumSize(500,500)
         self.hcy_selector.enable_editing = True
-        self.hcy_selector.set_harmony(harmonies.Opposite)
+        self.hcy_selector.set_harmony(harmonies.Opposite(HSV))
         self.hcy_selector.selected.connect(self.on_select_hcy)
         self.hcy_selector.edited.connect(self.on_hcy_edit)
 

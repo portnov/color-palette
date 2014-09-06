@@ -20,32 +20,35 @@ class Harmony(object):
 class Shader(object):
     pass
 
-class Opposite(Harmony):
+def Opposite(space):
+    class OppositeH(Harmony):
+        uses_parameter = False
 
-    uses_parameter = False
+        @classmethod
+        def get(cls, color, parameter=None):
+            h, s, v = space.getCoords(color)
+            h = h + 0.5
+            if h > 1.0:
+                h -= 1.0
+            return [color, space.fromCoords((h, s, v))]
+    return OppositeH
 
-    @classmethod
-    def get(cls, color, parameter=None):
-        h, s, v = color.getHSV()
-        h = h + 0.5
-        if h > 1.0:
-            h -= 1.0
-        return [color, hsv(h, s, v)]
-
-class TwoOpposite(Harmony):
-    uses_parameter = True
-    @classmethod
-    def get(cls, color, parameter):
-        h, s, v = color.getHSV()
-        h += (1.0 - 0.4*parameter)/2.0
-        if h > 1.0:
-            h -= 1.0
-        c1 = hsv(h,s,v)
-        h += 0.4*parameter
-        if h > 1.0:
-            h -= 1.0
-        c2 = hsv(h,s,v)
-        return [c1, color, c2]
+def SplitComplimentary(space):
+    class SplitComplimentaryH(Harmony):
+        uses_parameter = True
+        @classmethod
+        def get(cls, color, parameter):
+            h, s, v = space.getCoords(color)
+            h += (1.0 - 0.4*parameter)/2.0
+            if h > 1.0:
+                h -= 1.0
+            c1 = space.fromCoords((h,s,v))
+            h += 0.4*parameter
+            if h > 1.0:
+                h -= 1.0
+            c2 = space.fromCoords((h,s,v))
+            return [c1, color, c2]
+    return SplitComplimentaryH
 
 def circle(i, n, h, max=1.0):
     h += i*max/n
@@ -53,74 +56,60 @@ def circle(i, n, h, max=1.0):
         h -= max 
     return h
 
-def NHues(n):
+def Similar(space):
+    class SimilarH(Harmony):
+        uses_parameter = True
+        @classmethod
+        def get(cls, color, parameter):
+            h, s, v = space.getCoords(color)
+            h1 = h + 0.2*parameter
+            if h1 > 1.0:
+                h1 -= 1.0
+            h2 = h - 0.2*parameter
+            if h2 < 0.0:
+                h2 += 1.0
+            return [space.fromCoords((h1,s,v)), color, space.fromCoords((h2,s,v))]
+    return SimilarH
+
+def SimilarAndOpposite(space):
+    class SimilarAndOppositeH(Harmony):
+        uses_parameter = True
+        @classmethod
+        def get(cls, color, parameter):
+            h, c, y = space.getCoords(color)
+            h1 = h + 0.2*parameter
+            if h1 > 1.0:
+                h1 -= 1.0
+            h2 = h - 0.2*parameter
+            if h2 < 0.0:
+                h2 += 1.0
+            h3 = h + 0.5
+            if h3 > 1.0:
+                h3 -= 1.0
+            return [space.fromCoords((h1,c,y)), color, space.fromCoords((h2,c,y)), space.fromCoords((h3,c,y))]
+    return SimilarAndOppositeH
+
+def Rectangle(space):
+    class RectangleH(Harmony):
+        uses_parameter = True
+        @classmethod
+        def get(cls, color, parameter):
+            h, c, y = space.getCoords(color)
+            h1 = (h + 0.2*parameter) % 1.0
+            h2 = (h1 + 0.5) % 1.0
+            h3 = (h + 0.5) % 1.0
+            return [color, space.fromCoords((h1,c,y)), space.fromCoords((h2,c,y)), space.fromCoords((h3,c,y))]
+    return RectangleH
+
+def NHues(space, n):
     class Hues(Harmony):
         uses_parameter = False
         @classmethod
         def get(cls, color, parameter=None):
-            h, s, v = color.getHSV()
-            return [hsv(circle(i,n,h), s, v) for i in range(n)]
+            h, s, v = space.getCoords(color)
+            return [space.fromCoords((circle(i,n,h), s, v)) for i in range(n)]
 
     return Hues
-
-class Similar(Harmony):
-    uses_parameter = True
-    @classmethod
-    def get(cls, color, parameter):
-        h, s, v = color.getHSV()
-        h1 = h + 0.2*parameter
-        if h1 > 1.0:
-            h1 -= 1.0
-        h2 = h - 0.2*parameter
-        if h2 < 0.0:
-            h2 += 1.0
-        return [hsv(h1,s,v), color, hsv(h2,s,v)]
-
-class SimilarAndOpposite(Harmony):
-    uses_parameter = True
-    @classmethod
-    def get(cls, color, parameter):
-        h, c, y = color.getHCY()
-        h1 = h + 0.2*parameter
-        if h1 > 1.0:
-            h1 -= 1.0
-        h2 = h - 0.2*parameter
-        if h2 < 0.0:
-            h2 += 1.0
-        h3 = h + 0.5
-        if h3 > 1.0:
-            h3 -= 1.0
-        return [hcy(h1,c,y), color, hcy(h2,c,y), hcy(h3,c,y)]
-
-class Rectangle(Harmony):
-    uses_parameter = True
-    @classmethod
-    def get(cls, color, parameter):
-        h, c, y = color.getHCY()
-        h1 = (h + 0.2*parameter) % 1.0
-        h2 = (h1 + 0.5) % 1.0
-        h3 = (h + 0.5) % 1.0
-        return [color, hcy(h1,c,y), hcy(h2,c,y), hcy(h3,c,y)]
-
-def NHuesRYB(n):
-    class Hues_RYB(Harmony):
-        uses_parameter = False
-        @classmethod
-        def get(cls, color, parameter=None):
-            h, s, v = color.getRYB()
-            return [ryb(circle(i,n,h), s, v) for i in range(n)]
-
-    return Hues_RYB
-
-def NHuesLCh(n):
-    class Hues_LCh(Harmony):
-        uses_parameter = False
-        @classmethod
-        def get(cls, color, parameter=None):
-            l,c,h = color.getLCh()
-            return [lch(l,c,circle(i,n,h, 360.0)) for i in range(n)]
-
-    return Hues_LCh
 
 class Cooler(Shader):
     uses_parameter = True
