@@ -224,6 +224,8 @@ class GUIWidget(QtGui.QWidget):
                          (_("Value"),      harmonies.Value),
                          (_("Chroma"),     harmonies.Chroma),
                          (_("Luma"),       harmonies.Luma),
+                         (_("Hue"),        harmonies.Hue),
+                         (_("Hue + Luma"), harmonies.HueLuma),
                          (_("Warmer"),     harmonies.Warmer),
                          (_("Cooler"),     harmonies.Cooler) ]
     
@@ -318,8 +320,15 @@ class GUIWidget(QtGui.QWidget):
             self.mixers.addItem(mixer)
         self.mixers.currentIndexChanged.connect(self.on_select_mixer)
         vbox_left.addLayout(labelled(_("Mixing model:"), self.mixers))
-        vbox_left.addWidget(self.palette)
+        vbox_left.addWidget(self.palette, 7)
 
+        scratch = QtGui.QHBoxLayout()
+        for i in range(7):
+            w = ColorWidget(self)
+            w.border_color = Color(0,0,0)
+            w.setMaximumSize(100,100)
+            scratch.addWidget(w)
+        vbox_left.addLayout(scratch, 1)
     
         widget.setLayout(vbox_left)
         return widget
