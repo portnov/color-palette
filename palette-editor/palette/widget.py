@@ -9,6 +9,7 @@ from image import PaletteImage
 class PaletteWidget(QtGui.QLabel):
     clicked = QtCore.pyqtSignal(int,int) # (x,y)
     selected = QtCore.pyqtSignal(int,int) # (row, column)
+    file_dropped = QtCore.pyqtSignal(unicode)
 
     def __init__(self, parent, palette, padding=2.0, background=None, *args):
         QtGui.QLabel.__init__(self, parent, *args)
@@ -23,6 +24,7 @@ class PaletteWidget(QtGui.QLabel):
 
         self.selection_enabled = True
         self.editing_enabled = True
+        self.drop_file_enabled = True
 
         self._delete_rect = None
         self._insert_line = None
@@ -47,6 +49,8 @@ class PaletteWidget(QtGui.QLabel):
     def dragEnterEvent(self, event):
         if event.mimeData().hasColor() and self.editing_enabled:
             event.acceptProposedAction()
+        if event.mimeData().hasUrls() and self.drop_file_enabled:
+            event.acceptProposedAction()
 
     def dropEvent(self, event):
         if event.mimeData().hasColor():
@@ -60,6 +64,10 @@ class PaletteWidget(QtGui.QLabel):
             self.palette.paint(row, col, color)
             self.palette.recalc()
             self.repaint()
+        if event.mimeData().hasUrls():
+            urls = event.mimeData().urls()
+            path = unicode( urls[0].path() )
+            self.file_dropped.emit(path)
 
     def sizeHint(self):
         r,c = self.palette.nrows, self.palette.ncols

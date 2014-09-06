@@ -315,6 +315,7 @@ class GUIWidget(QtGui.QWidget):
         self.palette.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
         self.palette.editing_enabled = False
         self.palette.selected.connect(self.on_select_from_palette)
+        self.palette.file_dropped.connect(self.on_palette_file_dropped)
         
         self.mixers = QtGui.QComboBox()
         self.mixers.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
@@ -493,14 +494,23 @@ class GUIWidget(QtGui.QWidget):
             image = self.palette.get_image()
             image.save(filename)
 
+    def _load_palette(self, palette):
+        self.mixers.setCurrentIndex(0)
+        self.palette.palette = palette
+        self.palette.selected_slot = None
+        self.palette.redraw()
+        self.update()
+
     def on_open_palette(self):
         palette = open_palette_dialog(self, _("Open palette"))
         if palette:
-            self.mixers.setCurrentIndex(0)
-            self.palette.palette = palette
-            self.palette.selected_slot = None
-            self.palette.redraw()
-            self.update()
+            self._load_palette(palette)
+
+    def on_palette_file_dropped(self, path):
+        path = unicode(path)
+        palette = load_palette(path)
+        if palette:
+            self._load_palette(palette)
 
     def on_swatches_save(self):
         filename = save_palette_filename(self, _("Save palette"))
