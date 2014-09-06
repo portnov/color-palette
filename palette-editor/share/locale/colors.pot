@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-09-07 00:59+YEKT\n"
+"POT-Creation-Date: 2014-09-07 01:17+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -291,55 +291,59 @@ msgstr ""
 msgid "Mixing model:"
 msgstr ""
 
-#: bin/gui.py:371
+#: bin/gui.py:345
+msgid "Scratchpad:"
+msgstr ""
+
+#: bin/gui.py:376
 msgid "Selector model:"
 msgstr ""
 
-#: bin/gui.py:378 bin/gui.py:409
+#: bin/gui.py:383 bin/gui.py:414
 msgid "Harmony:"
 msgstr ""
 
-#: bin/gui.py:399
+#: bin/gui.py:404
 msgid "Square"
 msgstr ""
 
-#: bin/gui.py:407
+#: bin/gui.py:412
 msgid "Manual"
 msgstr ""
 
-#: bin/gui.py:438
+#: bin/gui.py:443
 msgid "HCY Wheel"
 msgstr ""
 
-#: bin/gui.py:450
+#: bin/gui.py:455
 msgid "Auto"
 msgstr ""
 
-#: bin/gui.py:463
+#: bin/gui.py:468
 msgid "Shades:"
 msgstr ""
 
-#: bin/gui.py:504 bin/gui.py:543
+#: bin/gui.py:509 bin/gui.py:558
 msgid "Save palette"
 msgstr ""
 
-#: bin/gui.py:509
+#: bin/gui.py:514
 msgid "Save palette image"
 msgstr ""
 
-#: bin/gui.py:522
+#: bin/gui.py:527
 msgid "Open palette"
 msgstr ""
 
-#: bin/gui.py:743
+#: bin/gui.py:758
 msgid "Selected from palette: "
 msgstr ""
 
-#: bin/gui.py:849
+#: bin/gui.py:864
 msgid "Open SVG template"
 msgstr ""
 
-#: bin/gui.py:854
+#: bin/gui.py:869
 msgid "Save SVG"
 msgstr ""
 
@@ -355,35 +359,39 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: dialogs/colorlovers.py:71
+#: dialogs/colorlovers.py:72
 msgid "New"
 msgstr ""
 
-#: dialogs/colorlovers.py:73
+#: dialogs/colorlovers.py:74
 msgid "Top"
 msgstr ""
 
-#: dialogs/colorlovers.py:74
+#: dialogs/colorlovers.py:75
 msgid "Random"
 msgstr ""
 
-#: dialogs/colorlovers.py:84
+#: dialogs/colorlovers.py:85
 msgid "&Query"
 msgstr ""
 
-#: dialogs/colorlovers.py:95 dialogs/filedialog.py:14
+#: dialogs/colorlovers.py:96 dialogs/filedialog.py:14
 msgid "Preview:"
 msgstr ""
 
-#: dialogs/colorlovers.py:111
+#: dialogs/colorlovers.py:112
 msgid "&Load"
 msgstr ""
 
-#: dialogs/colorlovers.py:113
+#: dialogs/colorlovers.py:114
+msgid "To &scratchpad"
+msgstr ""
+
+#: dialogs/colorlovers.py:116
 msgid "&Cancel"
 msgstr ""
 
-#: dialogs/colorlovers.py:136
+#: dialogs/colorlovers.py:144
 msgid ""
 "ID: {}\n"
 "Title: {}\n"
