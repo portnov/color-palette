@@ -838,7 +838,7 @@ class GUIWidget(QtGui.QWidget):
         self.update()
 
     def on_open_template(self):
-        filename = filedialog.get_image_filename(self, _("Open SVG template"), ".", "*.svg")
+        filename = filedialog.get_image_filename(self, _("Open SVG template"), directory="", filter="*.svg")
         if filename:
             self.svg.loadTemplate(str(filename))
     
