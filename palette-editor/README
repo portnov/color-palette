@@ -46,6 +46,7 @@ What can it do currently is:
   - Raster images (JPEG, PNG etc). Most used colors are extracted from image
     by using simplified cluster-analysis algorithm. When saving, an image of
     table with square swatches is saved.
+* Support for loading palettes from Colorlovers.com.
 * There is also sort of "magic" SVG coloring tool. You can load SVG file, and
   press "Colorize from swatches" (or "Colorize from palette"). Tool will change
   colors in your picture to colors from swatches (or palette), trying to save
