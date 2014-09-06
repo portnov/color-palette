@@ -67,6 +67,7 @@ class DownloadDialog(QtGui.QDialog):
         QtGui.QDialog.__init__(self, *args, **kwargs)
         
         self.palette = None
+        self.to_scratchpad = False
 
         self._new = QtGui.QRadioButton(_("New"))
         self._new.setChecked(True)
@@ -110,9 +111,12 @@ class DownloadDialog(QtGui.QDialog):
         buttons.addStretch(1)
         ok = QtGui.QPushButton(_("&Load"))
         ok.clicked.connect(self.accept)
+        scratch = QtGui.QPushButton(_("To &scratchpad"))
+        scratch.clicked.connect(self._on_load_to_scratchpad)
         cancel = QtGui.QPushButton(_("&Cancel"))
         cancel.clicked.connect(self.reject)
         buttons.addWidget(ok)
+        buttons.addWidget(scratch)
         buttons.addWidget(cancel)
 
         layout.addLayout(buttons,1)
@@ -126,6 +130,10 @@ class DownloadDialog(QtGui.QDialog):
             return 'top'
         if self._random.isChecked():
             return 'random'
+
+    def _on_load_to_scratchpad(self):
+        self.to_scratchpad = True
+        self.accept()
 
     def _on_query(self):
         cl = ColourLovers()
@@ -147,7 +155,7 @@ class DownloadDialog(QtGui.QDialog):
 def download_palette(parent=None):
     dialog = DownloadDialog(parent=parent)
     if dialog.exec_():
-        return dialog.palette
+        return dialog.to_scratchpad, dialog.palette
     else:
-        return None
+        return False, None
 

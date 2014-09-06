@@ -340,11 +340,16 @@ class GUIWidget(QtGui.QWidget):
             self.mixers.addItem(mixer)
         self.mixers.currentIndexChanged.connect(self.on_select_mixer)
         vbox_left.addLayout(labelled(_("Mixing model:"), self.mixers))
-        vbox_left.addWidget(self.palette, 7)
+        vbox_left.addWidget(self.palette, 9)
+
+        label = QtGui.QLabel(_("Scratchpad:"))
+        vbox_left.addWidget(label)
 
         scratch = QtGui.QHBoxLayout()
+        self.scratchpad = []
         for i in range(7):
             w = ColorWidget(self)
+            self.scratchpad.append(w)
             w.border_color = Color(0,0,0)
             w.setMaximumSize(100,100)
             scratch.addWidget(w)
@@ -524,9 +529,19 @@ class GUIWidget(QtGui.QWidget):
             self._load_palette(palette)
 
     def on_download_colorlovers(self):
-        palette = download_palette(self)
+        to_scratchpad, palette = download_palette(self)
         if palette:
-            self._load_palette(palette)
+            if to_scratchpad:
+                colors = sum( palette.getColors(), [] )
+                self._set_scratchpad(colors)
+            else:
+                self._load_palette(palette)
+
+    def _set_scratchpad(self, colors):
+        for i, clr in enumerate(colors[:7]):
+            self.scratchpad[i].setColor(clr)
+            #self.scratchpad[i].update()
+        self.update()
 
     def on_palette_file_dropped(self, path):
         path = unicode(path)
