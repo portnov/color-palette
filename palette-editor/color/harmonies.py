@@ -215,6 +215,21 @@ class HueLuma(Shader):
         ys = [clip(x) for x in variate(y, 0.3*parameter, 0.6*parameter)]
         return [hcy(h,c,y) for h,y in zip(hs,ys)]
 
+class LumaPlusChroma(Shader):
+    uses_parameter = True
+    @classmethod
+    def shades(cls, color, parameter):
+        h, c, y = color.getHCY()
+        cs = [clip(x) for x in variate(c, 0.4*parameter, 0.8*parameter)]
+        ys = [clip(x) for x in variate(y, 0.3*parameter, 0.6*parameter)]
+        return [hcy(h,c,y) for c,y in zip(cs,ys)]
 
-
+class LumaMinusChroma(Shader):
+    uses_parameter = True
+    @classmethod
+    def shades(cls, color, parameter):
+        h, c, y = color.getHCY()
+        cs = [clip(x) for x in variate(c, 0.4*parameter, 0.8*parameter)]
+        ys = reversed( [clip(x) for x in variate(y, 0.3*parameter, 0.6*parameter)] )
+        return [hcy(h,c,y) for c,y in zip(cs,ys)]
 

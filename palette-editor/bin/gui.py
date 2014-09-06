@@ -226,6 +226,8 @@ class GUIWidget(QtGui.QWidget):
                          (_("Luma"),       harmonies.Luma),
                          (_("Hue"),        harmonies.Hue),
                          (_("Hue + Luma"), harmonies.HueLuma),
+                         (_("Chroma + Luma"), harmonies.LumaPlusChroma),
+                         (_("Chroma - Luma"), harmonies.LumaMinusChroma),
                          (_("Warmer"),     harmonies.Warmer),
                          (_("Cooler"),     harmonies.Cooler) ]
     
