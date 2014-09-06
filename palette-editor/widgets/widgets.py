@@ -38,6 +38,7 @@ class ColorWidget(QtGui.QLabel):
         self.clear_button = QtCore.Qt.RightButton
         self.drop_enabled = True
         self.pick_enabled = True
+        self.border_color = None
         self.setAcceptDrops(True)
         self.show()
     
@@ -132,8 +133,13 @@ class ColorWidget(QtGui.QLabel):
         if self.rgb is None:
             if (w >= 70) and (h > 20):
                 qp.drawText(event.rect(), QtCore.Qt.AlignCenter, "<unset>")
+            if self.border_color is not None:
+                qp.setPen(self.border_color)
+                qp.drawRect(0, 0,  w,  h)
             return
         
+        if self.border_color is not None:
+            qp.setPen(self.border_color)
         qp.setBrush(QtGui.QColor(*self.rgb))
         qp.drawRect(0, 0,  w,  h)
         clr = self.getColor()
