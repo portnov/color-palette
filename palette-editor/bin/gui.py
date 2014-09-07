@@ -812,10 +812,10 @@ class GUIWidget(QtGui.QWidget):
             colors = self.hcy_selector.get_harmonized()
         if colors is None:
             return None
-        n = len(colors)
         for i in self.base_colors.iterkeys():
+            n = len(colors)
             if i > n-1:
-                for t in range(n-i+1):
+                for t in range(i-n+1):
                     colors.append(None)
             colors[i] = self.base_colors[i]
         return colors
