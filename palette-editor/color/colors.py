@@ -496,6 +496,14 @@ def fromHex(s):
     r,g,b = int(rs,16), int(gs,16), int(bs,16)
     return Color(r,g,b)
 
+def fromHex_(t):
+    if len(t) == 3:
+        rs,gs,bs = t[0]+t[0], t[1]+t[1], t[2]+t[2]
+    else:
+        rs,gs,bs = t[0:2], t[2:4], t[4:6]
+    r,g,b = int(rs,16), int(gs,16), int(bs,16)
+    return Color(r,g,b)
+
 def darker(clr, q):
     h,s,v = clr.getHSV()
     v = clip(v-q)

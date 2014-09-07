@@ -82,8 +82,26 @@ class DownloadDialog(QtGui.QDialog):
         radiobox.addWidget(self._top)
         radiobox.addWidget(self._random)
 
+        self.hue_option = QtGui.QComboBox()
+        self.hue_option.addItem(_("Any"))
+        self.hue_option.addItem(_("Yellow"), 'yellow')
+        self.hue_option.addItem(_("Orange"), 'orange')
+        self.hue_option.addItem(_("Red"), 'red')
+        self.hue_option.addItem(_("Green"), 'green')
+        self.hue_option.addItem(_("Violet"), 'violet')
+        self.hue_option.addItem(_("Blue"), 'blue')
+
+        self.keywords = QtGui.QLineEdit()
+        self.username = QtGui.QLineEdit()
+
+        optsbox = QtGui.QFormLayout()
+        optsbox.addRow(_("Hue:"), self.hue_option)
+        optsbox.addRow(_("Keywords:"), self.keywords)
+        optsbox.addRow(_("User:"), self.username)
+
         topbox = QtGui.QHBoxLayout()
-        topbox.addLayout(radiobox, 4)
+        topbox.addLayout(radiobox, 2)
+        topbox.addLayout(optsbox, 2)
 
         query = QtGui.QPushButton(_("&Query"))
         query.clicked.connect(self._on_query)
@@ -140,7 +158,20 @@ class DownloadDialog(QtGui.QDialog):
 
     def _on_query(self):
         cl = ColourLovers()
-        palettes = cl.palettes(self._get_query_type())
+        query_type = self._get_query_type()
+        username = self.username.text()
+        keywords = self.keywords.text()
+        hue_idx = self.hue_option.currentIndex()
+        hue = self.hue_option.itemData(hue_idx)
+        opts = {}
+        if username:
+            opts['lover'] = username
+        if keywords:
+            opts['keywords'] = keywords
+        if hue:
+            opts['hueOption'] = str(hue.toString())
+        print opts
+        palettes = cl.palettes(query_type, **opts)
         self.table.set_palettes(palettes)
 
     def _describe_palette(self, palette):
