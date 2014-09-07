@@ -153,7 +153,7 @@ def get_farest_colors(space, colors):
     farest = get_farest(points)
     return [space.fromCoords(c) for c in farest]
 
-def match_colors(space, colors1, colors2):
+def match_colors_(space, colors1, colors2):
     try:
         points1 = [color_row(space, c) for c in colors1 if c is not None]
         points2 = [color_row(space, c) for c in colors2 if c is not None]
@@ -175,6 +175,23 @@ def match_colors(space, colors1, colors2):
     except LinAlgError, e:
         print e
         return colors1
+
+def match_colors(space, colors1, colors2):
+    points1 = [color_row(space, c) for c in colors1 if c is not None]
+    points2 = [color_row(space, c) for c in colors2 if c is not None]
+    c1 = get_center(points1)
+    c2 = get_center(points2)
+    #transfer = c2 - c1
+    sz1 = max([rho(c1, p) for p in points1])
+    sz2 = max([rho(c2, p) for p in points2])
+    zoom = sz2 / sz1 if sz1 != 0 else 1.0
+    transformed = [(p-c1)*zoom + c2 for p in points1]
+    occupied = []
+    matched = []
+    for x in transformed:
+        y = get_nearest(x, occupied, points2)
+        matched.append(y)
+    return [space.fromCoords(x) for x in matched]
 
 if __name__ == "__main__":
 

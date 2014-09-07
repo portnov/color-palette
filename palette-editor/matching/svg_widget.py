@@ -75,8 +75,8 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
         if not dst_colors:
             return
         self._dst_colors = dst_colors
-        #self._colors = transform.match_colors(HCY, self._svg_colors, dst_colors)
-        self._colors = matching.match_colors(self._svg_colors, dst_colors)
+        self._colors = transform.match_colors(HCY, self._svg_colors, dst_colors)
+        #self._colors = matching.match_colors(self._svg_colors, dst_colors)
         self._need_render = True
         self._update()
         self.colors_matched.emit()
