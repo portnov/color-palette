@@ -342,13 +342,19 @@ class GUIWidget(QtGui.QWidget):
         vbox_left.addLayout(labelled(_("Mixing model:"), self.mixers))
         vbox_left.addWidget(self.palette, 9)
 
+        box = QtGui.QHBoxLayout()
         label = QtGui.QLabel(_("Scratchpad:"))
-        vbox_left.addWidget(label)
+        box.addWidget(label)
+        mk_shades = QtGui.QPushButton(_("Shades >>"))
+        mk_shades.clicked.connect(self.on_shades_from_scratchpad)
+        box.addWidget(mk_shades)
+        vbox_left.addLayout(box)
 
         scratch = QtGui.QHBoxLayout()
         self.scratchpad = []
         for i in range(7):
             w = ColorWidget(self)
+            w.selected.connect(self.on_change_scratchpad)
             self.scratchpad.append(w)
             w.border_color = Color(0,0,0)
             w.setMaximumSize(100,100)
@@ -477,21 +483,39 @@ class GUIWidget(QtGui.QWidget):
         self.toolbar_swatches = QtGui.QToolBar()
         vbox_center.addWidget(self.toolbar_swatches)
 
+        self.base_colors = {}
+        self.base_swatches = []
         self.harmonized = []
+        self.swatches = []
         self.harmonizedBox = QtGui.QVBoxLayout()
-        for j in range(4):
+        for j in range(5):
+            row = []
             hbox = QtGui.QHBoxLayout()
             for i in range(5):
                 w = ColorWidget(self)
                 w.setMinimumSize(30,30)
                 w.setMaximumSize(50,50)
+                if i == 2:
+                    w.border_color = Color(0,0,0)
+                    w.selected.connect(self.on_shade_selected(j))
+                    self.base_swatches.append(w)
                 self.harmonized.append(w)
+                row.append(w)
                 hbox.addWidget(w)
+            self.swatches.append(row)
             self.harmonizedBox.addLayout(hbox)
 
         vbox_center.addLayout(self.harmonizedBox, 1)
         widget.setLayout(vbox_center)
         return widget
+
+    def on_shade_selected(self, row):
+        def handler():
+            clr = self.base_swatches[row].getColor()
+            self.base_colors[row] = clr
+            self._do_harmony()
+            self.update()
+        return handler
 
     def on_dst_color_set(self, idx):
         def handler():
@@ -557,25 +581,23 @@ class GUIWidget(QtGui.QWidget):
     def on_swatches_save(self):
         filename = save_palette_filename(self, _("Save palette"))
         if filename:
-            clrs = [w.getColor() for w in self.harmonized if w.getColor() is not None]
-            palette = Palette(mixers.MixerRGB, nrows=4, ncols=5)
-            for row in range(4):
-                for col in range(5):
-                    palette.slots[row][col].color = clrs[row*5 + col]
-                    palette.slots[row][col].mark(True)
+            palette = Palette(mixers.MixerRGB, nrows=len(self.swatches), ncols=len(self.swatches[0]))
+            for i,row in enumerate(self.swatches):
+                for j,w in enumerate(row):
+                    palette.slots[i][j].color = w.getColor()
+                    palette.slots[i][j].mark(True)
             save_palette(palette, filename)
 
     def on_swatches_to_palette(self):
-        clrs = [w.getColor() for w in self.harmonized]
-        palette = Palette(self.mixer, nrows=4, ncols=5)
-        for row in range(4):
-            for col in range(5):
-                clr = clrs[row*5 + col]
+        palette = Palette(self.mixer, nrows=len(self.swatches), ncols=len(self.swatches[0]))
+        for i,row in enumerate(self.swatches):
+            for j,w in enumerate(row):
+                clr = w.getColor()
                 if clr is None:
-                    palette.slots[row][col].mark(False)
+                    palette.slots[i][j].mark(False)
                 else:
-                    palette.slots[row][col].color = clr
-                    palette.slots[row][col].mark(True)
+                    palette.slots[i][j].color = clr
+                    palette.slots[i][j].mark(True)
         self.palette.palette = palette
         self.palette.selected_slot = None
         self.palette.redraw()
@@ -595,81 +617,44 @@ class GUIWidget(QtGui.QWidget):
         #self.hcy_harmonies.setCurrentIndex(n)
 
     def on_clear_swatches(self):
-        for w in self.harmonized:
-            w.setColor(None)
-            w.update()
+        for row in self.swatches:
+            for w in row:
+                w.setColor(None)
+                w.update()
+
+    def _map_swatches(self, fn):
+        for row in self.swatches:
+            for w in row:
+                clr = w.getColor()
+                if clr is None:
+                    continue
+                clr = fn(clr)
+                w.setColor(clr)
+        self.update()
 
     def on_swatches_darker(self):
-        for w in self.harmonized:
-            clr = w.getColor()
-            if clr is None:
-                continue
-            clr = colors.darker(clr, 0.1)
-            w.setColor(clr)
-            w.update()
+        self._map_swatches(lambda clr: colors.darker(clr, 0.1))
 
     def on_swatches_lighter(self):
-        for w in self.harmonized:
-            clr = w.getColor()
-            if clr is None:
-                continue
-            clr = colors.lighter(clr, 0.1)
-            w.setColor(clr)
-            w.update()
+        self._map_swatches(lambda clr: colors.lighter(clr, 0.1))
 
     def on_swatches_saturate(self):
-        for w in self.harmonized:
-            clr = w.getColor()
-            if clr is None:
-                continue
-            clr = colors.saturate(clr, 0.1)
-            w.setColor(clr)
-            w.update()
+        self._map_swatches(lambda clr: colors.saturate(clr, 0.1))
 
     def on_swatches_desaturate(self):
-        for w in self.harmonized:
-            clr = w.getColor()
-            if clr is None:
-                continue
-            clr = colors.desaturate(clr, 0.1)
-            w.setColor(clr)
-            w.update()
+        self._map_swatches(lambda clr: colors.desaturate(clr, 0.1))
 
     def on_swatches_counterclockwise(self):
-        for w in self.harmonized:
-            clr = w.getColor()
-            if clr is None:
-                continue
-            clr = colors.increment_hue(clr, 0.03)
-            w.setColor(clr)
-            w.update()
+        self._map_swatches(lambda clr: colors.increment_hue(clr, 0.03))
 
     def on_swatches_clockwise(self):
-        for w in self.harmonized:
-            clr = w.getColor()
-            if clr is None:
-                continue
-            clr = colors.increment_hue(clr, -0.03)
-            w.setColor(clr)
-            w.update()
+        self._map_swatches(lambda clr: colors.increment_hue(clr, -0.03))
 
     def on_swatches_contrast_up(self):
-        for w in self.harmonized:
-            clr = w.getColor()
-            if clr is None:
-                continue
-            clr = colors.contrast(clr, 0.1)
-            w.setColor(clr)
-            w.update()
+        self._map_swatches(lambda clr: colors.contrast(clr, 0.1))
 
     def on_swatches_contrast_down(self):
-        for w in self.harmonized:
-            clr = w.getColor()
-            if clr is None:
-                continue
-            clr = colors.contrast(clr, -0.1)
-            w.setColor(clr)
-            w.update()
+        self._map_swatches(lambda clr: colors.contrast(clr, -0.1))
 
     def on_palette_darker(self):
         for row, col, slot in self.palette.palette.getUserDefinedSlots():
@@ -749,6 +734,7 @@ class GUIWidget(QtGui.QWidget):
             self.on_harmony()
 
     def on_set_current_color(self):
+        self.base_colors = {}
         self.selector.setColor(self.current_color.getColor())
         self.hcy_selector.setColor(self.current_color.getColor())
         self._auto_harmony()
@@ -760,6 +746,7 @@ class GUIWidget(QtGui.QWidget):
         self.current_color.selected.emit()
 
     def on_select_color(self):
+        self.base_colors = {}
         color = self.selector.selected_color
         self.current_color.setColor(color)
         self.current_color.update()
@@ -768,6 +755,7 @@ class GUIWidget(QtGui.QWidget):
 
     def on_select_hcy(self, h, c, y):
         #print("H: {:.2f}, C: {:.2f}, Y: {:.2f}".format(h,c,y))
+        self.base_colors = {}
         color = colors.hcy(h,c,y)
         self.current_color.setColor(color)
         self.current_color.update()
@@ -817,20 +805,51 @@ class GUIWidget(QtGui.QWidget):
             self.results[i].setColor(clr)
         self.update()
 
-    def _do_harmony(self):
+    def _get_base_colors(self):
         if self.tabs.currentIndex() != 1:
-            colors = harmonies.allShades(self.selector.harmonized, self.shader, self._shades_parameter)
+            colors = self.selector.harmonized
         else:
-            harmonized = self.hcy_selector.get_harmonized()
-            if harmonized is None:
-                return
-            colors = harmonies.allShades(harmonized, self.shader, self._shades_parameter)
+            colors = self.hcy_selector.get_harmonized()
+        if colors is None:
+            return None
+        n = len(colors)
+        for i in self.base_colors.iterkeys():
+            if i > n-1:
+                for t in range(n-i+1):
+                    colors.append(None)
+            colors[i] = self.base_colors[i]
+        return colors
 
-        for i,clr in enumerate(colors):
-            if i > 19:
-                break
-            self.harmonized[i].setColor(clr)
+    def _do_harmony(self):
+        base = self._get_base_colors()
+        if base is None:
+            return
+        colors = []
+        for c in base:
+            if c is None:
+                colors.append([])
+            else:
+                colors.append(self.shader.shades(c, self._shades_parameter))
+
+        for i,row in enumerate(colors):
+            for j, clr in enumerate(row):
+                self.swatches[i][j].setColor(clr)
         #self.hcy_selector.set_harmonized(colors)
+
+    def _do_shades_from_scratchpad(self):
+        colors = [w.getColor() for w in self.scratchpad if w.getColor() is not None]
+        for i, clr in enumerate(colors):
+            self.base_colors[i] = clr
+        self._do_harmony()
+        self.update()
+
+    def on_shades_from_scratchpad(self):
+        self._do_shades_from_scratchpad()
+
+    def on_change_scratchpad(self):
+        pass
+#         if self.auto_harmony.isChecked():
+#             self._do_shades_from_scratchpad()
 
     def on_harmony(self):
         self._do_harmony()
