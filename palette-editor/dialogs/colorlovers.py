@@ -43,7 +43,10 @@ class PalettesTable(QtGui.QTableWidget):
         self.setRowCount(len(palettes))
         for i, palette in enumerate(palettes):
             id = QtGui.QTableWidgetItem(str(palette.id))
-            title = QtGui.QTableWidgetItem(palette.title)
+            if palette.title is not None:
+                title = QtGui.QTableWidgetItem(palette.title)
+            else: 
+                title = QtGui.QTableWidgetItem("")
             author = QtGui.QTableWidgetItem(palette.user_name)
             self.setItem(i, 0, id)
             self.setItem(i, 1, title)
