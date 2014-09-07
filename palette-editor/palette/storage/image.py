@@ -10,7 +10,7 @@ from palette.storage.cluster import *
 
 class Image(Storage):
     title = _("Raster image")
-    filters = ["*.jpg", "*.png"]
+    filters = ["*.jpg", "*.png", "*.gif"]
     can_load = image_loading_supported
     can_save = True
 
