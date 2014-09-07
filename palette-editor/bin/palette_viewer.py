@@ -1,7 +1,15 @@
 #!/usr/bin/python
 
 import sys
+from os.path import join, basename, dirname, abspath, exists
 from PyQt4 import QtGui, QtCore
+import gettext
+
+gettext.install("colors", localedir="share/locale", unicode=True)
+
+bindir = dirname(sys.argv[0])
+rootdir = dirname(bindir)
+sys.path.append(rootdir)
 
 from color.mixers import *
 from palette.palette import *

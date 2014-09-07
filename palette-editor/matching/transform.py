@@ -21,6 +21,7 @@ import numpy as np
 from numpy.linalg import solve, det
 from numpy.linalg.linalg import LinAlgError
 from copy import deepcopy as copy
+from PyQt4 import QtGui
 
 from color.colors import *
 from color.spaces import *
@@ -192,6 +193,17 @@ def match_colors(space, colors1, colors2):
         y = get_nearest(x, occupied, points2)
         matched.append(y)
     return [space.fromCoords(x) for x in matched]
+
+def find_simple_transform(space, colors1, colors2):
+    points1 = [color_row(space, c) for c in colors1 if c is not None]
+    points2 = [color_row(space, c) for c in colors2 if c is not None]
+    c1 = get_center(points1)
+    c2 = get_center(points2)
+    #transfer = c2 - c1
+    sz1 = max([rho(c1, p) for p in points1])
+    sz2 = max([rho(c2, p) for p in points2])
+    zoom = sz2 / sz1 if sz1 != 0 else 1.0
+    return (c1, c2, zoom)
 
 if __name__ == "__main__":
 

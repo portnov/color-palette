@@ -19,6 +19,17 @@ class RGB(Space):
     def fromCoords(cls, coords):
         return Color(*coords)
 
+class RGB1(Space):
+    @classmethod
+    def getCoords(cls, color):
+        return color.getRGB1()
+
+    @classmethod
+    def fromCoords(cls, coords):
+        result = Color()
+        result.setRGB1(coords)
+        return result
+
 class HSV(Space):
     @classmethod
     def getCoords(cls, color):
