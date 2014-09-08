@@ -34,7 +34,6 @@ class PalettesTable(QtGui.QTableWidget):
         self.setHorizontalHeaderLabels(table_headers)
         self.currentCellChanged.connect(self._on_select_cell)
         self.verticalHeader().setVisible(False)
-        self.setWindowTitle(_("Download palette from Colorlovers.com"))
 
     def set_palettes(self, palettes):
         self._palettes = palettes
@@ -143,6 +142,7 @@ class DownloadDialog(QtGui.QDialog):
         layout.addLayout(buttons,1)
 
         self.setLayout(layout)
+        self.setWindowTitle(_("Download palette from Colorlovers.com"))
 
     def _get_query_type(self):
         if self._new.isChecked():
