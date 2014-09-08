@@ -111,6 +111,22 @@ def NHues(space, n):
 
     return Hues
 
+def FiveColors(space):
+    class Hues5(Harmony):
+        uses_parameter = True
+        @classmethod
+        def get(cls, color, parameter):
+            h0,s,v = space.getCoords(color)
+            h1s = (h0 + oneThird) % 1.0
+            h2s = (h1s + oneThird) % 1.0
+            delta = 0.06*parameter
+            h1 = (h1s - delta) % 1.0
+            h2 = (h1s + delta) % 1.0
+            h3 = (h2s - delta) % 1.0
+            h4 = (h2s + delta) % 1.0
+            return [color] + [space.fromCoords((h,s,v)) for h in [h1,h2,h3,h4]]
+    return Hues5
+
 class Cooler(Shader):
     uses_parameter = True
     @classmethod

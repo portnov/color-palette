@@ -218,23 +218,26 @@ class GUIWidget(QtGui.QWidget):
                      (_("Similar and opposite LCh"),harmonies.SimilarAndOpposite(LCh)),
                      (_("Rectangle LCh"),   harmonies.Rectangle(LCh)),
                      (_("Three colors LCh"),   harmonies.NHues(LCh, 3)),
-                     (_("Four colors LCh"),   harmonies.NHues(LCh, 4))
+                     (_("Four colors LCh"),   harmonies.NHues(LCh, 4)),
+                     (_("Five colors LCh"),   harmonies.FiveColors(RYB))
                     ] 
 
     available_harmonies = [(_("Just opposite"), harmonies.Opposite(HSV)),
                            (_("Split complimentary"),  harmonies.SplitComplimentary(HSV)),
                            (_("Three colors"),  harmonies.NHues(HSV, 3)),
                            (_("Four colors"),   harmonies.NHues(HSV, 4)),
-                           (_("Rectangle"),   harmonies.Rectangle(HCY)),
+                           (_("Rectangle"),     harmonies.Rectangle(HCY)),
+                           (_("Five colors"),   harmonies.FiveColors(HCY)),
                            (_("Similar colors"),harmonies.Similar(HCY)),
                            (_("Similar and opposite"),harmonies.SimilarAndOpposite(HCY)),
                            (_("Split complimentary RYB"),  harmonies.SplitComplimentary(RYB)),
                            (_("Similar colors RYB"),harmonies.Similar(RYB)),
                            (_("Similar and opposite RYB"),harmonies.SimilarAndOpposite(RYB)),
-                           (_("Rectangle RYB"),   harmonies.Rectangle(RYB)),
                            (_("Opposite colors RYB"), harmonies.NHues(RYB, 2)),
                            (_("Three colors RYB"), harmonies.NHues(RYB, 3)),
-                           (_("Four colors RYB"), harmonies.NHues(RYB, 4)) ] + (harmonies_LCh if colors.use_lcms else [])
+                           (_("Four colors RYB"), harmonies.NHues(RYB, 4)),
+                           (_("Rectangle RYB"),   harmonies.Rectangle(RYB)),
+                           (_("Five colors RYB"),   harmonies.FiveColors(RYB)) ] + (harmonies_LCh if colors.use_lcms else [])
     
     available_shaders = [(_("Saturation"), harmonies.Saturation),
                          (_("Value"),      harmonies.Value),
