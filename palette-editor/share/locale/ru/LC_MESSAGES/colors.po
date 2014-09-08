@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2014-09-08 21:55+YEKT\n"
+"POT-Creation-Date: 2014-09-08 22:15+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -187,167 +187,179 @@ msgstr "Три цвета LCh"
 msgid "Four colors LCh"
 msgstr "Четыре цвета LCh"
 
-#: bin/gui.py:224
+#: bin/gui.py:222
+msgid "Five colors LCh"
+msgstr "Пять цветов LCh"
+
+#: bin/gui.py:225
 msgid "Just opposite"
 msgstr "Противоположные"
 
-#: bin/gui.py:225
+#: bin/gui.py:226
 msgid "Split complimentary"
 msgstr "Два противоположных"
 
-#: bin/gui.py:226
+#: bin/gui.py:227
 msgid "Three colors"
 msgstr "Три цвета"
 
-#: bin/gui.py:227
+#: bin/gui.py:228
 msgid "Four colors"
 msgstr "Четыре цвета"
 
-#: bin/gui.py:228
+#: bin/gui.py:229
 msgid "Rectangle"
 msgstr "Прямоугольник"
 
-#: bin/gui.py:229
+#: bin/gui.py:230
+msgid "Five colors"
+msgstr "Пять цветов"
+
+#: bin/gui.py:231
 msgid "Similar colors"
 msgstr "Похожие цвета"
 
-#: bin/gui.py:230
+#: bin/gui.py:232
 msgid "Similar and opposite"
 msgstr "Похожие и противоположный"
 
-#: bin/gui.py:231
+#: bin/gui.py:233
 msgid "Split complimentary RYB"
 msgstr "Два противоположных RYB"
 
-#: bin/gui.py:232
+#: bin/gui.py:234
 msgid "Similar colors RYB"
 msgstr "Похожие цвета RYB"
 
-#: bin/gui.py:233
+#: bin/gui.py:235
 msgid "Similar and opposite RYB"
 msgstr "Похожие и противоположный RYB"
 
-#: bin/gui.py:234
-msgid "Rectangle RYB"
-msgstr "Прямоугольник RYB"
-
-#: bin/gui.py:235
+#: bin/gui.py:236
 msgid "Opposite colors RYB"
 msgstr "Противоположные RYB"
 
-#: bin/gui.py:236
+#: bin/gui.py:237
 msgid "Three colors RYB"
 msgstr "Три цвета RYB"
 
-#: bin/gui.py:237
+#: bin/gui.py:238
 msgid "Four colors RYB"
 msgstr "Четыре цвета RYB"
 
 #: bin/gui.py:239
+msgid "Rectangle RYB"
+msgstr "Прямоугольник RYB"
+
+#: bin/gui.py:240
+msgid "Five colors RYB"
+msgstr "Пять цветов RYB"
+
+#: bin/gui.py:242
 msgid "Saturation"
 msgstr "Насыщенность"
 
-#: bin/gui.py:240
+#: bin/gui.py:243
 msgid "Value"
 msgstr "Значение"
 
-#: bin/gui.py:241
+#: bin/gui.py:244
 msgid "Chroma"
 msgstr "Хрома"
 
-#: bin/gui.py:242
+#: bin/gui.py:245
 msgid "Luma"
 msgstr "Светимость"
 
-#: bin/gui.py:243
+#: bin/gui.py:246
 msgid "Hue"
 msgstr "Оттенок"
 
-#: bin/gui.py:244
+#: bin/gui.py:247
 msgid "Hue + Luma"
 msgstr "Оттенок + Светимость"
 
-#: bin/gui.py:245
+#: bin/gui.py:248
 msgid "Chroma + Luma"
 msgstr "Хрома + Светимость"
 
-#: bin/gui.py:246
+#: bin/gui.py:249
 msgid "Chroma - Luma"
 msgstr "Хрома - Светимость"
 
-#: bin/gui.py:247
+#: bin/gui.py:250
 msgid "Warmer"
 msgstr "Теплее"
 
-#: bin/gui.py:248
+#: bin/gui.py:251
 msgid "Cooler"
 msgstr "Холоднее"
 
-#: bin/gui.py:280
+#: bin/gui.py:283
 msgid "Colors from original image:"
 msgstr "Цвета из исходного изображения:"
 
-#: bin/gui.py:342
+#: bin/gui.py:345
 msgid "Mixing model:"
 msgstr "Модель смешивания:"
 
-#: bin/gui.py:346
+#: bin/gui.py:349
 msgid "Scratchpad:"
 msgstr "Блокнот:"
 
-#: bin/gui.py:348
+#: bin/gui.py:351
 msgid "Shades >>"
 msgstr "Оттенки >>"
 
-#: bin/gui.py:382
+#: bin/gui.py:385
 msgid "Selector model:"
 msgstr "Модель выбора:"
 
-#: bin/gui.py:389 bin/gui.py:420
+#: bin/gui.py:392 bin/gui.py:423
 msgid "Harmony:"
 msgstr "Гармония:"
 
-#: bin/gui.py:410
+#: bin/gui.py:413
 msgid "Square"
 msgstr "Квадрат"
 
-#: bin/gui.py:418
+#: bin/gui.py:421
 msgid "Manual"
 msgstr "Ручная"
 
-#: bin/gui.py:449
+#: bin/gui.py:452
 msgid "HCY Wheel"
 msgstr "Круг HCY"
 
-#: bin/gui.py:461
+#: bin/gui.py:464
 msgid "Auto"
 msgstr "Авто"
 
-#: bin/gui.py:474
+#: bin/gui.py:477
 msgid "Shades:"
 msgstr "Оттенки:"
 
-#: bin/gui.py:533 bin/gui.py:582
+#: bin/gui.py:536 bin/gui.py:585
 msgid "Save palette"
 msgstr "Сохранить палитру"
 
-#: bin/gui.py:538
+#: bin/gui.py:541
 msgid "Save palette image"
 msgstr "Сохранить изображение палитры"
 
-#: bin/gui.py:551
+#: bin/gui.py:554
 msgid "Open palette"
 msgstr "Открыть палитру"
 
-#: bin/gui.py:744
+#: bin/gui.py:747
 msgid "Selected from palette: "
 msgstr "Выбрано из палитры: "
 
-#: bin/gui.py:883
+#: bin/gui.py:886
 msgid "Open SVG template"
 msgstr "Открыть шаблон SVG"
 
-#: bin/gui.py:888
+#: bin/gui.py:891
 msgid "Save SVG"
 msgstr "Сохранить SVG"
 
