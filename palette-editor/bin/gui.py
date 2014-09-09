@@ -836,12 +836,15 @@ class GUIWidget(QtGui.QWidget):
 
         for i,row in enumerate(colors):
             for j, clr in enumerate(row):
-                self.swatches[i][j].setColor(clr)
+                try:
+                    self.swatches[i][j].setColor(clr)
+                except IndexError:
+                    print i,j
         #self.hcy_selector.set_harmonized(colors)
 
     def _do_shades_from_scratchpad(self):
         colors = [w.getColor() for w in self.scratchpad if w.getColor() is not None]
-        for i, clr in enumerate(colors):
+        for i, clr in enumerate(colors[:5]):
             self.base_colors[i] = clr
         self._do_harmony()
         self.update()
