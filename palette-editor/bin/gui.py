@@ -219,7 +219,7 @@ class GUIWidget(QtGui.QWidget):
                      (_("Rectangle LCh"),   harmonies.Rectangle(LCh)),
                      (_("Three colors LCh"),   harmonies.NHues(LCh, 3)),
                      (_("Four colors LCh"),   harmonies.NHues(LCh, 4)),
-                     (_("Five colors LCh"),   harmonies.FiveColors(RYB))
+                     (_("Five colors LCh"),   harmonies.FiveColors(LCh))
                     ] 
 
     available_harmonies = [(_("Just opposite"), harmonies.Opposite(HSV)),
