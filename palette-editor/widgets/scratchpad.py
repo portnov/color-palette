@@ -98,8 +98,8 @@ class Scratchpad(QtGui.QWidget):
         delta = delta_px * s/w
         clr0,c0 = self.colors[idx]
         clr1,c1 = self.colors[idx+1]
-        self.colors[idx] = clr0, c0+delta
-        self.colors[idx+1] = clr1, c1-delta
+        self.colors[idx] = clr0, max(0.02, c0+delta)
+        self.colors[idx+1] = clr1, max(0.02, c1-delta)
 
     def _mouse_pressed(self, event):
         return event.buttons() & self.drag_button
