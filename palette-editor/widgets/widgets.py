@@ -615,4 +615,3 @@ class Selector(QtGui.QLabel):
         x,y = event.x(), event.y()
         if self.mouse_pressed:
             self._select(x,y)
-
