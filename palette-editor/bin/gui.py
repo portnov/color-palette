@@ -42,6 +42,7 @@ if sys.platform.startswith('win'):
 gettext.install("colors", localedir=locate_locales(), unicode=True)
 
 from widgets.widgets import *
+from widgets.scratchpad import *
 from widgets.wheel import HCYSelector
 from color import colors, mixers, harmonies
 from color.colors import Color
@@ -353,16 +354,8 @@ class GUIWidget(QtGui.QWidget):
         box.addWidget(mk_shades)
         vbox_left.addLayout(box)
 
-        scratch = QtGui.QHBoxLayout()
-        self.scratchpad = []
-        for i in range(7):
-            w = ColorWidget(self)
-            w.selected.connect(self.on_change_scratchpad)
-            self.scratchpad.append(w)
-            w.border_color = Color(0,0,0)
-            w.setMaximumSize(100,100)
-            scratch.addWidget(w)
-        vbox_left.addLayout(scratch, 1)
+        self.scratchpad = Scratchpad()
+        vbox_left.addWidget(self.scratchpad, 1)
     
         widget.setLayout(vbox_left)
         return widget
@@ -560,15 +553,11 @@ class GUIWidget(QtGui.QWidget):
         if palette:
             if to_scratchpad:
                 colors = sum( palette.getColors(), [] )
-                self._set_scratchpad(colors)
+                for clr in colors:
+                    self.scratchpad.add_color(clr, repaint=False)
+                self.scratchpad.repaint()
             else:
                 self._load_palette(palette)
-
-    def _set_scratchpad(self, colors):
-        for i, clr in enumerate(colors[:7]):
-            self.scratchpad[i].setColor(clr)
-            #self.scratchpad[i].update()
-        self.update()
 
     def on_palette_file_dropped(self, path):
         path = unicode(path)
@@ -843,7 +832,7 @@ class GUIWidget(QtGui.QWidget):
         #self.hcy_selector.set_harmonized(colors)
 
     def _do_shades_from_scratchpad(self):
-        colors = [w.getColor() for w in self.scratchpad if w.getColor() is not None]
+        colors = self.scratchpad.get_colors()
         for i, clr in enumerate(colors[:5]):
             self.base_colors[i] = clr
         self._do_harmony()
@@ -851,11 +840,6 @@ class GUIWidget(QtGui.QWidget):
 
     def on_shades_from_scratchpad(self):
         self._do_shades_from_scratchpad()
-
-    def on_change_scratchpad(self):
-        pass
-#         if self.auto_harmony.isChecked():
-#             self._do_shades_from_scratchpad()
 
     def on_harmony(self):
         self._do_harmony()

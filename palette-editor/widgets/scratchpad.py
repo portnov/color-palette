@@ -3,6 +3,7 @@ from math import cos, sin, pi, sqrt, atan2
 from PyQt4 import QtGui, QtCore
 
 from color.colors import *
+from widgets import create_qdrag_color
 
 class Scratchpad(QtGui.QWidget):
     def __init__(self, colors=None, *args, **kwargs):
@@ -16,9 +17,9 @@ class Scratchpad(QtGui.QWidget):
         self.clear_button = QtCore.Qt.RightButton
         self.drag_button = QtCore.Qt.LeftButton
 
-        self._mouse_pressed = False
-        self._prev_drag_pos = None
-        self._drag_idx = None
+        self._prev_resize_pos = None
+        self._resize_idx = None
+        self._drag_start_pos = None
 
         self.setAcceptDrops(True)
         self.setMouseTracking(True)
@@ -100,15 +101,31 @@ class Scratchpad(QtGui.QWidget):
         self.colors[idx] = clr0, c0+delta
         self.colors[idx+1] = clr1, c1-delta
 
+    def _mouse_pressed(self, event):
+        return event.buttons() & self.drag_button
+
+    def add_color(self, color, repaint=True):
+        if not self.colors:
+            self.colors = [(color, 1.0)]
+        else:
+            avg = self._avg()
+            self.colors.append((color, avg))
+        if repaint:
+            self.repaint()
+
+    def get_colors(self):
+        return [clr for clr,c in self.colors]
+
     def mousePressEvent(self, event):
         #print("Mouse pressed")
         self.setFocus(QtCore.Qt.OtherFocusReason)
-        self._mouse_pressed = True
         if event.button() == self.drag_button:
             idx = self._edge_at_x(event.x())
             if idx is not None:
-                self._prev_drag_pos = event.pos()
-                self._drag_idx = idx
+                self._prev_resize_pos = event.pos()
+                self._resize_idx = idx
+            else:
+                self._drag_start_pos = event.pos()
         event.accept()
 
     def mouseReleaseEvent(self, event):
@@ -118,38 +135,50 @@ class Scratchpad(QtGui.QWidget):
             self._clear(x)
             self.repaint()
 
-        if self._mouse_pressed and self._prev_drag_pos is not None:
+        if self._mouse_pressed(event) and self._prev_resize_pos is not None:
             x = event.x()
-            idx = self._drag_idx
-            x0 = self._prev_drag_pos.x()
+            idx = self._resize_idx
+            x0 = self._prev_resize_pos.x()
             self._move(idx, x-x0)
             self.repaint()
 
-        self._prev_drag_pos = None
-        self._mouse_pressed = False
-        self._drag_idx = None
+        self._prev_resize_pos = None
+        self._resize_idx = None
+        self._drag_start_pos = None
         event.accept()
 
     def mouseMoveEvent(self, event):
         idx = self._edge_at_x(event.x())
-        #print idx
-        if idx is not None or self._prev_drag_pos is not None:
+        resizing = idx is not None or self._prev_resize_pos is not None
+        if resizing:
             shape = QtCore.Qt.SizeHorCursor
         else:
             shape = QtCore.Qt.ArrowCursor
         self.setCursor(QtGui.QCursor(shape))
 
-        if self._mouse_pressed and self._prev_drag_pos is not None:
-            x0 = self._prev_drag_pos.x()
+        if self._mouse_pressed(event) and self._prev_resize_pos is not None:
+            x0 = self._prev_resize_pos.x()
             x = event.x()
-            self._move(self._drag_idx, x-x0)
+            self._move(self._resize_idx, x-x0)
             self.repaint()
 
-        if self._mouse_pressed:
-            self._prev_drag_pos = event.pos()
+        if self._mouse_pressed(event) and resizing:
+            self._prev_resize_pos = event.pos()
         else:
-            self._prev_drag_pos = None
+            self._prev_resize_pos = None
 
+        if self._mouse_pressed(event) and not resizing:
+            self._start_drag(event)
+
+    def _start_drag(self, event):
+        if not (event.buttons() & QtCore.Qt.LeftButton):
+            return
+        if (event.pos() - self._drag_start_pos).manhattanLength() < QtGui.QApplication.startDragDistance():
+            return
+
+        clr = self._color_at_x(event.x())
+        drag = create_qdrag_color(self, clr)
+        drag.exec_()
 
     def paintEvent(self, event):
         qp = QtGui.QPainter()
@@ -166,6 +195,7 @@ class Scratchpad(QtGui.QWidget):
         for p,w in zip(self.colors, ws):
             clr,c = p
             qp.setBrush(clr)
+            qp.setPen(clr)
             qp.drawRect(x0,y0,w,h)
             x0 += w
         qp.end()
