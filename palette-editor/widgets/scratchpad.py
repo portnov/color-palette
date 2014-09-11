@@ -20,6 +20,7 @@ class Scratchpad(QtGui.QWidget):
         self._prev_resize_pos = None
         self._resize_idx = None
         self._drag_start_pos = None
+        self._drop_indicate_idx = None
 
         self.setAcceptDrops(True)
         self.setMouseTracking(True)
@@ -192,13 +193,22 @@ class Scratchpad(QtGui.QWidget):
         ws = self._calc(w)
         x0 = 0
         y0 = 0
-        for p,w in zip(self.colors, ws):
+        for i, pair in enumerate(zip(self.colors, ws)):
+            p,w = pair
             clr,c = p
             qp.setBrush(clr)
             qp.setPen(clr)
             qp.drawRect(x0,y0,w,h)
+            if i == self._drop_indicate_idx:
+                qp.setPen(Color(0,255,0))
+                qp.drawLine(x0,y0,x0,h)
             x0 += w
         qp.end()
+
+    def dragMoveEvent(self, event):
+        self._drop_indicate_idx = self._insert_idx_at_x(event.pos().x())
+        self.repaint()
+        event.accept()
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasColor() and self.drop_enabled:
@@ -210,5 +220,6 @@ class Scratchpad(QtGui.QWidget):
             r,g,b,_ = qcolor.getRgb()
             color = Color(r,g,b)
             self._add_color(color, event.pos().x())
+            self._drop_indicate_idx = None
             self.repaint()
     
