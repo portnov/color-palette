@@ -80,10 +80,10 @@ class Palette(object):
         self.slots = [[Slot() for i in range(ncols)] for j in range(nrows)]
         self.need_recalc = True
 
-    def mark_color(self, row, column):
+    def mark_color(self, row, column, mark=None):
         print("Marking color at ({}, {})".format(row,column))
         slot = self.slots[row][column]
-        slot.mark()
+        slot.mark(mark)
         self.need_recalc_colors = True
         self.recalc()
 

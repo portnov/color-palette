@@ -86,7 +86,10 @@ def create_action(parent, toolbar, menu, icon, title, handler):
 class GUI(QtGui.QMainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
-        self.gui = GUIWidget(self)
+        self.undoStack = QtGui.QUndoStack()
+        self.gui = GUIWidget(self, undoStack=self.undoStack)
+
+        self._init_menu()
 
         self._init_palette_actions()
         self._init_harmonies_actions()
@@ -96,6 +99,15 @@ class GUI(QtGui.QMainWindow):
 
         self.setWindowTitle(_("Palette editor"))
         self.resize(800, 600)
+
+    def _init_menu(self):
+        menu = self.menuBar().addMenu(_("&Edit"))
+        undo = self.undoStack.createUndoAction(self, _("&Undo"))
+        undo.setShortcut(QtGui.QKeySequence.Undo)
+        redo = self.undoStack.createRedoAction(self, _("&Redo"))
+        redo.setShortcut(QtGui.QKeySequence.Redo)
+        menu.addAction(undo)
+        menu.addAction(redo)
 
     def _init_palette_actions(self):
         menu = self.menuBar().addMenu(_("&Palette"))
@@ -251,14 +263,19 @@ class GUIWidget(QtGui.QWidget):
                          (_("Warmer"),     harmonies.Warmer),
                          (_("Cooler"),     harmonies.Cooler) ]
     
-    def __init__(self,*args):
-        QtGui.QWidget.__init__(self, *args)
+    def __init__(self, parent, undoStack=None):
+        QtGui.QWidget.__init__(self, parent)
 
         splitter = QtGui.QSplitter(QtCore.Qt.Horizontal)
 
         self.mixer = mixers.MixerRGB
 
         self._shades_parameter = 0.5
+
+        if undoStack is None:
+            self.undoStack = QtGui.QUndoStack(self)
+        else:
+            self.undoStack = undoStack
 
         palette_widget = self._init_palette_widgets()
         harmonies_widget = self._init_harmonies_widgets()
@@ -330,7 +347,7 @@ class GUIWidget(QtGui.QWidget):
         palette.paint(6, 6, Color(0.0, 255.0, 0.0))
         palette.recalc()
 
-        self.palette = PaletteWidget(self, palette)
+        self.palette = PaletteWidget(self, palette, undoStack=self.undoStack)
         self.palette.setMinimumSize(300,300)
         self.palette.setMaximumSize(700,700)
         self.palette.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)

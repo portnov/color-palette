@@ -5,16 +5,23 @@ from color.colors import *
 from widgets.widgets import *
 from palette import *
 from image import PaletteImage
+from commands import *
 
 class PaletteWidget(QtGui.QLabel):
     clicked = QtCore.pyqtSignal(int,int) # (x,y)
     selected = QtCore.pyqtSignal(int,int) # (row, column)
     file_dropped = QtCore.pyqtSignal(unicode)
 
-    def __init__(self, parent, palette, padding=2.0, background=None, *args):
+    def __init__(self, parent, palette, padding=2.0, background=None, undoStack=None, *args):
         QtGui.QLabel.__init__(self, parent, *args)
         self.palette = palette
         self.palette_image = PaletteImage(palette, padding=padding, background=background)
+
+        if undoStack is None:
+            self.undoStack = QtGui.QUndoStack(self)
+        else:
+            self.undoStack = undoStack
+
         self.selected_slot = None
 
         self._drag_start_pos = None
@@ -61,9 +68,8 @@ class PaletteWidget(QtGui.QLabel):
             event.acceptProposedAction()
             print(color)
             row,col = self._get_slot(event.pos().x(), event.pos().y())
-            self.palette.paint(row, col, color)
-            self.palette.recalc()
-            self.repaint()
+            command = SetColor(self, row, col, color)
+            self.undoStack.push(command)
         if event.mimeData().hasUrls():
             urls = event.mimeData().urls()
             path = unicode( urls[0].path() )
@@ -283,9 +289,8 @@ class PaletteWidget(QtGui.QLabel):
             clr = colors.lighter(clr, 0.1*steps)
         else:
             clr = colors.saturate(clr, 0.1*steps)
-        self.palette.paint(row, col, clr)
-        self.palette.recalc()
-        self.repaint()
+        command = SetColor(self, row, col, clr)
+        self.undoStack.push(command)
 
     def mousePressEvent(self, event):
         #print("Mouse pressed")
@@ -351,32 +356,32 @@ class PaletteWidget(QtGui.QLabel):
             if delete_col is not None:
                 print("Deleting column #{}".format(delete_col))
                 self._delete_rect = None
-                self.palette.del_column(delete_col)
-                self.repaint()
+                command = EditLayout(self, DELETE, COLUMN, delete_col)
+                self.undoStack.push(command)
                 return
 
             delete_row = self._get_delete_row_button_at_xy(x,y)
             if delete_row is not None:
                 print("Deleting row #{}".format(delete_row))
                 self._delete_rect = None
-                self.palette.del_row(delete_row)
-                self.repaint()
+                command = EditLayout(self, DELETE, ROW, delete_row)
+                self.undoStack.push(command)
                 return
 
             insert_col = self._get_insert_col_button_at_xy(x,y)
             if insert_col is not None:
                 print("Inserting column #{}".format(insert_col))
                 self._insert_line = None
-                self.palette.add_column(insert_col)
-                self.repaint()
+                command = EditLayout(self, INSERT, COLUMN, insert_col)
+                self.undoStack.push(command)
                 return
 
             insert_row = self._get_insert_row_button_at_xy(x,y)
             if insert_row is not None:
                 print("Inserting row #{}".format(insert_row))
                 self._insert_line = None
-                self.palette.add_row(insert_row)
-                self.repaint()
+                command = EditLayout(self, INSERT, ROW, insert_row)
+                self.undoStack.push(command)
                 return
 
         if event.button() == self.select_button and self.selection_enabled:
@@ -389,8 +394,8 @@ class PaletteWidget(QtGui.QLabel):
 
     def _mark(self, x,y):
         row,col = self._get_slot(x,y)
-        self.palette.mark_color(row,col)
-        self.repaint()
+        command = MarkCommand(self, row, col)
+        self.undoStack.push(command)
 
     def _get_slot(self, x,y):
         w, h = self.size().width(),  self.size().height()
