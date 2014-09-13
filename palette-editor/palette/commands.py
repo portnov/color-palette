@@ -115,4 +115,3 @@ class EditLayout(QtGui.QUndoCommand):
         else:
             return _("inserting column into palette")
         
-

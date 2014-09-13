@@ -43,6 +43,7 @@ gettext.install("colors", localedir=locate_locales(), unicode=True)
 
 from widgets.widgets import *
 from widgets.scratchpad import *
+from widgets.commands import *
 from widgets.wheel import HCYSelector
 from color import colors, mixers, harmonies
 from color.colors import Color
@@ -626,44 +627,48 @@ class GUIWidget(QtGui.QWidget):
         #self.hcy_harmonies.setCurrentIndex(n)
 
     def on_clear_swatches(self):
-        for row in self.swatches:
-            for w in row:
-                w.setColor(None)
-                w.update()
-
-    def _map_swatches(self, fn):
-        for row in self.swatches:
-            for w in row:
-                clr = w.getColor()
-                if clr is None:
-                    continue
-                clr = fn(clr)
-                w.setColor(clr)
-        self.update()
+        command = ClearSwatches(self)
+        self.undoStack.push(command)
 
     def on_swatches_darker(self):
-        self._map_swatches(lambda clr: colors.darker(clr, 0.1))
+        command = ChangeSwatchesColors(self, _("making color swatches darker"), 
+                                        (lambda clr: colors.darker(clr, 0.1)))
+        self.undoStack.push(command)
 
     def on_swatches_lighter(self):
-        self._map_swatches(lambda clr: colors.lighter(clr, 0.1))
+        command = ChangeSwatchesColors(self, _("making color swatches lighter"),
+                                         (lambda clr: colors.lighter(clr, 0.1)))
+        self.undoStack.push(command)
 
     def on_swatches_saturate(self):
-        self._map_swatches(lambda clr: colors.saturate(clr, 0.1))
+        command = ChangeSwatchesColors(self, _("saturating color swatches"),
+                                         (lambda clr: colors.saturate(clr, 0.1)))
+        self.undoStack.push(command)
 
     def on_swatches_desaturate(self):
-        self._map_swatches(lambda clr: colors.desaturate(clr, 0.1))
+        command = ChangeSwatchesColors(self, _("desaturating color swatches"),
+                                         (lambda clr: colors.desaturate(clr, 0.1)))
+        self.undoStack.push(command)
 
     def on_swatches_counterclockwise(self):
-        self._map_swatches(lambda clr: colors.increment_hue(clr, 0.03))
+        command = ChangeSwatchesColors(self, _("rotating swatches colors counterclockwise"),
+                                        (lambda clr: colors.increment_hue(clr, 0.03)))
+        self.undoStack.push(command)
 
     def on_swatches_clockwise(self):
-        self._map_swatches(lambda clr: colors.increment_hue(clr, -0.03))
+        command = ChangeSwatchesColors(self, _("rotating swatches colors clockwise"),
+                                        (lambda clr: colors.increment_hue(clr, -0.03)))
+        self.undoStack.push(command)
 
     def on_swatches_contrast_up(self):
-        self._map_swatches(lambda clr: colors.contrast(clr, 0.1))
+        command = ChangeSwatchesColors(self, _("increasing swatches contrast"),
+                                         (lambda clr: colors.contrast(clr, 0.1)))
+        self.undoStack.push(command)
 
     def on_swatches_contrast_down(self):
-        self._map_swatches(lambda clr: colors.contrast(clr, -0.1))
+        command = ChangeSwatchesColors(self, _("decreasing swatches contrast"),
+                                         (lambda clr: colors.contrast(clr, -0.1)))
+        self.undoStack.push(command)
 
     def on_palette_darker(self):
         for row, col, slot in self.palette.palette.getUserDefinedSlots():
