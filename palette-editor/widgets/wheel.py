@@ -378,6 +378,7 @@ class HCYSelector(QtGui.QWidget):
         self.wheel.clicked.connect(self._on_click_wheel)
         self.wheel.edited.connect(self._on_wheel_edited)
         self.slider.clicked.connect(self._on_click_slider)
+        self.harmonies_selector = None
 
     def _on_wheel_edited(self):
         self.edited.emit()
@@ -422,6 +423,11 @@ class HCYSelector(QtGui.QWidget):
         pass
         #self.wheel._harmonized = list
         #self.repaint()
+
+    def setHarmony(self, harmony, idx=None):
+        self.set_harmony(harmony)
+        if self.harmonies_selector is not None and idx is not None:
+            self.harmonies_selector.select_item(idx)
 
     def set_harmony(self, harmony):
         current = self.getColor()

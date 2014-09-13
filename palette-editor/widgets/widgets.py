@@ -21,17 +21,47 @@ def create_qdrag_color(widget, color):
     drag.setPixmap(dnd_pixmap(color))
     return drag
 
+class ClassSelector(QtGui.QComboBox):
+
+    selected = QtCore.pyqtSignal(int, int)
+
+    def __init__(self, parent=None, pairs=None):
+        QtGui.QComboBox.__init__(self, parent)
+        self.pairs = pairs
+        self._prev_idx = 0
+        for name, nothing in self.pairs:
+            self.addItem(name)
+        self._skip_select = False
+        self.currentIndexChanged.connect(self._on_select)
+
+    def _on_select(self, idx):
+        if not self._skip_select:
+            print "Emitting selected"
+            self.selected.emit(self._prev_idx, idx)
+        self._prev_idx = idx
+
+    def get_item(self, idx):
+        _, cls = self.pairs[idx]
+        return cls
+    
+    def select_item(self, idx):
+        self._skip_select = True
+        self.setCurrentIndex(idx)
+        self._skip_select = False
+
 class ColorWidget(QtGui.QLabel):
     clicked = QtCore.pyqtSignal()
     selected = QtCore.pyqtSignal()
+    dropped = QtCore.pyqtSignal(float,float,float)
     cleared = QtCore.pyqtSignal()
     
-    def __init__(self, *args):
-        super(ColorWidget, self).__init__(*args);
+    def __init__(self, parent, model, *args):
+        QtGui.QLabel.__init__(self, parent, *args)
+        self.model = model
+        self.model.widget = self
         self.setMinimumSize(18, 18)
         self.clicked.connect(self.on_click)
         self.cleared.connect(self.on_clear)
-        self.rgb = None
         self._mouse_pressed = False
         self._drag_start_pos = None
         self.select_button = QtCore.Qt.LeftButton
@@ -41,47 +71,58 @@ class ColorWidget(QtGui.QLabel):
         self.border_color = None
         self.setAcceptDrops(True)
         self.show()
-    
-    def setRGB(self, rgb):
-        self.rgb = rgb
+
+    def is_empty(self):
+        return self.model.getColor() is None
     
     def getColor(self):
-        if self.rgb is None:
-            return None
-        return colors.Color(*self.rgb)
+        return self.model.getColor()
+
+    def setColor_(self, clr):
+        self.model.color = clr
+        tooltip = self.model.get_tooltip()
+        if tooltip is not None:
+            self.setToolTip(tooltip)
     
-    def setColor(self, clr):
-        if clr is None:
-            self.rgb = None
+    def setColor(self, clr, undo=False):
+        if self.model.to_set_color():
+            self.model.setColor(clr)
         else:
-            self.setRGB(clr.getRGB())
-            self.setToolTip(clr.verbose())
+            if not undo and clr is not None:
+                r,g,b = clr.getRGB()
+                self.dropped.emit(r,g,b)
+            elif undo:
+                self.model.color = clr
+        tooltip = self.model.get_tooltip()
+        if tooltip is not None:
+            self.setToolTip(tooltip)
     
     def paintEvent(self, event):
         clr = self.getColor()
         if clr is not None:
-            self.setToolTip(clr.verbose())
+            tooltip = self.model.get_tooltip()
+            if tooltip is not None:
+                self.setToolTip(tooltip)
         qp = QtGui.QPainter()
         qp.begin(self)
         self.drawWidget(event, qp)
         qp.end()
     
     def wheelEvent(self, event):
-        if (not self.pick_enabled) or (self.rgb is None):
+        if (not self.pick_enabled) or self.is_empty():
             event.ignore()
             return
         event.accept()
-        clr = self.getColor()
         steps = event.delta()/120.0
         if event.modifiers() & QtCore.Qt.ControlModifier:
-            clr = colors.increment_hue(clr, 0.01*steps)
+            self.model.rotate_color(0.01*steps)
         elif event.modifiers() & QtCore.Qt.ShiftModifier:
-            clr = colors.lighter(clr, 0.1*steps)
+            self.model.lighter(0.1*steps)
         else:
-            clr = colors.saturate(clr, 0.1*steps)
-        self.setColor(clr)
+            self.model.saturate(0.1*steps)
         self.repaint()
-        self.selected.emit()
+        if not self.model.to_set_color():
+            self.selected.emit()
 
     def mousePressEvent(self, event):
         #print("Mouse pressed")
@@ -122,7 +163,8 @@ class ColorWidget(QtGui.QLabel):
             color = colors.Color(r,g,b)
             self.on_drop_color(color)
             self.repaint()
-            self.selected.emit()
+            if not self.model.to_set_color():
+                self.selected.emit()
     
     def on_drop_color(self, color):
         self.setColor(color)
@@ -130,7 +172,7 @@ class ColorWidget(QtGui.QLabel):
     def drawWidget(self, event,  qp):
         #print("Painting " + str(self))
         w, h = self.size().width(),  self.size().height()
-        if self.rgb is None:
+        if self.is_empty():
             if (w >= 70) and (h > 20):
                 qp.drawText(event.rect(), QtCore.Qt.AlignCenter, "<unset>")
             if self.border_color is not None:
@@ -140,9 +182,9 @@ class ColorWidget(QtGui.QLabel):
         
         if self.border_color is not None:
             qp.setPen(self.border_color)
-        qp.setBrush(QtGui.QColor(*self.rgb))
-        qp.drawRect(0, 0,  w,  h)
         clr = self.getColor()
+        qp.setBrush(clr)
+        qp.drawRect(0, 0,  w,  h)
         if (w >= 150) and (h >= 50):
             qp.setPen(clr.invert())
             qp.drawText(event.rect(), QtCore.Qt.AlignCenter, clr.verbose())
@@ -155,14 +197,16 @@ class ColorWidget(QtGui.QLabel):
         else:
             clr = QtGui.QColorDialog.getColor()
         r, g, b, a = clr.getRgb()
-        self.setRGB((r, g, b))
+        self.setColor(colors.Color(r,g,b))
         self.repaint()
-        self.selected.emit()
+        if not self.model.to_set_color():
+            self.selected.emit()
 
     def on_clear(self):
-        self.setColor(None)
+        self.model.clear()
         self.repaint()
-        self.selected.emit()
+        if not self.model.to_set_color():
+            self.selected.emit()
     
     def sizeHint(self):
         return QtCore.QSize(100, 100)
@@ -171,8 +215,8 @@ class TwoColorsWidget(ColorWidget):
 
     second_color_set = QtCore.pyqtSignal()
 
-    def __init__(self, *args):
-        ColorWidget.__init__(self, *args)
+    def __init__(self, parent, model, *args):
+        ColorWidget.__init__(self, parent, model, *args)
         self.pick_enabled = False
         self._second_color = None
 
@@ -189,8 +233,8 @@ class TwoColorsWidget(ColorWidget):
     def drawWidget(self, event, qp):
         w, h = self.size().width(),  self.size().height()
 
-        if self.rgb is not None:
-            qp.setBrush(QtGui.QColor(*self.rgb))
+        if not self.is_empty():
+            qp.setBrush(self.getColor())
             qp.drawPolygon(QtCore.QPointF(0.0, 0.0),
                            QtCore.QPointF(w, 0.0),
                            QtCore.QPointF(0.0, h))
@@ -423,6 +467,8 @@ class Selector(QtGui.QLabel):
         self.harmonized = []
         self.setMinimumSize(100,100)
         self.setAcceptDrops(True)
+        self.class_selector = None
+        self.harmonies_selector = None
 
     def setColor(self, color):
         if color is not None:
@@ -456,10 +502,12 @@ class Selector(QtGui.QLabel):
     def sizeHint(self):
         return QtCore.QSize(120, 120)
 
-    def setHarmony(self, harmony):
+    def setHarmony(self, harmony, idx=None):
         self.harmony = harmony
         if self.selected_color is not None and self.harmony is not None:
             self.harmonized = self.harmony.get(self.selected_color, self._harmony_parameter)
+        if self.harmonies_selector is not None and idx is not None:
+            self.harmonies_selector.select_item(idx)
         self.repaint()
 
     def set_harmony_parameter(self, value):
@@ -469,10 +517,12 @@ class Selector(QtGui.QLabel):
             self.repaint()
             self.selected.emit()
 
-    def setMixer(self, mixer):
+    def setMixer(self, mixer, idx=None):
         self.mixer = mixer
         self.square.setMixer(mixer)
         self.ring.setMixer(mixer)
+        if idx is not None and self.class_selector is not None:
+            self.class_selector.select_item(idx)
         self.repaint()
 
     def _polar(self, r, phi):
