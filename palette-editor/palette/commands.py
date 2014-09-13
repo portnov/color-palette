@@ -12,6 +12,7 @@ class MarkCommand(QtGui.QUndoCommand):
         self.row = row
         self.column = column
         self.mark = mark
+        self.setText(_("toggling mark on palette slot"))
 
     def redo(self):
         self.palette.mark_color(self.row, self.column, self.mark)
@@ -29,6 +30,7 @@ class SetColor(QtGui.QUndoCommand):
         self.row = row
         self.column = column
         self.color = color
+        self.setText(_("changing color in palette slot"))
 
     def redo(self):
         slot = self.palette.slots[self.row][self.column]
@@ -62,6 +64,7 @@ class EditLayout(QtGui.QUndoCommand):
         self.kind = kind
         self.idx = idx
         self.colors = []
+        self.setText(self.actionText())
 
     def remember_row(self, idx):
         for i in range(self.palette.ncols):
@@ -101,4 +104,15 @@ class EditLayout(QtGui.QUndoCommand):
             self.palette.paint(r, c, clr)
         self.palette.recalc()
         self.widget.repaint()
+
+    def actionText(self):
+        if self.kind == ROW and self.action == DELETE:
+            return _("deleting palette row")
+        elif self.kind == ROW and self.action == INSERT:
+            return _("inserting row into palette")
+        elif self.kind == COLUMN and self.action == DELETE:
+            return _("deleting palette column")
+        else:
+            return _("inserting column into palette")
+        
 
