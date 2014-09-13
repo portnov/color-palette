@@ -399,7 +399,7 @@ class PaletteWidget(QtGui.QLabel):
         self.undoStack.push(command)
 
     def _get_slot(self, x,y):
-        w, h = self.size().width(),  self.size().height()
+        w, h = self._get_image_size()
         rw = float(w)/float(self.palette.ncols)
         rh = float(h)/float(self.palette.nrows)
         row, col = int(y//rh), int(x//rw)
