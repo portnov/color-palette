@@ -3,6 +3,7 @@
 import sys
 import os
 from os.path import join, basename, dirname, abspath, exists
+from copy import copy
 import gettext
 
 from PyQt4 import QtGui
@@ -43,6 +44,7 @@ gettext.install("colors", localedir=locate_locales(), unicode=True)
 
 from widgets.widgets import *
 from widgets.scratchpad import *
+from widgets.commands import *
 from widgets.wheel import HCYSelector
 from color import colors, mixers, harmonies
 from color.colors import Color
@@ -50,10 +52,12 @@ from color.spaces import *
 from palette.palette import Palette
 from palette.widget import PaletteWidget
 from palette.image import PaletteImage
+from palette.commands import ChangeColors
 from matching.svg_widget import SvgTemplateWidget
 from dialogs.open_palette import *
 from dialogs import filedialog
 from dialogs.colorlovers import *
+from models.models import *
 
 def locate_icon(name):
     return join(datarootdir, "icons", name)
@@ -86,8 +90,9 @@ def create_action(parent, toolbar, menu, icon, title, handler):
 class GUI(QtGui.QMainWindow):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
-        self.undoStack = QtGui.QUndoStack()
-        self.gui = GUIWidget(self, undoStack=self.undoStack)
+        self.model = Document(self)
+        self.gui = GUIWidget(self, self.model)
+        self.undoStack = self.model.get_undo_stack()
 
         self._init_menu()
 
@@ -263,8 +268,10 @@ class GUIWidget(QtGui.QWidget):
                          (_("Warmer"),     harmonies.Warmer),
                          (_("Cooler"),     harmonies.Cooler) ]
     
-    def __init__(self, parent, undoStack=None):
+    def __init__(self, parent, model):
         QtGui.QWidget.__init__(self, parent)
+
+        self.model = model
 
         splitter = QtGui.QSplitter(QtCore.Qt.Horizontal)
 
@@ -272,10 +279,7 @@ class GUIWidget(QtGui.QWidget):
 
         self._shades_parameter = 0.5
 
-        if undoStack is None:
-            self.undoStack = QtGui.QUndoStack(self)
-        else:
-            self.undoStack = undoStack
+        self.undoStack = self.model.get_undo_stack()
 
         palette_widget = self._init_palette_widgets()
         harmonies_widget = self._init_harmonies_widgets()
@@ -303,10 +307,10 @@ class GUIWidget(QtGui.QWidget):
         vbox_right.addWidget(label)
         vbox_svg = QtGui.QVBoxLayout()
         idx = 0
-        for j in range(3):
+        for i in range(3):
             hbox_svg = QtGui.QHBoxLayout()
             for j in range(7):
-                w = TwoColorsWidget(self)
+                w = TwoColorsWidget(self, self.model.svg_colors[i][j])
                 w.setMaximumSize(30,30)
                 w.second_color_set.connect(self.on_dst_color_set(idx))
                 idx += 1
@@ -355,13 +359,13 @@ class GUIWidget(QtGui.QWidget):
         self.palette.selected.connect(self.on_select_from_palette)
         self.palette.file_dropped.connect(self.on_palette_file_dropped)
         
-        self.mixers = QtGui.QComboBox()
+        self.mixers = ClassSelector(pairs = self.available_mixers)
         self.mixers.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
-        for mixer, nothing in self.available_mixers:
-            self.mixers.addItem(mixer)
-        self.mixers.currentIndexChanged.connect(self.on_select_mixer)
+        self.mixers.selected.connect(self.on_select_mixer)
         vbox_left.addLayout(labelled(_("Mixing model:"), self.mixers))
         vbox_left.addWidget(self.palette, 9)
+
+        vbox_left.addStretch(1)
 
         box = QtGui.QHBoxLayout()
         label = QtGui.QLabel(_("Scratchpad:"))
@@ -387,34 +391,29 @@ class GUIWidget(QtGui.QWidget):
         selector_w = QtGui.QWidget()
         form = QtGui.QFormLayout()
 
-        self.selector_mixers = QtGui.QComboBox()
-        for mixer, nothing in self.available_selector_mixers:
-            self.selector_mixers.addItem(mixer)
-        self.selector_mixers.currentIndexChanged.connect(self.on_select_selector_mixer)
+        self.selector_mixers = ClassSelector(pairs=self.available_selector_mixers)
+        self.selector_mixers.selected.connect(self.on_select_selector_mixer)
 
         form.addRow(_("Selector model:"), self.selector_mixers)
 
-        self.harmonies = QtGui.QComboBox() 
-        for harmony, nothing in self.available_harmonies:
-            self.harmonies.addItem(harmony)
-        self.harmonies.currentIndexChanged.connect(self.on_select_harmony)
+        self.harmonies = ClassSelector(pairs=self.available_harmonies)
+        self.harmonies.selected.connect(self.on_select_harmony)
 
         form.addRow(_("Harmony:"), self.harmonies)
         selector_box.addLayout(form)
 
-        self.harmony_slider = slider = QtGui.QSlider(QtCore.Qt.Horizontal)
-        slider.setMinimum(0)
-        slider.setMaximum(100)
-        slider.setValue(50)
-        slider.valueChanged.connect(self.on_harmony_parameter)
+        self.harmony_slider = slider = ParamSlider()
+        slider.changed.connect(self.on_harmony_parameter)
         slider.setEnabled(False)
         selector_box.addWidget(slider,1)
 
         self.selector = Selector(mixers.MixerHLS)
+        self.selector.class_selector = self.selector_mixers
         self.selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
         self.selector.setMinimumSize(150,150)
         self.selector.setMaximumSize(500,500)
         self.selector.setHarmony(harmonies.Opposite(HSV))
+        self.selector.harmonies_selector = self.harmonies
         self.selector.selected.connect(self.on_select_color)
 
         selector_box.addWidget(self.selector)
@@ -425,18 +424,13 @@ class GUIWidget(QtGui.QWidget):
         hcy_widget = QtGui.QWidget()
         hcy_box = QtGui.QVBoxLayout()
 
-        self.hcy_harmonies = hcy_harmonies = QtGui.QComboBox() 
-        for harmony, nothing in self.available_harmonies:
-            hcy_harmonies.addItem(harmony)
+        self.hcy_harmonies = hcy_harmonies = ClassSelector(pairs = self.available_harmonies)
         hcy_harmonies.addItem(_("Manual"))
-        hcy_harmonies.currentIndexChanged.connect(self.on_select_hcy_harmony)
+        hcy_harmonies.selected.connect(self.on_select_hcy_harmony)
         hcy_box.addLayout(labelled(_("Harmony:"), hcy_harmonies), 1)
 
-        self.hcy_harmony_slider = slider = QtGui.QSlider(QtCore.Qt.Horizontal)
-        slider.setMinimum(0)
-        slider.setMaximum(100)
-        slider.setValue(50)
-        slider.valueChanged.connect(self.on_harmony_parameter)
+        self.hcy_harmony_slider = slider = ParamSlider()
+        slider.changed.connect(self.on_harmony_parameter)
         slider.setEnabled(False)
         hcy_box.addWidget(slider,1)
 
@@ -447,6 +441,7 @@ class GUIWidget(QtGui.QWidget):
         self.hcy_selector.enable_editing = True
         self.hcy_selector.set_harmony(harmonies.Opposite(HSV))
         self.hcy_selector.selected.connect(self.on_select_hcy)
+        self.hcy_selector.harmonies_selector = self.hcy_harmonies
         self.hcy_selector.edited.connect(self.on_hcy_edit)
 
         hcy_box.addWidget(self.hcy_selector, 5)
@@ -465,7 +460,7 @@ class GUIWidget(QtGui.QWidget):
 
         box = QtGui.QHBoxLayout()
 
-        self.current_color = ColorWidget(self)
+        self.current_color = ColorWidget(self, self.model.current_color)
         self.current_color.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
         self.current_color.setMaximumSize(100,50)
         self.current_color.selected.connect(self.on_set_current_color)
@@ -478,19 +473,14 @@ class GUIWidget(QtGui.QWidget):
 
         vbox_center.addLayout(box)
         
-        self.shaders = QtGui.QComboBox()
-        for shader,nothing in self.available_shaders:
-            self.shaders.addItem(shader)
-        self.shaders.currentIndexChanged.connect(self.on_select_shader)
+        self.shaders = ClassSelector(pairs = self.available_shaders)
+        self.shaders.selected.connect(self.on_select_shader)
         self.shader = harmonies.Saturation
 
         vbox_center.addLayout(labelled(_("Shades:"), self.shaders))
 
-        self.shades_slider = slider = QtGui.QSlider(QtCore.Qt.Horizontal)
-        slider.setMinimum(0)
-        slider.setMaximum(100)
-        slider.setValue(50)
-        slider.valueChanged.connect(self.on_shades_parameter)
+        self.shades_slider = slider = ParamSlider()
+        slider.changed.connect(self.on_shades_parameter)
         vbox_center.addWidget(slider,1)
 
         self.toolbar_swatches = QtGui.QToolBar()
@@ -505,12 +495,14 @@ class GUIWidget(QtGui.QWidget):
             row = []
             hbox = QtGui.QHBoxLayout()
             for i in range(5):
-                w = ColorWidget(self)
+                swatch = self.model.swatches[i][j]
+                w = ColorWidget(self, swatch)
                 w.setMinimumSize(30,30)
-                w.setMaximumSize(50,50)
+                #w.setMaximumSize(50,50)
                 if i == 2:
+                    swatch.set_color_enabled = False
                     w.border_color = Color(0,0,0)
-                    w.selected.connect(self.on_shade_selected(j))
+                    w.dropped.connect(self.on_shade_selected(j))
                     self.base_swatches.append(w)
                 self.harmonized.append(w)
                 row.append(w)
@@ -523,11 +515,10 @@ class GUIWidget(QtGui.QWidget):
         return widget
 
     def on_shade_selected(self, row):
-        def handler():
-            clr = self.base_swatches[row].getColor()
-            self.base_colors[row] = clr
-            self._do_harmony()
-            self.update()
+        def handler(r,g,b):
+            color = Color(r,g,b)
+            command = MakeShades(self, row, color)
+            self.undoStack.push(command)
         return handler
 
     def on_dst_color_set(self, idx):
@@ -626,121 +617,110 @@ class GUIWidget(QtGui.QWidget):
         #self.hcy_harmonies.setCurrentIndex(n)
 
     def on_clear_swatches(self):
-        for row in self.swatches:
-            for w in row:
-                w.setColor(None)
-                w.update()
-
-    def _map_swatches(self, fn):
-        for row in self.swatches:
-            for w in row:
-                clr = w.getColor()
-                if clr is None:
-                    continue
-                clr = fn(clr)
-                w.setColor(clr)
-        self.update()
+        command = ClearSwatches(self)
+        self.undoStack.push(command)
 
     def on_swatches_darker(self):
-        self._map_swatches(lambda clr: colors.darker(clr, 0.1))
+        command = ChangeSwatchesColors(self, _("making color swatches darker"), 
+                                        (lambda clr: colors.darker(clr, 0.1)))
+        self.undoStack.push(command)
 
     def on_swatches_lighter(self):
-        self._map_swatches(lambda clr: colors.lighter(clr, 0.1))
+        command = ChangeSwatchesColors(self, _("making color swatches lighter"),
+                                         (lambda clr: colors.lighter(clr, 0.1)))
+        self.undoStack.push(command)
 
     def on_swatches_saturate(self):
-        self._map_swatches(lambda clr: colors.saturate(clr, 0.1))
+        command = ChangeSwatchesColors(self, _("saturating color swatches"),
+                                         (lambda clr: colors.saturate(clr, 0.1)))
+        self.undoStack.push(command)
 
     def on_swatches_desaturate(self):
-        self._map_swatches(lambda clr: colors.desaturate(clr, 0.1))
+        command = ChangeSwatchesColors(self, _("desaturating color swatches"),
+                                         (lambda clr: colors.desaturate(clr, 0.1)))
+        self.undoStack.push(command)
 
     def on_swatches_counterclockwise(self):
-        self._map_swatches(lambda clr: colors.increment_hue(clr, 0.03))
+        command = ChangeSwatchesColors(self, _("rotating swatches colors counterclockwise"),
+                                        (lambda clr: colors.increment_hue(clr, 0.03)))
+        self.undoStack.push(command)
 
     def on_swatches_clockwise(self):
-        self._map_swatches(lambda clr: colors.increment_hue(clr, -0.03))
+        command = ChangeSwatchesColors(self, _("rotating swatches colors clockwise"),
+                                        (lambda clr: colors.increment_hue(clr, -0.03)))
+        self.undoStack.push(command)
 
     def on_swatches_contrast_up(self):
-        self._map_swatches(lambda clr: colors.contrast(clr, 0.1))
+        command = ChangeSwatchesColors(self, _("increasing swatches contrast"),
+                                         (lambda clr: colors.contrast(clr, 0.1)))
+        self.undoStack.push(command)
 
     def on_swatches_contrast_down(self):
-        self._map_swatches(lambda clr: colors.contrast(clr, -0.1))
+        command = ChangeSwatchesColors(self, _("decreasing swatches contrast"),
+                                         (lambda clr: colors.contrast(clr, -0.1)))
+        self.undoStack.push(command)
 
     def on_palette_darker(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.darker(clr, 0.1)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("making palette colors darker"),
+                               lambda clr : colors.darker(clr, 0.1))
+        self.undoStack.push(command)
 
     def on_palette_lighter(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.lighter(clr, 0.1)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("making palette colors lighter"),
+                               lambda clr : colors.lighter(clr, 0.1))
+        self.undoStack.push(command)
 
     def on_palette_saturate(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.saturate(clr, 0.1)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("saturating palette colors"),
+                               lambda clr : colors.saturate(clr, 0.1))
+        self.undoStack.push(command)
 
     def on_palette_desaturate(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.desaturate(clr, 0.1)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("desaturating palette colors"),
+                               lambda clr : colors.desaturate(clr, 0.1))
+        self.undoStack.push(command)
 
     def on_palette_counterclockwise(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.increment_hue(clr, 0.03)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("rotating palette colors counterclockwise"),
+                               lambda clr : colors.increment_hue(clr, 0.03))
+        self.undoStack.push(command)
 
     def on_palette_clockwise(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.increment_hue(clr, -0.03)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("rotating palette colors clockwise"),
+                               lambda clr : colors.increment_hue(clr, -0.03))
+        self.undoStack.push(command)
 
     def on_palette_contrast_up(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.contrast(clr, 0.1)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("increasing palette contrast"),
+                               lambda clr : colors.contrast(clr, 0.1))
+        self.undoStack.push(command)
 
     def on_palette_contrast_down(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.contrast(clr, -0.1)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("decreasing palette contrast"),
+                               lambda clr : colors.contrast(clr, -0.1))
+        self.undoStack.push(command)
 
     def on_template_loaded(self):
         for w in self.svg_colors:
-            w.setColor(None)
+            w.setColor_(None)
 
         for i, clr in enumerate(self.svg.get_svg_colors()[:21]):
             #print(" #{} -> {}".format(i, str(clr)))
-            self.svg_colors[i].setColor(clr)
+            self.svg_colors[i].setColor_(clr)
         self.update()
 
     def _auto_harmony(self):
         if self.auto_harmony.isChecked():
-            self.on_harmony()
+            self._do_harmony()
+            self.update()
 
     def on_set_current_color(self):
         self.base_colors = {}
@@ -757,7 +737,7 @@ class GUIWidget(QtGui.QWidget):
     def on_select_color(self):
         self.base_colors = {}
         color = self.selector.selected_color
-        self.current_color.setColor(color)
+        self.current_color.model.color = color
         self.current_color.update()
         self.hcy_selector.setColor(color)
         self._auto_harmony()
@@ -766,42 +746,35 @@ class GUIWidget(QtGui.QWidget):
         #print("H: {:.2f}, C: {:.2f}, Y: {:.2f}".format(h,c,y))
         self.base_colors = {}
         color = colors.hcy(h,c,y)
-        self.current_color.setColor(color)
+        self.current_color.model.color = color
         self.current_color.update()
         self.selector.setColor(color)
         self._auto_harmony()
 
-    def on_select_harmony(self, idx):
-        _, harmony = self.available_harmonies[idx]
-        print("Selected harmony: " + str(harmony))
-        self.selector.setHarmony(harmony)
-        self.harmony_slider.setEnabled(harmony.uses_parameter)
-        self._auto_harmony()
+    def on_select_harmony(self, prev_idx, idx):
+        command = SetHarmony(self.selector, self.harmony_slider, self, self.available_harmonies, prev_idx, idx)
+        self.undoStack.push(command)
 
-    def on_select_hcy_harmony(self, idx):
-        if idx >= len(self.available_harmonies):
-            self.hcy_selector.set_harmony(None)
-            return
-        _, harmony = self.available_harmonies[idx]
-        print("Selected harmony: " + str(harmony))
-        self.hcy_selector.set_harmony(harmony)
-        self.hcy_harmony_slider.setEnabled(harmony.uses_parameter)
+    def on_select_hcy_harmony(self, prev_idx, idx):
+        command = SetHarmony(self.hcy_selector, self.hcy_harmony_slider, self, self.available_harmonies, prev_idx, idx, True)
+        self.undoStack.push(command)
 
-    def on_select_shader(self, idx):
-        _, shader = self.available_shaders[idx]
-        print("Selected shader: " + str(shader))
-        self.shader = shader
-        self._auto_harmony()
+    def on_select_shader(self, prev_idx, idx):
+        command = SetShader(self, prev_idx, idx)
+        self.undoStack.push(command)
     
-    def on_select_mixer(self, idx):
-        _,  self.mixer = self.available_mixers[idx]
-        print("Selected mixer: " + str(self.mixer))
-        self.palette.setMixer(self.mixer)
+    def on_select_mixer(self, prev_idx, idx):
+        command = SetMixer(self, self.available_mixers, prev_idx, idx)
+        self.undoStack.push(command)
     
-    def on_select_selector_mixer(self, idx):
-        _,  mixer = self.available_selector_mixers[idx]
-        print("Selected selector mixer: " + str(mixer))
-        self.selector.setMixer(mixer)
+    def on_select_selector_mixer(self, prev_idx, idx):
+        command = SetMixer(self.selector, self.available_selector_mixers, prev_idx, idx)
+        self.undoStack.push(command)
+
+    def setMixer(self, mixer, idx):
+        self.mixer = mixer
+        self.palette.setMixer(mixer)
+        self.mixers.select_item(idx)
     
     def on_mix(self):
         c1 = self.color1.getColor()
@@ -816,9 +789,9 @@ class GUIWidget(QtGui.QWidget):
 
     def _get_base_colors(self):
         if self.tabs.currentIndex() != 1:
-            colors = self.selector.harmonized
+            colors = copy(self.selector.harmonized)
         else:
-            colors = self.hcy_selector.get_harmonized()
+            colors = copy( self.hcy_selector.get_harmonized() )
         if colors is None:
             return None
         for i in self.base_colors.iterkeys():
@@ -843,35 +816,27 @@ class GUIWidget(QtGui.QWidget):
         for i,row in enumerate(colors):
             for j, clr in enumerate(row):
                 try:
-                    self.swatches[i][j].setColor(clr)
+                    self.model.swatches[j][i].color = clr
+                    #self.swatches[i][j].setColor_(clr)
                 except IndexError:
                     print i,j
         #self.hcy_selector.set_harmonized(colors)
 
-    def _do_shades_from_scratchpad(self):
-        colors = self.scratchpad.get_colors()
-        for i, clr in enumerate(colors[:5]):
-            self.base_colors[i] = clr
-        self._do_harmony()
-        self.update()
-
     def on_shades_from_scratchpad(self):
-        self._do_shades_from_scratchpad()
+        command = ShadesFromScratchpad(self)
+        self.undoStack.push(command)
 
     def on_harmony(self):
-        self._do_harmony()
-        self.update()
+        command = DoHarmony(self)
+        self.undoStack.push(command)
 
-    def on_harmony_parameter(self, value):
-        p = float(value)/100.0
-        self.selector.set_harmony_parameter(p)
-        self.hcy_selector.set_harmony_parameter(p)
-        self._auto_harmony()
+    def on_harmony_parameter(self, prev_value, value):
+        command = UpdateHarmony(self, prev_value, value)
+        self.undoStack.push(command)
 
-    def on_shades_parameter(self, value):
-        p = float(value)/100.0
-        self._shades_parameter = p
-        self._auto_harmony()
+    def on_shades_parameter(self, prev_value, value):
+        command = UpdateShades(self, prev_value, value)
+        self.undoStack.push(command)
 
     def on_colorize_harmony(self):
         self.svg.setColors([w.getColor() for w in self.harmonized if w.getColor() is not None])

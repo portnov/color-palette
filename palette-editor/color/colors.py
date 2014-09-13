@@ -441,7 +441,6 @@ class Color(QtGui.QColor):
     
     def verbose(self):
         r, g, b = self.getRGB1()
-        rr, ry, rb = self.getRYB()
         h, s, l = self.getHLS()
         result = "RGB: {:.2f} {:.2f} {:.2f}\n".format(r, g, b)
         result += "HLS: {:.2f} {:.2f} {:.2f}\n".format(h, l, s)
@@ -449,7 +448,7 @@ class Color(QtGui.QColor):
         result += "HSV: {:.2f} {:.2f} {:.2f}".format(h, s, v)
         return result
     
-    def __str__(self):
+    def __repr__(self):
         r, g, b = self.getRGB1()
         return "<RGB: {:.2f} {:.2f} {:.2f}>".format(r, g, b)
 
