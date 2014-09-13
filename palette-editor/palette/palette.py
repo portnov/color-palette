@@ -65,6 +65,7 @@ class Slot(object):
         self._src_slot2 = slot2
         self._src_row2 = row2
         self._src_col2 = col2
+        #print("Sources: ({},{}) and ({},{})".format(row1,col1, row2,col2))
 
     def getSource1(self):
         return self._src_slot1, self._src_row1, self._src_col1
@@ -78,7 +79,7 @@ class Palette(object):
         self.nrows = nrows
         self.ncols = ncols
         self.slots = [[Slot() for i in range(ncols)] for j in range(nrows)]
-        self.need_recalc = True
+        self.need_recalc_colors = True
 
     def mark_color(self, row, column, mark=None):
         print("Marking color at ({}, {})".format(row,column))
@@ -158,7 +159,7 @@ class Palette(object):
         return result
 
     def getColor(self, row, column):
-        if self.need_recalc:
+        if self.need_recalc_colors:
             self.recalc()
         try:
             return self.slots[row][column].color
@@ -167,7 +168,7 @@ class Palette(object):
             return Color(255,255,255)
 
     def getColors(self):
-        if self.need_recalc:
+        if self.need_recalc_colors:
             self.recalc()
         return [[slot.color for slot in row] for row in self.slots]
 
@@ -296,9 +297,6 @@ class Palette(object):
     def _calc_colors(self):
         for i,row in enumerate(self.slots):
             for j,slot in enumerate(row):
-                if slot.mode == USER_DEFINED:
-                    continue
-
                 if slot.mode == VERTICALLY_GENERATED:
                     slot_down, iv1, jv1 = slot.getSource1()
                     slot_up, iv2, jv2 = slot.getSource2()
@@ -313,7 +311,9 @@ class Palette(object):
                         clr = Color(1,1,1)
                     slot.color = clr
 
-                elif slot.mode == HORIZONTALLY_GENERATED:
+        for i,row in enumerate(self.slots):
+            for j,slot in enumerate(row):
+                if slot.mode == HORIZONTALLY_GENERATED:
                     slot_left, ih1, jh1 = slot.getSource1()
                     slot_right, ih2, jh2 = slot.getSource2()
                     clr_left = slot_left.color

@@ -12,10 +12,11 @@ class PaletteWidget(QtGui.QLabel):
     selected = QtCore.pyqtSignal(int,int) # (row, column)
     file_dropped = QtCore.pyqtSignal(unicode)
 
-    def __init__(self, parent, palette, padding=2.0, background=None, undoStack=None, *args):
+    def __init__(self, parent, palette, padding=2.0, background=None, undoStack=None, indicate_modes=False, *args):
         QtGui.QLabel.__init__(self, parent, *args)
         self.palette = palette
-        self.palette_image = PaletteImage(palette, padding=padding, background=background)
+        self.palette_image = PaletteImage(palette, padding=padding, background=background, indicate_modes=indicate_modes)
+        self.indicate_modes = indicate_modes
 
         if undoStack is None:
             self.undoStack = QtGui.QUndoStack(self)

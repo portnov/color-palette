@@ -5,7 +5,7 @@ from palette import *
 from color.colors import *
 
 class PaletteImage(object):
-    def __init__(self, palette, w=None, h=None, padding=2.0, background=None):
+    def __init__(self, palette, w=None, h=None, padding=2.0, background=None, indicate_modes=False):
         self.palette = palette
         self.w = w
         self.h = h
@@ -15,6 +15,7 @@ class PaletteImage(object):
             self.background = Color(127,127,127)
         else:
             self.background = background
+        self.indicate_modes = indicate_modes
 
     def invalidate(self):
         self.image = None
@@ -43,5 +44,12 @@ class PaletteImage(object):
                 qp.setPen(self.background)
                 qp.setBrush(color)
                 qp.drawRect(x,y, rw, rh)
+                if self.indicate_modes:
+                    slot = self.palette.slots[i][j]
+                    qp.setPen(Color(0,0,0))
+                    if slot.mode == HORIZONTALLY_GENERATED:
+                        qp.drawLine(x+2, y+slot_h/2.0, x+slot_w-2, y+slot_h/2.0)
+                    elif slot.mode == VERTICALLY_GENERATED:
+                        qp.drawLine(x+slot_w/2.0, y+2, x+slot_w/2.0, y+slot_h-2)
         qp.end()
         return image

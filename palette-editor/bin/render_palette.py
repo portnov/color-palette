@@ -18,6 +18,6 @@ dstfile = sys.argv[2]
 
 palette = load_palette(srcfile)
 w,h = palette.ncols * 48, palette.nrows * 48
-image = PaletteImage(palette).get(w,h)
+image = PaletteImage(palette, indicate_modes=True).get(w,h)
 image.save(dstfile)
 
