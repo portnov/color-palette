@@ -116,7 +116,8 @@ class UpdateHarmony(SwatchesCommand):
 class ChangeSwatchesColors(SwatchesCommand):
     def __init__(self, owner, text, fn):
         SwatchesCommand.__init__(self, owner)
-        self.setText(text)
+        if text is not None:
+            self.setText(text)
         self.fn = fn
 
     def _map_swatches(self, fn):
@@ -126,7 +127,7 @@ class ChangeSwatchesColors(SwatchesCommand):
                 if clr is None:
                     continue
                 clr = fn(clr)
-                w.setColor(clr)
+                w.setColor_(clr)
         self.owner.update()
 
     def redo(self):
@@ -230,6 +231,7 @@ class SelectColor(SwatchesCommand):
         for selector in self.selectors:
             selector.setColor(self.prev_color, no_signal=True)
         self.restore_swatches()
+        self.owner.update()
 
     def mergeWith(self, other):
         if not isinstance(other, SelectColor):
@@ -312,7 +314,6 @@ class SetColor(QtGui.QUndoCommand):
         self.color = color
 
     def redo(self):
-        print "SetColor"
         self.old_color = self.model.getColor()
         self.model.color = self.color
         self.model.widget.repaint()

@@ -494,9 +494,6 @@ class Selector(QtGui.QLabel):
         self.harmonies_selector = None
         self._sequence = 0
 
-    def leaveEvent(self, event):
-        self._sequence += 1
-
     def setColor(self, color, no_signal=False):
         if color is not None:
             self.selected_color = color
@@ -645,6 +642,7 @@ class Selector(QtGui.QLabel):
         x,y = event.x(), event.y()
         self._select(x,y)
         event.accept()
+        self._sequence += 1
 
     def getSV(self, x, y):
         xmin, ymin = self.ls_square.x(), self.ls_square.y()
