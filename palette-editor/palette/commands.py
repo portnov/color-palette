@@ -114,4 +114,32 @@ class EditLayout(QtGui.QUndoCommand):
             return _("deleting palette column")
         else:
             return _("inserting column into palette")
-        
+
+class ChangeColors(QtGui.QUndoCommand):
+    def __init__(self, widget, palette, text, fn):
+        QtGui.QUndoCommand.__init__(self)
+        self.setText(text)
+        self.widget = widget
+        self.palette = palette
+        self.fn = fn
+        self.colors = []
+
+    def remember_colors(self):
+        for row, col, slot in self.palette.getUserDefinedSlots():
+            self.colors.append((row, col, slot.getColor()))
+
+    def redo(self):
+        self.remember_colors()
+        for row, col, slot in self.palette.getUserDefinedSlots():
+            clr = slot.getColor()
+            clr = self.fn(clr)
+            slot.setColor(clr)
+        self.palette.recalc()
+        self.widget.update()
+
+    def undo(self):
+        for row, col, clr in self.colors:
+            self.palette.paint(row, col, clr)
+        self.palette.recalc()
+        self.widget.update()
+

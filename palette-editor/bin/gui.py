@@ -52,6 +52,7 @@ from color.spaces import *
 from palette.palette import Palette
 from palette.widget import PaletteWidget
 from palette.image import PaletteImage
+from palette.commands import ChangeColors
 from matching.svg_widget import SvgTemplateWidget
 from dialogs.open_palette import *
 from dialogs import filedialog
@@ -669,68 +670,52 @@ class GUIWidget(QtGui.QWidget):
         self.undoStack.push(command)
 
     def on_palette_darker(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.darker(clr, 0.1)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("making palette colors darker"),
+                               lambda clr : colors.darker(clr, 0.1))
+        self.undoStack.push(command)
 
     def on_palette_lighter(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.lighter(clr, 0.1)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("making palette colors lighter"),
+                               lambda clr : colors.lighter(clr, 0.1))
+        self.undoStack.push(command)
 
     def on_palette_saturate(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.saturate(clr, 0.1)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("saturating palette colors"),
+                               lambda clr : colors.saturate(clr, 0.1))
+        self.undoStack.push(command)
 
     def on_palette_desaturate(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.desaturate(clr, 0.1)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("desaturating palette colors"),
+                               lambda clr : colors.desaturate(clr, 0.1))
+        self.undoStack.push(command)
 
     def on_palette_counterclockwise(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.increment_hue(clr, 0.03)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("rotating palette colors counterclockwise"),
+                               lambda clr : colors.increment_hue(clr, 0.03))
+        self.undoStack.push(command)
 
     def on_palette_clockwise(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.increment_hue(clr, -0.03)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("rotating palette colors clockwise"),
+                               lambda clr : colors.increment_hue(clr, -0.03))
+        self.undoStack.push(command)
 
     def on_palette_contrast_up(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.contrast(clr, 0.1)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("increasing palette contrast"),
+                               lambda clr : colors.contrast(clr, 0.1))
+        self.undoStack.push(command)
 
     def on_palette_contrast_down(self):
-        for row, col, slot in self.palette.palette.getUserDefinedSlots():
-            clr = slot.getColor()
-            clr = colors.contrast(clr, -0.1)
-            slot.setColor(clr)
-        self.palette.palette.recalc()
-        self.palette.update()
+        command = ChangeColors(self.palette, self.palette.palette,
+                               _("decreasing palette contrast"),
+                               lambda clr : colors.contrast(clr, -0.1))
+        self.undoStack.push(command)
 
     def on_template_loaded(self):
         for w in self.svg_colors:
