@@ -36,7 +36,6 @@ class ClassSelector(QtGui.QComboBox):
 
     def _on_select(self, idx):
         if not self._skip_select:
-            print "Emitting selected"
             self.selected.emit(self._prev_idx, idx)
         self._prev_idx = idx
 
@@ -673,7 +672,7 @@ class Selector(QtGui.QLabel):
             self._prev_color = self.selected_color
             self.selected_color = self.mixer.shade(h, s, v)
             self._update_harmony()
-            print "Selecting: {} -> {}".format(self._prev_color, self.selected_color)
+            #print "Selecting: {} -> {}".format(self._prev_color, self.selected_color)
             self.selected.emit(self._sequence, self._prev_color, self.selected_color)
         elif self.is_on_ring(x,y):
             self.selected_hue = self.getHue(x,y)
