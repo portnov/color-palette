@@ -79,6 +79,8 @@ class Scratchpad(QtGui.QWidget):
     
     def _color_at_x(self, x):
         idx = self._idx_at_x(x)
+        if idx is None:
+            return None
         return self.colors[idx][0]
 
     def _add_color(self, color, x):
@@ -116,6 +118,19 @@ class Scratchpad(QtGui.QWidget):
 
     def get_colors(self):
         return [clr for clr,c in self.colors]
+
+    def event(self, event):
+        if event.type() == QtCore.QEvent.ToolTip:
+            self._on_tooltip(event)
+            return True
+        else:
+            return super(Scratchpad, self).event(event)
+
+    def _on_tooltip(self, event):
+        x = event.pos().x()
+        color = self._color_at_x(x)
+        if color is not None:
+            QtGui.QToolTip.showText(event.globalPos(), color.verbose())
 
     def mousePressEvent(self, event):
         #print("Mouse pressed")
