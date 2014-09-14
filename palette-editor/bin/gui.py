@@ -719,11 +719,11 @@ class GUIWidget(QtGui.QWidget):
 
     def on_template_loaded(self):
         for w in self.svg_colors:
-            w.setColor(None)
+            w.setColor_(None)
 
         for i, clr in enumerate(self.svg.get_svg_colors()[:21]):
             #print(" #{} -> {}".format(i, str(clr)))
-            self.svg_colors[i].setColor(clr)
+            self.svg_colors[i].setColor_(clr)
         self.update()
 
     def _auto_harmony(self):

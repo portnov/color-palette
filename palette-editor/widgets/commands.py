@@ -30,6 +30,7 @@ class ClearSwatches(SwatchesCommand):
         for row in self.owner.swatches:
             for w in row:
                 w.setColor(None)
+                w.model.color = None
                 w.update()
 
 class ChangeSwatchesColors(SwatchesCommand):
