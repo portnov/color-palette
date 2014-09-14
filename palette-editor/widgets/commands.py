@@ -48,6 +48,71 @@ class DoHarmony(SwatchesCommand):
         self.restore_swatches()
         self.owner.update()
 
+class UpdateShades(SwatchesCommand):
+    def __init__(self, owner, prev_param, param):
+        SwatchesCommand.__init__(self, owner)
+        self.setText(_("changing color shades"))
+        self.prev_param = prev_param
+        self.param = param
+
+    def id(self):
+        return 25
+
+    def mergeWith(self, other):
+        if not isinstance(other, UpdateShades):
+            return False
+        self.param = other.param
+        #print "Merging: {} -> {}".format(self.prev_param, self.param)
+        return True
+
+    def redo(self):
+        self.remember_swatches()
+        p = float(self.param)/100.0
+        self.owner._shades_parameter = p
+        self.owner._auto_harmony()
+        self.owner.shades_slider.set_value(self.param)
+
+    def undo(self):
+        self.restore_swatches()
+        p = float(self.prev_param)/100.0
+        self.owner._shades_parameter = p
+        self.owner.shades_slider.set_value(self.prev_param)
+
+class UpdateHarmony(SwatchesCommand):
+    def __init__(self, owner, prev_param, param):
+        SwatchesCommand.__init__(self, owner)
+        self.setText(_("changing color harmony"))
+        self.prev_param = prev_param
+        self.param = param
+
+    def id(self):
+        return 25
+
+    def mergeWith(self, other):
+        if not isinstance(other, UpdateHarmony):
+            return False
+        self.param = other.param
+        #print "Merging: {} -> {}".format(self.prev_param, self.param)
+        return True
+
+    def redo(self):
+        #print "UpdateHarmony"
+        self.remember_swatches()
+        p = float(self.param)/100.0
+        self.owner.selector.set_harmony_parameter(p)
+        self.owner.hcy_selector.set_harmony_parameter(p)
+        self.owner._auto_harmony()
+        self.owner.hcy_harmony_slider.set_value(self.param)
+        self.owner.harmony_slider.set_value(self.param)
+
+    def undo(self):
+        self.restore_swatches()
+        p = float(self.prev_param)/100.0
+        self.owner.selector.set_harmony_parameter(p)
+        self.owner.hcy_selector.set_harmony_parameter(p)
+        self.owner.hcy_harmony_slider.set_value(self.prev_param)
+        self.owner.harmony_slider.set_value(self.prev_param)
+
 class ChangeSwatchesColors(SwatchesCommand):
     def __init__(self, owner, text, fn):
         SwatchesCommand.__init__(self, owner)
@@ -206,6 +271,7 @@ class SetColor(QtGui.QUndoCommand):
         self.color = color
 
     def redo(self):
+        print "SetColor"
         self.old_color = self.model.getColor()
         self.model.color = self.color
         self.model.widget.repaint()

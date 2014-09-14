@@ -49,6 +49,28 @@ class ClassSelector(QtGui.QComboBox):
         self.setCurrentIndex(idx)
         self._skip_select = False
 
+class ParamSlider(QtGui.QSlider):
+    changed = QtCore.pyqtSignal(int,int)
+
+    def __init__(self, parent=None):
+        QtGui.QSlider.__init__(self, QtCore.Qt.Horizontal, parent)
+        self.setMinimum(0)
+        self.setMaximum(100)
+        self.setValue(50)
+        self.valueChanged.connect(self._on_change)
+        self._prev_value = 50
+        self._skip_change = False
+
+    def _on_change(self, value):
+        if not self._skip_change:
+            self.changed.emit(self._prev_value, value)
+        self._prev_value = value
+
+    def set_value(self, value):
+        self._skip_change = True
+        self.setValue(value)
+        self._skip_change = False
+
 class ColorWidget(QtGui.QLabel):
     clicked = QtCore.pyqtSignal()
     selected = QtCore.pyqtSignal()

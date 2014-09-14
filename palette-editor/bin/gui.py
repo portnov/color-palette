@@ -402,11 +402,8 @@ class GUIWidget(QtGui.QWidget):
         form.addRow(_("Harmony:"), self.harmonies)
         selector_box.addLayout(form)
 
-        self.harmony_slider = slider = QtGui.QSlider(QtCore.Qt.Horizontal)
-        slider.setMinimum(0)
-        slider.setMaximum(100)
-        slider.setValue(50)
-        slider.valueChanged.connect(self.on_harmony_parameter)
+        self.harmony_slider = slider = ParamSlider()
+        slider.changed.connect(self.on_harmony_parameter)
         slider.setEnabled(False)
         selector_box.addWidget(slider,1)
 
@@ -432,11 +429,8 @@ class GUIWidget(QtGui.QWidget):
         hcy_harmonies.selected.connect(self.on_select_hcy_harmony)
         hcy_box.addLayout(labelled(_("Harmony:"), hcy_harmonies), 1)
 
-        self.hcy_harmony_slider = slider = QtGui.QSlider(QtCore.Qt.Horizontal)
-        slider.setMinimum(0)
-        slider.setMaximum(100)
-        slider.setValue(50)
-        slider.valueChanged.connect(self.on_harmony_parameter)
+        self.hcy_harmony_slider = slider = ParamSlider()
+        slider.changed.connect(self.on_harmony_parameter)
         slider.setEnabled(False)
         hcy_box.addWidget(slider,1)
 
@@ -485,11 +479,8 @@ class GUIWidget(QtGui.QWidget):
 
         vbox_center.addLayout(labelled(_("Shades:"), self.shaders))
 
-        self.shades_slider = slider = QtGui.QSlider(QtCore.Qt.Horizontal)
-        slider.setMinimum(0)
-        slider.setMaximum(100)
-        slider.setValue(50)
-        slider.valueChanged.connect(self.on_shades_parameter)
+        self.shades_slider = slider = ParamSlider()
+        slider.changed.connect(self.on_shades_parameter)
         vbox_center.addWidget(slider,1)
 
         self.toolbar_swatches = QtGui.QToolBar()
@@ -746,7 +737,7 @@ class GUIWidget(QtGui.QWidget):
     def on_select_color(self):
         self.base_colors = {}
         color = self.selector.selected_color
-        self.current_color.setColor(color)
+        self.current_color.model.color = color
         self.current_color.update()
         self.hcy_selector.setColor(color)
         self._auto_harmony()
@@ -755,7 +746,7 @@ class GUIWidget(QtGui.QWidget):
         #print("H: {:.2f}, C: {:.2f}, Y: {:.2f}".format(h,c,y))
         self.base_colors = {}
         color = colors.hcy(h,c,y)
-        self.current_color.setColor(color)
+        self.current_color.model.color = color
         self.current_color.update()
         self.selector.setColor(color)
         self._auto_harmony()
@@ -839,16 +830,13 @@ class GUIWidget(QtGui.QWidget):
         command = DoHarmony(self)
         self.undoStack.push(command)
 
-    def on_harmony_parameter(self, value):
-        p = float(value)/100.0
-        self.selector.set_harmony_parameter(p)
-        self.hcy_selector.set_harmony_parameter(p)
-        self._auto_harmony()
+    def on_harmony_parameter(self, prev_value, value):
+        command = UpdateHarmony(self, prev_value, value)
+        self.undoStack.push(command)
 
-    def on_shades_parameter(self, value):
-        p = float(value)/100.0
-        self._shades_parameter = p
-        self._auto_harmony()
+    def on_shades_parameter(self, prev_value, value):
+        command = UpdateShades(self, prev_value, value)
+        self.undoStack.push(command)
 
     def on_colorize_harmony(self):
         self.svg.setColors([w.getColor() for w in self.harmonized if w.getColor() is not None])
