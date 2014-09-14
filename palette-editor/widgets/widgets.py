@@ -473,7 +473,7 @@ class Selector(QtGui.QLabel):
     
     selectedSV = QtCore.pyqtSignal(float,float)
     selectedHue = QtCore.pyqtSignal(float)
-    selected = QtCore.pyqtSignal()
+    selected = QtCore.pyqtSignal(int, colors.Color, colors.Color)
 
     def __init__(self, mixer, *args):
         QtGui.QLabel.__init__(self, *args)
@@ -483,7 +483,8 @@ class Selector(QtGui.QLabel):
         self.mouse_pressed = False
         self.selected_sv = None
         self.selected_hue = 0.0
-        self.selected_color = None
+        self._prev_color = colors.Color(0,0,0)
+        self.selected_color = colors.Color(0,0,0)
         self.harmony = None
         self._harmony_parameter = 0.5
         self.harmonized = []
@@ -491,8 +492,12 @@ class Selector(QtGui.QLabel):
         self.setAcceptDrops(True)
         self.class_selector = None
         self.harmonies_selector = None
+        self._sequence = 0
 
-    def setColor(self, color):
+    def leaveEvent(self, event):
+        self._sequence += 1
+
+    def setColor(self, color, no_signal=False):
         if color is not None:
             self.selected_color = color
             h = self.mixer.getHue(self.selected_color)
@@ -503,15 +508,14 @@ class Selector(QtGui.QLabel):
             self.selected_sv = s,v
             self._update_harmony()
             self.repaint()
-            self.selected.emit()
+            if not no_signal:
+                self.selected.emit(self._sequence, self._prev_color, self.selected_color)
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasColor():
             event.acceptProposedAction()
 
     def dropEvent(self, event):
-        lst = event.mimeData().formats()
-        #print([str(x) for x in lst])
         if event.mimeData().hasColor():
             qcolor = QtGui.QColor(event.mimeData().colorData())
             r,g,b,_ = qcolor.getRgb()
@@ -537,7 +541,7 @@ class Selector(QtGui.QLabel):
         if self.selected_color is not None and self.harmony is not None:
             self.harmonized = self.harmony.get(self.selected_color, self._harmony_parameter)
             self.repaint()
-            self.selected.emit()
+            self.selected.emit(self._sequence, self._prev_color, self.selected_color)
 
     def setMixer(self, mixer, idx=None):
         self.mixer = mixer
@@ -618,7 +622,7 @@ class Selector(QtGui.QLabel):
             clr = colors.saturate(clr, 0.1*steps)
         self.setColor(clr)
         self.repaint()
-        self.selected.emit()
+        #self.selected.emit(self
 
     def mousePressEvent(self, event):
         #print("Mouse pressed")
@@ -668,9 +672,11 @@ class Selector(QtGui.QLabel):
             self.repaint()
             self.selectedSV.emit(s,v)
             h = self.selected_hue / (2.0*pi)
+            self._prev_color = self.selected_color
             self.selected_color = self.mixer.shade(h, s, v)
             self._update_harmony()
-            self.selected.emit()
+            print "Selecting: {} -> {}".format(self._prev_color, self.selected_color)
+            self.selected.emit(self._sequence, self._prev_color, self.selected_color)
         elif self.is_on_ring(x,y):
             self.selected_hue = self.getHue(x,y)
             h = self.selected_hue / (2.0*pi)
@@ -679,9 +685,10 @@ class Selector(QtGui.QLabel):
             self.selectedHue.emit(h)
             if self.selected_sv is not None:
                 s, v = self.selected_sv
+                self._prev_color = self.selected_color
                 self.selected_color = self.mixer.shade(h, s, v)
                 self._update_harmony()
-                self.selected.emit()
+                self.selected.emit(self._sequence, self._prev_color, self.selected_color)
 
     def mouseMoveEvent(self, event):
         x,y = event.x(), event.y()

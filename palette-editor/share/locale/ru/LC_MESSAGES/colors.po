@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2014-09-14 16:14+YEKT\n"
+"POT-Creation-Date: 2014-09-14 16:25+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -363,79 +363,79 @@ msgstr "Сохранить изображение палитры"
 msgid "Open palette"
 msgstr "Открыть палитру"
 
-#: bin/gui.py:624
+#: bin/gui.py:613
 msgid "making color swatches darker"
 msgstr "уменьшение светлоты образцов"
 
-#: bin/gui.py:629
+#: bin/gui.py:618
 msgid "making color swatches lighter"
 msgstr "увеличение светлоты образцов"
 
-#: bin/gui.py:634
+#: bin/gui.py:623
 msgid "saturating color swatches"
 msgstr "увеличение насыщенности образцов"
 
-#: bin/gui.py:639
+#: bin/gui.py:628
 msgid "desaturating color swatches"
 msgstr "уменьшение насыщенности образцов"
 
-#: bin/gui.py:644
+#: bin/gui.py:633
 msgid "rotating swatches colors counterclockwise"
 msgstr "поворот цветов в образцах против часовой стрелки"
 
-#: bin/gui.py:649
+#: bin/gui.py:638
 msgid "rotating swatches colors clockwise"
 msgstr "поворот цветов в образцах по часовой стрелке"
 
-#: bin/gui.py:654
+#: bin/gui.py:643
 msgid "increasing swatches contrast"
 msgstr "увеличене контраста образцов"
 
-#: bin/gui.py:659
+#: bin/gui.py:648
 msgid "decreasing swatches contrast"
 msgstr "уменьшение контраста образцов"
 
-#: bin/gui.py:665
+#: bin/gui.py:654
 msgid "making palette colors darker"
 msgstr "уменьшение светлоты цветов палитры"
 
-#: bin/gui.py:671
+#: bin/gui.py:660
 msgid "making palette colors lighter"
 msgstr "увеличение светлоты цветов палитры"
 
-#: bin/gui.py:677
+#: bin/gui.py:666
 msgid "saturating palette colors"
 msgstr "увеличение насыщенности цветов палитры"
 
-#: bin/gui.py:683
+#: bin/gui.py:672
 msgid "desaturating palette colors"
 msgstr "уменьшение насыщенности цветов палитры"
 
-#: bin/gui.py:689
+#: bin/gui.py:678
 msgid "rotating palette colors counterclockwise"
 msgstr "поворот цветов в палитре против часовой стрелки"
 
-#: bin/gui.py:695
+#: bin/gui.py:684
 msgid "rotating palette colors clockwise"
 msgstr "поворот цветов в палитре по часовой стрелке"
 
-#: bin/gui.py:701
+#: bin/gui.py:690
 msgid "increasing palette contrast"
 msgstr "увеличене контраста палитры"
 
-#: bin/gui.py:707
+#: bin/gui.py:696
 msgid "decreasing palette contrast"
 msgstr "уменьшение контраста палитры"
 
-#: bin/gui.py:733
+#: bin/gui.py:722
 msgid "Selected from palette: "
 msgstr "Выбрано из палитры: "
 
-#: bin/gui.py:855
+#: bin/gui.py:844
 msgid "Open SVG template"
 msgstr "Открыть шаблон SVG"
 
-#: bin/gui.py:860
+#: bin/gui.py:849
 msgid "Save SVG"
 msgstr "Сохранить SVG"
 
@@ -539,29 +539,33 @@ msgstr ""
 msgid "No preview"
 msgstr "Нет предпросмотра"
 
-#: palette/commands.py:15
+#: palette/commands.py:16
 msgid "toggling mark on palette slot"
 msgstr "переключение метки на слоте палитры"
 
-#: palette/commands.py:33
+#: palette/commands.py:34
 msgid "changing color in palette slot"
 msgstr "изменение цвета в слоте палитры"
 
-#: palette/commands.py:110
+#: palette/commands.py:111
 msgid "deleting palette row"
 msgstr "удаление строки палитры"
 
-#: palette/commands.py:112
+#: palette/commands.py:113
 msgid "inserting row into palette"
 msgstr "вставку строки в палитру"
 
-#: palette/commands.py:114
+#: palette/commands.py:115
 msgid "deleting palette column"
 msgstr "удаление столбца палитры"
 
-#: palette/commands.py:116
+#: palette/commands.py:117
 msgid "inserting column into palette"
 msgstr "вставку столбца в палитру"
+
+#: palette/commands.py:150
+msgid "creating palette from color swatches"
+msgstr "создание палитры из цветовых образцов"
 
 #: palette/storage/all.py:24
 msgid "All files (*)"
@@ -627,22 +631,22 @@ msgstr "создание оттенков цвета"
 msgid "creating shades of colors from scratchpad"
 msgstr "создание оттенков цветов из блокнота"
 
-#: widgets/commands.py:184
+#: widgets/commands.py:183
 msgid "selecting shader"
 msgstr "выбор оттенков"
 
-#: widgets/commands.py:206
+#: widgets/commands.py:209
 msgid "selecting color model"
 msgstr "выбор цветовой модели"
 
-#: widgets/commands.py:225
+#: widgets/commands.py:228
 msgid "selecting harmony"
 msgstr "выбор гармонии"
 
-#: widgets/commands.py:269
+#: widgets/commands.py:272
 msgid "setting color"
 msgstr "установку цвета"
 
-#: widgets/commands.py:286
+#: widgets/commands.py:289
 msgid "clearing color swatch"
 msgstr "очистку цветового образца"

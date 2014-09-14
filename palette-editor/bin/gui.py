@@ -723,22 +723,13 @@ class GUIWidget(QtGui.QWidget):
         self.current_color.setColor(color)
         self.current_color.selected.emit()
 
-    def on_select_color(self):
-        self.base_colors = {}
-        color = self.selector.selected_color
-        self.current_color.model.color = color
-        self.current_color.update()
-        self.hcy_selector.setColor(color)
-        self._auto_harmony()
+    def on_select_color(self, sequence, prev_color, color):
+        command = SelectColor(self, [self.selector, self.hcy_selector], sequence, prev_color, color)
+        self.undoStack.push(command)
 
-    def on_select_hcy(self, h, c, y):
-        #print("H: {:.2f}, C: {:.2f}, Y: {:.2f}".format(h,c,y))
-        self.base_colors = {}
-        color = colors.hcy(h,c,y)
-        self.current_color.model.color = color
-        self.current_color.update()
-        self.selector.setColor(color)
-        self._auto_harmony()
+    def on_select_hcy(self, sequence, prev_color, color):
+        command = SelectColor(self, [self.selector, self.hcy_selector], sequence, prev_color, color)
+        self.undoStack.push(command)
 
     def on_select_harmony(self, prev_idx, idx):
         command = SetHarmony(self.selector, self.harmony_slider, self, self.available_harmonies, prev_idx, idx)

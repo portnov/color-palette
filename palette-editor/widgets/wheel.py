@@ -103,7 +103,7 @@ class Slider(CacheImage):
 
 class WheelWidget(QtGui.QWidget):
 
-    clicked = QtCore.pyqtSignal(float, float)
+    clicked = QtCore.pyqtSignal(bool, float, float)
     edited = QtCore.pyqtSignal()
 
     def __init__(self):
@@ -181,7 +181,7 @@ class WheelWidget(QtGui.QWidget):
             self._selected = self._hc_to_xy(h1,c1)
             self.hue = h1
             self.chroma = c1
-            self.clicked.emit(h1,c1)
+            self.clicked.emit(self.mouse_pressed, h1,c1)
 
         self.repaint()
         if apply_to_harmonized:
@@ -264,7 +264,7 @@ class WheelWidget(QtGui.QWidget):
         if self._harmony is not None:
             self._calc_harmony(self.get_color())
 
-        self.clicked.emit(hue, chroma)
+        self.clicked.emit(self.mouse_pressed, hue, chroma)
 
     def select(self, hue, chroma):
         x,y = self._hc_to_xy(hue, chroma)
@@ -302,7 +302,7 @@ class WheelWidget(QtGui.QWidget):
 
 class SliderWidget(QtGui.QWidget):
 
-    clicked = QtCore.pyqtSignal(float)
+    clicked = QtCore.pyqtSignal(bool, float)
 
     def __init__(self):
         QtGui.QWidget.__init__(self)
@@ -333,7 +333,7 @@ class SliderWidget(QtGui.QWidget):
         if self.luma is not None:
             self.luma = clip(self.luma + 0.05*steps)
             self.repaint()
-            self.clicked.emit(self.luma)
+            self.clicked.emit(self.mouse_pressed, self.luma)
 
     def paintEvent(self, event):
         w, h = self.size().width(),  self.size().height()
@@ -353,7 +353,7 @@ class SliderWidget(QtGui.QWidget):
         self.luma = float(h-y)/float(h)
         #print("Slider._select({})".format(self.luma))
         self.repaint()
-        self.clicked.emit(self.luma)
+        self.clicked.emit(self.mouse_pressed, self.luma)
 
     def select(self, luma):
         self.luma = luma
@@ -364,7 +364,7 @@ class SliderWidget(QtGui.QWidget):
 
 class HCYSelector(QtGui.QWidget):
 
-    selected = QtCore.pyqtSignal(float,float,float)
+    selected = QtCore.pyqtSignal(int, Color, Color)
     edited = QtCore.pyqtSignal()
 
     def __init__(self, *args):
@@ -379,6 +379,11 @@ class HCYSelector(QtGui.QWidget):
         self.wheel.edited.connect(self._on_wheel_edited)
         self.slider.clicked.connect(self._on_click_slider)
         self.harmonies_selector = None
+        self._prev_color = hcy(0,0,0)
+        self._sequence = 0
+
+    def leaveEvent(self, event):
+        self._sequence += 1
 
     def _on_wheel_edited(self):
         self.edited.emit()
@@ -394,18 +399,22 @@ class HCYSelector(QtGui.QWidget):
 
     enable_editing = property(get_enable_editing, set_enable_editing)
 
-    def _on_click_wheel(self, hue, chroma):
+    def _on_click_wheel(self, mouse_pressed, hue, chroma):
         self.slider.cache.hue = hue
         self.slider.cache.redraw(self.slider.width(), self.slider.height())
         self.update()
-        self.selected.emit(hue, chroma, self.slider.luma)
+        color = hcy(hue, chroma, self.slider.luma)
+        self.selected.emit(self._sequence, self._prev_color, color)
+        self._prev_color = color
 
-    def _on_click_slider(self, luma):
+    def _on_click_slider(self, mouse_pressed, luma):
         self.wheel.set_luma(luma)
         self.update()
-        self.selected.emit(self.wheel.hue, self.wheel.chroma, luma)
+        color = hcy(self.wheel.hue, self.wheel.chroma, luma)
+        self.selected.emit(self._sequence, self._prev_color, color)
+        self._prev_color = color
 
-    def setColor(self, color):
+    def setColor(self, color, no_signal=False):
         if color is None:
             return
         h,c,y = color.getHCY()
@@ -415,6 +424,9 @@ class HCYSelector(QtGui.QWidget):
         self.wheel.set_luma(y)
         self.wheel.select(h,c)
         self.update()
+        if not no_signal:
+            self.selected.emit(self._sequence, self._prev_color, color)
+            self._prev_color = color
 
     def getColor(self):
         return self.wheel.get_color()

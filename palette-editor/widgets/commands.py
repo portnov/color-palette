@@ -86,7 +86,7 @@ class UpdateHarmony(SwatchesCommand):
         self.param = param
 
     def id(self):
-        return 25
+        return 26
 
     def mergeWith(self, other):
         if not isinstance(other, UpdateHarmony):
@@ -198,8 +198,46 @@ class SetShader(SwatchesCommand):
         self.restore_swatches()
         self.owner.shaders.select_item(self.old_shader_idx)
 
+class SelectColor(SwatchesCommand):
+    def __init__(self, owner, selectors, sequence, prev_color, color):
+        SwatchesCommand.__init__(self, owner)
+        self.setText(_("selecting color"))
+        self.selectors = selectors
+        self.prev_color = prev_color
+        self.color = color
+        self.sequence = sequence
+        self._id = hash(selectors[0])
 
+    def id(self):
+        return self._id
 
+    def redo(self):
+        #print "Selecting color:", self.color
+        self.remember_swatches()
+        self.old_base_colors = self.owner.base_colors
+        self.owner.base_colors = {}
+        self.owner.current_color.model.color = self.color
+        self.owner.current_color.update()
+        for selector in self.selectors:
+            selector.setColor(self.color, no_signal=True)
+        self.owner._auto_harmony()
+
+    def undo(self):
+        #print "Restoring color:", self.prev_color
+        self.owner.base_colors = self.old_base_colors
+        self.owner.current_color.model.color = self.prev_color
+        self.owner.current_color.update()
+        for selector in self.selectors:
+            selector.setColor(self.prev_color, no_signal=True)
+        self.restore_swatches()
+
+    def mergeWith(self, other):
+        if not isinstance(other, SelectColor):
+            return False
+        if other.sequence != self.sequence:
+            return False
+        self.color = other.color
+        return True
 
 
 class SetMixer(QtGui.QUndoCommand):
