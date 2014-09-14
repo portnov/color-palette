@@ -107,10 +107,12 @@ class GUI(QtGui.QMainWindow):
 
     def _init_menu(self):
         menu = self.menuBar().addMenu(_("&Edit"))
-        undo = self.undoStack.createUndoAction(self, _("&Undo"))
+        self.undo_action = undo = self.undoStack.createUndoAction(self, _("&Undo"))
         undo.setShortcut(QtGui.QKeySequence.Undo)
-        redo = self.undoStack.createRedoAction(self, _("&Redo"))
+        undo.setIcon(QtGui.QIcon(locate_icon("Edit-undo.png")))
+        self.redo_action = redo = self.undoStack.createRedoAction(self, _("&Redo"))
         redo.setShortcut(QtGui.QKeySequence.Redo)
+        redo.setIcon(QtGui.QIcon(locate_icon("Edit-redo.png")))
         menu.addAction(undo)
         menu.addAction(redo)
 
@@ -128,6 +130,9 @@ class GUI(QtGui.QMainWindow):
                 QtGui.QStyle.SP_DialogSaveButton,
                 _("&Save palette"), self.gui.on_save_palette)
         menu.addSeparator()
+        self.gui.toolbar_palette.addSeparator()
+        self.gui.toolbar_palette.addAction(self.undo_action)
+        self.gui.toolbar_palette.addAction(self.redo_action)
         self.gui.toolbar_palette.addSeparator()
         toggle_edit = create_action(self, self.gui.toolbar_palette, menu,
                 "Gnome-colors-gtk-edit.png",
