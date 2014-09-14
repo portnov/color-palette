@@ -728,7 +728,8 @@ class GUIWidget(QtGui.QWidget):
 
     def _auto_harmony(self):
         if self.auto_harmony.isChecked():
-            self.on_harmony()
+            self._do_harmony()
+            self.update()
 
     def on_set_current_color(self):
         self.base_colors = {}
@@ -830,19 +831,13 @@ class GUIWidget(QtGui.QWidget):
                     print i,j
         #self.hcy_selector.set_harmonized(colors)
 
-    def _do_shades_from_scratchpad(self):
-        colors = self.scratchpad.get_colors()
-        for i, clr in enumerate(colors[:5]):
-            self.base_colors[i] = clr
-        self._do_harmony()
-        self.update()
-
     def on_shades_from_scratchpad(self):
-        self._do_shades_from_scratchpad()
+        command = ShadesFromScratchpad(self)
+        self.undoStack.push(command)
 
     def on_harmony(self):
-        self._do_harmony()
-        self.update()
+        command = DoHarmony(self)
+        self.undoStack.push(command)
 
     def on_harmony_parameter(self, value):
         p = float(value)/100.0

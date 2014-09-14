@@ -1,3 +1,4 @@
+from copy import copy
 from PyQt4 import QtGui, QtCore
 
 from color.colors import *
@@ -32,6 +33,20 @@ class ClearSwatches(SwatchesCommand):
                 w.setColor(None)
                 w.model.color = None
                 w.update()
+
+class DoHarmony(SwatchesCommand):
+    def __init__(self, owner):
+        SwatchesCommand.__init__(self, owner)
+        self.setText(_("creating color harmony"))
+
+    def redo(self):
+        self.remember_swatches()
+        self.owner._do_harmony()
+        self.owner.update()
+
+    def undo(self):
+        self.restore_swatches()
+        self.owner.update()
 
 class ChangeSwatchesColors(SwatchesCommand):
     def __init__(self, owner, text, fn):
@@ -77,6 +92,26 @@ class MakeShades(SwatchesCommand):
         swatch = self.owner.base_swatches[self.row]
         swatch.model.color = self.old_color
         swatch.update()
+
+class ShadesFromScratchpad(SwatchesCommand):
+    def __init__(self, owner):
+        SwatchesCommand.__init__(self, owner)
+        self.setText(_("creating shades of colors from scratchpad"))
+
+    def redo(self):
+        self.remember_swatches()
+        colors = self.owner.scratchpad.get_colors()
+        self.old_base_colors = copy( self.owner.base_colors )
+        for i, clr in enumerate(colors[:5]):
+            self.owner.base_colors[i] = clr
+        self.owner._do_harmony()
+        self.owner.update()
+
+    def undo(self):
+        self.restore_swatches()
+        self.owner.base_colors = self.old_base_colors
+        self.owner.update()
+
 
 class SetShader(SwatchesCommand):
     def __init__(self, owner, old_shader_idx, new_shader_idx):
