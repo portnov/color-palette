@@ -52,7 +52,7 @@ from color.spaces import *
 from palette.palette import Palette
 from palette.widget import PaletteWidget
 from palette.image import PaletteImage
-from palette.commands import ChangeColors
+from palette.commands import ChangeColors, SwatchesToPalette
 from matching.svg_widget import SvgTemplateWidget
 from dialogs.open_palette import *
 from dialogs import filedialog
@@ -589,19 +589,8 @@ class GUIWidget(QtGui.QWidget):
             save_palette(palette, filename)
 
     def on_swatches_to_palette(self):
-        palette = Palette(self.mixer, nrows=len(self.swatches), ncols=len(self.swatches[0]))
-        for i,row in enumerate(self.swatches):
-            for j,w in enumerate(row):
-                clr = w.getColor()
-                if clr is None:
-                    palette.slots[i][j].mark(False)
-                else:
-                    palette.slots[i][j].color = clr
-                    palette.slots[i][j].mark(True)
-        self.palette.palette = palette
-        self.palette.selected_slot = None
-        self.palette.redraw()
-        self.update()
+        command = SwatchesToPalette(self.palette, self.mixer, self.swatches)
+        self.undoStack.push(command)
     
     def on_toggle_edit(self):
         self.palette.editing_enabled = not self.palette.editing_enabled
@@ -734,22 +723,13 @@ class GUIWidget(QtGui.QWidget):
         self.current_color.setColor(color)
         self.current_color.selected.emit()
 
-    def on_select_color(self):
-        self.base_colors = {}
-        color = self.selector.selected_color
-        self.current_color.model.color = color
-        self.current_color.update()
-        self.hcy_selector.setColor(color)
-        self._auto_harmony()
+    def on_select_color(self, sequence, prev_color, color):
+        command = SelectColor(self, [self.selector, self.hcy_selector], sequence, prev_color, color)
+        self.undoStack.push(command)
 
-    def on_select_hcy(self, h, c, y):
-        #print("H: {:.2f}, C: {:.2f}, Y: {:.2f}".format(h,c,y))
-        self.base_colors = {}
-        color = colors.hcy(h,c,y)
-        self.current_color.model.color = color
-        self.current_color.update()
-        self.selector.setColor(color)
-        self._auto_harmony()
+    def on_select_hcy(self, sequence, prev_color, color):
+        command = SelectColor(self, [self.selector, self.hcy_selector], sequence, prev_color, color)
+        self.undoStack.push(command)
 
     def on_select_harmony(self, prev_idx, idx):
         command = SetHarmony(self.selector, self.harmony_slider, self, self.available_harmonies, prev_idx, idx)

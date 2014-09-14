@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-09-14 16:14+YEKT\n"
+"POT-Creation-Date: 2014-09-14 16:25+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -363,79 +363,79 @@ msgstr ""
 msgid "Open palette"
 msgstr ""
 
-#: bin/gui.py:624
+#: bin/gui.py:613
 msgid "making color swatches darker"
 msgstr ""
 
-#: bin/gui.py:629
+#: bin/gui.py:618
 msgid "making color swatches lighter"
 msgstr ""
 
-#: bin/gui.py:634
+#: bin/gui.py:623
 msgid "saturating color swatches"
 msgstr ""
 
-#: bin/gui.py:639
+#: bin/gui.py:628
 msgid "desaturating color swatches"
 msgstr ""
 
-#: bin/gui.py:644
+#: bin/gui.py:633
 msgid "rotating swatches colors counterclockwise"
 msgstr ""
 
-#: bin/gui.py:649
+#: bin/gui.py:638
 msgid "rotating swatches colors clockwise"
 msgstr ""
 
-#: bin/gui.py:654
+#: bin/gui.py:643
 msgid "increasing swatches contrast"
 msgstr ""
 
-#: bin/gui.py:659
+#: bin/gui.py:648
 msgid "decreasing swatches contrast"
 msgstr ""
 
-#: bin/gui.py:665
+#: bin/gui.py:654
 msgid "making palette colors darker"
 msgstr ""
 
-#: bin/gui.py:671
+#: bin/gui.py:660
 msgid "making palette colors lighter"
 msgstr ""
 
-#: bin/gui.py:677
+#: bin/gui.py:666
 msgid "saturating palette colors"
 msgstr ""
 
-#: bin/gui.py:683
+#: bin/gui.py:672
 msgid "desaturating palette colors"
 msgstr ""
 
-#: bin/gui.py:689
+#: bin/gui.py:678
 msgid "rotating palette colors counterclockwise"
 msgstr ""
 
-#: bin/gui.py:695
+#: bin/gui.py:684
 msgid "rotating palette colors clockwise"
 msgstr ""
 
-#: bin/gui.py:701
+#: bin/gui.py:690
 msgid "increasing palette contrast"
 msgstr ""
 
-#: bin/gui.py:707
+#: bin/gui.py:696
 msgid "decreasing palette contrast"
 msgstr ""
 
-#: bin/gui.py:733
+#: bin/gui.py:722
 msgid "Selected from palette: "
 msgstr ""
 
-#: bin/gui.py:855
+#: bin/gui.py:844
 msgid "Open SVG template"
 msgstr ""
 
-#: bin/gui.py:860
+#: bin/gui.py:849
 msgid "Save SVG"
 msgstr ""
 
@@ -535,28 +535,32 @@ msgstr ""
 msgid "No preview"
 msgstr ""
 
-#: palette/commands.py:15
+#: palette/commands.py:16
 msgid "toggling mark on palette slot"
 msgstr ""
 
-#: palette/commands.py:33
+#: palette/commands.py:34
 msgid "changing color in palette slot"
 msgstr ""
 
-#: palette/commands.py:110
+#: palette/commands.py:111
 msgid "deleting palette row"
 msgstr ""
 
-#: palette/commands.py:112
+#: palette/commands.py:113
 msgid "inserting row into palette"
 msgstr ""
 
-#: palette/commands.py:114
+#: palette/commands.py:115
 msgid "deleting palette column"
 msgstr ""
 
-#: palette/commands.py:116
+#: palette/commands.py:117
 msgid "inserting column into palette"
+msgstr ""
+
+#: palette/commands.py:150
+msgid "creating palette from color swatches"
 msgstr ""
 
 #: palette/storage/all.py:24
@@ -623,23 +627,23 @@ msgstr ""
 msgid "creating shades of colors from scratchpad"
 msgstr ""
 
-#: widgets/commands.py:184
+#: widgets/commands.py:183
 msgid "selecting shader"
 msgstr ""
 
-#: widgets/commands.py:206
+#: widgets/commands.py:209
 msgid "selecting color model"
 msgstr ""
 
-#: widgets/commands.py:225
+#: widgets/commands.py:228
 msgid "selecting harmony"
 msgstr ""
 
-#: widgets/commands.py:269
+#: widgets/commands.py:272
 msgid "setting color"
 msgstr ""
 
-#: widgets/commands.py:286
+#: widgets/commands.py:289
 msgid "clearing color swatch"
 msgstr ""
 
