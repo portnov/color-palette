@@ -177,7 +177,6 @@ class ShadesFromScratchpad(SwatchesCommand):
         self.owner.base_colors = self.old_base_colors
         self.owner.update()
 
-
 class SetShader(SwatchesCommand):
     def __init__(self, owner, old_shader_idx, new_shader_idx):
         SwatchesCommand.__init__(self, owner)
@@ -198,6 +197,10 @@ class SetShader(SwatchesCommand):
         self.owner.shader = shader
         self.restore_swatches()
         self.owner.shaders.select_item(self.old_shader_idx)
+
+
+
+
 
 class SetMixer(QtGui.QUndoCommand):
     def __init__(self, owner, pairs, old_mixer_idx, new_mixer_idx):

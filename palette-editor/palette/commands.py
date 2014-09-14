@@ -1,4 +1,5 @@
 
+from copy import copy
 from PyQt4 import QtGui, QtCore
 
 from palette import *
@@ -142,4 +143,34 @@ class ChangeColors(QtGui.QUndoCommand):
             self.palette.paint(row, col, clr)
         self.palette.recalc()
         self.widget.update()
+
+class SwatchesToPalette(QtGui.QUndoCommand):
+    def __init__(self, palette_widget, mixer, swatches):
+        QtGui.QUndoCommand.__init__(self)
+        self.setText(_("creating palette from color swatches"))
+        self.palette_widget = palette_widget
+        self.mixer = mixer
+        self.swatches = swatches
+
+    def redo(self):
+        self.old_palette = copy( self.palette_widget.palette )
+        palette = Palette(self.mixer, nrows=len(self.swatches), ncols=len(self.swatches[0]))
+        for i,row in enumerate(self.swatches):
+            for j,w in enumerate(row):
+                clr = w.getColor()
+                if clr is None:
+                    palette.slots[i][j].mark(False)
+                else:
+                    palette.slots[i][j].color = clr
+                    palette.slots[i][j].mark(True)
+        self.palette_widget.palette = palette
+        self.palette_widget.selected_slot = None
+        self.palette_widget.redraw()
+        self.palette_widget.update()
+
+    def undo(self):
+        self.palette_widget.palette = self.old_palette
+        self.palette_widget.selected_slot = None
+        self.palette_widget.redraw()
+        self.palette_widget.update()
 
