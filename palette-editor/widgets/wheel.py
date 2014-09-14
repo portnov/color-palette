@@ -382,7 +382,7 @@ class HCYSelector(QtGui.QWidget):
         self._prev_color = hcy(0,0,0)
         self._sequence = 0
 
-    def leaveEvent(self, event):
+    def mouseReleaseEvent(self, event):
         self._sequence += 1
 
     def _on_wheel_edited(self):
