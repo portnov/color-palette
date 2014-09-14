@@ -226,6 +226,21 @@ class PaletteWidget(QtGui.QLabel):
         image = self.palette_image.get(width, height)
         return image
 
+    def event(self, event):
+        if event.type() == QtCore.QEvent.ToolTip:
+            self._on_tooltip(event)
+            return True
+        else:
+            return super(PaletteWidget, self).event(event)
+
+    def _on_tooltip(self, event):
+        x,y = event.pos().x(), event.pos().y()
+        row,col = self._get_slot(x,y)
+        slot = self.palette.slots[row][col]
+        color = slot.getColor()
+        if color is not None:
+            QtGui.QToolTip.showText(event.globalPos(), color.verbose())
+
     def paintEvent(self, event):
         w, h = self.size().width(),  self.size().height()
         image_w, image_h = self._get_image_size()
