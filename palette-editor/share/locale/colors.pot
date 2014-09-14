@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-09-14 16:25+YEKT\n"
+"POT-Creation-Date: 2014-09-14 19:11+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -431,11 +431,11 @@ msgstr ""
 msgid "Selected from palette: "
 msgstr ""
 
-#: bin/gui.py:844
+#: bin/gui.py:835
 msgid "Open SVG template"
 msgstr ""
 
-#: bin/gui.py:849
+#: bin/gui.py:840
 msgid "Save SVG"
 msgstr ""
 
@@ -631,19 +631,23 @@ msgstr ""
 msgid "selecting shader"
 msgstr ""
 
-#: widgets/commands.py:209
+#: widgets/commands.py:204
+msgid "selecting color"
+msgstr ""
+
+#: widgets/commands.py:247
 msgid "selecting color model"
 msgstr ""
 
-#: widgets/commands.py:228
+#: widgets/commands.py:266
 msgid "selecting harmony"
 msgstr ""
 
-#: widgets/commands.py:272
+#: widgets/commands.py:310
 msgid "setting color"
 msgstr ""
 
-#: widgets/commands.py:289
+#: widgets/commands.py:327
 msgid "clearing color swatch"
 msgstr ""
 
