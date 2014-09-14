@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2014-09-14 16:25+YEKT\n"
+"POT-Creation-Date: 2014-09-14 19:11+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -431,11 +431,11 @@ msgstr "уменьшение контраста палитры"
 msgid "Selected from palette: "
 msgstr "Выбрано из палитры: "
 
-#: bin/gui.py:844
+#: bin/gui.py:835
 msgid "Open SVG template"
 msgstr "Открыть шаблон SVG"
 
-#: bin/gui.py:849
+#: bin/gui.py:840
 msgid "Save SVG"
 msgstr "Сохранить SVG"
 
@@ -635,18 +635,22 @@ msgstr "создание оттенков цветов из блокнота"
 msgid "selecting shader"
 msgstr "выбор оттенков"
 
-#: widgets/commands.py:209
+#: widgets/commands.py:204
+msgid "selecting color"
+msgstr "выбор цвета"
+
+#: widgets/commands.py:247
 msgid "selecting color model"
 msgstr "выбор цветовой модели"
 
-#: widgets/commands.py:228
+#: widgets/commands.py:266
 msgid "selecting harmony"
 msgstr "выбор гармонии"
 
-#: widgets/commands.py:272
+#: widgets/commands.py:310
 msgid "setting color"
 msgstr "установку цвета"
 
-#: widgets/commands.py:289
+#: widgets/commands.py:327
 msgid "clearing color swatch"
 msgstr "очистку цветового образца"
