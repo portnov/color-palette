@@ -2,7 +2,7 @@
 from PyQt4 import QtGui, QtCore
 
 from color import colors
-from widgets.commands import *
+from widgets.commands.general import *
 
 class Document(object):
     def __init__(self, window):
