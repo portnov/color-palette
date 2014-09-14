@@ -44,7 +44,8 @@ gettext.install("colors", localedir=locate_locales(), unicode=True)
 
 from widgets.widgets import *
 from widgets.scratchpad import *
-from widgets.commands import *
+from widgets.commands.swatches import *
+from widgets.commands.general import *
 from widgets.wheel import HCYSelector
 from color import colors, mixers, harmonies
 from color.colors import Color
@@ -380,7 +381,7 @@ class GUIWidget(QtGui.QWidget):
         box.addWidget(mk_shades)
         vbox_left.addLayout(box)
 
-        self.scratchpad = Scratchpad()
+        self.scratchpad = Scratchpad(self.model.scratchpad)
         vbox_left.addWidget(self.scratchpad, 1)
     
         widget.setLayout(vbox_left)
@@ -566,8 +567,10 @@ class GUIWidget(QtGui.QWidget):
         if palette:
             if to_scratchpad:
                 colors = sum( palette.getColors(), [] )
+                self.undoStack.beginMacro(_("adding colors to scratchpad"))
                 for clr in colors:
-                    self.scratchpad.add_color(clr, repaint=False)
+                    self.scratchpad.add_color(clr)
+                self.undoStack.endMacro()
                 self.scratchpad.repaint()
             else:
                 self._load_palette(palette)

@@ -11,12 +11,22 @@ class Document(object):
 
         self.current_color = ColorModel(self)
 
+        self.scratchpad = ScratchpadModel(self)
+
         self.swatches = [[ColorModel(self) for i in range(5)] for j in range(5)]
 
         self.svg_colors = [[ColorModel(self) for i in range(7)] for j in range(3)]
 
     def get_undo_stack(self):
         return self.undoStack
+
+class ScratchpadModel(object):
+    def __init__(self, parent):
+        self.parent = parent
+        self.colors = []
+
+    def get_undo_stack(self):
+        return self.parent.get_undo_stack()
 
 class ColorModel(object):
     def __init__(self, parent, color=None):

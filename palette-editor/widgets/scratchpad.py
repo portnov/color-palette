@@ -4,14 +4,14 @@ from PyQt4 import QtGui, QtCore
 
 from color.colors import *
 from widgets import create_qdrag_color
+from commands.scratchpad import *
 
 class Scratchpad(QtGui.QWidget):
-    def __init__(self, colors=None, *args, **kwargs):
+    def __init__(self, model, *args, **kwargs):
         QtGui.QWidget.__init__(self, *args, **kwargs)
-        if colors is None:
-            self.colors = []
-        else:
-            self.colors = colors
+        self.model = model
+        self.undoStack = model.get_undo_stack()
+
         self.border_color = Color(0,0,0)
         self.drop_enabled = True
         self.clear_button = QtCore.Qt.RightButton
@@ -24,6 +24,14 @@ class Scratchpad(QtGui.QWidget):
 
         self.setAcceptDrops(True)
         self.setMouseTracking(True)
+
+    def _get_colors(self):
+        return self.model.colors
+
+    def _set_colors(self, lst):
+        self.model.colors = lst
+
+    colors = property(_get_colors, _set_colors)
 
     def _calc(self, w):
         cs = [c for clr,c in self.colors]
@@ -74,12 +82,9 @@ class Scratchpad(QtGui.QWidget):
         return self.colors[idx][0]
 
     def _add_color(self, color, x):
-        if not self.colors:
-            self.colors = [(color, 1.0)]
-            return
-        avg = self._avg()
         idx = self._insert_idx_at_x(x)
-        self.colors.insert(idx, (color, avg))
+        command = InsertColor(self, idx, color)
+        self.undoStack.push(command)
 
     def _clear(self, x):
         if not self.colors:
@@ -106,13 +111,8 @@ class Scratchpad(QtGui.QWidget):
         return event.buttons() & self.drag_button
 
     def add_color(self, color, repaint=True):
-        if not self.colors:
-            self.colors = [(color, 1.0)]
-        else:
-            avg = self._avg()
-            self.colors.append((color, avg))
-        if repaint:
-            self.repaint()
+        command = AddColor(self, color, repaint)
+        self.undoStack.push(command)
 
     def get_colors(self):
         return [clr for clr,c in self.colors]
@@ -204,6 +204,14 @@ class Scratchpad(QtGui.QWidget):
                 qp.drawLine(x0,y0,x0,h)
             x0 += w
         qp.end()
+
+    def dragLeaveEvent(self, event):
+        self._drop_indicate_idx = None
+        self.repaint()
+
+    def leaveEvent(self, event):
+        self._drop_indicate_idx = None
+        self.repaint()
 
     def dragMoveEvent(self, event):
         self._drop_indicate_idx = self._insert_idx_at_x(event.pos().x())
