@@ -90,6 +90,7 @@ class EditLayout(QtGui.QUndoCommand):
             self.palette.del_column(self.idx)
         else:
             self.palette.add_column(self.idx)
+        self.widget.recalc_size()
         self.widget.repaint()
 
     def undo(self):
@@ -104,6 +105,7 @@ class EditLayout(QtGui.QUndoCommand):
         for r,c,clr in self.colors:
             self.palette.paint(r, c, clr)
         self.palette.recalc()
+        self.widget.recalc_size()
         self.widget.repaint()
 
     def actionText(self):

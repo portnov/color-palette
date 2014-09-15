@@ -49,9 +49,14 @@ class PaletteWidget(QtGui.QLabel):
         self.palette.setMixer(mixer)
         self.update()
 
+    def recalc_size(self):
+        r,c = self.palette.nrows, self.palette.ncols
+        self.setMinimumSize(c*30, r*30)
+
     def redraw(self):
         self.palette_image.palette = self.palette
         self.palette_image.invalidate()
+        self.recalc_size()
         self.repaint()
 
     def dragEnterEvent(self, event):
@@ -78,7 +83,7 @@ class PaletteWidget(QtGui.QLabel):
 
     def sizeHint(self):
         r,c = self.palette.nrows, self.palette.ncols
-        return QtCore.QSize(c*20, r*20)
+        return QtCore.QSize(c*50, r*50)
 
     def _get_button_radius(self):
         return self.buttons_size/2.0 - 3

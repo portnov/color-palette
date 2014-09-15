@@ -369,9 +369,9 @@ class GUIWidget(QtGui.QWidget):
         self.mixers.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
         self.mixers.selected.connect(self.on_select_mixer)
         vbox_left.addLayout(labelled(_("Mixing model:"), self.mixers))
-        vbox_left.addWidget(self.palette, 9)
+        vbox_left.addWidget(self.palette)
 
-        #vbox_left.addStretch(1)
+        vbox_left.addSpacerItem(QtGui.QSpacerItem(0,0, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding))
 
         scratchpad_box = QtGui.QVBoxLayout()
         mk_shades = QtGui.QPushButton(_("Shades >>"))
@@ -381,7 +381,9 @@ class GUIWidget(QtGui.QWidget):
         self.scratchpad = Scratchpad(self.model.scratchpad)
         scratchpad_box.addWidget(self.scratchpad,1)
         expander = ExpanderWidget(_("Scratchpad"), scratchpad_box)
-        vbox_left.addWidget(expander, 1)
+        vbox_left.addWidget(expander)
+
+        #vbox_left.addStretch(1)
     
         widget.setLayout(vbox_left)
         return widget
@@ -461,6 +463,7 @@ class GUIWidget(QtGui.QWidget):
 
         self.tabs.addTab(hcy_widget, _("HCY Wheel"))
 
+        self.tabs.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
         vbox_center.addWidget(self.tabs,5)
 
         self.current_color = ColorWidget(self, self.model.current_color)
@@ -487,7 +490,7 @@ class GUIWidget(QtGui.QWidget):
 
         self.shades_slider = slider = ParamSlider()
         slider.changed.connect(self.on_shades_parameter)
-        swatches_vbox.addWidget(slider,1)
+        swatches_vbox.addWidget(slider)
 
         self.toolbar_swatches = QtGui.QToolBar()
         swatches_vbox.addWidget(self.toolbar_swatches)
@@ -503,8 +506,9 @@ class GUIWidget(QtGui.QWidget):
             for i in range(5):
                 swatch = self.model.swatches[i][j]
                 w = ColorWidget(self, swatch)
-                w.setMinimumSize(30,30)
-                #w.setMaximumSize(50,50)
+                w.setMinimumSize(20,20)
+                w.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.MinimumExpanding)
+                w.setMaximumSize(50,40)
                 if i == 2:
                     swatch.set_color_enabled = False
                     w.border_color = Color(0,0,0)
@@ -514,11 +518,12 @@ class GUIWidget(QtGui.QWidget):
                 row.append(w)
                 hbox.addWidget(w)
             self.swatches.append(row)
-            harmonizedBox.addLayout(hbox)
-        swatches_vbox.addLayout(harmonizedBox, 1)
+            harmonizedBox.addLayout(hbox,1)
+        swatches_vbox.addLayout(harmonizedBox)
 
         expander = ExpanderWidget(_("Color swatches"), swatches_vbox)
-        vbox_center.addWidget(expander,1)
+        expander.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.Minimum)
+        vbox_center.addWidget(expander)
 
         widget.setLayout(vbox_center)
         return widget
