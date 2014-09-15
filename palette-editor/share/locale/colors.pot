@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-09-14 22:11+YEKT\n"
+"POT-Creation-Date: 2014-09-15 22:54+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,300 +15,304 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: bin/gui.py:106
+#: bin/gui.py:108
 msgid "Palette editor"
 msgstr ""
 
-#: bin/gui.py:110
+#: bin/gui.py:112
 msgid "&Edit"
 msgstr ""
 
-#: bin/gui.py:111
+#: bin/gui.py:113
 msgid "&Undo"
 msgstr ""
 
-#: bin/gui.py:114
+#: bin/gui.py:116
 msgid "&Redo"
 msgstr ""
 
-#: bin/gui.py:121
+#: bin/gui.py:123
 msgid "&Palette"
 msgstr ""
 
-#: bin/gui.py:124
+#: bin/gui.py:126
 msgid "&Open palette"
 msgstr ""
 
-#: bin/gui.py:128 dialogs/colorlovers.py:145
+#: bin/gui.py:130 dialogs/colorlovers.py:145
 msgid "Download palette from Colorlovers.com"
 msgstr ""
 
-#: bin/gui.py:132
+#: bin/gui.py:134
 msgid "&Save palette"
 msgstr ""
 
-#: bin/gui.py:140
+#: bin/gui.py:142
 msgid "Toggle edit &mode"
 msgstr ""
 
-#: bin/gui.py:146 bin/gui.py:171
+#: bin/gui.py:148 bin/gui.py:173
 msgid "&Darker"
 msgstr ""
 
-#: bin/gui.py:148 bin/gui.py:173
+#: bin/gui.py:150 bin/gui.py:175
 msgid "&Lighter"
 msgstr ""
 
-#: bin/gui.py:150 bin/gui.py:175
+#: bin/gui.py:152 bin/gui.py:177
 msgid "S&aturate"
 msgstr ""
 
-#: bin/gui.py:152 bin/gui.py:177
+#: bin/gui.py:154 bin/gui.py:179
 msgid "D&esaturate"
 msgstr ""
 
-#: bin/gui.py:155 bin/gui.py:179
+#: bin/gui.py:157 bin/gui.py:181
 msgid "&Rotate colors counterclockwise"
 msgstr ""
 
-#: bin/gui.py:158 bin/gui.py:182
+#: bin/gui.py:160 bin/gui.py:184
 msgid "Rotate colors clock&wise"
 msgstr ""
 
-#: bin/gui.py:160 bin/gui.py:184
+#: bin/gui.py:162 bin/gui.py:186
 msgid "Increase &contrast"
 msgstr ""
 
-#: bin/gui.py:162 bin/gui.py:186
+#: bin/gui.py:164 bin/gui.py:188
 msgid "Decrease contras&t"
 msgstr ""
 
-#: bin/gui.py:165
+#: bin/gui.py:167
 msgid "&Swatches"
 msgstr ""
 
-#: bin/gui.py:167
+#: bin/gui.py:169
 msgid "&Harmony"
 msgstr ""
 
-#: bin/gui.py:190
+#: bin/gui.py:192
 msgid "To &palette"
 msgstr ""
 
-#: bin/gui.py:192
+#: bin/gui.py:194
 msgid "C&lear swatches"
 msgstr ""
 
-#: bin/gui.py:194
+#: bin/gui.py:196
 msgid "&Save as palette"
 msgstr ""
 
-#: bin/gui.py:197
+#: bin/gui.py:199
 msgid "&Image"
 msgstr ""
 
-#: bin/gui.py:200
+#: bin/gui.py:202
 msgid "&Open template"
 msgstr ""
 
-#: bin/gui.py:203
+#: bin/gui.py:205
 msgid "&Save resulting SVG"
 msgstr ""
 
-#: bin/gui.py:207
+#: bin/gui.py:209
 msgid "Colorize from s&watches"
 msgstr ""
 
-#: bin/gui.py:209
+#: bin/gui.py:211
 msgid "Colorize from &palette"
 msgstr ""
 
-#: bin/gui.py:211
+#: bin/gui.py:213
 msgid "&Reset colors"
 msgstr ""
 
-#: bin/gui.py:224
+#: bin/gui.py:226
 msgid "RGB"
 msgstr ""
 
-#: bin/gui.py:225
+#: bin/gui.py:227
 msgid "HSV"
 msgstr ""
 
-#: bin/gui.py:226 bin/gui.py:235
+#: bin/gui.py:228 bin/gui.py:237
 msgid "HLS"
 msgstr ""
 
-#: bin/gui.py:227 bin/gui.py:236
+#: bin/gui.py:229 bin/gui.py:238
 msgid "HCY"
 msgstr ""
 
-#: bin/gui.py:228
+#: bin/gui.py:230
 msgid "HCY Desaturate"
 msgstr ""
 
-#: bin/gui.py:229 bin/gui.py:237
+#: bin/gui.py:231 bin/gui.py:239
 msgid "RYB"
 msgstr ""
 
-#: bin/gui.py:230
+#: bin/gui.py:232
 msgid "CMYK"
 msgstr ""
 
-#: bin/gui.py:231
+#: bin/gui.py:233
 msgid "CMY"
 msgstr ""
 
-#: bin/gui.py:232
+#: bin/gui.py:234
 msgid "HSI (experimental)"
 msgstr ""
 
-#: bin/gui.py:232 bin/gui.py:237
+#: bin/gui.py:234 bin/gui.py:239
 msgid "LCh"
 msgstr ""
 
-#: bin/gui.py:233
+#: bin/gui.py:235
 msgid "Lab"
 msgstr ""
 
-#: bin/gui.py:239
+#: bin/gui.py:241
 msgid "Opposite colors LCh"
 msgstr ""
 
-#: bin/gui.py:240
+#: bin/gui.py:242
 msgid "Split complimentary LCh"
 msgstr ""
 
-#: bin/gui.py:241
+#: bin/gui.py:243
 msgid "Similar colors LCh"
 msgstr ""
 
-#: bin/gui.py:242
+#: bin/gui.py:244
 msgid "Similar and opposite LCh"
 msgstr ""
 
-#: bin/gui.py:243
+#: bin/gui.py:245
 msgid "Rectangle LCh"
 msgstr ""
 
-#: bin/gui.py:244
+#: bin/gui.py:246
 msgid "Three colors LCh"
 msgstr ""
 
-#: bin/gui.py:245
+#: bin/gui.py:247
 msgid "Four colors LCh"
 msgstr ""
 
-#: bin/gui.py:246
+#: bin/gui.py:248
 msgid "Five colors LCh"
 msgstr ""
 
-#: bin/gui.py:249
+#: bin/gui.py:251
 msgid "Just opposite"
 msgstr ""
 
-#: bin/gui.py:250
+#: bin/gui.py:252
 msgid "Split complimentary"
 msgstr ""
 
-#: bin/gui.py:251
+#: bin/gui.py:253
 msgid "Three colors"
 msgstr ""
 
-#: bin/gui.py:252
+#: bin/gui.py:254
 msgid "Four colors"
 msgstr ""
 
-#: bin/gui.py:253
+#: bin/gui.py:255
 msgid "Rectangle"
 msgstr ""
 
-#: bin/gui.py:254
+#: bin/gui.py:256
 msgid "Five colors"
 msgstr ""
 
-#: bin/gui.py:255
+#: bin/gui.py:257
 msgid "Similar colors"
 msgstr ""
 
-#: bin/gui.py:256
+#: bin/gui.py:258
 msgid "Similar and opposite"
 msgstr ""
 
-#: bin/gui.py:257
+#: bin/gui.py:259
 msgid "Split complimentary RYB"
 msgstr ""
 
-#: bin/gui.py:258
+#: bin/gui.py:260
 msgid "Similar colors RYB"
 msgstr ""
 
-#: bin/gui.py:259
+#: bin/gui.py:261
 msgid "Similar and opposite RYB"
 msgstr ""
 
-#: bin/gui.py:260
+#: bin/gui.py:262
 msgid "Opposite colors RYB"
 msgstr ""
 
-#: bin/gui.py:261
+#: bin/gui.py:263
 msgid "Three colors RYB"
 msgstr ""
 
-#: bin/gui.py:262
+#: bin/gui.py:264
 msgid "Four colors RYB"
 msgstr ""
 
-#: bin/gui.py:263
+#: bin/gui.py:265
 msgid "Rectangle RYB"
 msgstr ""
 
-#: bin/gui.py:264
+#: bin/gui.py:266
 msgid "Five colors RYB"
 msgstr ""
 
-#: bin/gui.py:266
+#: bin/gui.py:268
 msgid "Saturation"
 msgstr ""
 
-#: bin/gui.py:267
+#: bin/gui.py:269
 msgid "Value"
 msgstr ""
 
-#: bin/gui.py:268
+#: bin/gui.py:270
 msgid "Chroma"
 msgstr ""
 
-#: bin/gui.py:269
+#: bin/gui.py:271
 msgid "Luma"
 msgstr ""
 
-#: bin/gui.py:270
+#: bin/gui.py:272
 msgid "Hue"
 msgstr ""
 
-#: bin/gui.py:271
+#: bin/gui.py:273
 msgid "Hue + Luma"
 msgstr ""
 
-#: bin/gui.py:272
+#: bin/gui.py:274
 msgid "Chroma + Luma"
 msgstr ""
 
-#: bin/gui.py:273
+#: bin/gui.py:275
 msgid "Chroma - Luma"
 msgstr ""
 
-#: bin/gui.py:274
+#: bin/gui.py:276
 msgid "Warmer"
 msgstr ""
 
-#: bin/gui.py:275
+#: bin/gui.py:277
 msgid "Cooler"
 msgstr ""
 
-#: bin/gui.py:311
+#: bin/gui.py:312
 msgid "Colors from original image:"
+msgstr ""
+
+#: bin/gui.py:343
+msgid "Preview"
 msgstr ""
 
 #: bin/gui.py:371
@@ -316,130 +320,134 @@ msgid "Mixing model:"
 msgstr ""
 
 #: bin/gui.py:377
-msgid "Scratchpad:"
-msgstr ""
-
-#: bin/gui.py:379
 msgid "Shades >>"
 msgstr ""
 
-#: bin/gui.py:403
+#: bin/gui.py:383
+msgid "Scratchpad"
+msgstr ""
+
+#: bin/gui.py:402
 msgid "Selector model:"
 msgstr ""
 
-#: bin/gui.py:408 bin/gui.py:436
+#: bin/gui.py:407 bin/gui.py:435
 msgid "Harmony:"
 msgstr ""
 
-#: bin/gui.py:428
+#: bin/gui.py:427
 msgid "Square"
 msgstr ""
 
-#: bin/gui.py:434
+#: bin/gui.py:433
 msgid "Manual"
 msgstr ""
 
-#: bin/gui.py:463
+#: bin/gui.py:462
 msgid "HCY Wheel"
 msgstr ""
 
-#: bin/gui.py:475
-msgid "Auto"
-msgstr ""
-
-#: bin/gui.py:486
+#: bin/gui.py:479
 msgid "Shades:"
 msgstr ""
 
-#: bin/gui.py:543 bin/gui.py:590
+#: bin/gui.py:482
+msgid "Auto"
+msgstr ""
+
+#: bin/gui.py:520
+msgid "Color swatches"
+msgstr ""
+
+#: bin/gui.py:546 bin/gui.py:593
 msgid "Save palette"
 msgstr ""
 
-#: bin/gui.py:548
+#: bin/gui.py:551
 msgid "Save palette image"
 msgstr ""
 
-#: bin/gui.py:561
+#: bin/gui.py:564
 msgid "Open palette"
 msgstr ""
 
-#: bin/gui.py:570
+#: bin/gui.py:573
 msgid "adding colors to scratchpad"
 msgstr ""
 
-#: bin/gui.py:621
+#: bin/gui.py:624
 msgid "making color swatches darker"
 msgstr ""
 
-#: bin/gui.py:626
+#: bin/gui.py:629
 msgid "making color swatches lighter"
 msgstr ""
 
-#: bin/gui.py:631
+#: bin/gui.py:634
 msgid "saturating color swatches"
 msgstr ""
 
-#: bin/gui.py:636
+#: bin/gui.py:639
 msgid "desaturating color swatches"
 msgstr ""
 
-#: bin/gui.py:641
+#: bin/gui.py:644
 msgid "rotating swatches colors counterclockwise"
 msgstr ""
 
-#: bin/gui.py:646
+#: bin/gui.py:649
 msgid "rotating swatches colors clockwise"
 msgstr ""
 
-#: bin/gui.py:651
+#: bin/gui.py:654
 msgid "increasing swatches contrast"
 msgstr ""
 
-#: bin/gui.py:656
+#: bin/gui.py:659
 msgid "decreasing swatches contrast"
 msgstr ""
 
-#: bin/gui.py:662
+#: bin/gui.py:665
 msgid "making palette colors darker"
 msgstr ""
 
-#: bin/gui.py:668
+#: bin/gui.py:671
 msgid "making palette colors lighter"
 msgstr ""
 
-#: bin/gui.py:674
+#: bin/gui.py:677
 msgid "saturating palette colors"
 msgstr ""
 
-#: bin/gui.py:680
+#: bin/gui.py:683
 msgid "desaturating palette colors"
 msgstr ""
 
-#: bin/gui.py:686
+#: bin/gui.py:689
 msgid "rotating palette colors counterclockwise"
 msgstr ""
 
-#: bin/gui.py:692
+#: bin/gui.py:695
 msgid "rotating palette colors clockwise"
 msgstr ""
 
-#: bin/gui.py:698
+#: bin/gui.py:701
 msgid "increasing palette contrast"
 msgstr ""
 
-#: bin/gui.py:704
+#: bin/gui.py:707
 msgid "decreasing palette contrast"
 msgstr ""
 
-#: bin/gui.py:730
+#: bin/gui.py:733
 msgid "Selected from palette: "
 msgstr ""
 
-#: bin/gui.py:843
+#: bin/gui.py:846
 msgid "Open SVG template"
 msgstr ""
 
-#: bin/gui.py:848
+#: bin/gui.py:851
 msgid "Save SVG"
 msgstr ""
 
