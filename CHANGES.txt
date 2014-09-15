@@ -1,3 +1,11 @@
+0.0.4, 2014/09/09
+  * New harmonies
+  * Load palette when dropping file to palette widget
+  * Open template when dropping SVG file to widget
+  * Implement downloading palettes from Colorlovers.com
+  * Additional color swatches - "scratchpad"
+  * Slightly better algorithm for matching colors for SVG templates
+  * Generate shades automatically when color in middle swatch in row is selected
 0.0.3, 2014/09/03
   * Implement "Auto" mode, when harmonized colors are recalculated automatically 
     when changing current color.
