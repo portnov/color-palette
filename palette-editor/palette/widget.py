@@ -241,10 +241,13 @@ class PaletteWidget(QtGui.QLabel):
     def _on_tooltip(self, event):
         x,y = event.pos().x(), event.pos().y()
         row,col = self._get_slot(x,y)
-        slot = self.palette.slots[row][col]
-        color = slot.getColor()
-        if color is not None:
-            QtGui.QToolTip.showText(event.globalPos(), color.verbose())
+        try:
+            slot = self.palette.slots[row][col]
+            color = slot.getColor()
+            if color is not None:
+                QtGui.QToolTip.showText(event.globalPos(), color.verbose())
+        except IndexError:
+            pass
 
     def paintEvent(self, event):
         w, h = self.size().width(),  self.size().height()
