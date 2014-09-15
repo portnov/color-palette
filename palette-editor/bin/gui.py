@@ -47,6 +47,7 @@ from widgets.scratchpad import *
 from widgets.commands.swatches import *
 from widgets.commands.general import *
 from widgets.wheel import HCYSelector
+from widgets.expander import ExpanderWidget
 from color import colors, mixers, harmonies
 from color.colors import Color
 from color.spaces import *
@@ -62,6 +63,7 @@ from models.models import *
 
 def locate_icon(name):
     return join(datarootdir, "icons", name)
+__builtins__.locate_icon = locate_icon
 
 def locate_template(name):
     return join(datarootdir, "templates", name)
@@ -104,7 +106,7 @@ class GUI(QtGui.QMainWindow):
         self.setCentralWidget(self.gui)
 
         self.setWindowTitle(_("Palette editor"))
-        self.resize(800, 600)
+        self.resize(600, 800)
 
     def _init_menu(self):
         menu = self.menuBar().addMenu(_("&Edit"))
@@ -300,7 +302,6 @@ class GUIWidget(QtGui.QWidget):
         self.setLayout(hbox)
 
     def _init_svg_widgets(self):
-        widget = QtGui.QWidget()
         vbox_right = QtGui.QVBoxLayout()
 
         self.toolbar_template = QtGui.QToolBar()
@@ -339,8 +340,7 @@ class GUIWidget(QtGui.QWidget):
         vbox_right.addWidget(self.svg)
         vbox_right.addStretch()
         
-        widget.setLayout(vbox_right)
-        return widget
+        return ExpanderWidget(_("Preview"), vbox_right, vertical=True)
 
     def _init_palette_widgets(self):
         widget = QtGui.QWidget()
@@ -371,18 +371,17 @@ class GUIWidget(QtGui.QWidget):
         vbox_left.addLayout(labelled(_("Mixing model:"), self.mixers))
         vbox_left.addWidget(self.palette, 9)
 
-        vbox_left.addStretch(1)
+        #vbox_left.addStretch(1)
 
-        box = QtGui.QHBoxLayout()
-        label = QtGui.QLabel(_("Scratchpad:"))
-        box.addWidget(label)
+        scratchpad_box = QtGui.QVBoxLayout()
         mk_shades = QtGui.QPushButton(_("Shades >>"))
         mk_shades.clicked.connect(self.on_shades_from_scratchpad)
-        box.addWidget(mk_shades)
-        vbox_left.addLayout(box)
+        scratchpad_box.addWidget(mk_shades)
 
         self.scratchpad = Scratchpad(self.model.scratchpad)
-        vbox_left.addWidget(self.scratchpad, 1)
+        scratchpad_box.addWidget(self.scratchpad,1)
+        expander = ExpanderWidget(_("Scratchpad"), scratchpad_box)
+        vbox_left.addWidget(expander, 1)
     
         widget.setLayout(vbox_left)
         return widget
@@ -462,41 +461,42 @@ class GUIWidget(QtGui.QWidget):
 
         self.tabs.addTab(hcy_widget, _("HCY Wheel"))
 
-        vbox_center.addWidget(self.tabs, 2)
-
-        box = QtGui.QHBoxLayout()
+        vbox_center.addWidget(self.tabs,5)
 
         self.current_color = ColorWidget(self, self.model.current_color)
         self.current_color.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
         self.current_color.setMaximumSize(100,50)
         self.current_color.selected.connect(self.on_set_current_color)
-        box.addWidget(self.current_color)
+        vbox_center.addWidget(self.current_color)
 
-        self.auto_harmony = QtGui.QPushButton(_("Auto"))
-        self.auto_harmony.setIcon(self.style().standardIcon(QtGui.QStyle.SP_ArrowDown))
-        self.auto_harmony.setCheckable(True)
-        box.addWidget(self.auto_harmony)
-
-        vbox_center.addLayout(box)
+        swatches_vbox = QtGui.QVBoxLayout()
         
         self.shaders = ClassSelector(pairs = self.available_shaders)
         self.shaders.selected.connect(self.on_select_shader)
         self.shader = harmonies.Saturation
 
-        vbox_center.addLayout(labelled(_("Shades:"), self.shaders))
+        box = QtGui.QHBoxLayout()
+        box.addWidget(QtGui.QLabel(_("Shades:")), 1)
+        box.addWidget(self.shaders, 3)
+
+        self.auto_harmony = QtGui.QPushButton(_("Auto"))
+        self.auto_harmony.setIcon(self.style().standardIcon(QtGui.QStyle.SP_ArrowDown))
+        self.auto_harmony.setCheckable(True)
+        box.addWidget(self.auto_harmony, 1)
+        swatches_vbox.addLayout(box)
 
         self.shades_slider = slider = ParamSlider()
         slider.changed.connect(self.on_shades_parameter)
-        vbox_center.addWidget(slider,1)
+        swatches_vbox.addWidget(slider,1)
 
         self.toolbar_swatches = QtGui.QToolBar()
-        vbox_center.addWidget(self.toolbar_swatches)
+        swatches_vbox.addWidget(self.toolbar_swatches)
 
         self.base_colors = {}
         self.base_swatches = []
         self.harmonized = []
         self.swatches = []
-        self.harmonizedBox = QtGui.QVBoxLayout()
+        harmonizedBox = QtGui.QVBoxLayout()
         for j in range(5):
             row = []
             hbox = QtGui.QHBoxLayout()
@@ -514,9 +514,12 @@ class GUIWidget(QtGui.QWidget):
                 row.append(w)
                 hbox.addWidget(w)
             self.swatches.append(row)
-            self.harmonizedBox.addLayout(hbox)
+            harmonizedBox.addLayout(hbox)
+        swatches_vbox.addLayout(harmonizedBox, 1)
 
-        vbox_center.addLayout(self.harmonizedBox, 1)
+        expander = ExpanderWidget(_("Color swatches"), swatches_vbox)
+        vbox_center.addWidget(expander,1)
+
         widget.setLayout(vbox_center)
         return widget
 

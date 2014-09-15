@@ -7,8 +7,8 @@ from widgets import create_qdrag_color
 from commands.scratchpad import *
 
 class Scratchpad(QtGui.QWidget):
-    def __init__(self, model, *args, **kwargs):
-        QtGui.QWidget.__init__(self, *args, **kwargs)
+    def __init__(self, model, parent=None, *args, **kwargs):
+        QtGui.QWidget.__init__(self, parent, *args, **kwargs)
         self.model = model
         self.undoStack = model.get_undo_stack()
 
@@ -24,6 +24,10 @@ class Scratchpad(QtGui.QWidget):
 
         self.setAcceptDrops(True)
         self.setMouseTracking(True)
+        self.setMinimumSize(100, 50)
+
+    def sizeHint(self):
+        return QtCore.QSize(200, 50)
 
     def _get_colors(self):
         return self.model.colors
@@ -197,6 +201,7 @@ class Scratchpad(QtGui.QWidget):
         drag.exec_()
 
     def paintEvent(self, event):
+        #print "painting scratchpad"
         qp = QtGui.QPainter()
         qp.begin(self)
         w, h = self.size().width(),  self.size().height()
