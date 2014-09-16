@@ -42,6 +42,10 @@ class ClassSelector(QtGui.QComboBox):
     def get_item(self, idx):
         _, cls = self.pairs[idx]
         return cls
+
+    def get_current_item(self):
+        idx = self.currentIndex()
+        return self.get_item(idx)
     
     def select_item(self, idx):
         self._skip_select = True

@@ -71,11 +71,12 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
         self._need_render = True
         self._update()
 
-    def setColors(self, dst_colors):
+    def setColors(self, dst_colors, space=HCY):
         if not dst_colors:
             return
+        print("Matching colors in space: {}".format(space))
         self._dst_colors = dst_colors
-        self._colors = transform.match_colors(HCY, self._svg_colors, dst_colors)
+        self._colors = transform.match_colors(space, self._svg_colors, dst_colors)
         #self._colors = matching.match_colors(self._svg_colors, dst_colors)
         self._need_render = True
         self._update()

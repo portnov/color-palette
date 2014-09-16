@@ -307,6 +307,17 @@ class GUIWidget(QtGui.QWidget):
         self.toolbar_template = QtGui.QToolBar()
         vbox_right.addWidget(self.toolbar_template)
 
+        matching_spaces = [(_("HCY"), HCY),
+                           (_("HSV"), HSV),
+                           (_("HLS"), HLS),
+                           (_("RGB"), RGB),
+                           (_("RYB"), RYB)]
+        if use_lcms:
+            matching_spaces.append((_("LCh"), LCh))
+            matching_spaces.append((_("Lab"), Lab))
+
+        self.matching_spaces = ClassSelector(pairs = matching_spaces)
+        vbox_right.addLayout(labelled(_("Colors matching space:"), self.matching_spaces))
 
         self.svg_colors = []
         label = QtGui.QLabel(_("Colors from original image:"))
@@ -835,12 +846,15 @@ class GUIWidget(QtGui.QWidget):
         self.undoStack.push(command)
 
     def on_colorize_harmony(self):
-        self.svg.setColors([w.getColor() for w in self.harmonized if w.getColor() is not None])
+        dst_colors = [w.getColor() for w in self.harmonized if w.getColor() is not None]
+        space = self.matching_spaces.get_current_item()
+        self.svg.setColors(dst_colors, space)
         self.update()
 
     def on_colorize_palette(self):
         xs = self.palette.palette.getColors()
-        self.svg.setColors(sum(xs,[]))
+        space = self.matching_spaces.get_current_item()
+        self.svg.setColors(sum(xs,[]), space)
         self.update()
 
     def on_reset_template(self):

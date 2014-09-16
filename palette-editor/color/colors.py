@@ -486,6 +486,11 @@ def lch(l, c, h):
     color.setLCh((l,c,h))
     return color
 
+def lab(l,a,b):
+    color = Color()
+    color.setLab((l,a,b))
+    return color
+
 def fromHex(s):
     t = s[1:]
     if len(t) == 3:

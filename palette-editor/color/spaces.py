@@ -39,6 +39,15 @@ class HSV(Space):
     def fromCoords(cls, coords):
         return hsv(*coords)
 
+class HLS(Space):
+    @classmethod
+    def getCoords(cls, color):
+        return color.getHLS()
+
+    @classmethod
+    def fromCoords(cls, coords):
+        return hls(*coords)
+
 class HCY(Space):
     @classmethod
     def getCoords(cls, color):
@@ -57,6 +66,18 @@ class RYB(Space):
     def fromCoords(cls, coords):
         return ryb(*coords)
 
+class CMY(Space):
+    @classmethod
+    def getCoords(cls, color):
+        c,m,y = color.getCMY()
+        return (c,m,y)
+    
+    @classmethod
+    def fromCoords(cls, coords):
+        c,m,y = coords
+        color = Color()
+        color.setCMY((c,m,y))
+        return color
 
 class LCh(Space):
     @classmethod
@@ -68,4 +89,15 @@ class LCh(Space):
     def fromCoords(cls, coords):
         h,c,l = coords
         return lch(l*100.0, c*100.0, h*360.0)
+
+class Lab(Space):
+    @classmethod
+    def getCoords(cls, color):
+        l,a,b = color.getLab()
+        return (l,a,b)
+
+    @classmethod
+    def fromCoords(cls, coords):
+        l,a,b = coords
+        return lab(l,a,b)
 

@@ -182,16 +182,25 @@ def match_colors(space, colors1, colors2):
     points2 = [color_row(space, c) for c in colors2 if c is not None]
     c1 = get_center(points1)
     c2 = get_center(points2)
-    #transfer = c2 - c1
-    sz1 = max([rho(c1, p) for p in points1])
-    sz2 = max([rho(c2, p) for p in points2])
-    zoom = sz2 / sz1 if sz1 != 0 else 1.0
+    #print c1, c2
+    print("Centers difference: {}".format(c2-c1))
+    szs1 = np.vstack([abs(c1-p) for p in points1]).max(axis=0)
+    szs2 = np.vstack([abs(c2-p) for p in points2]).max(axis=0)
+    if (szs1 == 0).any():
+        zoom = np.array([1,1,1])
+    else:
+        zoom = szs2 / szs1
+    print("Scale by axes: {}".format(zoom))
     transformed = [(p-c1)*zoom + c2 for p in points1]
     occupied = []
     matched = []
+    deltas = []
     for x in transformed:
         y = get_nearest(x, occupied, points2)
         matched.append(y)
+        deltas.append(abs(y-x))
+    delta = np.vstack(deltas).max(axis=0)
+    print("Maximum deltas from affine transformed to source colors: {}".format(delta))
     return [space.fromCoords(x) for x in matched]
 
 def find_simple_transform(space, colors1, colors2):
@@ -200,9 +209,12 @@ def find_simple_transform(space, colors1, colors2):
     c1 = get_center(points1)
     c2 = get_center(points2)
     #transfer = c2 - c1
-    sz1 = max([rho(c1, p) for p in points1])
-    sz2 = max([rho(c2, p) for p in points2])
-    zoom = sz2 / sz1 if sz1 != 0 else 1.0
+    szs1 = max([abs(c1-p) for p in points1])
+    szs2 = max([abs(c2-p) for p in points2])
+    if (szs1 == 0).any():
+        zoom = np.array([1,1,1])
+    else:
+        zoom = szs2 / szs1
     return (c1, c2, zoom)
 
 if __name__ == "__main__":
