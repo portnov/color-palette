@@ -6,7 +6,7 @@ class ToggleLabel(QtGui.QLabel):
     
     def __init__(self, parent=None, vertical=False, expanded=True, text=None):
         QtGui.QLabel.__init__(self, parent)
-        self.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
+        self.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Maximum)
         self.text = text
         self.expanded = expanded
         self.vertical = vertical

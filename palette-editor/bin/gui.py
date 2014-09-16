@@ -305,6 +305,7 @@ class GUIWidget(QtGui.QWidget):
         vbox_right = QtGui.QVBoxLayout()
 
         self.toolbar_template = QtGui.QToolBar()
+        self.toolbar_palette.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.Maximum)
         vbox_right.addWidget(self.toolbar_template)
 
         matching_spaces = [(_("HCY"), HCY),
@@ -337,7 +338,7 @@ class GUIWidget(QtGui.QWidget):
             vbox_svg.addLayout(hbox_svg)
         vbox_right.addLayout(vbox_svg)
 
-        vbox_right.addStretch()
+        #vbox_right.addStretch()
 
         self.svg = SvgTemplateWidget(self)
         #self.svg.setMinimumSize(300,300)
@@ -349,7 +350,9 @@ class GUIWidget(QtGui.QWidget):
         self.svg.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         self.svg.loadTemplate(locate_template("template.svg"))
         vbox_right.addWidget(self.svg)
-        vbox_right.addStretch()
+
+        #vbox_right.addStretch()
+        vbox_right.addSpacerItem(QtGui.QSpacerItem(0,0, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding))
         
         return ExpanderWidget(_("Preview"), vbox_right, vertical=True)
 
