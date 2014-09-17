@@ -47,6 +47,7 @@ from widgets.scratchpad import *
 from widgets.commands.swatches import *
 from widgets.commands.general import *
 from widgets.wheel import HCYSelector
+from widgets.labselector import LabSelector
 from widgets.expander import ExpanderWidget
 from color import colors, mixers, harmonies
 from color.colors import Color
@@ -406,6 +407,16 @@ class GUIWidget(QtGui.QWidget):
         widget = QtGui.QWidget()
         vbox_center = QtGui.QVBoxLayout()
 
+        self.harmonies = ClassSelector(pairs=self.available_harmonies)
+        self.harmonies.selected.connect(self.on_select_harmony)
+        self.harmonies.addItem(_("Manual"))
+        vbox_center.addLayout(labelled(_("Harmony:"), self.harmonies))
+        
+        self.harmony_slider = slider = ParamSlider()
+        slider.changed.connect(self.on_harmony_parameter)
+        slider.setEnabled(False)
+        vbox_center.addWidget(slider,1)
+
         self.tabs = QtGui.QTabWidget()
 
         selector_box = QtGui.QVBoxLayout()
@@ -417,16 +428,7 @@ class GUIWidget(QtGui.QWidget):
 
         form.addRow(_("Selector model:"), self.selector_mixers)
 
-        self.harmonies = ClassSelector(pairs=self.available_harmonies)
-        self.harmonies.selected.connect(self.on_select_harmony)
-
-        form.addRow(_("Harmony:"), self.harmonies)
         selector_box.addLayout(form)
-
-        self.harmony_slider = slider = ParamSlider()
-        slider.changed.connect(self.on_harmony_parameter)
-        slider.setEnabled(False)
-        selector_box.addWidget(slider,1)
 
         self.selector = Selector(mixers.MixerHLS)
         self.selector.class_selector = self.selector_mixers
@@ -445,16 +447,6 @@ class GUIWidget(QtGui.QWidget):
         hcy_widget = QtGui.QWidget()
         hcy_box = QtGui.QVBoxLayout()
 
-        self.hcy_harmonies = hcy_harmonies = ClassSelector(pairs = self.available_harmonies)
-        hcy_harmonies.addItem(_("Manual"))
-        hcy_harmonies.selected.connect(self.on_select_hcy_harmony)
-        hcy_box.addLayout(labelled(_("Harmony:"), hcy_harmonies), 1)
-
-        self.hcy_harmony_slider = slider = ParamSlider()
-        slider.changed.connect(self.on_harmony_parameter)
-        slider.setEnabled(False)
-        hcy_box.addWidget(slider,1)
-
         self.hcy_selector = HCYSelector()
         self.hcy_selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
         self.hcy_selector.setMinimumSize(150,150)
@@ -462,7 +454,7 @@ class GUIWidget(QtGui.QWidget):
         self.hcy_selector.enable_editing = True
         self.hcy_selector.set_harmony(harmonies.Opposite(HSV))
         self.hcy_selector.selected.connect(self.on_select_hcy)
-        self.hcy_selector.harmonies_selector = self.hcy_harmonies
+        self.hcy_selector.harmonies_selector = self.harmonies
         self.hcy_selector.edited.connect(self.on_hcy_edit)
 
         hcy_box.addWidget(self.hcy_selector, 5)
@@ -476,6 +468,15 @@ class GUIWidget(QtGui.QWidget):
         hcy_widget.setLayout(hcy_box)
 
         self.tabs.addTab(hcy_widget, _("HCY Wheel"))
+
+        if use_lcms:
+            self.lab_selector = LabSelector()
+            self.lab_selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
+            self.lab_selector.setHarmony(harmonies.Opposite(HSV))
+            self.lab_selector.setMinimumSize(150,150)
+            self.lab_selector.setMaximumSize(500,500)
+            self.lab_selector.selected.connect(self.on_select_lab)
+            self.tabs.addTab(self.lab_selector, _("Lab Square"))
 
         self.tabs.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
         vbox_center.addWidget(self.tabs,5)
@@ -753,20 +754,33 @@ class GUIWidget(QtGui.QWidget):
         self.current_color.setColor(color)
         self.current_color.selected.emit()
 
+    def _get_selectors(self):
+        selectors = [self.selector, self.hcy_selector]
+        if use_lcms:
+            selectors.append(self.lab_selector)
+        return selectors
+
     def on_select_color(self, sequence, prev_color, color):
-        command = SelectColor(self, [self.selector, self.hcy_selector], sequence, prev_color, color)
+        selectors = self._get_selectors()
+        command = SelectColor(self, selectors, sequence, prev_color, color)
         self.undoStack.push(command)
 
     def on_select_hcy(self, sequence, prev_color, color):
-        command = SelectColor(self, [self.selector, self.hcy_selector], sequence, prev_color, color)
+        selectors = self._get_selectors()
+        command = SelectColor(self, selectors, sequence, prev_color, color)
         self.undoStack.push(command)
+
+    def on_select_lab(self, sequence, prev_color, color):
+        selectors = self._get_selectors()
+        command = SelectColor(self, selectors, sequence, prev_color, color)
+        self.undoStack.push(command)
+
+    def _get_selector(self):
+        selectors = self._get_selectors()
+        return selectors[self.tabs.currentIndex()]
 
     def on_select_harmony(self, prev_idx, idx):
-        command = SetHarmony(self.selector, self.harmony_slider, self, self.available_harmonies, prev_idx, idx)
-        self.undoStack.push(command)
-
-    def on_select_hcy_harmony(self, prev_idx, idx):
-        command = SetHarmony(self.hcy_selector, self.hcy_harmony_slider, self, self.available_harmonies, prev_idx, idx, True)
+        command = SetHarmony(self._get_selectors(), self.harmony_slider, self, self.available_harmonies, prev_idx, idx)
         self.undoStack.push(command)
 
     def on_select_shader(self, prev_idx, idx):
@@ -798,10 +812,7 @@ class GUIWidget(QtGui.QWidget):
         self.update()
 
     def _get_base_colors(self):
-        if self.tabs.currentIndex() != 1:
-            colors = copy(self.selector.harmonized)
-        else:
-            colors = copy( self.hcy_selector.get_harmonized() )
+        colors = copy( self._get_selector().get_harmonized() )
         if colors is None:
             return None
         for i in self.base_colors.iterkeys():
@@ -841,7 +852,7 @@ class GUIWidget(QtGui.QWidget):
         self.undoStack.push(command)
 
     def on_harmony_parameter(self, prev_value, value):
-        command = UpdateHarmony(self, prev_value, value)
+        command = UpdateHarmony(self, self._get_selectors(), prev_value, value)
         self.undoStack.push(command)
 
     def on_shades_parameter(self, prev_value, value):

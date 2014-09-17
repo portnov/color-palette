@@ -79,11 +79,12 @@ class UpdateShades(SwatchesCommand):
         self.owner.shades_slider.set_value(self.prev_param)
 
 class UpdateHarmony(SwatchesCommand):
-    def __init__(self, owner, prev_param, param):
+    def __init__(self, owner, selectors, prev_param, param):
         SwatchesCommand.__init__(self, owner)
         self.setText(_("changing color harmony"))
         self.prev_param = prev_param
         self.param = param
+        self.selectors = selectors
 
     def id(self):
         return 26
@@ -99,18 +100,16 @@ class UpdateHarmony(SwatchesCommand):
         #print "UpdateHarmony"
         self.remember_swatches()
         p = float(self.param)/100.0
-        self.owner.selector.set_harmony_parameter(p)
-        self.owner.hcy_selector.set_harmony_parameter(p)
+        for selector in self.selectors:
+            selector.set_harmony_parameter(p)
         self.owner._auto_harmony()
-        self.owner.hcy_harmony_slider.set_value(self.param)
         self.owner.harmony_slider.set_value(self.param)
 
     def undo(self):
         self.restore_swatches()
         p = float(self.prev_param)/100.0
-        self.owner.selector.set_harmony_parameter(p)
-        self.owner.hcy_selector.set_harmony_parameter(p)
-        self.owner.hcy_harmony_slider.set_value(self.prev_param)
+        for selector in self.selectors:
+            selector.set_harmony_parameter(p)
         self.owner.harmony_slider.set_value(self.prev_param)
 
 class ChangeSwatchesColors(SwatchesCommand):
@@ -220,7 +219,8 @@ class SelectColor(SwatchesCommand):
         self.owner.current_color.model.color = self.color
         self.owner.current_color.update()
         for selector in self.selectors:
-            selector.setColor(self.color, no_signal=True)
+            if selector.isVisible():
+                selector.setColor(self.color, no_signal=True)
         self.owner._auto_harmony()
 
     def undo(self):
@@ -229,7 +229,8 @@ class SelectColor(SwatchesCommand):
         self.owner.current_color.model.color = self.prev_color
         self.owner.current_color.update()
         for selector in self.selectors:
-            selector.setColor(self.prev_color, no_signal=True)
+            if selector.isVisible():
+                selector.setColor(self.prev_color, no_signal=True)
         self.restore_swatches()
         self.owner.update()
 
@@ -242,9 +243,9 @@ class SelectColor(SwatchesCommand):
         return True
 
 class SetHarmony(SwatchesCommand):
-    def __init__(self, selector, slider, owner, pairs, old_idx, new_idx, last_is_manual=False):
+    def __init__(self, selectors, slider, owner, pairs, old_idx, new_idx, last_is_manual=False):
         SwatchesCommand.__init__(self, owner)
-        self.selector = selector
+        self.selectors = selectors
         self.slider = slider
         self.setText(_("selecting harmony"))
         self.old_idx = old_idx
@@ -255,17 +256,20 @@ class SetHarmony(SwatchesCommand):
     def redo(self):
         self.remember_swatches()
         if self.last_is_manual and self.idx >= len(self.pairs):
-            self.selector.setHarmony(None)
+            for selector in self.selectors:
+                selector.setHarmony(None)
             return
         _,  harmony = self.pairs[self.idx]
         print("Selected harmony: " + str(harmony))
-        self.selector.setHarmony(harmony, self.idx)
+        for selector in self.selectors:
+            selector.setHarmony(harmony, self.idx)
         self.slider.setEnabled(harmony.uses_parameter)
         self.owner._auto_harmony()
 
     def undo(self):
         _,  harmony = self.pairs[self.old_idx]
-        self.selector.setHarmony(harmony, self.old_idx)
+        for selector in self.selectors:
+            selector.setHarmony(harmony, self.old_idx)
         self.slider.setEnabled(harmony.uses_parameter)
         self.restore_swatches()
         self.owner._auto_harmony()

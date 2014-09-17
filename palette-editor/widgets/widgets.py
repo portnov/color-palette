@@ -541,7 +541,8 @@ class Selector(QtGui.QLabel):
         if self.selected_color is not None and self.harmony is not None:
             self.harmonized = self.harmony.get(self.selected_color, self._harmony_parameter)
             self.repaint()
-            self.selected.emit(self._sequence, self._prev_color, self.selected_color)
+            if self.isVisible():
+                self.selected.emit(self._sequence, self._prev_color, self.selected_color)
 
     def setMixer(self, mixer, idx=None):
         self.mixer = mixer
@@ -666,6 +667,9 @@ class Selector(QtGui.QLabel):
     def _update_harmony(self):
         if self.harmony is not None:
             self.harmonized = self.harmony.get(self.selected_color, self._harmony_parameter)
+
+    def get_harmonized(self):
+        return self.harmonized
 
     def _select(self, x, y):
         if self.ls_square.contains(x,y):

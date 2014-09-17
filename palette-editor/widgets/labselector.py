@@ -76,6 +76,9 @@ class SquareWidget(QtGui.QWidget):
         self.cache = Square()
         self._mouse_pressed = False
         self._selected = None
+        self._harmonized = None
+        self._harmony = None
+        self._harmony_parameter = 0.5
         self.l = 0
         self.a = 0
         self.b = 0
@@ -123,6 +126,13 @@ class SquareWidget(QtGui.QWidget):
             qp.setPen(Color(0,0,0))
             qp.drawEllipse(x-4, y-4, 8, 8)
 
+        if self._harmonized is not None:
+            for idx, pair in enumerate(self._harmonized):
+                a, b = pair
+                x,y = self._ab_to_xy(a, b)
+                qp.setBrush(QtGui.QColor(0,0,0,0))
+                qp.setPen(Color(0,0,0))
+                qp.drawRect(x-3, y-3, 6, 6)
         qp.end()
 
     def _select(self, x, y):
@@ -132,7 +142,34 @@ class SquareWidget(QtGui.QWidget):
         self.repaint()
         self.a = a
         self.b = b
+
+        if self._harmony is not None:
+            self._calc_harmony(self.get_color())
+
         self.clicked.emit(a, b)
+
+    def _calc_harmony(self, current):
+        if self._harmony is None:
+            return
+        #print("Calc harmony from {}".format(str(current)))
+        colors = self._harmony.get(current, self._harmony_parameter)
+        self._harmonized = []
+        for clr in colors:
+            l,a,b = clr.getLab()
+            self._harmonized.append((a,b))
+
+    def set_harmony(self, harmony, current):
+        self._harmony = harmony
+        self._calc_harmony(current)
+        self.repaint()
+
+    def set_harmony_parameter(self, value, current):
+        self._harmony_parameter = value
+        self._calc_harmony(current)
+        self.repaint()
+
+    def select(self, a, b):
+        self._selected = a,b
 
     def set_l(self, l):
         self.l = l
@@ -199,7 +236,7 @@ class SliderWidget(QtGui.QWidget):
         return self.l
 
 class LabSelector(QtGui.QWidget):
-    selected = QtCore.pyqtSignal(Color, Color)
+    selected = QtCore.pyqtSignal(int, Color, Color)
 
     def __init__(self, *args):
         QtGui.QWidget.__init__(self, *args)
@@ -212,6 +249,12 @@ class LabSelector(QtGui.QWidget):
         self.square.clicked.connect(self._on_click_square)
         self.slider.clicked.connect(self._on_click_slider)
         self._prev_color = lab(0,0,0)
+        self._sequence = 0
+        self.harmonies_selector = None
+
+    def mouseReleaseEvent(self):
+        self._sequence += 1
+        event.accept()
 
     def _on_click_square(self, a, b):
         self.slider.cache.a = a
@@ -219,14 +262,14 @@ class LabSelector(QtGui.QWidget):
         self.slider.cache.redraw(self.slider.width(), self.slider.height())
         self.update()
         color = lab(self.slider.l, a, b)
-        self.selected.emit(self._prev_color, color)
+        self.selected.emit(self._sequence, self._prev_color, color)
         self._prev_color = color
 
     def _on_click_slider(self, l):
         self.square.set_l(l)
         self.update()
         color = lab(l, self.square.a, self.square.b)
-        self.selected.emit(self._prev_color, color)
+        self.selected.emit(self._sequence, self._prev_color, color)
         self._prev_color = color
     
     def setColor(self, color, no_signal=False):
@@ -246,4 +289,23 @@ class LabSelector(QtGui.QWidget):
 
     def getColor(self):
         return self.square.get_color()
+
+    def setHarmony(self, harmony, idx=None):
+        self.set_harmony(harmony)
+        if self.harmonies_selector is not None and idx is not None:
+            self.harmonies_selector.select_item(idx)
+
+    def set_harmony(self, harmony):
+        current = self.getColor()
+        if current is None:
+            return
+        self.square.set_harmony(harmony, current)
+
+    def set_harmony_parameter(self, value):
+        self.square.set_harmony_parameter(value, self.getColor())
+
+    def get_harmonized(self):
+        if self.square._harmonized is None:
+            return None
+        return [lab(self.slider.l, a, b) for a, b in self.square._harmonized]
 
