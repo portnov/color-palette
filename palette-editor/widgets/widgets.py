@@ -21,18 +21,37 @@ def create_qdrag_color(widget, color):
     drag.setPixmap(dnd_pixmap(color))
     return drag
 
+class ItemModel(QtGui.QStandardItemModel):
+    def __init__(self, parent=None):
+        QtGui.QStandardItemModel.__init__(self, parent)
+        self.last_enabled = True
+
+    def flags(self, index):
+        default = super(ItemModel, self).flags(index)
+        if not self.last_enabled:
+            if index.row() == self.rowCount()-1:
+                return default & ~QtCore.Qt.ItemIsEnabled
+        return default
+
 class ClassSelector(QtGui.QComboBox):
 
     selected = QtCore.pyqtSignal(int, int)
 
+
     def __init__(self, parent=None, pairs=None):
         QtGui.QComboBox.__init__(self, parent)
+        model = ItemModel()
+        self.setModel(model)
         self.pairs = pairs
         self._prev_idx = 0
         for name, nothing in self.pairs:
             self.addItem(name)
         self._skip_select = False
         self.currentIndexChanged.connect(self._on_select)
+
+    def set_last_enabled(self, value):
+        self.model().last_enabled = value
+        self.update()
 
     def _on_select(self, idx):
         if not self._skip_select:
@@ -477,6 +496,8 @@ class Selector(QtGui.QLabel):
     selectedSV = QtCore.pyqtSignal(float,float)
     selectedHue = QtCore.pyqtSignal(float)
     selected = QtCore.pyqtSignal(int, colors.Color, colors.Color)
+
+    manual_edit_implemented = False
 
     def __init__(self, mixer, *args):
         QtGui.QLabel.__init__(self, *args)

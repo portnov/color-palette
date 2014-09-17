@@ -367,6 +367,8 @@ class HCYSelector(QtGui.QWidget):
     selected = QtCore.pyqtSignal(int, Color, Color)
     edited = QtCore.pyqtSignal()
 
+    manual_edit_implemented = True
+
     def __init__(self, *args):
         QtGui.QWidget.__init__(self, *args)
         self.box = QtGui.QHBoxLayout()

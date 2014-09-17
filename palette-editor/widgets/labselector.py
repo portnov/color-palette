@@ -170,6 +170,7 @@ class SquareWidget(QtGui.QWidget):
 
     def select(self, a, b):
         self._selected = a,b
+        self._calc_harmony(lab(self.l, a, b))
 
     def set_l(self, l):
         self.l = l
@@ -238,6 +239,8 @@ class SliderWidget(QtGui.QWidget):
 class LabSelector(QtGui.QWidget):
     selected = QtCore.pyqtSignal(int, Color, Color)
 
+    manual_edit_implemented = False
+
     def __init__(self, *args):
         QtGui.QWidget.__init__(self, *args)
         self.box = QtGui.QHBoxLayout()
@@ -284,7 +287,7 @@ class LabSelector(QtGui.QWidget):
         self.square.select(a,b)
         self.update()
         if not no_signal:
-            self.selected.emit(self._prev_color, color)
+            self.selected.emit(self._sequence, self._prev_color, color)
             self._prev_color = color
 
     def getColor(self):

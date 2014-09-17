@@ -297,6 +297,10 @@ class GUIWidget(QtGui.QWidget):
         harmonies_widget = self._init_harmonies_widgets()
         svg_widget = self._init_svg_widgets()
 
+        self.harmonies.set_last_enabled(False)
+        self.harmonies.selected.connect(self.on_select_harmony)
+        self.tabs.currentChanged.connect(self.on_change_tab)
+
         splitter.addWidget(palette_widget)
         splitter.addWidget(harmonies_widget)
         splitter.addWidget(svg_widget)
@@ -411,7 +415,6 @@ class GUIWidget(QtGui.QWidget):
         vbox_center = QtGui.QVBoxLayout()
 
         self.harmonies = ClassSelector(pairs=self.available_harmonies)
-        self.harmonies.selected.connect(self.on_select_harmony)
         self.harmonies.addItem(_("Manual"))
         vbox_center.addLayout(labelled(_("Harmony:"), self.harmonies))
         
@@ -545,6 +548,10 @@ class GUIWidget(QtGui.QWidget):
 
         widget.setLayout(vbox_center)
         return widget
+
+    def on_change_tab(self, tabidx):
+        selector = self._get_selectors()[tabidx]
+        self.harmonies.set_last_enabled(selector.manual_edit_implemented)
 
     def on_shade_selected(self, row):
         def handler(r,g,b):
@@ -747,8 +754,8 @@ class GUIWidget(QtGui.QWidget):
 
     def on_set_current_color(self):
         self.base_colors = {}
-        self.selector.setColor(self.current_color.getColor())
-        self.hcy_selector.setColor(self.current_color.getColor())
+        for selector in self._get_selectors():
+            selector.setColor(self.current_color.getColor())
         self._auto_harmony()
 
     def on_select_from_palette(self, row, col):
@@ -783,7 +790,8 @@ class GUIWidget(QtGui.QWidget):
         return selectors[self.tabs.currentIndex()]
 
     def on_select_harmony(self, prev_idx, idx):
-        command = SetHarmony(self._get_selectors(), self.harmony_slider, self, self.available_harmonies, prev_idx, idx)
+        manual_enabled = self._get_selector().manual_edit_implemented
+        command = SetHarmony(self._get_selectors(), self.harmony_slider, self, self.available_harmonies, prev_idx, idx, manual_enabled)
         self.undoStack.push(command)
 
     def on_select_shader(self, prev_idx, idx):
