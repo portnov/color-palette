@@ -1,5 +1,5 @@
 
-from math import sqrt
+from math import sqrt, sin, cos
 from PyQt4 import QtGui
 from color.colors import *
 
@@ -181,6 +181,20 @@ class Lab5(Harmony):
         a3 = clip(-delta_b/2.0, -127.0, 127.0)
         b3 = clip(delta_a/2.0, -127.0, 127.0)
         return [lab(l,a1,b1), lab(l,a2,b2), color, lab(l,a3,b3), lab(l, a4,b4)]
+
+class RectangleLab(Harmony):
+    uses_parameter = True
+
+    @classmethod
+    def get(cls, color, parameter):
+        l,a,b = color.getLab()
+        alpha = 1.0 * parameter
+        a1 = a*cos(alpha) - b*sin(alpha)
+        b1 = a*sin(alpha) + b*cos(alpha)
+        a1 = clip(a1, -127.0, 127.0)
+        b1 = clip(b1, -127.0, 127.0)
+        return [color, lab(l,a1,b1), lab(l, -a, -b), lab(l, -a1, -b1)]
+
 
 class Cooler(Shader):
     uses_parameter = True

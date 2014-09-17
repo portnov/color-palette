@@ -249,6 +249,7 @@ class GUIWidget(QtGui.QWidget):
                      (_("Five colors LCh"),   harmonies.FiveColors(LCh)),
                      (_("Similar colors Lab"),   harmonies.LabSimilar),
                      (_("Similar and opposite Lab"),   harmonies.SimilarAndOppositeLab),
+                     (_("Rectangle Lab"),   harmonies.RectangleLab),
                      (_("Five colors Lab"),   harmonies.Lab5),
                     ] 
 

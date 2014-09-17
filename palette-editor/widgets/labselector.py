@@ -7,7 +7,7 @@ from widgets import *
 
 class Square(CacheImage):
     def __init__(self, mixer=None, w=0, h=0):
-        self.lightness = 50.0
+        self.lightness = 0.0
         CacheImage.__init__(self, mixer, w,h)
 
     def calc(self):
