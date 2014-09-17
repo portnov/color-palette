@@ -1,4 +1,5 @@
 
+from math import sqrt
 from PyQt4 import QtGui
 from color.colors import *
 
@@ -126,6 +127,60 @@ def FiveColors(space):
             h4 = (h2s + delta) % 1.0
             return [color] + [space.fromCoords((h,s,v)) for h in [h1,h2,h3,h4]]
     return Hues5
+
+class LabSimilar(Harmony):
+    uses_parameter = True
+
+    @classmethod
+    def get(cls, color, parameter):
+        l,a,b = color.getLab()
+        rho = sqrt(a**2 + b**2)
+        if rho < 0.01:
+            return [color, color, color]
+        delta = parameter * 80.0
+        a1 = clip(a + delta*b/rho, -127.0, 127.0)
+        b1 = clip(b - delta*a/rho, -127.0, 127.0)
+        a2 = clip(a - delta*b/rho, -127.0, 127.0)
+        b2 = clip(b + delta*a/rho, -127.0, 127.0)
+        return [lab(l,a1,b1), color, lab(l,a2,b2)]
+
+class SimilarAndOppositeLab(Harmony):
+    uses_parameter = True
+
+    @classmethod
+    def get(cls, color, parameter):
+        l,a,b = color.getLab()
+        rho = sqrt(a**2 + b**2)
+        if rho < 0.01:
+            return [color, color, color]
+        delta = parameter * 80.0
+        a1 = clip(a + delta*b/rho, -127.0, 127.0)
+        b1 = clip(b - delta*a/rho, -127.0, 127.0)
+        a2 = clip(a - delta*b/rho, -127.0, 127.0)
+        b2 = clip(b + delta*a/rho, -127.0, 127.0)
+        return [lab(l,a1,b1), color, lab(l,a2,b2), lab(l, -a, -b)]
+
+class Lab5(Harmony):
+    uses_parameter = True
+
+    @classmethod
+    def get(cls, color, parameter):
+        l,a,b = color.getLab()
+        rho = sqrt(a**2 + b**2)
+        if rho < 0.01:
+            return [color, color, color, color, color]
+        delta = parameter * 80.0
+        delta_a = delta*a/rho
+        delta_b = delta*b/rho
+        a1 = clip(-a + delta_b, -127.0, 127.0)
+        b1 = clip(-b - delta_a, -127.0, 127.0)
+        a4 = clip(-a - delta_b, -127.0, 127.0)
+        b4 = clip(-b + delta_a, -127.0, 127.0)
+        a2 = clip(delta_b/2.0, -127.0, 127.0)
+        b2 = clip(-delta_a/2.0, -127.0, 127.0)
+        a3 = clip(-delta_b/2.0, -127.0, 127.0)
+        b3 = clip(delta_a/2.0, -127.0, 127.0)
+        return [lab(l,a1,b1), lab(l,a2,b2), color, lab(l,a3,b3), lab(l, a4,b4)]
 
 class Cooler(Shader):
     uses_parameter = True
