@@ -91,137 +91,14 @@ def create_action(parent, toolbar, menu, icon, title, handler):
     action.triggered.connect(handler)
     return action
 
-class GUI(QtGui.QMainWindow):
-    def __init__(self):
-        QtGui.QMainWindow.__init__(self)
-        self.model = Document(self)
-        self.gui = GUIWidget(self, self.model)
-        self.undoStack = self.model.get_undo_stack()
-
-        self._init_menu()
-
-        self._init_palette_actions()
-        self._init_harmonies_actions()
-        self._init_svg_actions()
-
-        self.setCentralWidget(self.gui)
-
-        self.setWindowTitle(_("Palette editor"))
-        self.resize(600, 800)
-
-    def _init_menu(self):
-        menu = self.menuBar().addMenu(_("&Edit"))
-        self.undo_action = undo = self.undoStack.createUndoAction(self, _("&Undo"))
-        undo.setShortcut(QtGui.QKeySequence.Undo)
-        undo.setIcon(QtGui.QIcon(locate_icon("Edit-undo.png")))
-        self.redo_action = redo = self.undoStack.createRedoAction(self, _("&Redo"))
-        redo.setShortcut(QtGui.QKeySequence.Redo)
-        redo.setIcon(QtGui.QIcon(locate_icon("Edit-redo.png")))
-        menu.addAction(undo)
-        menu.addAction(redo)
-
-    def _init_palette_actions(self):
-        menu = self.menuBar().addMenu(_("&Palette"))
-        create_action(self, self.gui.toolbar_palette, menu,
-                QtGui.QStyle.SP_DialogOpenButton,
-                _("&Open palette"), self.gui.on_open_palette)
-        if colorlovers_available:
-            create_action(self, self.gui.toolbar_palette, menu,
-                    "download.png",
-                    _("Download palette from Colorlovers.com"),
-                    self.gui.on_download_colorlovers)
-        create_action(self, self.gui.toolbar_palette, menu,
-                QtGui.QStyle.SP_DialogSaveButton,
-                _("&Save palette"), self.gui.on_save_palette)
-        menu.addSeparator()
-        self.gui.toolbar_palette.addSeparator()
-        self.gui.toolbar_palette.addAction(self.undo_action)
-        self.gui.toolbar_palette.addAction(self.redo_action)
-        self.gui.toolbar_palette.addSeparator()
-        toggle_edit = create_action(self, self.gui.toolbar_palette, menu,
-                "Gnome-colors-gtk-edit.png",
-                _("Toggle edit &mode"), self.gui.on_toggle_edit)
-        toggle_edit.setCheckable(True)
-        toggle_edit.setChecked(False)
-        menu.addSeparator()
-        self.gui.toolbar_palette.addSeparator()
-        create_action(self, self.gui.toolbar_palette, menu,
-                "darken.png", _("&Darker"), self.gui.on_palette_darker)
-        create_action(self, self.gui.toolbar_palette, menu,
-                "lighten.png", _("&Lighter"), self.gui.on_palette_lighter)
-        create_action(self, self.gui.toolbar_palette, menu,
-                "saturate.png", _("S&aturate"), self.gui.on_palette_saturate)
-        create_action(self, self.gui.toolbar_palette, menu,
-                "desaturate.png", _("D&esaturate"), self.gui.on_palette_desaturate)
-        create_action(self, self.gui.toolbar_palette, menu,
-                "hue-counterclockwise.png",
-                _("&Rotate colors counterclockwise"), self.gui.on_palette_counterclockwise)
-        create_action(self, self.gui.toolbar_palette, menu,
-                "hue-clockwise.png",
-                _("Rotate colors clock&wise"), self.gui.on_palette_clockwise)
-        create_action(self, self.gui.toolbar_palette, menu,
-                "contrast-up.png", _("Increase &contrast"), self.gui.on_palette_contrast_up)
-        create_action(self, self.gui.toolbar_palette, menu,
-                "contrast-down.png", _("Decrease contras&t"), self.gui.on_palette_contrast_down)
-
-    def _init_harmonies_actions(self):
-        menu = self.menuBar().addMenu(_("&Swatches"))
-        create_action(self, self.gui.toolbar_swatches, menu,
-                "harmony.png", _("&Harmony"), self.gui.on_harmony)
-        menu.addSeparator()
-        self.gui.toolbar_swatches.addSeparator()
-        create_action(self, self.gui.toolbar_swatches, menu,
-                "darken.png", _("&Darker"), self.gui.on_swatches_darker)
-        create_action(self, self.gui.toolbar_swatches, menu,
-                "lighten.png", _("&Lighter"), self.gui.on_swatches_lighter)
-        create_action(self, self.gui.toolbar_swatches, menu,
-                "saturate.png", _("S&aturate"), self.gui.on_swatches_saturate)
-        create_action(self, self.gui.toolbar_swatches, menu,
-                "desaturate.png", _("D&esaturate"), self.gui.on_swatches_desaturate)
-        create_action(self, self.gui.toolbar_swatches, menu,
-                "hue-counterclockwise.png", _("&Rotate colors counterclockwise"),
-                self.gui.on_swatches_counterclockwise)
-        create_action(self, self.gui.toolbar_swatches, menu,
-                "hue-clockwise.png", _("Rotate colors clock&wise"), self.gui.on_swatches_clockwise)
-        create_action(self, self.gui.toolbar_swatches, menu,
-                "contrast-up.png", _("Increase &contrast"), self.gui.on_swatches_contrast_up)
-        create_action(self, self.gui.toolbar_swatches, menu,
-                "contrast-down.png", _("Decrease contras&t"), self.gui.on_swatches_contrast_down)
-        menu.addSeparator()
-        self.gui.toolbar_swatches.addSeparator()
-        create_action(self, self.gui.toolbar_swatches, menu,
-                "swatches_to_palette.png", _("To &palette"), self.gui.on_swatches_to_palette)
-        create_action(self, self.gui.toolbar_swatches, menu,
-                "Edit-clear_mirrored.png", _("C&lear swatches"), self.gui.on_clear_swatches)
-        create_action(self, self.gui.toolbar_swatches, menu,
-                QtGui.QStyle.SP_DialogSaveButton, _("&Save as palette"), self.gui.on_swatches_save)
-
-    def _init_svg_actions(self):
-        menu = self.menuBar().addMenu(_("&Image"))
-        create_action(self, self.gui.toolbar_template, menu,
-                QtGui.QStyle.SP_DialogOpenButton,
-                _("&Open template"), self.gui.on_open_template)
-        create_action(self, self.gui.toolbar_template, menu,
-                QtGui.QStyle.SP_DialogSaveButton,
-                _("&Save resulting SVG"), self.gui.on_save_template)
-        menu.addSeparator()
-        create_action(self, self.gui.toolbar_template, menu,
-                "colorize_swatches.png",
-                _("Colorize from s&watches"), self.gui.on_colorize_harmony)
-        create_action(self, self.gui.toolbar_template, menu,
-                "colorize_palette.png", _("Colorize from &palette"), self.gui.on_colorize_palette)
-        create_action(self, self.gui.toolbar_template, menu,
-                "View-refresh.png", _("&Reset colors"), self.gui.on_reset_template)
-
-
 def labelled(label, widget):
     hbox = QtGui.QHBoxLayout()
     hbox.addWidget(QtGui.QLabel(label))
     hbox.addWidget(widget)
     return hbox
     
-class GUIWidget(QtGui.QWidget):
-    
+class GUI(QtGui.QMainWindow):
+
     GRADIENT_SIZE=10
     
     available_mixers = [(_("RGB"), mixers.MixerRGB),
@@ -281,34 +158,165 @@ class GUIWidget(QtGui.QWidget):
                          (_("Warmer"),     harmonies.Warmer),
                          (_("Cooler"),     harmonies.Cooler) ]
     
-    def __init__(self, parent, model):
-        QtGui.QWidget.__init__(self, parent)
-
-        self.model = model
-
-        splitter = QtGui.QSplitter(QtCore.Qt.Horizontal)
+    def __init__(self):
+        QtGui.QMainWindow.__init__(self)
+        self.model = Document(self)
+        self.undoStack = self.model.get_undo_stack()
 
         self.mixer = mixers.MixerRGB
 
         self._shades_parameter = 0.5
 
-        self.undoStack = self.model.get_undo_stack()
-
         palette_widget = self._init_palette_widgets()
+        scratchbox = self._init_scratchbox()
         harmonies_widget = self._init_harmonies_widgets()
+        swatches = self._init_swatches()
         svg_widget = self._init_svg_widgets()
+
+        self.setTabPosition( QtCore.Qt.TopDockWidgetArea , QtGui.QTabWidget.North )
+        #self.setDockOptions( QtGui.QMainWindow.ForceTabbedDocks )
+        self.setDockNestingEnabled(True)
+
+        central_widget = QtGui.QWidget()
+        self.setCentralWidget(central_widget)
+        central_widget.hide()
+
+        self._dock("Palette", _("Palette"), QtCore.Qt.TopDockWidgetArea, palette_widget)
+        self._dock("Scratchpad", _("Scratchpad"), QtCore.Qt.BottomDockWidgetArea, scratchbox)
+        self._dock("Harmonies", _("Harmonies"), QtCore.Qt.TopDockWidgetArea, harmonies_widget)
+        self._dock("Swatches", _("Color swatches"), QtCore.Qt.BottomDockWidgetArea, swatches)
+        self._dock("Preview", _("Preview"), QtCore.Qt.TopDockWidgetArea, svg_widget)
+
 
         self.harmonies.set_last_enabled(False)
         self.harmonies.selected.connect(self.on_select_harmony)
         self.tabs.currentChanged.connect(self.on_change_tab)
 
-        splitter.addWidget(palette_widget)
-        splitter.addWidget(harmonies_widget)
-        splitter.addWidget(svg_widget)
+        self._init_menu()
 
-        hbox = QtGui.QHBoxLayout()
-        hbox.addWidget(splitter)
-        self.setLayout(hbox)
+        self._init_palette_actions()
+        self._init_harmonies_actions()
+        self._init_svg_actions()
+
+        self.setWindowTitle(_("Palette editor"))
+        self.resize(600, 800)
+        self._restore()
+
+    def _restore(self):
+        settings = QtCore.QSettings("palette-editor", "palette-editor")
+        self.restoreGeometry(settings.value("geometry").toByteArray())
+        self.restoreState(settings.value("windowState").toByteArray())
+
+    def _dock(self, name, title, area, widget):
+        dock = QtGui.QDockWidget(title, self)
+        dock.setAllowedAreas(QtCore.Qt.AllDockWidgetAreas)
+        dock.setWidget(widget)
+        dock.setObjectName(name)
+        self.addDockWidget(area, dock)
+
+    def _init_menu(self):
+        menu = self.menuBar().addMenu(_("&Edit"))
+        self.undo_action = undo = self.undoStack.createUndoAction(self, _("&Undo"))
+        undo.setShortcut(QtGui.QKeySequence.Undo)
+        undo.setIcon(QtGui.QIcon(locate_icon("Edit-undo.png")))
+        self.redo_action = redo = self.undoStack.createRedoAction(self, _("&Redo"))
+        redo.setShortcut(QtGui.QKeySequence.Redo)
+        redo.setIcon(QtGui.QIcon(locate_icon("Edit-redo.png")))
+        menu.addAction(undo)
+        menu.addAction(redo)
+
+    def _init_palette_actions(self):
+        menu = self.menuBar().addMenu(_("&Palette"))
+        create_action(self, self.toolbar_palette, menu,
+                QtGui.QStyle.SP_DialogOpenButton,
+                _("&Open palette"), self.on_open_palette)
+        if colorlovers_available:
+            create_action(self, self.toolbar_palette, menu,
+                    "download.png",
+                    _("Download palette from Colorlovers.com"),
+                    self.on_download_colorlovers)
+        create_action(self, self.toolbar_palette, menu,
+                QtGui.QStyle.SP_DialogSaveButton,
+                _("&Save palette"), self.on_save_palette)
+        menu.addSeparator()
+        self.toolbar_palette.addSeparator()
+        self.toolbar_palette.addAction(self.undo_action)
+        self.toolbar_palette.addAction(self.redo_action)
+        self.toolbar_palette.addSeparator()
+        toggle_edit = create_action(self, self.toolbar_palette, menu,
+                "Gnome-colors-gtk-edit.png",
+                _("Toggle edit &mode"), self.on_toggle_edit)
+        toggle_edit.setCheckable(True)
+        toggle_edit.setChecked(False)
+        menu.addSeparator()
+        self.toolbar_palette.addSeparator()
+        create_action(self, self.toolbar_palette, menu,
+                "darken.png", _("&Darker"), self.on_palette_darker)
+        create_action(self, self.toolbar_palette, menu,
+                "lighten.png", _("&Lighter"), self.on_palette_lighter)
+        create_action(self, self.toolbar_palette, menu,
+                "saturate.png", _("S&aturate"), self.on_palette_saturate)
+        create_action(self, self.toolbar_palette, menu,
+                "desaturate.png", _("D&esaturate"), self.on_palette_desaturate)
+        create_action(self, self.toolbar_palette, menu,
+                "hue-counterclockwise.png",
+                _("&Rotate colors counterclockwise"), self.on_palette_counterclockwise)
+        create_action(self, self.toolbar_palette, menu,
+                "hue-clockwise.png",
+                _("Rotate colors clock&wise"), self.on_palette_clockwise)
+        create_action(self, self.toolbar_palette, menu,
+                "contrast-up.png", _("Increase &contrast"), self.on_palette_contrast_up)
+        create_action(self, self.toolbar_palette, menu,
+                "contrast-down.png", _("Decrease contras&t"), self.on_palette_contrast_down)
+
+    def _init_harmonies_actions(self):
+        menu = self.menuBar().addMenu(_("&Swatches"))
+        create_action(self, self.toolbar_swatches, menu,
+                "harmony.png", _("&Harmony"), self.on_harmony)
+        menu.addSeparator()
+        self.toolbar_swatches.addSeparator()
+        create_action(self, self.toolbar_swatches, menu,
+                "darken.png", _("&Darker"), self.on_swatches_darker)
+        create_action(self, self.toolbar_swatches, menu,
+                "lighten.png", _("&Lighter"), self.on_swatches_lighter)
+        create_action(self, self.toolbar_swatches, menu,
+                "saturate.png", _("S&aturate"), self.on_swatches_saturate)
+        create_action(self, self.toolbar_swatches, menu,
+                "desaturate.png", _("D&esaturate"), self.on_swatches_desaturate)
+        create_action(self, self.toolbar_swatches, menu,
+                "hue-counterclockwise.png", _("&Rotate colors counterclockwise"),
+                self.on_swatches_counterclockwise)
+        create_action(self, self.toolbar_swatches, menu,
+                "hue-clockwise.png", _("Rotate colors clock&wise"), self.on_swatches_clockwise)
+        create_action(self, self.toolbar_swatches, menu,
+                "contrast-up.png", _("Increase &contrast"), self.on_swatches_contrast_up)
+        create_action(self, self.toolbar_swatches, menu,
+                "contrast-down.png", _("Decrease contras&t"), self.on_swatches_contrast_down)
+        menu.addSeparator()
+        self.toolbar_swatches.addSeparator()
+        create_action(self, self.toolbar_swatches, menu,
+                "swatches_to_palette.png", _("To &palette"), self.on_swatches_to_palette)
+        create_action(self, self.toolbar_swatches, menu,
+                "Edit-clear_mirrored.png", _("C&lear swatches"), self.on_clear_swatches)
+        create_action(self, self.toolbar_swatches, menu,
+                QtGui.QStyle.SP_DialogSaveButton, _("&Save as palette"), self.on_swatches_save)
+
+    def _init_svg_actions(self):
+        menu = self.menuBar().addMenu(_("&Image"))
+        create_action(self, self.toolbar_template, menu,
+                QtGui.QStyle.SP_DialogOpenButton,
+                _("&Open template"), self.on_open_template)
+        create_action(self, self.toolbar_template, menu,
+                QtGui.QStyle.SP_DialogSaveButton,
+                _("&Save resulting SVG"), self.on_save_template)
+        menu.addSeparator()
+        create_action(self, self.toolbar_template, menu,
+                "colorize_swatches.png",
+                _("Colorize from s&watches"), self.on_colorize_harmony)
+        create_action(self, self.toolbar_template, menu,
+                "colorize_palette.png", _("Colorize from &palette"), self.on_colorize_palette)
+        create_action(self, self.toolbar_template, menu,
+                "View-refresh.png", _("&Reset colors"), self.on_reset_template)
 
     def _init_svg_widgets(self):
         vbox_right = QtGui.QVBoxLayout()
@@ -362,8 +370,12 @@ class GUIWidget(QtGui.QWidget):
 
         #vbox_right.addStretch()
         vbox_right.addSpacerItem(QtGui.QSpacerItem(0,0, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding))
-        
-        return ExpanderWidget(_("Preview"), vbox_right, vertical=True)
+
+        widget = QtGui.QWidget()
+        widget.setLayout(vbox_right)
+        return widget
+
+        #return ExpanderWidget(_("Preview"), vbox_right, vertical=True)
 
     def _init_palette_widgets(self):
         widget = QtGui.QWidget()
@@ -396,6 +408,12 @@ class GUIWidget(QtGui.QWidget):
 
         vbox_left.addSpacerItem(QtGui.QSpacerItem(0,0, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding))
 
+        #vbox_left.addStretch(1)
+    
+        widget.setLayout(vbox_left)
+        return widget
+
+    def _init_scratchbox(self):
         scratchpad_box = QtGui.QVBoxLayout()
         mk_shades = QtGui.QPushButton(_("Shades >>"))
         mk_shades.clicked.connect(self.on_shades_from_scratchpad)
@@ -403,12 +421,9 @@ class GUIWidget(QtGui.QWidget):
 
         self.scratchpad = Scratchpad(self.model.scratchpad)
         scratchpad_box.addWidget(self.scratchpad,1)
-        expander = ExpanderWidget(_("Scratchpad"), scratchpad_box)
-        vbox_left.addWidget(expander)
-
-        #vbox_left.addStretch(1)
-    
-        widget.setLayout(vbox_left)
+        #expander = ExpanderWidget(_("Scratchpad"), scratchpad_box)
+        widget = QtGui.QWidget(self)
+        widget.setLayout(scratchpad_box)
         return widget
 
     def _init_harmonies_widgets(self):
@@ -494,6 +509,10 @@ class GUIWidget(QtGui.QWidget):
         self.current_color.selected.connect(self.on_set_current_color)
         vbox_center.addWidget(self.current_color)
 
+        widget.setLayout(vbox_center)
+        return widget
+
+    def _init_swatches(self):
         swatches_vbox = QtGui.QVBoxLayout()
         
         self.shaders = ClassSelector(pairs = self.available_shaders)
@@ -542,12 +561,9 @@ class GUIWidget(QtGui.QWidget):
             self.swatches.append(row)
             harmonizedBox.addLayout(hbox,1)
         swatches_vbox.addLayout(harmonizedBox)
-
-        expander = ExpanderWidget(_("Color swatches"), swatches_vbox)
-        expander.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.Minimum)
-        vbox_center.addWidget(expander)
-
-        widget.setLayout(vbox_center)
+        
+        widget = QtGui.QWidget(self)
+        widget.setLayout(swatches_vbox)
         return widget
 
     def on_change_tab(self, tabidx):
@@ -899,6 +915,12 @@ class GUIWidget(QtGui.QWidget):
             f = open(unicode(filename),'w')
             f.write(content)
             f.close()
+
+    def closeEvent(self, event):
+        settings = QtCore.QSettings("palette-editor", "palette-editor")
+        settings.setValue("geometry", self.saveGeometry())
+        settings.setValue("windowState", self.saveState());
+        QtGui.QMainWindow.closeEvent(self, event);
     
 if __name__ == "__main__":
     

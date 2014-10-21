@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from math import cos, acos, sqrt, pi
+from os.path import exists
 from PyQt4 import QtGui, QtCore
 import colorsys
 
@@ -22,6 +23,8 @@ if use_lcms:
     lab_profile = lcms.cmsCreateLabProfile(D65)
     rgb_profile = lcms.cmsCreate_sRGBProfile()
 
+    lcms.cmsSetAlarmCodes(127,127,127)
+
     xyz2rgb = lcms.cmsCreateTransform(xyz_profile, lcms.TYPE_XYZ_DBL,
                                       rgb_profile, lcms.TYPE_RGB_8,
                                       lcms.INTENT_PERCEPTUAL,
@@ -32,10 +35,20 @@ if use_lcms:
                                       lcms.INTENT_PERCEPTUAL,
                                       0)
 
-    lab2rgb = lcms.cmsCreateTransform(lab_profile, lcms.TYPE_Lab_DBL,
-                                      rgb_profile, lcms.TYPE_RGB_8,
-                                      lcms.INTENT_PERCEPTUAL,
-                                      0)
+    if exists("proofing.icc"):
+        proofing_profile = lcms.cmsOpenProfileFromFile("proofing.icc", "r")
+        lab2rgb = lcms.cmsCreateProofingTransform(lab_profile, lcms.TYPE_Lab_DBL,
+                                          rgb_profile, lcms.TYPE_RGB_8,
+                                          proofing_profile,
+                                          lcms.INTENT_PERCEPTUAL,
+                                          lcms.INTENT_PERCEPTUAL,
+                                          lcms.cmsFLAGS_GAMUTCHECK | lcms.cmsFLAGS_SOFTPROOFING)
+    else:
+        lab2rgb = lcms.cmsCreateTransform(lab_profile, lcms.TYPE_Lab_DBL,
+                                          rgb_profile, lcms.TYPE_RGB_8,
+                                          lcms.INTENT_PERCEPTUAL,
+                                          0)
+
 
     rgb2lab = lcms.cmsCreateTransform(rgb_profile, lcms.TYPE_RGB_8,
                                       lab_profile, lcms.TYPE_Lab_DBL,
