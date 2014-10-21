@@ -518,7 +518,7 @@ class Selector(QtGui.QLabel):
         self.harmonies_selector = None
         self._sequence = 0
 
-    def setColor(self, color, no_signal=False):
+    def setColor(self, color, repaint=True, no_signal=False):
         if color is not None:
             self.selected_color = color
             h = self.mixer.getHue(self.selected_color)
@@ -528,7 +528,8 @@ class Selector(QtGui.QLabel):
             _,s,v = self.mixer.getShade(self.selected_color)
             self.selected_sv = s,v
             self._update_harmony()
-            self.repaint()
+            if repaint:
+                self.repaint()
             if not no_signal:
                 self.selected.emit(self._sequence, self._prev_color, self.selected_color)
 

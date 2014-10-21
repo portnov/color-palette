@@ -177,9 +177,9 @@ class GUI(QtGui.QMainWindow):
         #self.setDockOptions( QtGui.QMainWindow.ForceTabbedDocks )
         self.setDockNestingEnabled(True)
 
-        central_widget = QtGui.QWidget()
-        self.setCentralWidget(central_widget)
-        central_widget.hide()
+#         central_widget = QtGui.QWidget()
+#         self.setCentralWidget(central_widget)
+#         central_widget.hide()
 
         self._dock("Palette", _("Palette"), QtCore.Qt.TopDockWidgetArea, palette_widget)
         self._dock("Scratchpad", _("Scratchpad"), QtCore.Qt.BottomDockWidgetArea, scratchbox)
@@ -202,10 +202,35 @@ class GUI(QtGui.QMainWindow):
         self.resize(600, 800)
         self._restore()
 
+    def _get_settings_color(self, settings, name):
+        s = unicode(settings.value("current_color").toString()) 
+        if not s:
+            return None
+        return colors.fromHex(s)
+
     def _restore(self):
         settings = QtCore.QSettings("palette-editor", "palette-editor")
         self.restoreGeometry(settings.value("geometry").toByteArray())
         self.restoreState(settings.value("windowState").toByteArray())
+
+        selector_idx, ok = settings.value("selector").toUInt()
+        if ok:
+            self.tabs.setCurrentIndex(selector_idx)
+
+        clr = self._get_settings_color(settings, "current_color")
+        if clr:
+            self._select_color(clr)
+
+    def _store(self):
+        settings = QtCore.QSettings("palette-editor", "palette-editor")
+        settings.setValue("geometry", self.saveGeometry())
+        settings.setValue("windowState", self.saveState());
+
+        settings.setValue("selector", self.tabs.currentIndex())
+
+        clr = self.current_color.getColor()
+        if clr:
+            settings.setValue("current_color", clr.hex() )
 
     def _dock(self, name, title, area, widget):
         dock = QtGui.QDockWidget(title, self)
@@ -213,6 +238,10 @@ class GUI(QtGui.QMainWindow):
         dock.setWidget(widget)
         dock.setObjectName(name)
         self.addDockWidget(area, dock)
+
+    def _select_color(self, clr):
+        #self.selector.selected_color = clr
+        self.current_color.setColor(clr)
 
     def _init_menu(self):
         menu = self.menuBar().addMenu(_("&Edit"))
@@ -374,8 +403,6 @@ class GUI(QtGui.QMainWindow):
         widget = QtGui.QWidget()
         widget.setLayout(vbox_right)
         return widget
-
-        #return ExpanderWidget(_("Preview"), vbox_right, vertical=True)
 
     def _init_palette_widgets(self):
         widget = QtGui.QWidget()
@@ -917,9 +944,7 @@ class GUI(QtGui.QMainWindow):
             f.close()
 
     def closeEvent(self, event):
-        settings = QtCore.QSettings("palette-editor", "palette-editor")
-        settings.setValue("geometry", self.saveGeometry())
-        settings.setValue("windowState", self.saveState());
+        self._store()
         QtGui.QMainWindow.closeEvent(self, event);
     
 if __name__ == "__main__":

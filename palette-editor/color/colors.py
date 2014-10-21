@@ -505,6 +505,8 @@ def lab(l,a,b):
     return color
 
 def fromHex(s):
+    if type(s) not in [str, unicode]:
+        raise ValueError("colors.fromHex called on non-string: " + repr(s))
     t = s[1:]
     if len(t) == 3:
         rs,gs,bs = t[0]+t[0], t[1]+t[1], t[2]+t[2]

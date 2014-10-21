@@ -255,7 +255,7 @@ class LabSelector(QtGui.QWidget):
         self._sequence = 0
         self.harmonies_selector = None
 
-    def mouseReleaseEvent(self):
+    def mouseReleaseEvent(self, event):
         self._sequence += 1
         event.accept()
 
