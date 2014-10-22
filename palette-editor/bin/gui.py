@@ -292,6 +292,8 @@ class GUI(QtGui.QMainWindow):
         self.scratchpad.colors = colors
         settings.endArray()
 
+        self.undoStack.clear()
+
     def _store(self):
         settings = QtCore.QSettings("palette-editor", "palette-editor")
         settings.setValue("geometry", self.saveGeometry())
