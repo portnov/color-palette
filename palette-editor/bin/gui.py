@@ -203,10 +203,15 @@ class GUI(QtGui.QMainWindow):
         self._restore()
 
     def _get_settings_color(self, settings, name):
-        s = unicode(settings.value("current_color").toString()) 
+        s = unicode(settings.value(name).toString()) 
         if not s:
             return None
         return colors.fromHex(s)
+    
+    def _put_settings_color(self, settings, name, clr):
+        if clr:
+            s = clr.hex()
+            settings.setValue(name, s)
 
     def _restore(self):
         settings = QtCore.QSettings("palette-editor", "palette-editor")
@@ -221,6 +226,17 @@ class GUI(QtGui.QMainWindow):
         if clr:
             self._select_color(clr)
 
+        nswatches = settings.beginReadArray("swatches")
+        for idx in range(nswatches):
+            settings.setArrayIndex(idx)
+            j = idx % 5
+            i = idx // 5
+            clr = self._get_settings_color(settings, "color")
+            if clr:
+                self.swatches[i][j].setColor_(clr)
+                #self.swatches[i][j].repaint()
+        #self.update()
+
     def _store(self):
         settings = QtCore.QSettings("palette-editor", "palette-editor")
         settings.setValue("geometry", self.saveGeometry())
@@ -229,8 +245,17 @@ class GUI(QtGui.QMainWindow):
         settings.setValue("selector", self.tabs.currentIndex())
 
         clr = self.current_color.getColor()
-        if clr:
-            settings.setValue("current_color", clr.hex() )
+        self._put_settings_color(settings, "current_color", clr)
+
+        settings.beginWriteArray("swatches")
+        i = 0
+        for row in self.swatches:
+            for w in row:
+                clr = w.getColor()
+                settings.setArrayIndex(i)
+                self._put_settings_color(settings, "color", clr)
+                i += 1
+        settings.endArray()
 
     def _dock(self, name, title, area, widget):
         dock = QtGui.QDockWidget(title, self)
