@@ -2,7 +2,7 @@
 
 import sys
 import os
-from os.path import join, basename, dirname, abspath, exists
+from os.path import join, basename, dirname, abspath, exists, expanduser
 from copy import copy
 import gettext
 
@@ -68,6 +68,13 @@ __builtins__.locate_icon = locate_icon
 
 def locate_template(name):
     return join(datarootdir, "templates", name)
+
+def locate_palette(name):
+    if sys.platform.startswith('win'):
+        return join(datarootdir, name)
+    else:
+        home = expanduser("~")
+        return join(home, ".config", "palette-editor", name)
 
 def compose_icon(icon, filename):
     icon_pixmap = icon.pixmap(24,24)
@@ -247,6 +254,11 @@ class GUI(QtGui.QMainWindow):
         self.scratchpad.colors = colors
         settings.endArray()
 
+        palette_filename = locate_palette("default.gpl")
+        if exists(palette_filename):
+            palette = load_palette(palette_filename)
+            self._load_palette(palette)
+
     def _store(self):
         settings = QtCore.QSettings("palette-editor", "palette-editor")
         settings.setValue("geometry", self.saveGeometry())
@@ -275,6 +287,9 @@ class GUI(QtGui.QMainWindow):
             settings.setValue("width", w)
             i += 1
         settings.endArray()
+
+        palette_filename = locate_palette("default.gpl")
+        save_palette(self.palette.palette, palette_filename)
 
     def _dock(self, name, title, area, widget):
         dock = QtGui.QDockWidget(title, self)
