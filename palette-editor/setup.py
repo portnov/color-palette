@@ -15,7 +15,7 @@ def locate_locales():
 
 setup(
     name = 'palette-editor',
-    version = '0.0.4',
+    version = '0.0.5',
     author = 'Ilya Portnov',
     author_email = 'portnov84@rambler.ru',
     scripts = ['bin/gui.py', 'bin/cluster.py', 'bin/palette_viewer.py'],
