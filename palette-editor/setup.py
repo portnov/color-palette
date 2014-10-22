@@ -27,7 +27,8 @@ setup(
     packages = find_packages(),
     install_requires = [
         "numpy >= 1.8.1",
-        "lxml >= 2.3.2"
+        "lxml >= 2.3.2",
+        "appdirs >= 1.2.0"
     ],
     data_files = [
                     ('share/palette-editor/icons', glob('share/icons/*.png')),

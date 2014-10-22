@@ -5,6 +5,7 @@ import os
 from os.path import join, basename, dirname, abspath, exists, expanduser
 from copy import copy
 import gettext
+import appdirs
 
 from PyQt4 import QtGui
 
@@ -70,11 +71,8 @@ def locate_template(name):
     return join(datarootdir, "templates", name)
 
 def locate_palette(name):
-    if sys.platform.startswith('win'):
-        return join(datarootdir, name)
-    else:
-        home = expanduser("~")
-        return join(home, ".config", "palette-editor", name)
+    base = appdirs.user_config_dir("palette-editor", "palette-editor")
+    return join(base, name)
 
 def compose_icon(icon, filename):
     icon_pixmap = icon.pixmap(24,24)
