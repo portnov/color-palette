@@ -8,6 +8,7 @@ creating it, as I'm not experienced in creating them. So, list of depencencies:
 * PyQt4.
 * Numpy.
 * lxml.
+* appdirs.
 * LCMS bindings (v. 1.19 will be OK) - optional, used for LCh and Lab color
   models. They simply will not be available if you have not LCMS bindings
   installed.
