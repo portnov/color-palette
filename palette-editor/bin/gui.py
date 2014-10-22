@@ -72,6 +72,8 @@ def locate_template(name):
 
 def locate_palette(name):
     base = appdirs.user_config_dir("palette-editor", "palette-editor")
+    if not exists(base):
+        os.makedirs(base)
     return join(base, name)
 
 def compose_icon(icon, filename):
@@ -204,8 +206,8 @@ class GUI(QtGui.QMainWindow):
         self._init_svg_actions()
 
         self.setWindowTitle(_("Palette editor"))
-        self.resize(600, 800)
-        self._restore()
+        #self.resize(600, 800)
+        #self._restore()
 
     def _get_settings_color(self, settings, name):
         s = unicode(settings.value(name).toString()) 
@@ -218,18 +220,48 @@ class GUI(QtGui.QMainWindow):
             s = clr.hex()
             settings.setValue(name, s)
 
-    def _restore(self):
+    def restore(self):
+        palette_filename = locate_palette("default.gpl")
+        if exists(palette_filename):
+            palette = load_palette(palette_filename)
+            self._load_palette(palette)
+
         settings = QtCore.QSettings("palette-editor", "palette-editor")
         self.restoreGeometry(settings.value("geometry").toByteArray())
         self.restoreState(settings.value("windowState").toByteArray())
 
-        selector_idx, ok = settings.value("selector").toUInt()
+        selector_idx, ok = settings.value("selector/tab").toUInt()
         if ok:
             self.tabs.setCurrentIndex(selector_idx)
+
+        mixer_idx, ok = settings.value("selector/mixer").toUInt()
+        if ok:
+            _, mixer = self.available_selector_mixers[mixer_idx]
+            self.selector.setMixer(mixer, mixer_idx)
 
         clr = self._get_settings_color(settings, "current_color")
         if clr:
             self._select_color(clr)
+
+        mixer_idx, ok = settings.value("palette/mixer").toUInt()
+        if ok:
+            _, mixer = self.available_mixers[mixer_idx]
+            self.setMixer(mixer, mixer_idx)
+
+        space_idx, ok = settings.value("matching/space").toUInt()
+        if ok:
+            self.matching_spaces.setCurrentIndex(space_idx)
+
+        harmony_idx, ok = settings.value("harmonies/harmony").toUInt()
+        if ok:
+            self.harmonies.setCurrentIndex(harmony_idx)
+
+        shader_idx, ok = settings.value("harmonies/shader").toUInt()
+        if ok:
+            self.shaders.setCurrentIndex(shader_idx)
+
+        auto = settings.value("harmonies/auto").toBool()
+        self.auto_harmony.setChecked(auto)
 
         nswatches = settings.beginReadArray("swatches")
         for idx in range(nswatches):
@@ -252,17 +284,30 @@ class GUI(QtGui.QMainWindow):
         self.scratchpad.colors = colors
         settings.endArray()
 
-        palette_filename = locate_palette("default.gpl")
-        if exists(palette_filename):
-            palette = load_palette(palette_filename)
-            self._load_palette(palette)
-
     def _store(self):
         settings = QtCore.QSettings("palette-editor", "palette-editor")
         settings.setValue("geometry", self.saveGeometry())
         settings.setValue("windowState", self.saveState());
 
-        settings.setValue("selector", self.tabs.currentIndex())
+        settings.setValue("selector/tab", self.tabs.currentIndex())
+
+        mixer_idx = self.selector_mixers.currentIndex()
+        settings.setValue("selector/mixer", mixer_idx)
+
+        mixer_idx = self.mixers.currentIndex()
+        settings.setValue("palette/mixer", mixer_idx)
+
+        space_idx = self.matching_spaces.currentIndex()
+        settings.setValue("matching/space", space_idx)
+
+        harmony_idx = self.harmonies.currentIndex()
+        settings.setValue("harmonies/harmony", harmony_idx)
+
+        shader_idx = self.shaders.currentIndex()
+        settings.setValue("harmonies/shader", shader_idx)
+
+        auto = self.auto_harmony.isChecked()
+        settings.setValue("harmonies/auto", auto)
 
         clr = self.current_color.getColor()
         self._put_settings_color(settings, "current_color", clr)
@@ -297,7 +342,7 @@ class GUI(QtGui.QMainWindow):
         self.addDockWidget(area, dock)
 
     def _select_color(self, clr):
-        #self.selector.selected_color = clr
+        self.selector.setColor(clr)
         self.current_color.setColor(clr)
 
     def _init_menu(self):
@@ -1009,5 +1054,6 @@ if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     w = GUI()
     w.show()
+    w.restore()
     sys.exit(app.exec_())
 

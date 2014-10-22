@@ -28,6 +28,8 @@ class PaletteImage(object):
             return self.image
 
     def draw(self, w, h):
+        if w is None or h is None:
+            return None
         image = QtGui.QImage(w, h,  QtGui.QImage.Format_ARGB32_Premultiplied)
         image.fill(self.background)
         slot_w = float(w)/float(self.palette.ncols)

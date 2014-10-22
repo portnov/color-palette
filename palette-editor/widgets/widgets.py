@@ -321,6 +321,8 @@ class CacheImage(object):
             w = self.image_w
         if h is None:
             h = self.image_h
+        if w is None or h is None:
+             return
         self.calc()
         self.draw(w, h)
     
@@ -338,6 +340,8 @@ class HueRing(CacheImage):
       self.colors = [self.mixer.fromHue(hue) for hue in seq(0.0, 1.0, 1.0/self.STEPS)]
     
     def draw(self, w, h):
+        if w is None or h is None:
+             return
         self.image = QtGui.QImage(w, h,  QtGui.QImage.Format_ARGB32_Premultiplied)
         self.image.fill(0)
         self.image_w = w
@@ -408,6 +412,8 @@ class Gradient(CacheImage):
     
     def draw(self, w, h):
         #print("Draw: " + str((w, h)))
+        if w is None or h is None:
+             return
         self.image = QtGui.QImage(w, h,  QtGui.QImage.Format_ARGB32_Premultiplied)
         self.image.fill(0)
         self.image_w = w
@@ -565,6 +571,15 @@ class Selector(QtGui.QLabel):
             self.repaint()
             if self.isVisible():
                 self.selected.emit(self._sequence, self._prev_color, self.selected_color)
+
+    def setMixer_(self, mixer, idx=None, repaint=True):
+        self.mixer = mixer
+        self.square.mixer = mixer
+        self.ring.mixer = mixer
+        if idx is not None and self.class_selector is not None:
+            self.class_selector.select_item(idx)
+        if repaint:
+            self.repaint()
 
     def setMixer(self, mixer, idx=None):
         self.mixer = mixer
