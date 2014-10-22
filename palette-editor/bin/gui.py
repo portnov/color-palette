@@ -263,6 +263,14 @@ class GUI(QtGui.QMainWindow):
         auto = settings.value("harmonies/auto").toBool()
         self.auto_harmony.setChecked(auto)
 
+        harmony_param, ok = settings.value("harmonies/harmony_param").toUInt()
+        if ok:
+            self.harmony_slider.setValue(harmony_param)
+
+        shader_param, ok = settings.value("harmonies/shader_param").toUInt()
+        if ok:
+            self.shades_slider.setValue(shader_param)
+
         nswatches = settings.beginReadArray("swatches")
         for idx in range(nswatches):
             settings.setArrayIndex(idx)
@@ -308,6 +316,12 @@ class GUI(QtGui.QMainWindow):
 
         auto = self.auto_harmony.isChecked()
         settings.setValue("harmonies/auto", auto)
+
+        harmony_param = self.harmony_slider.value()
+        settings.setValue("harmonies/harmony_param", harmony_param)
+
+        shader_param = self.shades_slider.value()
+        settings.setValue("harmonies/shader_param", shader_param)
 
         clr = self.current_color.getColor()
         self._put_settings_color(settings, "current_color", clr)
