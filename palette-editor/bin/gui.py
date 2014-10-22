@@ -234,8 +234,18 @@ class GUI(QtGui.QMainWindow):
             clr = self._get_settings_color(settings, "color")
             if clr:
                 self.swatches[i][j].setColor_(clr)
-                #self.swatches[i][j].repaint()
-        #self.update()
+        settings.endArray()
+
+        nclrs = settings.beginReadArray("scratchpad")
+        colors = []
+        for idx in range(nclrs):
+            settings.setArrayIndex(idx)
+            clr = self._get_settings_color(settings, "color")
+            w,ok = settings.value("width").toReal()
+            if clr and ok:
+                colors.append((clr, w))
+        self.scratchpad.colors = colors
+        settings.endArray()
 
     def _store(self):
         settings = QtCore.QSettings("palette-editor", "palette-editor")
@@ -255,6 +265,15 @@ class GUI(QtGui.QMainWindow):
                 settings.setArrayIndex(i)
                 self._put_settings_color(settings, "color", clr)
                 i += 1
+        settings.endArray()
+
+        settings.beginWriteArray("scratchpad")
+        i = 0
+        for clr,w in self.scratchpad.colors:
+            settings.setArrayIndex(i)
+            self._put_settings_color(settings, "color", clr)
+            settings.setValue("width", w)
+            i += 1
         settings.endArray()
 
     def _dock(self, name, title, area, widget):
