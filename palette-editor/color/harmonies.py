@@ -57,19 +57,16 @@ def circle(i, n, h, max=1.0):
         h -= max 
     return h
 
-def Similar(space):
+def Similar(space, n):
     class SimilarH(Harmony):
         uses_parameter = True
         @classmethod
         def get(cls, color, parameter):
             h, s, v = space.getCoords(color)
-            h1 = h + 0.2*parameter
-            if h1 > 1.0:
-                h1 -= 1.0
-            h2 = h - 0.2*parameter
-            if h2 < 0.0:
-                h2 += 1.0
-            return [space.fromCoords((h1,s,v)), color, space.fromCoords((h2,s,v))]
+            step = 0.2*parameter
+            hmin = h - (n//2)*step
+            hmax = h + (n//2)*step
+            return [space.fromCoords((dh % 1.0, s,v)) for dh in seq(hmin, hmax, step)]
     return SimilarH
 
 def SimilarAndOpposite(space):
