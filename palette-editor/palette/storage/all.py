@@ -4,7 +4,7 @@ from fnmatch import fnmatch
 from os.path import exists
 
 from gimp import GimpPalette
-from xml import XmlPalette
+from mypaint import XmlPalette
 from paletton import Paletton
 from css import *
 from svg import SVG

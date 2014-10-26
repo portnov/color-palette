@@ -88,8 +88,9 @@ class ScratchpadModel(object):
     def get_undo_stack(self):
         return self.parent.get_undo_stack()
 
-class ColorModel(object):
+class ColorModel(QtCore.QObject):
     def __init__(self, parent, color=None):
+        QtCore.QObject.__init__(self)
         self.parent = parent
         self.color = color
         self.set_color_enabled = True

@@ -53,7 +53,8 @@ from widgets.commands.swatches import *
 from widgets.commands.general import *
 from widgets.wheel import HCYSelector
 from widgets.labselector import LabSelector
-from widgets.expander import ExpanderWidget
+#from widgets.expander import ExpanderWidget
+from widgets.htmlview import Preview
 from color import colors, mixers, harmonies
 from color.colors import Color
 from color.spaces import *
@@ -207,6 +208,8 @@ class GUI(QtGui.QMainWindow):
         harmonies_widget = self._init_harmonies_widgets()
         swatches = self._init_swatches()
         svg_widget = self._init_svg_widgets(template_path)
+        svg_widget = self._init_svg_widgets()
+        html_preview = self._init_html_widgets()
 
         self.setTabPosition( QtCore.Qt.TopDockWidgetArea , QtGui.QTabWidget.North )
         #self.setDockOptions( QtGui.QMainWindow.ForceTabbedDocks )
@@ -221,6 +224,7 @@ class GUI(QtGui.QMainWindow):
         self._dock("Harmonies", _("Harmonies"), QtCore.Qt.TopDockWidgetArea, harmonies_widget)
         self._dock("Swatches", _("Color swatches"), QtCore.Qt.BottomDockWidgetArea, swatches)
         self._dock("Preview", _("Preview"), QtCore.Qt.TopDockWidgetArea, svg_widget)
+        self._dock("HtmlPreview", _("HTML Preview"), QtCore.Qt.TopDockWidgetArea, html_preview)
 
 
         self.harmonies.set_last_enabled(False)
@@ -518,6 +522,11 @@ class GUI(QtGui.QMainWindow):
                 "colorize_palette.png", _("Colorize from &palette"), self.on_colorize_palette)
         create_action(self, self.toolbar_template, menu,
                 "View-refresh.png", _("&Reset colors"), self.on_reset_template)
+
+    def _init_html_widgets(self):
+        preview = Preview(self.model, self)
+        preview.load_file("template.html")
+        return preview
 
     def _init_svg_widgets(self, template_path=None):
         vbox_right = QtGui.QVBoxLayout()
