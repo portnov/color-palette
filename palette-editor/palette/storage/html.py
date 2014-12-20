@@ -42,7 +42,10 @@ def colors_dicts(html):
     inline_colors = {}
     css_colors = {}
 
+    color_idx = 1
+
     def add_color(key, css_color, css=False, add_hex=False):
+        
         color = convert_color(css_color)
         for k,v in css_colors.iteritems():
             if v.getRGB() == color.getRGB():
@@ -50,12 +53,14 @@ def colors_dicts(html):
         for k,v in inline_colors.iteritems():
             if v.getRGB() == color.getRGB():
                 return
+        key = key + "_" + str(color_idx)
         if add_hex:
             key = key + "_" + color.hex()[1:]
         if css:
             css_colors[key] = color
         else:
             inline_colors[key] = color
+        return color_idx + 1
 
     def tidy(s):
         for x in ".-()>* ":
@@ -88,7 +93,7 @@ def colors_dicts(html):
 
                                 selector = rule.selectorText
                                 cname = "_".join(["style", "inline", selector, property.name.replace("-","_")])
-                                add_color(cname, val, css=True)
+                                color_idx = add_color(cname, val, css=True)
             continue
 
         for key, value in attrs:
@@ -97,7 +102,7 @@ def colors_dicts(html):
                 css_color = parse_color(value)
                 if not isinstance(css_color, cssutils.css.ColorValue):
                     continue
-                add_color(cname, css_color, False, True)
+                color_idx = add_color(cname, css_color, False, False)
 
             if key == u"style":
                 style = cssutils.parseStyle(value)
@@ -106,7 +111,7 @@ def colors_dicts(html):
                         if not isinstance(val, cssutils.css.ColorValue):
                             continue
                         cname = "_".join([name, "style", property.name.replace("-","_")])
-                        add_color(cname, val, False, True)
+                        color_idx = add_color(cname, val, False, False)
 
     return (inline_colors, css_colors)
 
