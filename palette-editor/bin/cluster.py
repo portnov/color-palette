@@ -1,11 +1,33 @@
 #!/usr/bin/python
 
 import sys
+from os.path import dirname, abspath, join
 import numpy as np
 from time import time
 from pylab import imread
 from sklearn.cluster import MeanShift, estimate_bandwidth
 from sklearn.utils import shuffle
+import gettext
+
+bindir = dirname(sys.argv[0])
+rootdir = dirname(bindir)
+sys.path.append(rootdir)
+
+def locate_locales():
+    d = abspath( join(rootdir, "share", "locale") )
+    if sys.platform.startswith('win'):
+        if not exists(d):
+            d = abspath( join(bindir, "share", "locale") )
+    print("Using locales at " + d)
+    return d
+
+if sys.platform.startswith('win'):
+    import locale
+    if os.getenv('LANG') is None:
+        lang, enc = locale.getdefaultlocale()
+        os.environ['LANG'] = lang
+
+gettext.install("colors", localedir=locate_locales(), unicode=True)
 
 from color.colors import *
 from palette.palette import *
