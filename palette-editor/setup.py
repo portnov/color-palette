@@ -34,6 +34,7 @@ setup(
                     ('share/palette-editor/icons', glob('share/icons/*.png')),
                     ('share/palette-editor/palettes', glob('share/palettes/*')),
                     ('share/palette-editor/templates', glob('share/templates/*.svg')),
+                    ('share/applications', ['palette-editor.desktop']),
                 ] + locate_locales()
 )
 

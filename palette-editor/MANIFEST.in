@@ -1,4 +1,4 @@
-include LICENSE INSTALL CHANGES.txt
+include LICENSE INSTALL CHANGES.txt *.desktop
 recursive-include share/icons *.png
 recursive-include share/palettes *.xml *.gpl *.css
 recursive-include share/templates *.svg
