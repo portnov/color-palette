@@ -1,0 +1,31 @@
+Installation procedure for Debian/Ubuntu
+----------------------------------------
+
+I created basic deb package, that should be working for Debian 8.0+ and Ubuntu
+15.04+ (it may also work with older versions, just did not check). It is not
+ideal; for example, it does not contain proper dependncies on some Python
+packages that it really needs.
+
+So, after downloading python-palette-editor*.deb, you should do the following:
+
+$ sudo apt-get install python-qt4 python-numpy python-lxml python-appdirs
+
+Not mandatory, but recommended to be able to open/save palettes as images:
+
+$ sudo apt-get install python-pillow
+
+Some recommended packages are not properly packaged for Debian, so you can do
+the following:
+
+$ sudo apt-get install python-pip
+$ sudo pip install python-colourlovers # To be able to directly download palettes 
+                                       # from colorlovers.com into the program
+$ sudo pip install tinycss       # To be able to read *.css files as palettes
+
+And when dependencies are installed, you can do
+
+$ sudo dpkg -i python-palette-editor*.deb
+
+Main executable script is installed under /usr/bin/gui.py, and should become 
+available in your WM/DE menu under Graphics section (called "Palette editor").
+
