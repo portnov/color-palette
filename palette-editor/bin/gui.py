@@ -9,6 +9,8 @@ import appdirs
 
 from PyQt4 import QtGui
 
+print("Using Python " + sys.version)
+
 bindir = dirname(sys.argv[0])
 rootdir = dirname(bindir)
 sys.path.append(rootdir)
@@ -65,7 +67,10 @@ from models.models import *
 
 def locate_icon(name):
     return join(datarootdir, "icons", name)
-__builtins__.locate_icon = locate_icon
+try:
+    __builtins__.locate_icon = locate_icon
+except AttributeError:
+    __builtins__['locate_icon'] = locate_icon
 
 def locate_template(name):
     return join(datarootdir, "templates", name)
