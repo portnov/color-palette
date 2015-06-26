@@ -45,6 +45,16 @@ class XmlPalette(Storage):
         widget.setLayout(box)
         return widget
 
+    @staticmethod
+    def get_group_names(filename):
+        result = []
+        xml = ET.parse(filename)
+        for xmlgrp in xml.xpath("//group"):
+            xml_label = xmlgrp.find('label')
+            if xml_label is not None:
+                result.append(xml_label.text)
+        return result
+
     def save(self, file_w=None):
         pass
 
