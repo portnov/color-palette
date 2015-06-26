@@ -18,7 +18,7 @@ setup(
     version = '0.0.5',
     author = 'Ilya Portnov',
     author_email = 'portnov84@rambler.ru',
-    scripts = ['bin/gui.py', 'bin/cluster.py', 'bin/palette_viewer.py'],
+    scripts = ['bin/gui.py', 'bin/cluster.py', 'bin/palette_viewer.py', 'bin/convert_palette.py'],
     url = 'https://github.com/portnov/color-palette',
     license = 'LICENSE',
     description = 'Set of Python (+Qt) scripts to work with colors, color harmonies, mixing of colors, and edit color palettes',
