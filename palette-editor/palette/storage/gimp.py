@@ -18,7 +18,7 @@ def save_gpl(name, ncols, clrs, file_w):
     else:
         raise ValueError("Invalid argument type in save_gpl: {}".format(type(file_w)))
     pf.write('GIMP Palette\n')
-    pf.write('Name: '+name+'\n')
+    pf.write(u"Name: {}\n".format(name).encode('utf-8'))
     if ncols is not None:
         pf.write('Columns: %s\n' % ncols)
     for color in clrs:
@@ -87,7 +87,7 @@ class GimpPalette(Storage):
                 self.palette.name = basename(file_w)
             else:
                 self.palette.name='Colors'
-        pf.write('Name: '+self.palette.name+'\n')
+        pf.write(u"Name: {}\n".format(self.palette.name).encode('utf-8'))
         if hasattr(self.palette, 'ncols') and self.palette.ncols:
             pf.write('Columns: %s\n' % self.palette.ncols)
         pf.write(marker+'\n')
