@@ -32,8 +32,10 @@ def get_dst_filename(src, args, group=None, idx=None):
         dst = args.output
         if dst is not None:
             dst = dst[0]
+        else:
+            dst = src
         name, ext = splitext(dst)
-        return u"{}_{}_{}{}".format(name, idx, group, ext)
+        return u"{}_{}_{}{}".format(unicode(name,'utf-8'), idx, group, ext)
     elif args.output is not None:
         return args.output[0]
     else:
