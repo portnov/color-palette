@@ -30,7 +30,7 @@ def detect_storage(filename, save=False):
             continue
         if not save and not cls.can_load:
             continue
-        if not any([fnmatch(filename, mask) for mask in cls.filters]):
+        if not any([fnmatch(filename.lower(), mask) for mask in cls.filters]):
             continue
         if exists(filename) and not cls.check(filename):
             continue
