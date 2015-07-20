@@ -171,6 +171,8 @@ image_loading_supported = pil_available or cluster_analysis_available
 
 if pil_available:
     get_common_colors = bin_divide_colors
+    use_sklearn = False
 elif cluster_analysis_available :
     get_common_colors = cluster_analyze
+    use_sklearn = True
 
