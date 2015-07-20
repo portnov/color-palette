@@ -4,14 +4,17 @@ from math import sqrt, floor
 from PyQt4 import QtGui
 
 from color.colors import *
+from color import spaces
 from color import mixers
 from palette.image import PaletteImage
 from palette.palette import *
 from palette.storage.storage import *
 from palette.storage.cluster import *
+from matching.transform import rho, get_center
 
 LOAD_MORE = 1
-LOAD_LESS = 2
+LOAD_LESS_COMMON = 2
+LOAD_LESS_FAREST = 3
 
 print("Ok")
 
@@ -35,25 +38,32 @@ class Image(Storage):
             if dialog._more_button.isChecked():
                 method = LOAD_MORE
             elif dialog._less_button.isChecked():
-                method = LOAD_LESS
+                method = LOAD_LESS_COMMON
+            elif dialog._less_farest.isChecked():
+                method = LOAD_LESS_FAREST
             dialog.options = method
             dialog.on_current_changed(filename)
 
         group_box = QtGui.QGroupBox(_("Loading method"))
         dialog._more_button = more = QtGui.QRadioButton(_("Use 49 most used colors"))
         dialog._less_button = less = QtGui.QRadioButton(_("Use 9 most used colors and mix them"))
+        dialog._less_farest = less_farest = QtGui.QRadioButton(_("Use 9 most different colors and mix them"))
 
         more.toggled.connect(on_method_changed)
         less.toggled.connect(on_method_changed)
+        less_farest.toggled.connect(on_method_changed)
 
-        if dialog.options != LOAD_LESS:
+        if dialog.options is None or dialog.options == LOAD_MORE:
             more.setChecked(True)
-        else:
+        elif dialog.options == LOAD_LESS_COMMON:
             less.setChecked(True)
+        else:
+            less_farest.setChecked(True)
 
         vbox = QtGui.QVBoxLayout()
         vbox.addWidget(more)
         vbox.addWidget(less)
+        vbox.addWidget(less_farest)
         group_box.setLayout(vbox)
         return group_box
 
@@ -74,17 +84,27 @@ class Image(Storage):
                 return x
             return cmp(s1,s2)
 
-        if use_sklearn or options != LOAD_LESS:
-            colors = get_common_colors(file_r)
-            colors.sort(cmp=_cmp)
+        def get_farest(space, colors, n=9):
+            points = [space.getCoords(c) for c in colors]
+            center = get_center(points)
+            srt = sorted(points, key = lambda c: -rho(center, c))
+            farest = srt[:n]
+            return [space.fromCoords(c) for c in farest]
+
+        colors = get_common_colors(file_r)
+        colors.sort(cmp=_cmp)
+
+        if use_sklearn or options is None or options == LOAD_MORE:
             self.palette = create_palette(colors, mixer)
             return self.palette
 
         else:
-            colors = get_common_colors(file_r, n_clusters=9)
-            colors.sort(cmp=_cmp)
+            if options == LOAD_LESS_FAREST:
+                colors = get_farest(spaces.RGB, colors)
+            else:
+                colors = get_common_colors(file_r, n_clusters=9)
 
-            palette = Palette(mixer, nrows=7, ncols=7)
+            self.palette = palette = Palette(mixer, nrows=7, ncols=7)
 
             palette.paint(0, 0, colors[0])
             palette.paint(0, 3, colors[1])
