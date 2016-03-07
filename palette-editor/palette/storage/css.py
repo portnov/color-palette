@@ -14,6 +14,7 @@ except ImportError:
     css_support = False
 
 class CSS(Storage):
+    name = 'css'
     title = _("CSS cascading stylesheet")
     filters = ["*.css"]
     can_load = css_support

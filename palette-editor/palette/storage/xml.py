@@ -8,6 +8,7 @@ from color import mixers
 from palette.storage.storage import *
 
 class XmlPalette(Storage):
+    name = 'xml'
     title = _("MyPaint palette")
     filters = ["*.xml"]
     can_load = True

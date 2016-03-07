@@ -10,6 +10,7 @@ from palette.storage.storage import *
 from matching.svg import read_template
 
 class SVG(Storage):
+    name = 'svg'
     title = _("SVG images")
     filters = ["*.svg"]
     can_load = True

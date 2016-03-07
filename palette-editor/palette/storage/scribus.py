@@ -19,6 +19,7 @@ def fromHex_CMYK(s):
     return result
 
 class Scribus(Storage):
+    name = 'scribus'
     title = _("Scribus color swatches")
     filters = ["*.xml"]
     can_load = True

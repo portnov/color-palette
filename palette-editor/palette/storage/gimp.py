@@ -31,6 +31,7 @@ def save_gpl(name, ncols, clrs, file_w):
 
 class GimpPalette(Storage):
 
+    name = 'gpl'
     title = _("Gimp palette")
     filters = ["*.gpl"]
     can_save = True

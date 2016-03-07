@@ -19,6 +19,7 @@ def parse_cmdline():
     parser = argparse.ArgumentParser(description="Convert palettes between supported formats")
     parser.add_argument('input', metavar='FILENAME')
     parser.add_argument('-o', '--output', nargs=1, metavar='FILENAME', help='Specify output file name instead of <input_file_name>.png')
+    parser.add_argument('-f', '--format', metavar='FORMAT', help='Use specified output format')
     parser.add_argument('-g', '--group', nargs=1, metavar='GROUP', help='Use specified group from MyPaint palette')
     parser.add_argument('-a', '--all', action='store_true', help='Use all groups from MyPaint palette')
     return parser.parse_args()
@@ -41,13 +42,14 @@ def get_dst_filename(src, args, group=None, idx=None):
     else:
         return default_dst_filename(src)
 
-def convert(srcfile, dstfile, group=None):
+def convert(srcfile, dstfile, group=None, formatname=None):
     palette = load_palette(srcfile, options=group)
-    save_palette(palette, dstfile)
+    save_palette(palette, dstfile, formatname=formatname)
     print(u"Writing {}".format(dstfile).encode('utf-8'))
 
 args = parse_cmdline()
 
+print args.format
 srcfile = args.input
 
 if args.all:
@@ -57,6 +59,6 @@ if args.all:
         convert(srcfile, dstfile, grp)
 else:
     dstfile = get_dst_filename(srcfile, args, args.group)
-    convert(srcfile, dstfile)
+    convert(srcfile, dstfile, formatname=args.format)
 
 

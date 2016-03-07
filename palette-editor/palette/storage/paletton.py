@@ -8,6 +8,7 @@ from color import mixers
 from palette.storage.storage import *
 
 class Paletton(Storage):
+    name = 'paletton'
     title = _("Paletton.com palette")
     filters = ["*.xml"]
     can_load = True

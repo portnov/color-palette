@@ -8,6 +8,7 @@ from palette.palette import *
 
 class Storage(object):
 
+    name = None
     title = None
     filters = []
 

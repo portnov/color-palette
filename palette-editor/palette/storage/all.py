@@ -13,6 +13,14 @@ from scribus import Scribus
 
 storages = [GimpPalette, XmlPalette, Paletton, CSS, SVG, Image, Scribus]
 
+def get_storage_by_name(name):
+    print("Searching for storage named", name)
+    for cls in storages:
+        if cls.name == name:
+            print("Using storage class", cls)
+            return cls
+    return None
+
 def get_all_filters(save=False):
     result = ""
     for cls in storages:

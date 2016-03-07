@@ -19,6 +19,7 @@ LOAD_LESS_FAREST = 3
 print("Ok")
 
 class Image(Storage):
+    name = 'image'
     title = _("Raster image")
     filters = ["*.jpg", "*.png", "*.gif"]
     can_load = image_loading_supported
@@ -70,7 +71,10 @@ class Image(Storage):
     def save(self, file_w):
         w,h = self.palette.ncols * 48, self.palette.nrows * 48
         image = PaletteImage( self.palette ).get(w,h)
-        image.save(file_w)
+        print("Writing image: " + file_w)
+        res = image.save(file_w)
+        if not res:
+            image.save(file_w, format='PNG')
 
     def load(self, mixer, file_r, options=None):
         def _cmp(clr1,clr2):
