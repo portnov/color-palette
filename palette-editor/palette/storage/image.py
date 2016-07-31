@@ -10,13 +10,25 @@ from palette.image import PaletteImage
 from palette.palette import *
 from palette.storage.storage import *
 from palette.storage.cluster import *
+from palette.storage.table import parse_color_table
 from matching.transform import rho, get_center
 
 LOAD_MORE = 1
 LOAD_LESS_COMMON = 2
 LOAD_LESS_FAREST = 3
+LOAD_TABLE = 4
 
 print("Ok")
+
+class DialogOptions(object):
+    def __init__(self, method):
+        self.method = method
+        self.border_x = 10
+        self.border_y = 10
+        self.gap_x = 10
+        self.gap_y = 10
+        self.size_x = 5
+        self.size_y = 5
 
 class Image(Storage):
     name = 'image'
@@ -34,6 +46,12 @@ class Image(Storage):
         if use_sklearn:
             return None
 
+        def dependencies():
+            if dialog.options is None or dialog.options.method != LOAD_TABLE:
+                table_w.setVisible(False)
+            else:
+                table_w.setVisible(True)
+
         def on_method_changed(checked):
             method = None
             if dialog._more_button.isChecked():
@@ -42,22 +60,62 @@ class Image(Storage):
                 method = LOAD_LESS_COMMON
             elif dialog._less_farest.isChecked():
                 method = LOAD_LESS_FAREST
-            dialog.options = method
+            elif dialog._table.isChecked():
+                method = LOAD_TABLE
+            dialog.options = DialogOptions(method)
+            if method == LOAD_TABLE:
+                dialog.options.border_x = dialog._border_x.value()
+                dialog.options.border_y = dialog._border_y.value()
+                dialog.options.gap_x = dialog._gap_x.value()
+                dialog.options.gap_y = dialog._gap_y.value()
+                dialog.options.size_x = dialog._size_x.value()
+                dialog.options.size_y = dialog._size_y.value()
+            dependencies()
             dialog.on_current_changed(filename)
 
         group_box = QtGui.QGroupBox(_("Loading method"))
         dialog._more_button = more = QtGui.QRadioButton(_("Use 49 most used colors"))
         dialog._less_button = less = QtGui.QRadioButton(_("Use 9 most used colors and mix them"))
         dialog._less_farest = less_farest = QtGui.QRadioButton(_("Use 9 most different colors and mix them"))
+        dialog._table = table = QtGui.QRadioButton(_("Load table of colors"))
+
+        table_w = QtGui.QWidget(dialog)
+        table_form = QtGui.QFormLayout(table_w)
+        dialog._border_x = QtGui.QSpinBox(table_w)
+        dialog._border_x.valueChanged.connect(on_method_changed)
+        table_form.addRow(_("Border from right/left side, px"), dialog._border_x)
+        dialog._border_y = QtGui.QSpinBox(table_w)
+        dialog._border_y.valueChanged.connect(on_method_changed)
+        table_form.addRow(_("Border from top/bottom side, px"), dialog._border_y)
+        dialog._gap_x = QtGui.QSpinBox(table_w)
+        dialog._gap_x.valueChanged.connect(on_method_changed)
+        table_form.addRow(_("Width of gap between cells, px"), dialog._gap_x)
+        dialog._gap_y = QtGui.QSpinBox(table_w)
+        dialog._gap_y.valueChanged.connect(on_method_changed)
+        table_form.addRow(_("Height of gap between cells, px"), dialog._gap_y)
+        dialog._size_x = QtGui.QSpinBox(table_w)
+        dialog._size_x.setValue(5)
+        dialog._size_x.valueChanged.connect(on_method_changed)
+        table_form.addRow(_("Number of columns in the table"), dialog._size_x)
+        dialog._size_y = QtGui.QSpinBox(table_w)
+        dialog._size_y.setValue(5)
+        dialog._size_y.valueChanged.connect(on_method_changed)
+        table_form.addRow(_("Number of rows in the table"), dialog._size_y)
+        table_w.setLayout(table_form)
+
+        dependencies()
 
         more.toggled.connect(on_method_changed)
         less.toggled.connect(on_method_changed)
         less_farest.toggled.connect(on_method_changed)
+        table.toggled.connect(on_method_changed)
 
-        if dialog.options is None or dialog.options == LOAD_MORE:
+        if dialog.options is None or dialog.options.method == LOAD_MORE:
             more.setChecked(True)
-        elif dialog.options == LOAD_LESS_COMMON:
+        elif dialog.options.method == LOAD_LESS_COMMON:
             less.setChecked(True)
+        elif dialog.options.method == LOAD_TABLE:
+            table.setChecked(True)
         else:
             less_farest.setChecked(True)
 
@@ -65,6 +123,8 @@ class Image(Storage):
         vbox.addWidget(more)
         vbox.addWidget(less)
         vbox.addWidget(less_farest)
+        vbox.addWidget(table)
+        vbox.addWidget(table_w)
         group_box.setLayout(vbox)
         return group_box
 
@@ -95,15 +155,24 @@ class Image(Storage):
             farest = srt[:n]
             return [space.fromCoords(c) for c in farest]
 
-        colors = get_common_colors(file_r)
-        colors.sort(cmp=_cmp)
-
-        if use_sklearn or options is None or options == LOAD_MORE:
+        if use_sklearn or options is None or options.method is None or options.method == LOAD_MORE:
+            colors = get_common_colors(file_r)
+            colors.sort(cmp=_cmp)
             self.palette = create_palette(colors, mixer)
             return self.palette
+        
+        elif options.method == LOAD_TABLE:
+            self.palette = palette = Palette(mixer, nrows=options.size_y, ncols=options.size_x)
+            colors = parse_color_table(file_r, options)
+
+            for i in range(0, options.size_y):
+                for j in range(0, options.size_x):
+                    palette.paint(i, j, colors[i][j])
+
+            return palette
 
         else:
-            if options == LOAD_LESS_FAREST:
+            if options.method == LOAD_LESS_FAREST:
                 colors = get_farest(spaces.RGB, colors)
             else:
                 colors = get_common_colors(file_r, n_clusters=9)
