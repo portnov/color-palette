@@ -14,7 +14,7 @@ from color.colors import *
 
 def average(img):
     stat = ImageStat.Stat(img)
-    avg = stat.mean
+    avg = stat.median
     if len(avg) == 3:
         r,g,b = avg
     elif len(avg) == 4:
