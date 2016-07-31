@@ -173,7 +173,7 @@ def match_colors_(space, colors1, colors2):
             y = get_nearest(x, occupied, points2)
             matched.append(y)
         return [space.fromCoords(x) for x in matched]
-    except LinAlgError, e:
+    except LinAlgError as e:
         print e
         return colors1
 
