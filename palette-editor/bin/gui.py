@@ -47,6 +47,7 @@ gettext.install("colors", localedir=locate_locales(), unicode=True)
 
 from widgets.widgets import *
 from widgets.scratchpad import *
+from widgets.picker import Picker
 from widgets.commands.swatches import *
 from widgets.commands.general import *
 from widgets.wheel import HCYSelector
@@ -656,11 +657,20 @@ class GUI(QtGui.QMainWindow):
         self.tabs.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
         vbox_center.addWidget(self.tabs,5)
 
+        current_color_box = QtGui.QWidget(self)
+        current_color_hbox = QtGui.QHBoxLayout(current_color_box)
+        current_color_box.setLayout(current_color_hbox)
+
         self.current_color = ColorWidget(self, self.model.current_color)
         self.current_color.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
         self.current_color.setMaximumSize(100,50)
         self.current_color.selected.connect(self.on_set_current_color)
-        vbox_center.addWidget(self.current_color)
+        current_color_hbox.addWidget(self.current_color)
+
+        self.picker = Picker(self, _("Pick"), self.model.current_color)
+        current_color_hbox.addWidget(self.picker)
+
+        vbox_center.addWidget(current_color_box)
 
         widget.setLayout(vbox_center)
         return widget
