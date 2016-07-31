@@ -173,6 +173,7 @@ class Image(Storage):
 
         else:
             if options.method == LOAD_LESS_FAREST:
+                colors = get_common_colors(file_r)
                 colors = get_farest(spaces.RGB, colors)
             else:
                 colors = get_common_colors(file_r, n_clusters=9)
