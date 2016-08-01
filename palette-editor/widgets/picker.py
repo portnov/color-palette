@@ -11,6 +11,8 @@ class Picker(QtGui.QPushButton):
         self._picking = False
         self.border_color = None
         self.text = text
+        self.avg_size = 9
+        self._colors = []
         self.clicked.connect(self._prepare)
 
     def getColor(self):
@@ -24,7 +26,8 @@ class Picker(QtGui.QPushButton):
         return self.model.getColor() is None
     
     def paintEvent(self, event):
-        if self.text is not None:
+        if not self._picking:
+        #if self.text is not None:
             QtGui.QPushButton.paintEvent(self, event)
             return 
 
@@ -87,12 +90,38 @@ class Picker(QtGui.QPushButton):
         self._picking = True
         self.grabKeyboard()
         self.grabMouse(QtCore.Qt.CrossCursor)
+        self._colors = []
+
+    def _average(self):
+        n = 0
+        rr = 0
+        gg = 0
+        bb = 0
+        if not self._colors:
+            return None
+        for r,g,b in self._colors:
+            n += 1
+            rr += r
+            gg += g
+            bb += b
+        return Color(rr // n, gg // n, bb // n)
+
+    def _grab(self, img):
+        colors = []
+        for x in range(0, img.width()):
+            for y in range(0, img.height()):
+                r,g,b,a = QtGui.QColor(img.pixel(x,y)).getRgb()
+                colors.append((r,g,b))
+        return colors
 
     def _pick_color(self, pos):
         desktop = QtGui.QApplication.desktop().winId()
         #screen = QtGui.QApplication.desktop().primaryScreen()
-        pixmap = QtGui.QPixmap.grabWindow(desktop, pos.x(), pos.y(), 1, 1)
+        dx = dy = self.avg_size // 2
+        pixmap = QtGui.QPixmap.grabWindow(desktop, pos.x() - dx, pos.y() - dy, self.avg_size, self.avg_size)
         img = pixmap.toImage()
-        color = Color(QtGui.QColor(img.pixel(0,0)))
+        self._colors.extend(self._grab(img))
+        color = self._average()
         self.setColor(color)
+        self.repaint()
 
