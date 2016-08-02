@@ -42,6 +42,18 @@ class Picker(QtGui.QPushButton):
         self.drawWidget(event, qp)
         qp.end()
 
+    def _inner_square(self, rect):
+        w,h = rect.width(), rect.height()
+        size = min(w,h)
+        if w > h:
+            dx = (w - size) // 2
+            dy = 0
+        else:
+            dx = 0
+            dy = (h - size) // 2
+        return QtCore.QRectF(rect.x()+dx, rect.y()+dy, size, size)
+            
+
     def drawWidget(self, event,  qp):
         #print("Painting " + str(self))
         w, h = self.size().width(),  self.size().height()
@@ -67,7 +79,8 @@ class Picker(QtGui.QPushButton):
             else:
                 qp.drawRect(0, 0,  w,  h // 2)
                 rect = QtCore.QRectF(0, h // 2 + 1, w, h // 2)
-            qp.drawImage(rect, self._grabbed_image, src_rect)
+            dst_rect = self._inner_square(rect)
+            qp.drawImage(dst_rect, self._grabbed_image, src_rect)
         if (w >= 150) and (h >= 50):
             qp.setPen(clr.invert())
             qp.drawText(event.rect(), QtCore.Qt.AlignCenter, clr.verbose())
