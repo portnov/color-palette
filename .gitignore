@@ -7,3 +7,7 @@
 .eric5project/
 dist/
 palette_editor.egg-info/
+test_images/
+test_gpl/
+palette-editor/build/
+palette-editor/deb_dist/
