@@ -1,5 +1,5 @@
 # -*- mode: python -*-
-a = Analysis(['bin\\gui.py'],
+a = Analysis(['bin\\palette_editor.py'],
              pathex=['C:\\Python\\installer\\colors\\palette-editor'],
              hiddenimports=[],
              hookspath=None,
@@ -8,7 +8,7 @@ pyz = PYZ(a.pure)
 exe = EXE(pyz,
           a.scripts,
           exclude_binaries=True,
-          name='gui.exe',
+          name='palette_editor.exe',
           debug=False,
           strip=None,
           upx=True,
@@ -20,4 +20,4 @@ coll = COLLECT(exe,
                a.datas,
                strip=None,
                upx=True,
-               name='gui')
+               name='palette_editor')

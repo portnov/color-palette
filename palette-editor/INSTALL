@@ -18,13 +18,14 @@ creating it, as I'm not experienced in creating them. So, list of depencencies:
 * scikit-learn - optional, not used by default. Can be used as alternative
   variant for loading raster images as palettes.
 
-On most Linux distributions, you can just run "gui.py" after installing that depencencies.
+On most Linux distributions, you can just run "palette_editor.py" after
+installing that depencencies.
 
 For Windows, distribution can be created with PyInstaller and (optionally) NSIS:
 
 * To compile scripts into Windows executable files, run "pyinstaller
-  windows\gui.spec" (under Windows or under Wine) This will create a folder
-  "dist\gui" with set of binary files (gui.exe is the main executable file).
+  windows\palette_editor.spec" (under Windows or under Wine) This will create a folder
+  "dist\palette_editor" with set of binary files (palette_editor.exe is the main executable file).
   You can distribute that folder any way you want.
 * To create proper installer, run "makensis colors.nsis" (this can be done
   under Linux or Windows). This will create file "dist\palette-editor.exe".
