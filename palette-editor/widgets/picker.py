@@ -13,6 +13,7 @@ class Picker(QtGui.QPushButton):
         self.text = text
         self.avg_size = 9
         self._colors = []
+        self._grabbed_image = None
         self.clicked.connect(self._prepare)
 
     def getColor(self):
@@ -56,7 +57,17 @@ class Picker(QtGui.QPushButton):
             qp.setPen(self.border_color)
         clr = self.getColor()
         qp.setBrush(clr)
-        qp.drawRect(0, 0,  w,  h)
+        if self._grabbed_image is None:
+            qp.drawRect(0, 0,  w,  h)
+        else:
+            src_rect = QtCore.QRectF(0, 0, self._grabbed_image.width(), self._grabbed_image.height())
+            if w >= h:
+                qp.drawRect(0, 0,  w // 2,  h)
+                rect = QtCore.QRectF(w // 2 + 1, 0, w // 2, h)
+            else:
+                qp.drawRect(0, 0,  w,  h // 2)
+                rect = QtCore.QRectF(0, h // 2 + 1, w, h // 2)
+            qp.drawImage(rect, self._grabbed_image, src_rect)
         if (w >= 150) and (h >= 50):
             qp.setPen(clr.invert())
             qp.drawText(event.rect(), QtCore.Qt.AlignCenter, clr.verbose())
@@ -119,7 +130,7 @@ class Picker(QtGui.QPushButton):
         #screen = QtGui.QApplication.desktop().primaryScreen()
         dx = dy = self.avg_size // 2
         pixmap = QtGui.QPixmap.grabWindow(desktop, pos.x() - dx, pos.y() - dy, self.avg_size, self.avg_size)
-        img = pixmap.toImage()
+        self._grabbed_image = img = pixmap.toImage()
         self._colors.extend(self._grab(img))
         color = self._average()
         self.setColor(color)
