@@ -90,7 +90,7 @@ def compose_icon(icon, filename):
     qp.end()
     return QtGui.QIcon(icon_pixmap)
 
-def create_action(parent, toolbar, menu, icon, title, handler):
+def create_action(parent, toolbar, menu, icon, title, handler, key=None):
     if type(icon) == str:
         action = QtGui.QAction(QtGui.QIcon(locate_icon( icon)), title, parent)
     elif type(icon) == QtGui.QIcon:
@@ -99,6 +99,8 @@ def create_action(parent, toolbar, menu, icon, title, handler):
         action = QtGui.QAction(parent.style().standardIcon(icon), title, parent)
     else:
         action = QtGui.QAction(title, parent)
+    if key is not None:
+        action.setShortcut(key)
     toolbar.addAction(action)
     menu.addAction(action)
     action.triggered.connect(handler)
@@ -385,7 +387,7 @@ class GUI(QtGui.QMainWindow):
         menu = self.menuBar().addMenu(_("&Palette"))
         create_action(self, self.toolbar_palette, menu,
                 QtGui.QStyle.SP_DialogOpenButton,
-                _("&Open palette"), self.on_open_palette)
+                _("&Open palette"), self.on_open_palette, key="Ctrl+O")
         if colorlovers_available:
             create_action(self, self.toolbar_palette, menu,
                     "download.png",
@@ -393,7 +395,7 @@ class GUI(QtGui.QMainWindow):
                     self.on_download_colorlovers)
         create_action(self, self.toolbar_palette, menu,
                 QtGui.QStyle.SP_DialogSaveButton,
-                _("&Save palette"), self.on_save_palette)
+                _("&Save palette"), self.on_save_palette, key="Ctrl+S")
         menu.addSeparator()
         self.toolbar_palette.addSeparator()
         self.toolbar_palette.addAction(self.undo_action)
@@ -401,7 +403,7 @@ class GUI(QtGui.QMainWindow):
         self.toolbar_palette.addSeparator()
         toggle_edit = create_action(self, self.toolbar_palette, menu,
                 "Gnome-colors-gtk-edit.png",
-                _("Toggle edit &mode"), self.on_toggle_edit)
+                _("Toggle edit &mode"), self.on_toggle_edit, key="Ctrl+L")
         toggle_edit.setCheckable(True)
         toggle_edit.setChecked(False)
         menu.addSeparator()
@@ -667,7 +669,9 @@ class GUI(QtGui.QMainWindow):
         self.current_color.selected.connect(self.on_set_current_color)
         current_color_hbox.addWidget(self.current_color)
 
-        self.picker = Picker(self, _("Pick"), self.model.current_color)
+        self.picker = Picker(self, _("Pic&k"), self.model.current_color)
+        picker_shortcut = QtGui.QShortcut("Ctrl+I", self)
+        picker_shortcut.activated.connect(lambda: self.picker.clicked.emit(False))
         current_color_hbox.addWidget(self.picker)
 
         vbox_center.addWidget(current_color_box)
