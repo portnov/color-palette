@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2015-07-21 21:01+YEKT\n"
+"POT-Creation-Date: 2016-08-03 00:17+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -15,483 +15,487 @@ msgstr ""
 "Content-Transfer-Encoding: utf-8\n"
 "Generated-By: pygettext.py 1.5\n"
 
-#: bin/gui.py:116 bin/gui.py:486
+#: bin/gui.py:119 bin/gui.py:489
 msgid "RGB"
 msgstr "RGB"
 
-#: bin/gui.py:117 bin/gui.py:484
+#: bin/gui.py:120 bin/gui.py:487
 msgid "HSV"
 msgstr "HSV"
 
-#: bin/gui.py:118 bin/gui.py:127 bin/gui.py:485
+#: bin/gui.py:121 bin/gui.py:130 bin/gui.py:488
 msgid "HLS"
 msgstr "HLS"
 
-#: bin/gui.py:119 bin/gui.py:128 bin/gui.py:483
+#: bin/gui.py:122 bin/gui.py:131 bin/gui.py:486
 msgid "HCY"
 msgstr "HCY"
 
-#: bin/gui.py:120
+#: bin/gui.py:123
 msgid "HCY Desaturate"
 msgstr "HCY ненасыщенный"
 
-#: bin/gui.py:121 bin/gui.py:129 bin/gui.py:487
+#: bin/gui.py:124 bin/gui.py:132 bin/gui.py:490
 msgid "RYB"
 msgstr "RYB"
 
-#: bin/gui.py:122
+#: bin/gui.py:125
 msgid "CMYK"
 msgstr "CMYK"
 
-#: bin/gui.py:123
+#: bin/gui.py:126
 msgid "CMY"
 msgstr "CMY"
 
-#: bin/gui.py:124
+#: bin/gui.py:127
 msgid "HSI (experimental)"
 msgstr "HSI (эксперимент)"
 
-#: bin/gui.py:124 bin/gui.py:129 bin/gui.py:489
+#: bin/gui.py:127 bin/gui.py:132 bin/gui.py:492
 msgid "LCh"
 msgstr "LCh"
 
-#: bin/gui.py:125 bin/gui.py:490
+#: bin/gui.py:128 bin/gui.py:493
 msgid "Lab"
 msgstr "Lab"
 
-#: bin/gui.py:131
+#: bin/gui.py:134
 msgid "Opposite colors LCh"
 msgstr "Противоположные LCh"
 
-#: bin/gui.py:132
+#: bin/gui.py:135
 msgid "Split complimentary LCh"
 msgstr "Два противоположных LCh"
 
-#: bin/gui.py:133
+#: bin/gui.py:136
 msgid "Similar colors LCh"
 msgstr "Похожие цвета LCh"
 
-#: bin/gui.py:134
+#: bin/gui.py:137
 msgid "Five similar LCh"
 msgstr "Пять похожих LCh"
 
-#: bin/gui.py:135
+#: bin/gui.py:138
 msgid "Similar and opposite LCh"
 msgstr "Похожие и противоположный LCh"
 
-#: bin/gui.py:136
+#: bin/gui.py:139
 msgid "Rectangle LCh"
 msgstr "Прямоугольник LCh"
 
-#: bin/gui.py:137
+#: bin/gui.py:140
 msgid "Three colors LCh"
 msgstr "Три цвета LCh"
 
-#: bin/gui.py:138
+#: bin/gui.py:141
 msgid "Four colors LCh"
 msgstr "Четыре цвета LCh"
 
-#: bin/gui.py:139
+#: bin/gui.py:142
 msgid "Five colors LCh"
 msgstr "Пять цветов LCh"
 
-#: bin/gui.py:140
+#: bin/gui.py:143
 msgid "Similar colors Lab"
 msgstr "Похожие цвета Lab"
 
-#: bin/gui.py:141
+#: bin/gui.py:144
 msgid "Similar and opposite Lab"
 msgstr "Похожие и противоположный Lab"
 
-#: bin/gui.py:142
+#: bin/gui.py:145
 msgid "Rectangle Lab"
 msgstr "Прямоугольник Lab"
 
-#: bin/gui.py:143
+#: bin/gui.py:146
 msgid "Five colors Lab"
 msgstr "Пять цветов Lab"
 
-#: bin/gui.py:146
+#: bin/gui.py:149
 msgid "Just opposite"
 msgstr "Противоположные"
 
-#: bin/gui.py:147
+#: bin/gui.py:150
 msgid "Split complimentary"
 msgstr "Два противоположных"
 
-#: bin/gui.py:148
+#: bin/gui.py:151
 msgid "Three colors"
 msgstr "Три цвета"
 
-#: bin/gui.py:149
+#: bin/gui.py:152
 msgid "Four colors"
 msgstr "Четыре цвета"
 
-#: bin/gui.py:150
+#: bin/gui.py:153
 msgid "Rectangle"
 msgstr "Прямоугольник"
 
-#: bin/gui.py:151
+#: bin/gui.py:154
 msgid "Five colors"
 msgstr "Пять цветов"
 
-#: bin/gui.py:152
+#: bin/gui.py:155
 msgid "Similar colors"
 msgstr "Похожие цвета"
 
-#: bin/gui.py:153
+#: bin/gui.py:156
 msgid "Five similar"
 msgstr "Пять похожих"
 
-#: bin/gui.py:154
+#: bin/gui.py:157
 msgid "Similar and opposite"
 msgstr "Похожие и противоположный"
 
-#: bin/gui.py:155
+#: bin/gui.py:158
 msgid "Split complimentary RYB"
 msgstr "Два противоположных RYB"
 
-#: bin/gui.py:156
+#: bin/gui.py:159
 msgid "Similar colors RYB"
 msgstr "Похожие цвета RYB"
 
-#: bin/gui.py:157
+#: bin/gui.py:160
 msgid "Five similar RYB"
 msgstr "Пять похожих RYB"
 
-#: bin/gui.py:158
+#: bin/gui.py:161
 msgid "Similar and opposite RYB"
 msgstr "Похожие и противоположный RYB"
 
-#: bin/gui.py:159
+#: bin/gui.py:162
 msgid "Opposite colors RYB"
 msgstr "Противоположные RYB"
 
-#: bin/gui.py:160
+#: bin/gui.py:163
 msgid "Three colors RYB"
 msgstr "Три цвета RYB"
 
-#: bin/gui.py:161
+#: bin/gui.py:164
 msgid "Four colors RYB"
 msgstr "Четыре цвета RYB"
 
-#: bin/gui.py:162
+#: bin/gui.py:165
 msgid "Rectangle RYB"
 msgstr "Прямоугольник RYB"
 
-#: bin/gui.py:163
+#: bin/gui.py:166
 msgid "Five colors RYB"
 msgstr "Пять цветов RYB"
 
-#: bin/gui.py:165
+#: bin/gui.py:168
 msgid "Saturation"
 msgstr "Насыщенность"
 
-#: bin/gui.py:166
+#: bin/gui.py:169
 msgid "Value"
 msgstr "Значение"
 
-#: bin/gui.py:167
+#: bin/gui.py:170
 msgid "Chroma"
 msgstr "Хрома"
 
-#: bin/gui.py:168
+#: bin/gui.py:171
 msgid "Luma"
 msgstr "Светимость"
 
-#: bin/gui.py:169
+#: bin/gui.py:172
 msgid "Hue"
 msgstr "Оттенок"
 
-#: bin/gui.py:170
+#: bin/gui.py:173
 msgid "Hue + Luma"
 msgstr "Оттенок + Светимость"
 
-#: bin/gui.py:171
+#: bin/gui.py:174
 msgid "Chroma + Luma"
 msgstr "Хрома + Светимость"
 
-#: bin/gui.py:172
+#: bin/gui.py:175
 msgid "Chroma - Luma"
 msgstr "Хрома - Светимость"
 
-#: bin/gui.py:173
+#: bin/gui.py:176
 msgid "Warmer"
 msgstr "Теплее"
 
-#: bin/gui.py:174
+#: bin/gui.py:177
 msgid "Cooler"
 msgstr "Холоднее"
 
-#: bin/gui.py:199
+#: bin/gui.py:202
 msgid "Palette"
 msgstr "Палитра"
 
-#: bin/gui.py:200
+#: bin/gui.py:203
 msgid "Scratchpad"
 msgstr "Блокнот"
 
-#: bin/gui.py:201
+#: bin/gui.py:204
 msgid "Harmonies"
 msgstr "Гармонии"
 
-#: bin/gui.py:202
+#: bin/gui.py:205
 msgid "Color swatches"
 msgstr "Цветовые образцы"
 
-#: bin/gui.py:203
+#: bin/gui.py:206
 msgid "Preview"
 msgstr "Предпросмотр"
 
-#: bin/gui.py:216
+#: bin/gui.py:219
 msgid "Palette editor"
 msgstr "Редактор палитр"
 
-#: bin/gui.py:373
+#: bin/gui.py:376
 msgid "&Edit"
 msgstr "П&равка"
 
-#: bin/gui.py:374
+#: bin/gui.py:377
 msgid "&Undo"
 msgstr "&Отменить"
 
-#: bin/gui.py:377
+#: bin/gui.py:380
 msgid "&Redo"
 msgstr "&Вернуть"
 
-#: bin/gui.py:384
+#: bin/gui.py:387
 msgid "&Palette"
 msgstr "&Палитра"
 
-#: bin/gui.py:387
+#: bin/gui.py:390
 msgid "&Open palette"
 msgstr "&Открыть палитру"
 
-#: bin/gui.py:391 dialogs/colorlovers.py:145
+#: bin/gui.py:394 dialogs/colorlovers.py:145
 msgid "Download palette from Colorlovers.com"
 msgstr "Загрузить палитру с Colorlovers.com"
 
-#: bin/gui.py:395
+#: bin/gui.py:398
 msgid "&Save palette"
 msgstr "&Сохранить палитру"
 
-#: bin/gui.py:403
+#: bin/gui.py:406
 msgid "Toggle edit &mode"
 msgstr "Переключить &режим редактирования"
 
-#: bin/gui.py:409 bin/gui.py:434
+#: bin/gui.py:412 bin/gui.py:437
 msgid "&Darker"
 msgstr "&Темнее"
 
-#: bin/gui.py:411 bin/gui.py:436
+#: bin/gui.py:414 bin/gui.py:439
 msgid "&Lighter"
 msgstr "С&ветлее"
 
-#: bin/gui.py:413 bin/gui.py:438
+#: bin/gui.py:416 bin/gui.py:441
 msgid "S&aturate"
 msgstr "&Насыщеннее"
 
-#: bin/gui.py:415 bin/gui.py:440
+#: bin/gui.py:418 bin/gui.py:443
 msgid "D&esaturate"
 msgstr "Ум&еньшить насыщенность"
 
-#: bin/gui.py:418 bin/gui.py:442
+#: bin/gui.py:421 bin/gui.py:445
 msgid "&Rotate colors counterclockwise"
 msgstr "&Повернуть цвета против часовой стрелки"
 
-#: bin/gui.py:421 bin/gui.py:445
+#: bin/gui.py:424 bin/gui.py:448
 msgid "Rotate colors clock&wise"
 msgstr "Повернуть цвета по &часовой стрелке"
 
-#: bin/gui.py:423 bin/gui.py:447
+#: bin/gui.py:426 bin/gui.py:450
 msgid "Increase &contrast"
 msgstr "Увеличить &контраст"
 
-#: bin/gui.py:425 bin/gui.py:449
+#: bin/gui.py:428 bin/gui.py:452
 msgid "Decrease contras&t"
 msgstr "&Уменьшить контраст"
 
-#: bin/gui.py:428
+#: bin/gui.py:431
 msgid "&Swatches"
 msgstr "&Образцы"
 
-#: bin/gui.py:430
+#: bin/gui.py:433
 msgid "&Harmony"
 msgstr "&Гармония"
 
-#: bin/gui.py:453
+#: bin/gui.py:456
 msgid "To &palette"
 msgstr "В &палитру"
 
-#: bin/gui.py:455
+#: bin/gui.py:458
 msgid "C&lear swatches"
 msgstr "&Очистить образцы"
 
-#: bin/gui.py:457
+#: bin/gui.py:460
 msgid "&Save as palette"
 msgstr "&Сохранить как палитру"
 
-#: bin/gui.py:460
+#: bin/gui.py:463
 msgid "&Image"
 msgstr "&Изображение"
 
-#: bin/gui.py:463
+#: bin/gui.py:466
 msgid "&Open template"
 msgstr "&Открыть шаблон"
 
-#: bin/gui.py:466
+#: bin/gui.py:469
 msgid "&Save resulting SVG"
 msgstr "&Сохранить получившийся SVG"
 
-#: bin/gui.py:470
+#: bin/gui.py:473
 msgid "Colorize from s&watches"
 msgstr "Раскрасить из &образцов"
 
-#: bin/gui.py:472
+#: bin/gui.py:475
 msgid "Colorize from &palette"
 msgstr "Раскрасить из &палитры"
 
-#: bin/gui.py:474
+#: bin/gui.py:477
 msgid "&Reset colors"
 msgstr "Сбросить &цвета"
 
-#: bin/gui.py:493
+#: bin/gui.py:496
 msgid "Colors matching space:"
 msgstr "Пространство сопоставления цветов:"
 
-#: bin/gui.py:496
+#: bin/gui.py:499
 msgid "Colors from original image:"
 msgstr "Цвета из исходного изображения:"
 
-#: bin/gui.py:559
+#: bin/gui.py:562
 msgid "Mixing model:"
 msgstr "Модель смешивания:"
 
-#: bin/gui.py:571
+#: bin/gui.py:574
 msgid "Shades >>"
 msgstr "Оттенки >>"
 
-#: bin/gui.py:587
+#: bin/gui.py:590
 msgid "Manual"
 msgstr "Ручная"
 
-#: bin/gui.py:588
+#: bin/gui.py:591
 msgid "Harmony:"
 msgstr "Гармония:"
 
-#: bin/gui.py:604
+#: bin/gui.py:607
 msgid "Selector model:"
 msgstr "Модель выбора:"
 
-#: bin/gui.py:620
+#: bin/gui.py:623
 msgid "Square"
 msgstr "Квадрат"
 
-#: bin/gui.py:645
+#: bin/gui.py:648
 msgid "HCY Wheel"
 msgstr "Круг HCY"
 
-#: bin/gui.py:654
+#: bin/gui.py:657
 msgid "Lab Square"
 msgstr "Квадрат Lab"
 
-#: bin/gui.py:676
+#: bin/gui.py:672
+msgid "Pic&k"
+msgstr "&Выбрать"
+
+#: bin/gui.py:690
 msgid "Shades:"
 msgstr "Оттенки:"
 
-#: bin/gui.py:679
+#: bin/gui.py:693
 msgid "Auto"
 msgstr "Авто"
 
-#: bin/gui.py:746 bin/gui.py:793
+#: bin/gui.py:760 bin/gui.py:807
 msgid "Save palette"
 msgstr "Сохранить палитру"
 
-#: bin/gui.py:751
+#: bin/gui.py:765
 msgid "Save palette image"
 msgstr "Сохранить изображение палитры"
 
-#: bin/gui.py:764
+#: bin/gui.py:778
 msgid "Open palette"
 msgstr "Открыть палитру"
 
-#: bin/gui.py:773
+#: bin/gui.py:787
 msgid "adding colors to scratchpad"
 msgstr "добавление цветов в блокнот"
 
-#: bin/gui.py:824
+#: bin/gui.py:838
 msgid "making color swatches darker"
 msgstr "уменьшение светлоты образцов"
 
-#: bin/gui.py:829
+#: bin/gui.py:843
 msgid "making color swatches lighter"
 msgstr "увеличение светлоты образцов"
 
-#: bin/gui.py:834
+#: bin/gui.py:848
 msgid "saturating color swatches"
 msgstr "увеличение насыщенности образцов"
 
-#: bin/gui.py:839
+#: bin/gui.py:853
 msgid "desaturating color swatches"
 msgstr "уменьшение насыщенности образцов"
 
-#: bin/gui.py:844
+#: bin/gui.py:858
 msgid "rotating swatches colors counterclockwise"
 msgstr "поворот цветов в образцах против часовой стрелки"
 
-#: bin/gui.py:849
+#: bin/gui.py:863
 msgid "rotating swatches colors clockwise"
 msgstr "поворот цветов в образцах по часовой стрелке"
 
-#: bin/gui.py:854
+#: bin/gui.py:868
 msgid "increasing swatches contrast"
 msgstr "увеличене контраста образцов"
 
-#: bin/gui.py:859
+#: bin/gui.py:873
 msgid "decreasing swatches contrast"
 msgstr "уменьшение контраста образцов"
 
-#: bin/gui.py:865
+#: bin/gui.py:879
 msgid "making palette colors darker"
 msgstr "уменьшение светлоты цветов палитры"
 
-#: bin/gui.py:871
+#: bin/gui.py:885
 msgid "making palette colors lighter"
 msgstr "увеличение светлоты цветов палитры"
 
-#: bin/gui.py:877
+#: bin/gui.py:891
 msgid "saturating palette colors"
 msgstr "увеличение насыщенности цветов палитры"
 
-#: bin/gui.py:883
+#: bin/gui.py:897
 msgid "desaturating palette colors"
 msgstr "уменьшение насыщенности цветов палитры"
 
-#: bin/gui.py:889
+#: bin/gui.py:903
 msgid "rotating palette colors counterclockwise"
 msgstr "поворот цветов в палитре против часовой стрелки"
 
-#: bin/gui.py:895
+#: bin/gui.py:909
 msgid "rotating palette colors clockwise"
 msgstr "поворот цветов в палитре по часовой стрелке"
 
-#: bin/gui.py:901
+#: bin/gui.py:915
 msgid "increasing palette contrast"
 msgstr "увеличене контраста палитры"
 
-#: bin/gui.py:907
+#: bin/gui.py:921
 msgid "decreasing palette contrast"
 msgstr "уменьшение контраста палитры"
 
-#: bin/gui.py:933
+#: bin/gui.py:947
 msgid "Selected from palette: "
 msgstr "Выбрано из палитры: "
 
-#: bin/gui.py:1060
+#: bin/gui.py:1074
 msgid "Open SVG template"
 msgstr "Открыть шаблон SVG"
 
-#: bin/gui.py:1065
+#: bin/gui.py:1079
 msgid "Save SVG"
 msgstr "Сохранить SVG"
 
@@ -623,59 +627,87 @@ msgstr "вставку столбца в палитру"
 msgid "creating palette from color swatches"
 msgstr "создание палитры из цветовых образцов"
 
-#: palette/storage/all.py:24
+#: palette/storage/all.py:32
 msgid "All files (*)"
 msgstr "Все файлы (*)"
 
-#: palette/storage/css.py:17
+#: palette/storage/css.py:18
 msgid "CSS cascading stylesheet"
 msgstr "Каскадные таблицы стилей CSS"
 
-#: palette/storage/gimp.py:34
+#: palette/storage/gimp.py:35
 msgid "Gimp palette"
 msgstr "Палитра Gimp"
 
-#: palette/storage/gimp.py:62
+#: palette/storage/gimp.py:63
 msgid "Columns: "
 msgstr "Столбцов: "
 
-#: palette/storage/image.py:22
+#: palette/storage/image.py:35
 msgid "Raster image"
 msgstr "Растровое изображение"
 
-#: palette/storage/image.py:47
+#: palette/storage/image.py:76
 msgid "Loading method"
 msgstr "Метод загрузки"
 
-#: palette/storage/image.py:48
+#: palette/storage/image.py:77
 msgid "Use 49 most used colors"
 msgstr "Использовать 49 наиболее используемых цветов"
 
-#: palette/storage/image.py:49
+#: palette/storage/image.py:78
 msgid "Use 9 most used colors and mix them"
 msgstr "Использовать 9 наиболее используемых цветов и смешать их"
 
-#: palette/storage/image.py:50
+#: palette/storage/image.py:79
 msgid "Use 9 most different colors and mix them"
 msgstr "Использовать 9 наиболее разных цветов и смешать их"
 
-#: palette/storage/paletton.py:11
+#: palette/storage/image.py:80
+msgid "Load table of colors"
+msgstr "Загрузить таблицу цветов"
+
+#: palette/storage/image.py:86
+msgid "Border from right/left side, px"
+msgstr "Отступ слева/справа, px"
+
+#: palette/storage/image.py:89
+msgid "Border from top/bottom side, px"
+msgstr "Отступ сверх/снизу, px"
+
+#: palette/storage/image.py:92
+msgid "Width of gap between cells, px"
+msgstr "Ширина отступов между ячейками, px"
+
+#: palette/storage/image.py:95
+msgid "Height of gap between cells, px"
+msgstr "Высота отступов между ячейками, px"
+
+#: palette/storage/image.py:99
+msgid "Number of columns in the table"
+msgstr "Количество столбцов в таблице"
+
+#: palette/storage/image.py:103
+msgid "Number of rows in the table"
+msgstr "Количество строк в таблице"
+
+#: palette/storage/paletton.py:12
 msgid "Paletton.com palette"
 msgstr "Палитры Paletton.com"
 
-#: palette/storage/scribus.py:22
+#: palette/storage/scribus.py:23
 msgid "Scribus color swatches"
 msgstr "Образцы цветов Scribus"
 
-#: palette/storage/svg.py:13
+#: palette/storage/svg.py:14
 msgid "SVG images"
 msgstr "Изображения SVG"
 
-#: palette/storage/xml.py:11
+#: palette/storage/xml.py:12
 msgid "MyPaint palette"
 msgstr "Палитры MyPaint"
 
-#: palette/storage/xml.py:31
+#: palette/storage/xml.py:32
 msgid "Group: "
 msgstr "Группа: "
 
