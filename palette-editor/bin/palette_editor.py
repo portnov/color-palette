@@ -74,7 +74,11 @@ except AttributeError:
     __builtins__['locate_icon'] = locate_icon
 
 def locate_template(name):
-    return join(datarootdir, "templates", name)
+    path = join(datarootdir, "templates", name) 
+    if exists(path):
+        return path
+    else:
+        return None
 
 def locate_palette(name):
     base = appdirs.user_config_dir("palette-editor", "palette-editor")
@@ -523,7 +527,9 @@ class GUI(QtGui.QMainWindow):
         self.svg.file_dropped.connect(self.on_svg_file_dropped)
         #self.svg.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         self.svg.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        self.svg.loadTemplate(locate_template("template.svg"))
+        template_path = locate_template("template.svg")
+        if template_path:
+            self.svg.loadTemplate(template_path)
         vbox_right.addWidget(self.svg)
 
         #vbox_right.addStretch()

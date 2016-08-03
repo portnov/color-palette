@@ -21,6 +21,16 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
         self._need_render = True
         self._svg_colors = None
         self._dst_colors = None
+        self._last_size = None
+
+    def sizeHint(self):
+        if self.renderer().isValid():
+            return self.renderer().defaultSize()
+        elif self._last_size:
+            return self._last_size
+        else:
+            return QtCore.QSize(300,300)
+            
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls():
@@ -42,6 +52,8 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
         arr = QtCore.QByteArray.fromRawData(self.get_svg())
         print("Data loaded: {} bytes".format(arr.length()))
         self.load(arr)
+        if self.renderer().isValid():
+            self._last_size = self.renderer().defaultSize()
         self.update()
 
     def _get_image(self):
@@ -50,7 +62,6 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
         image.fill(0)
         qp = QtGui.QPainter()
         qp.begin(image)
-        #self.renderer().render(qp, QtCore.QRectF(0.0, 0.0, w, h))
         self.renderer().render(qp, QtCore.QRectF(0.0, 0.0, w, h))
         qp.end()
         return image
