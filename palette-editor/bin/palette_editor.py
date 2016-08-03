@@ -67,7 +67,10 @@ from dialogs.colorlovers import *
 from models.models import *
 
 def locate_icon(name):
-    return join(datarootdir, "icons", name)
+    path = join(datarootdir, "icons", name)
+    if not exists(path):
+        print("Icon not found: " + path)
+    return path
 try:
     __builtins__.locate_icon = locate_icon
 except AttributeError:
