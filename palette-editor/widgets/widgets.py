@@ -218,7 +218,7 @@ class ColorWidget(QtGui.QLabel):
         w, h = self.size().width(),  self.size().height()
         if self.is_empty():
             if (w >= 70) and (h > 20):
-                qp.drawText(event.rect(), QtCore.Qt.AlignCenter, "<unset>")
+                qp.drawText(event.rect(), QtCore.Qt.AlignCenter, _("<unset>"))
             if self.border_color is not None:
                 qp.setPen(self.border_color)
                 qp.drawRect(0, 0,  w,  h)
