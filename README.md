@@ -1,0 +1,1 @@
+palette-editor/README
