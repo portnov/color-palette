@@ -436,13 +436,16 @@ class GUI(QtGui.QMainWindow):
         create_action(self, self.toolbar_palette, menu,
                 "contrast-down.png", _("Decrease contras&t"), self.on_palette_contrast_down)
 
-        sort_menu = QtGui.QMenu()
+        sort_icon = QtGui.QIcon(locate_icon("sorting.png"))
+        sort_menu = menu.addMenu(sort_icon, _("Sort colors"))
         create_action(self, None, sort_menu, None, _("By hue"), self.on_palette_sort_hue)
         create_action(self, None, sort_menu, None, _("By saturation"), self.on_palette_sort_saturation)
         create_action(self, None, sort_menu, None, _("By value"), self.on_palette_sort_value)
 
         sort_button = QtGui.QToolButton(self)
         sort_button.setText(_("Sort colors"))
+        sort_button.setToolTip(_("Sort colors"))
+        sort_button.setIcon(sort_icon)
         self.toolbar_palette.addWidget(sort_button)
         sort_button.setMenu(sort_menu)
         sort_button.setPopupMode(QtGui.QToolButton.InstantPopup)
