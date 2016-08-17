@@ -59,7 +59,7 @@ from color.spaces import *
 from palette.palette import Palette
 from palette.widget import PaletteWidget
 from palette.image import PaletteImage
-from palette.commands import ChangeColors, SwatchesToPalette
+from palette.commands import ChangeColors, SwatchesToPalette, SortBy
 from matching.svg_widget import SvgTemplateWidget
 from dialogs.open_palette import *
 from dialogs import filedialog
@@ -108,9 +108,11 @@ def create_action(parent, toolbar, menu, icon, title, handler, key=None):
         action = QtGui.QAction(title, parent)
     if key is not None:
         action.setShortcut(key)
-    toolbar.addAction(action)
+    if toolbar:
+        toolbar.addAction(action)
     menu.addAction(action)
-    action.triggered.connect(handler)
+    if handler:
+        action.triggered.connect(handler)
     return action
 
 def labelled(label, widget):
@@ -433,6 +435,17 @@ class GUI(QtGui.QMainWindow):
                 "contrast-up.png", _("Increase &contrast"), self.on_palette_contrast_up)
         create_action(self, self.toolbar_palette, menu,
                 "contrast-down.png", _("Decrease contras&t"), self.on_palette_contrast_down)
+
+        sort_menu = QtGui.QMenu()
+        create_action(self, None, sort_menu, None, _("By hue"), self.on_palette_sort_hue)
+        create_action(self, None, sort_menu, None, _("By saturation"), self.on_palette_sort_saturation)
+        create_action(self, None, sort_menu, None, _("By value"), self.on_palette_sort_value)
+
+        sort_button = QtGui.QToolButton(self)
+        sort_button.setText(_("Sort colors"))
+        self.toolbar_palette.addWidget(sort_button)
+        sort_button.setMenu(sort_menu)
+        sort_button.setPopupMode(QtGui.QToolButton.InstantPopup)
 
     def _init_harmonies_actions(self):
         menu = self.menuBar().addMenu(_("&Swatches"))
@@ -929,6 +942,24 @@ class GUI(QtGui.QMainWindow):
         command = ChangeColors(self.palette, self.palette.palette,
                                _("decreasing palette contrast"),
                                lambda clr : colors.contrast(clr, -0.1))
+        self.undoStack.push(command)
+
+    def on_palette_sort_hue(self):
+        command = SortBy(self.palette, self.palette.palette,
+                               _("sorting colors by hue"),
+                               lambda clr : clr.getHSV()[0])
+        self.undoStack.push(command)
+
+    def on_palette_sort_saturation(self):
+        command = SortBy(self.palette, self.palette.palette,
+                               _("sorting colors by saturation"),
+                               lambda clr : clr.getHSV()[1])
+        self.undoStack.push(command)
+
+    def on_palette_sort_value(self):
+        command = SortBy(self.palette, self.palette.palette,
+                               _("sorting colors by value"),
+                               lambda clr : clr.getHSV()[2])
         self.undoStack.push(command)
 
     def on_template_loaded(self):

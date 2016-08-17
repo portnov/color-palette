@@ -176,3 +176,32 @@ class SwatchesToPalette(QtGui.QUndoCommand):
         self.palette_widget.redraw()
         self.palette_widget.update()
 
+class SortBy(QtGui.QUndoCommand):
+    def __init__(self, widget, palette, text, key):
+        QtGui.QUndoCommand.__init__(self)
+        self.setText(text)
+        self.widget = widget
+        self.palette = palette
+        self.key = key
+        self.colors = []
+
+    def remember_colors(self):
+        for row, col, slot in self.palette.getUserDefinedSlots():
+            self.colors.append((row, col, slot.getColor()))
+
+    def redo(self):
+        self.remember_colors()
+        src_colors = [r[2].getColor() for r in self.palette.getUserDefinedSlots()]
+        new_colors = sorted(src_colors, key=self.key)
+        for idx, (row, col, slot) in enumerate(self.palette.getUserDefinedSlots()):
+            new_clr = new_colors[idx]
+            slot.setColor(new_clr)
+        self.palette.recalc()
+        self.widget.update()
+
+    def undo(self):
+        for row, col, clr in self.colors:
+            self.palette.paint(row, col, clr)
+        self.palette.recalc()
+        self.widget.update()
+
