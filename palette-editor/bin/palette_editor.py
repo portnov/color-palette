@@ -6,6 +6,7 @@ from os.path import join, basename, dirname, abspath, exists, expanduser
 from copy import copy
 import gettext
 import appdirs
+import argparse
 
 from PyQt4 import QtGui
 
@@ -185,7 +186,7 @@ class GUI(QtGui.QMainWindow):
                          (_("Warmer"),     harmonies.Warmer),
                          (_("Cooler"),     harmonies.Cooler) ]
     
-    def __init__(self):
+    def __init__(self, template_path=None):
         QtGui.QMainWindow.__init__(self)
         self.model = Document(self)
         self.undoStack = self.model.get_undo_stack()
@@ -198,7 +199,7 @@ class GUI(QtGui.QMainWindow):
         scratchbox = self._init_scratchbox()
         harmonies_widget = self._init_harmonies_widgets()
         swatches = self._init_swatches()
-        svg_widget = self._init_svg_widgets()
+        svg_widget = self._init_svg_widgets(template_path)
 
         self.setTabPosition( QtCore.Qt.TopDockWidgetArea , QtGui.QTabWidget.North )
         #self.setDockOptions( QtGui.QMainWindow.ForceTabbedDocks )
@@ -240,8 +241,9 @@ class GUI(QtGui.QMainWindow):
             s = clr.hex()
             settings.setValue(name, s)
 
-    def restore(self):
-        palette_filename = locate_palette("default.gpl")
+    def restore(self, palette_filename=None):
+        if palette_filename is None:
+            palette_filename = locate_palette("default.gpl")
         if exists(palette_filename):
             palette = load_palette(palette_filename)
             self._load_palette(palette)
@@ -499,7 +501,7 @@ class GUI(QtGui.QMainWindow):
         create_action(self, self.toolbar_template, menu,
                 "View-refresh.png", _("&Reset colors"), self.on_reset_template)
 
-    def _init_svg_widgets(self):
+    def _init_svg_widgets(self, template_path=None):
         vbox_right = QtGui.QVBoxLayout()
 
         self.toolbar_template = QtGui.QToolBar()
@@ -546,7 +548,10 @@ class GUI(QtGui.QMainWindow):
         self.svg.file_dropped.connect(self.on_svg_file_dropped)
         #self.svg.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         self.svg.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
-        template_path = locate_template("template.svg")
+        if template_path is None:
+            template_path = locate_template("template.svg")
+        else:
+            template_path = template_path[0]
         if template_path:
             self.svg.loadTemplate(template_path)
         vbox_right.addWidget(self.svg)
@@ -1129,12 +1134,20 @@ class GUI(QtGui.QMainWindow):
     def closeEvent(self, event):
         self._store()
         QtGui.QMainWindow.closeEvent(self, event);
+
+def parse_cmdline():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", "--template", nargs=1, metavar="FILENAME.SVG", help=_("Use specified SVG template for preview"))
+    parser.add_argument("palette", metavar="FILENAME", nargs='?', help=_("Load specified palette file"))
+    return parser.parse_args()
     
 if __name__ == "__main__":
+
+    args = parse_cmdline()
     
     app = QtGui.QApplication(sys.argv)
-    w = GUI()
+    w = GUI(template_path=args.template)
     w.show()
-    w.restore()
+    w.restore(palette_filename=args.palette)
     sys.exit(app.exec_())
 
