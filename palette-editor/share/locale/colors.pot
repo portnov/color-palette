@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-08-18 00:10+YEKT\n"
+"POT-Creation-Date: 2016-08-18 21:01+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,521 +15,529 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: bin/palette_editor.py:128 bin/palette_editor.py:512
+#: bin/palette_editor.py:129 bin/palette_editor.py:514
 msgid "RGB"
 msgstr ""
 
-#: bin/palette_editor.py:129 bin/palette_editor.py:510
+#: bin/palette_editor.py:130 bin/palette_editor.py:512
 msgid "HSV"
 msgstr ""
 
-#: bin/palette_editor.py:130 bin/palette_editor.py:139
-#: bin/palette_editor.py:511
+#: bin/palette_editor.py:131 bin/palette_editor.py:140
+#: bin/palette_editor.py:513
 msgid "HLS"
 msgstr ""
 
-#: bin/palette_editor.py:131 bin/palette_editor.py:140
-#: bin/palette_editor.py:509
+#: bin/palette_editor.py:132 bin/palette_editor.py:141
+#: bin/palette_editor.py:511
 msgid "HCY"
 msgstr ""
 
-#: bin/palette_editor.py:132
+#: bin/palette_editor.py:133
 msgid "HCY Desaturate"
 msgstr ""
 
-#: bin/palette_editor.py:133 bin/palette_editor.py:141
-#: bin/palette_editor.py:513
+#: bin/palette_editor.py:134 bin/palette_editor.py:142
+#: bin/palette_editor.py:515
 msgid "RYB"
 msgstr ""
 
-#: bin/palette_editor.py:134
+#: bin/palette_editor.py:135
 msgid "CMYK"
 msgstr ""
 
-#: bin/palette_editor.py:135
+#: bin/palette_editor.py:136
 msgid "CMY"
 msgstr ""
 
-#: bin/palette_editor.py:136
+#: bin/palette_editor.py:137
 msgid "HSI (experimental)"
 msgstr ""
 
-#: bin/palette_editor.py:136 bin/palette_editor.py:141
-#: bin/palette_editor.py:515
+#: bin/palette_editor.py:137 bin/palette_editor.py:142
+#: bin/palette_editor.py:517
 msgid "LCh"
 msgstr ""
 
-#: bin/palette_editor.py:137 bin/palette_editor.py:516
+#: bin/palette_editor.py:138 bin/palette_editor.py:518
 msgid "Lab"
 msgstr ""
 
-#: bin/palette_editor.py:143
+#: bin/palette_editor.py:144
 msgid "Opposite colors LCh"
 msgstr ""
 
-#: bin/palette_editor.py:144
+#: bin/palette_editor.py:145
 msgid "Split complimentary LCh"
 msgstr ""
 
-#: bin/palette_editor.py:145
+#: bin/palette_editor.py:146
 msgid "Similar colors LCh"
 msgstr ""
 
-#: bin/palette_editor.py:146
+#: bin/palette_editor.py:147
 msgid "Five similar LCh"
 msgstr ""
 
-#: bin/palette_editor.py:147
+#: bin/palette_editor.py:148
 msgid "Similar and opposite LCh"
 msgstr ""
 
-#: bin/palette_editor.py:148
+#: bin/palette_editor.py:149
 msgid "Rectangle LCh"
 msgstr ""
 
-#: bin/palette_editor.py:149
+#: bin/palette_editor.py:150
 msgid "Three colors LCh"
 msgstr ""
 
-#: bin/palette_editor.py:150
+#: bin/palette_editor.py:151
 msgid "Four colors LCh"
 msgstr ""
 
-#: bin/palette_editor.py:151
+#: bin/palette_editor.py:152
 msgid "Five colors LCh"
 msgstr ""
 
-#: bin/palette_editor.py:152
+#: bin/palette_editor.py:153
 msgid "Similar colors Lab"
 msgstr ""
 
-#: bin/palette_editor.py:153
+#: bin/palette_editor.py:154
 msgid "Similar and opposite Lab"
 msgstr ""
 
-#: bin/palette_editor.py:154
+#: bin/palette_editor.py:155
 msgid "Rectangle Lab"
 msgstr ""
 
-#: bin/palette_editor.py:155
+#: bin/palette_editor.py:156
 msgid "Five colors Lab"
 msgstr ""
 
-#: bin/palette_editor.py:158
+#: bin/palette_editor.py:159
 msgid "Just opposite"
 msgstr ""
 
-#: bin/palette_editor.py:159
+#: bin/palette_editor.py:160
 msgid "Split complimentary"
 msgstr ""
 
-#: bin/palette_editor.py:160
+#: bin/palette_editor.py:161
 msgid "Three colors"
 msgstr ""
 
-#: bin/palette_editor.py:161
+#: bin/palette_editor.py:162
 msgid "Four colors"
 msgstr ""
 
-#: bin/palette_editor.py:162
+#: bin/palette_editor.py:163
 msgid "Rectangle"
 msgstr ""
 
-#: bin/palette_editor.py:163
+#: bin/palette_editor.py:164
 msgid "Five colors"
 msgstr ""
 
-#: bin/palette_editor.py:164
+#: bin/palette_editor.py:165
 msgid "Similar colors"
 msgstr ""
 
-#: bin/palette_editor.py:165
+#: bin/palette_editor.py:166
 msgid "Five similar"
 msgstr ""
 
-#: bin/palette_editor.py:166
+#: bin/palette_editor.py:167
 msgid "Similar and opposite"
 msgstr ""
 
-#: bin/palette_editor.py:167
+#: bin/palette_editor.py:168
 msgid "Split complimentary RYB"
 msgstr ""
 
-#: bin/palette_editor.py:168
+#: bin/palette_editor.py:169
 msgid "Similar colors RYB"
 msgstr ""
 
-#: bin/palette_editor.py:169
+#: bin/palette_editor.py:170
 msgid "Five similar RYB"
 msgstr ""
 
-#: bin/palette_editor.py:170
+#: bin/palette_editor.py:171
 msgid "Similar and opposite RYB"
 msgstr ""
 
-#: bin/palette_editor.py:171
+#: bin/palette_editor.py:172
 msgid "Opposite colors RYB"
 msgstr ""
 
-#: bin/palette_editor.py:172
+#: bin/palette_editor.py:173
 msgid "Three colors RYB"
 msgstr ""
 
-#: bin/palette_editor.py:173
+#: bin/palette_editor.py:174
 msgid "Four colors RYB"
 msgstr ""
 
-#: bin/palette_editor.py:174
+#: bin/palette_editor.py:175
 msgid "Rectangle RYB"
 msgstr ""
 
-#: bin/palette_editor.py:175
+#: bin/palette_editor.py:176
 msgid "Five colors RYB"
 msgstr ""
 
-#: bin/palette_editor.py:177
+#: bin/palette_editor.py:178
 msgid "Saturation"
 msgstr ""
 
-#: bin/palette_editor.py:178
+#: bin/palette_editor.py:179
 msgid "Value"
 msgstr ""
 
-#: bin/palette_editor.py:179
+#: bin/palette_editor.py:180
 msgid "Chroma"
 msgstr ""
 
-#: bin/palette_editor.py:180
+#: bin/palette_editor.py:181
 msgid "Luma"
 msgstr ""
 
-#: bin/palette_editor.py:181
+#: bin/palette_editor.py:182
 msgid "Hue"
 msgstr ""
 
-#: bin/palette_editor.py:182
+#: bin/palette_editor.py:183
 msgid "Hue + Luma"
 msgstr ""
 
-#: bin/palette_editor.py:183
+#: bin/palette_editor.py:184
 msgid "Chroma + Luma"
 msgstr ""
 
-#: bin/palette_editor.py:184
+#: bin/palette_editor.py:185
 msgid "Chroma - Luma"
 msgstr ""
 
-#: bin/palette_editor.py:185
+#: bin/palette_editor.py:186
 msgid "Warmer"
 msgstr ""
 
-#: bin/palette_editor.py:186
+#: bin/palette_editor.py:187
 msgid "Cooler"
 msgstr ""
 
-#: bin/palette_editor.py:211
+#: bin/palette_editor.py:212
 msgid "Palette"
 msgstr ""
 
-#: bin/palette_editor.py:212
+#: bin/palette_editor.py:213
 msgid "Scratchpad"
 msgstr ""
 
-#: bin/palette_editor.py:213
+#: bin/palette_editor.py:214
 msgid "Harmonies"
 msgstr ""
 
-#: bin/palette_editor.py:214
+#: bin/palette_editor.py:215
 msgid "Color swatches"
 msgstr ""
 
-#: bin/palette_editor.py:215
+#: bin/palette_editor.py:216
 msgid "Preview"
 msgstr ""
 
-#: bin/palette_editor.py:228
+#: bin/palette_editor.py:229
 msgid "Palette editor"
 msgstr ""
 
-#: bin/palette_editor.py:385
+#: bin/palette_editor.py:387
 msgid "&Edit"
 msgstr ""
 
-#: bin/palette_editor.py:386
+#: bin/palette_editor.py:388
 msgid "&Undo"
 msgstr ""
 
-#: bin/palette_editor.py:389
+#: bin/palette_editor.py:391
 msgid "&Redo"
 msgstr ""
 
-#: bin/palette_editor.py:396
+#: bin/palette_editor.py:398
 msgid "&Palette"
 msgstr ""
 
-#: bin/palette_editor.py:399
+#: bin/palette_editor.py:401
 msgid "&Open palette"
 msgstr ""
 
-#: bin/palette_editor.py:403 dialogs/colorlovers.py:145
+#: bin/palette_editor.py:405 dialogs/colorlovers.py:145
 msgid "Download palette from Colorlovers.com"
 msgstr ""
 
-#: bin/palette_editor.py:407
+#: bin/palette_editor.py:409
 msgid "&Save palette"
 msgstr ""
 
-#: bin/palette_editor.py:415
+#: bin/palette_editor.py:417
 msgid "Toggle edit &mode"
 msgstr ""
 
-#: bin/palette_editor.py:421 bin/palette_editor.py:460
+#: bin/palette_editor.py:423 bin/palette_editor.py:462
 msgid "&Darker"
 msgstr ""
 
-#: bin/palette_editor.py:423 bin/palette_editor.py:462
+#: bin/palette_editor.py:425 bin/palette_editor.py:464
 msgid "&Lighter"
 msgstr ""
 
-#: bin/palette_editor.py:425 bin/palette_editor.py:464
+#: bin/palette_editor.py:427 bin/palette_editor.py:466
 msgid "S&aturate"
 msgstr ""
 
-#: bin/palette_editor.py:427 bin/palette_editor.py:466
+#: bin/palette_editor.py:429 bin/palette_editor.py:468
 msgid "D&esaturate"
 msgstr ""
 
-#: bin/palette_editor.py:430 bin/palette_editor.py:468
+#: bin/palette_editor.py:432 bin/palette_editor.py:470
 msgid "&Rotate colors counterclockwise"
 msgstr ""
 
-#: bin/palette_editor.py:433 bin/palette_editor.py:471
+#: bin/palette_editor.py:435 bin/palette_editor.py:473
 msgid "Rotate colors clock&wise"
 msgstr ""
 
-#: bin/palette_editor.py:435 bin/palette_editor.py:473
+#: bin/palette_editor.py:437 bin/palette_editor.py:475
 msgid "Increase &contrast"
 msgstr ""
 
-#: bin/palette_editor.py:437 bin/palette_editor.py:475
+#: bin/palette_editor.py:439 bin/palette_editor.py:477
 msgid "Decrease contras&t"
 msgstr ""
 
-#: bin/palette_editor.py:440 bin/palette_editor.py:446
-#: bin/palette_editor.py:447
+#: bin/palette_editor.py:442 bin/palette_editor.py:448
+#: bin/palette_editor.py:449
 msgid "Sort colors"
 msgstr ""
 
-#: bin/palette_editor.py:441
+#: bin/palette_editor.py:443
 msgid "By hue"
 msgstr ""
 
-#: bin/palette_editor.py:442
+#: bin/palette_editor.py:444
 msgid "By saturation"
 msgstr ""
 
-#: bin/palette_editor.py:443
+#: bin/palette_editor.py:445
 msgid "By value"
 msgstr ""
 
-#: bin/palette_editor.py:454
+#: bin/palette_editor.py:456
 msgid "&Swatches"
 msgstr ""
 
-#: bin/palette_editor.py:456
+#: bin/palette_editor.py:458
 msgid "&Harmony"
 msgstr ""
 
-#: bin/palette_editor.py:479
+#: bin/palette_editor.py:481
 msgid "To &palette"
 msgstr ""
 
-#: bin/palette_editor.py:481
+#: bin/palette_editor.py:483
 msgid "C&lear swatches"
 msgstr ""
 
-#: bin/palette_editor.py:483
+#: bin/palette_editor.py:485
 msgid "&Save as palette"
 msgstr ""
 
-#: bin/palette_editor.py:486
+#: bin/palette_editor.py:488
 msgid "&Image"
 msgstr ""
 
-#: bin/palette_editor.py:489
+#: bin/palette_editor.py:491
 msgid "&Open template"
 msgstr ""
 
-#: bin/palette_editor.py:492
+#: bin/palette_editor.py:494
 msgid "&Save resulting SVG"
 msgstr ""
 
-#: bin/palette_editor.py:496
+#: bin/palette_editor.py:498
 msgid "Colorize from s&watches"
 msgstr ""
 
-#: bin/palette_editor.py:498
+#: bin/palette_editor.py:500
 msgid "Colorize from &palette"
 msgstr ""
 
-#: bin/palette_editor.py:500
+#: bin/palette_editor.py:502
 msgid "&Reset colors"
 msgstr ""
 
-#: bin/palette_editor.py:519
+#: bin/palette_editor.py:521
 msgid "Colors matching space:"
 msgstr ""
 
-#: bin/palette_editor.py:522
+#: bin/palette_editor.py:524
 msgid "Colors from original image:"
 msgstr ""
 
-#: bin/palette_editor.py:587
+#: bin/palette_editor.py:592
 msgid "Mixing model:"
 msgstr ""
 
-#: bin/palette_editor.py:599
+#: bin/palette_editor.py:604
 msgid "Shades >>"
 msgstr ""
 
-#: bin/palette_editor.py:615
+#: bin/palette_editor.py:620
 msgid "Manual"
 msgstr ""
 
-#: bin/palette_editor.py:616
+#: bin/palette_editor.py:621
 msgid "Harmony:"
 msgstr ""
 
-#: bin/palette_editor.py:632
+#: bin/palette_editor.py:637
 msgid "Selector model:"
 msgstr ""
 
-#: bin/palette_editor.py:648
+#: bin/palette_editor.py:653
 msgid "Square"
 msgstr ""
 
-#: bin/palette_editor.py:673
+#: bin/palette_editor.py:678
 msgid "HCY Wheel"
 msgstr ""
 
-#: bin/palette_editor.py:682
+#: bin/palette_editor.py:687
 msgid "Lab Square"
 msgstr ""
 
-#: bin/palette_editor.py:697
+#: bin/palette_editor.py:702
 msgid "Pic&k"
 msgstr ""
 
-#: bin/palette_editor.py:715
+#: bin/palette_editor.py:720
 msgid "Shades:"
 msgstr ""
 
-#: bin/palette_editor.py:718
+#: bin/palette_editor.py:723
 msgid "Auto"
 msgstr ""
 
-#: bin/palette_editor.py:785 bin/palette_editor.py:832
+#: bin/palette_editor.py:790 bin/palette_editor.py:837
 msgid "Save palette"
 msgstr ""
 
-#: bin/palette_editor.py:790
+#: bin/palette_editor.py:795
 msgid "Save palette image"
 msgstr ""
 
-#: bin/palette_editor.py:803
+#: bin/palette_editor.py:808
 msgid "Open palette"
 msgstr ""
 
-#: bin/palette_editor.py:812
+#: bin/palette_editor.py:817
 msgid "adding colors to scratchpad"
 msgstr ""
 
-#: bin/palette_editor.py:863
+#: bin/palette_editor.py:868
 msgid "making color swatches darker"
 msgstr ""
 
-#: bin/palette_editor.py:868
+#: bin/palette_editor.py:873
 msgid "making color swatches lighter"
 msgstr ""
 
-#: bin/palette_editor.py:873
+#: bin/palette_editor.py:878
 msgid "saturating color swatches"
 msgstr ""
 
-#: bin/palette_editor.py:878
+#: bin/palette_editor.py:883
 msgid "desaturating color swatches"
 msgstr ""
 
-#: bin/palette_editor.py:883
+#: bin/palette_editor.py:888
 msgid "rotating swatches colors counterclockwise"
 msgstr ""
 
-#: bin/palette_editor.py:888
+#: bin/palette_editor.py:893
 msgid "rotating swatches colors clockwise"
 msgstr ""
 
-#: bin/palette_editor.py:893
+#: bin/palette_editor.py:898
 msgid "increasing swatches contrast"
 msgstr ""
 
-#: bin/palette_editor.py:898
+#: bin/palette_editor.py:903
 msgid "decreasing swatches contrast"
 msgstr ""
 
-#: bin/palette_editor.py:904
+#: bin/palette_editor.py:909
 msgid "making palette colors darker"
 msgstr ""
 
-#: bin/palette_editor.py:910
+#: bin/palette_editor.py:915
 msgid "making palette colors lighter"
 msgstr ""
 
-#: bin/palette_editor.py:916
+#: bin/palette_editor.py:921
 msgid "saturating palette colors"
 msgstr ""
 
-#: bin/palette_editor.py:922
+#: bin/palette_editor.py:927
 msgid "desaturating palette colors"
 msgstr ""
 
-#: bin/palette_editor.py:928
+#: bin/palette_editor.py:933
 msgid "rotating palette colors counterclockwise"
 msgstr ""
 
-#: bin/palette_editor.py:934
+#: bin/palette_editor.py:939
 msgid "rotating palette colors clockwise"
 msgstr ""
 
-#: bin/palette_editor.py:940
+#: bin/palette_editor.py:945
 msgid "increasing palette contrast"
 msgstr ""
 
-#: bin/palette_editor.py:946
+#: bin/palette_editor.py:951
 msgid "decreasing palette contrast"
 msgstr ""
 
-#: bin/palette_editor.py:952
+#: bin/palette_editor.py:957
 msgid "sorting colors by hue"
 msgstr ""
 
-#: bin/palette_editor.py:958
+#: bin/palette_editor.py:963
 msgid "sorting colors by saturation"
 msgstr ""
 
-#: bin/palette_editor.py:964
+#: bin/palette_editor.py:969
 msgid "sorting colors by value"
 msgstr ""
 
-#: bin/palette_editor.py:990
+#: bin/palette_editor.py:995
 msgid "Selected from palette: "
 msgstr ""
 
-#: bin/palette_editor.py:1117
+#: bin/palette_editor.py:1122
 msgid "Open SVG template"
 msgstr ""
 
-#: bin/palette_editor.py:1122
+#: bin/palette_editor.py:1127
 msgid "Save SVG"
+msgstr ""
+
+#: bin/palette_editor.py:1140
+msgid "Use specified SVG template for preview"
+msgstr ""
+
+#: bin/palette_editor.py:1141
+msgid "Load specified palette file"
 msgstr ""
 
 #: dialogs/colorlovers.py:18
