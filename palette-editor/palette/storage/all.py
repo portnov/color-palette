@@ -11,8 +11,9 @@ from svg import SVG
 from image import Image
 from scribus import Scribus
 from ase import AsePalette
+from aco import AcoPalette
 
-storages = [GimpPalette, XmlPalette, Paletton, CSS, SVG, Image, Scribus, AsePalette]
+storages = [GimpPalette, XmlPalette, Paletton, CSS, SVG, Image, Scribus, AsePalette, AcoPalette]
 
 def get_storage_by_name(name):
     print("Searching for storage named", name)
