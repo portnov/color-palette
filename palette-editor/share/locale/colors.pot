@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-08-21 17:07+YEKT\n"
+"POT-Creation-Date: 2016-08-21 18:15+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -692,8 +692,12 @@ msgstr ""
 msgid "creating palette from color swatches"
 msgstr ""
 
-#: palette/storage/all.py:32
+#: palette/storage/all.py:33
 msgid "All files (*)"
+msgstr ""
+
+#: palette/storage/ase.py:17
+msgid "Adobe swatch exchange (ase)"
 msgstr ""
 
 #: palette/storage/css.py:18
