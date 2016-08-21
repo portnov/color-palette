@@ -74,6 +74,7 @@ class MetaTable(QtGui.QTableView):
         self._model = MetaModel(meta)
         self.setModel(self._model)
         self.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
+        self.resizeColumnsToContents()
         #self.setColumnCount(2)
         #self.setRowCount(3)
         #self.setHorizontalHeaderLabels(table_headers)

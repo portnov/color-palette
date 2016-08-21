@@ -13,8 +13,7 @@ DEFAULT_GROUP_SIZE = 7
 MAX_COLS = 10
 
 class Slot(object):
-    def __init__(self, color=None, name='Untitled', user_defined=False):
-        self.name = name
+    def __init__(self, color=None, name=None, user_defined=False):
         self._color = color
         self._mode = NONE
         self._user_defined = user_defined
@@ -24,6 +23,20 @@ class Slot(object):
         self._src_slot2 = None
         self._src_row2 = None
         self._src_col2 = None
+        if name:
+            self.name = name
+
+    def get_name(self):
+        if self._color:
+            return self._color.name
+        else:
+            return None
+
+    def set_name(self, name):
+        if self._color:
+            self._color.name = name
+
+    name = property(get_name, set_name)
 
     def __repr__(self):
         return "<Slot mode={}>".format(self._mode)

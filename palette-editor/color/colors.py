@@ -321,6 +321,14 @@ class Color(QtGui.QColor):
         self._reset_cache()
         self.meta = Meta()
 
+    def get_name(self):
+        return self.meta.get("Name", "Untitled")
+
+    def set_name(self, name):
+        self.meta["Name"] = name
+
+    name = property(get_name, set_name)
+
     def _reset_cache(self):
         self._hcy = None
         self._hls = None

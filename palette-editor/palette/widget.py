@@ -49,6 +49,13 @@ class PaletteWidget(QtGui.QLabel):
         self.palette.setMixer(mixer)
         self.update()
 
+    def get_selected_slot(self):
+        if self.selected_slot is None:
+            return None
+        else:
+            row,col = self.selected_slot
+            return self.palette.slots[row][col]
+
     def recalc_size(self):
         r,c = self.palette.nrows, self.palette.ncols
         self.setMinimumSize(c*30, r*30)

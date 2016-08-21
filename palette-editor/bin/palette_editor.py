@@ -440,6 +440,7 @@ class GUI(QtGui.QMainWindow):
                 "contrast-down.png", _("Decrease contras&t"), self.on_palette_contrast_down)
 
         create_action(self, None, menu, None, _("Edit palette metainformation"), self.on_edit_palette_meta)
+        create_action(self, None, menu, None, _("Edit color metainformation"), self.on_edit_color_meta)
 
         sort_icon = QtGui.QIcon(locate_icon("sorting.png"))
         sort_menu = menu.addMenu(sort_icon, _("Sort colors"))
@@ -828,6 +829,11 @@ class GUI(QtGui.QMainWindow):
     def on_edit_palette_meta(self):
         meta = edit_meta(self.palette.palette, self)
         print meta
+
+    def on_edit_color_meta(self):
+        if self.palette.get_selected_slot() is not None:
+            meta = edit_meta(self.palette.get_selected_slot().getColor(), self)
+            print meta
 
     def on_palette_file_dropped(self, path):
         path = unicode(path)

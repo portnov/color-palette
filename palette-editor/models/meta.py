@@ -85,6 +85,9 @@ class Meta(object):
     def __setitem__(self, key, value):
         self.set(key, value)
 
+    def __contains__(self, key):
+        return key in self.keys()
+
     def __len__(self):
         return self.size()
 

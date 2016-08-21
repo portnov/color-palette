@@ -42,6 +42,14 @@ class Scribus(Storage):
             elif "CMYK" in elem.attrib:
                 color = fromHex_CMYK(elem.attrib["CMYK"])
                 colors.append(color)
+            else:
+                continue
+            if "NAME" in elem.attrib:
+                color.meta["Name"] = elem.attrib["NAME"]
+            if "Spot" in elem.attrib:
+                color.meta["Spot"] = elem.attrib["Spot"]
+            if "Register" in elem.attrib:
+                color.meta["Register"] = elem.attrib["Register"]
 
         self.palette = create_palette(colors)
         self.palette.name = name
@@ -53,7 +61,14 @@ class Scribus(Storage):
         for i,row in enumerate(self.palette.getColors()):
             for j,color in enumerate(row):
                 name="Swatch-{}-{}".format(i,j)
-                ET.SubElement(xml, "COLOR", NAME=name, RGB=color.hex())
+                elem = ET.SubElement(xml, "COLOR", NAME=name, RGB=color.hex())
+                if "Name" in color.meta:
+                    elem.attrib["NAME"] = color.meta["Name"]
+                if "Spot" in color.meta:
+                    elem.attrib["Spot"] = color.meta["Spot"]
+                if "Register" in color.meta:
+                    elem.attrib["Register"] = color.meta["Register"]
+
 
         ET.ElementTree(xml).write(file_w, encoding="utf-8", pretty_print=True, xml_declaration=True)
 

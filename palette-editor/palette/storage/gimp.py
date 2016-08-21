@@ -96,7 +96,8 @@ class GimpPalette(Storage):
             pf.write('Columns: %s\n' % self.palette.ncols)
         pf.write(marker+'\n')
         for key,value in self.palette.meta.items():
-            pf.write(u"# {}: {}\n".format(key, value).encode('utf-8'))
+            if key != "Name":
+                pf.write(u"# {}: {}\n".format(key, value).encode('utf-8'))
         pf.write('#\n')
         for row in self.palette.slots:
             for slot in row:
@@ -107,6 +108,9 @@ class GimpPalette(Storage):
                 r, g, b = slot.color.getRGB()
                 s = '%d %d %d %s\n' % (r, g, b, n)
                 pf.write(s)
+                for key,value in slot.color.meta.items():
+                    if key != "Name":
+                        pf.write(u"# {}: {}\n".format(key, value).encode('utf-8'))
         if do_close:
             pf.close()
 
@@ -128,10 +132,11 @@ class GimpPalette(Storage):
         l = pf.readline().strip()
         if l != 'GIMP Palette':
             raise SyntaxError, "Invalid palette file!"
-        self.palette.name = pf.readline().strip().split()[1]
+        self.palette.name = " ".join(pf.readline().strip().split()[1:])
         all_user = True
         n_colors = 0
         all_slots = []
+        reading_header = True
         for line in pf:
             line = line.strip()
             if line==marker:
@@ -140,7 +145,10 @@ class GimpPalette(Storage):
             if meta_match is not None:
                 key = meta_match.group(1)
                 value = meta_match.group(2)
-                self.palette.meta[key] = value
+                if reading_header:
+                    self.palette.meta[key] = value
+                else:
+                    clr.meta[key] = value
                 continue
             if line.startswith('#'):
                 continue
@@ -151,6 +159,7 @@ class GimpPalette(Storage):
                 continue
             rs,gs,bs = lst[:3]
             clr = Color(float(rs), float(gs), float(bs))
+            reading_header = False
             #print(str(clr))
             slot = Slot(clr)
             n_colors += 1
