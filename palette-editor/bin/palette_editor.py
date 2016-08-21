@@ -65,6 +65,7 @@ from matching.svg_widget import SvgTemplateWidget
 from dialogs.open_palette import *
 from dialogs import filedialog
 from dialogs.colorlovers import *
+from dialogs.meta import MetaDialog, edit_meta
 from models.models import *
 
 def locate_icon(name):
@@ -437,6 +438,8 @@ class GUI(QtGui.QMainWindow):
                 "contrast-up.png", _("Increase &contrast"), self.on_palette_contrast_up)
         create_action(self, self.toolbar_palette, menu,
                 "contrast-down.png", _("Decrease contras&t"), self.on_palette_contrast_down)
+
+        create_action(self, None, menu, None, _("Edit palette metainformation"), self.on_edit_palette_meta)
 
         sort_icon = QtGui.QIcon(locate_icon("sorting.png"))
         sort_menu = menu.addMenu(sort_icon, _("Sort colors"))
@@ -821,6 +824,10 @@ class GUI(QtGui.QMainWindow):
                 self.scratchpad.repaint()
             else:
                 self._load_palette(palette)
+
+    def on_edit_palette_meta(self):
+        meta = edit_meta(self.palette.palette, self)
+        print meta
 
     def on_palette_file_dropped(self, path):
         path = unicode(path)

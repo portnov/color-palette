@@ -87,6 +87,8 @@ if use_lcms:
         lch = lcms.cmsCIELCh(0, 0, 0)
         lcms.cmsLab2LCh(lch, lab)
         return lch.L, lch.C, lch.h
+
+from models.meta import Meta
     
 #HCYwts = 0.299, 0.587, 0.114
 
@@ -317,6 +319,7 @@ class Color(QtGui.QColor):
             QtGui.QColor.__init__(self, *args)
             self._rgb = None
         self._reset_cache()
+        self.meta = Meta()
 
     def _reset_cache(self):
         self._hcy = None

@@ -1,12 +1,15 @@
 
 from os.path import join, basename
 from PyQt4 import QtGui
+import re
 
 from color.colors import *
 from color import mixers
 from palette.storage.storage import *
 
 marker = '# Colors not marked with #USER are auto-generated'
+
+metare = re.compile("^# (\\w+): (.+)")
 
 def save_gpl(name, ncols, clrs, file_w):
     if type(file_w) in [str,unicode]:
@@ -92,6 +95,8 @@ class GimpPalette(Storage):
         if hasattr(self.palette, 'ncols') and self.palette.ncols:
             pf.write('Columns: %s\n' % self.palette.ncols)
         pf.write(marker+'\n')
+        for key,value in self.palette.meta.items():
+            pf.write(u"# {}: {}\n".format(key, value).encode('utf-8'))
         pf.write('#\n')
         for row in self.palette.slots:
             for slot in row:
@@ -131,6 +136,12 @@ class GimpPalette(Storage):
             line = line.strip()
             if line==marker:
                 all_user = False
+            meta_match = metare.match(line)
+            if meta_match is not None:
+                key = meta_match.group(1)
+                value = meta_match.group(2)
+                self.palette.meta[key] = value
+                continue
             if line.startswith('#'):
                 continue
             lst = line.split()

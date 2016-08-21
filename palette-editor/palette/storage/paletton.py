@@ -22,6 +22,11 @@ class Paletton(Storage):
         self.palette = Palette(mixer)
         xml = ET.parse(file_r)
 
+        xml_url = xml.findall("url")
+        if xml_url:
+            url = xml_url[0].text
+            self.palette.meta["URL"] = url
+
         xml_colorsets = xml.findall("colorset")
         max_colors = None
         for colorset in xml_colorsets:

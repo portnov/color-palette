@@ -3,6 +3,7 @@ from os.path import join, basename
 
 from color.colors import *
 from color import mixers
+from models.meta import Meta
 
 NONE = 0
 USER_DEFINED = 1
@@ -80,6 +81,15 @@ class Palette(object):
         self.ncols = ncols
         self.slots = [[Slot() for i in range(ncols)] for j in range(nrows)]
         self.need_recalc_colors = True
+        self.meta = Meta()
+
+    def get_name(self):
+        return self.meta.get("Name", "Untited")
+
+    def set_name(self, name):
+        self.meta["Name"] = name
+
+    name = property(get_name, set_name)
 
     def mark_color(self, row, column, mark=None):
         print("Marking color at ({}, {})".format(row,column))

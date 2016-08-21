@@ -33,6 +33,7 @@ class Scribus(Storage):
         xml = ET.parse(file_r).getroot()
 
         colors = []
+        name = xml.attrib.get("Name", "Untitled")
 
         for elem in xml.findall("COLOR"):
             if "RGB" in elem.attrib:
@@ -43,6 +44,7 @@ class Scribus(Storage):
                 colors.append(color)
 
         self.palette = create_palette(colors)
+        self.palette.name = name
         return self.palette
 
     def save(self, file_w):
