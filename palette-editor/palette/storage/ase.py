@@ -43,24 +43,19 @@ class AsePalette(Storage):
         for i in range(nblocks):
             block_name = None
             block_type, block_size = struct.unpack('>HL', file.read(6))
-            print block_type, block_size
             if block_size > 0:
                 length = struct.unpack('>H', file.read(2))[0]
-                print length
                 if length > 0:
                     block_name = struct.unpack(str(length*2)+'s',file.read(length*2))[0]
-                    print block_name
                     block_name = unicode(block_name,'utf_16_be').split('\x00', 1)[0]
             if block_type == 0x0001: # Actual color
                 model = struct.unpack('4s',file.read(4))[0]
-                print model, type(model)
                 color = Color()
                 if model == 'CMYK':
                     cmyk = list(struct.unpack('>4f',file.read(16)))
                     color.setCMYK(cmyk)
                 elif model == 'RGB ':
                     rgb = list(struct.unpack('>3f',file.read(12)))
-                    print rgb
                     color.setRGB1(rgb)
                 elif model == 'LAB ':
                     print("Lab model is not supported yet; block_name {}".format(block_name))
