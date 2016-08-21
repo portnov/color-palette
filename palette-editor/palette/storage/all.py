@@ -10,8 +10,9 @@ from css import *
 from svg import SVG
 from image import Image
 from scribus import Scribus
+from ase import AsePalette
 
-storages = [GimpPalette, XmlPalette, Paletton, CSS, SVG, Image, Scribus]
+storages = [GimpPalette, XmlPalette, Paletton, CSS, SVG, Image, Scribus, AsePalette]
 
 def get_storage_by_name(name):
     print("Searching for storage named", name)
