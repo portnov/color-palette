@@ -93,6 +93,7 @@ class AcoPalette(Storage):
 
         self.palette = create_palette(colors)
         self.palette.meta["Version"] = str(version)
+        self.palette.meta["SourceFormat"] = "Adobe aco"
         if filename:
             self.palette.name = basename(filename)
 

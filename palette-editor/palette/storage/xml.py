@@ -106,6 +106,7 @@ class XmlPalette(Storage):
             else:
                 self.palette.ncols = n_colors
         self.palette.setSlots(all_slots)
+        self.palette.meta["SourceFormat"] = "CREATE XML"
         print("Loaded palette: {}x{}".format( self.palette.nrows, self.palette.ncols ))
         return self.palette
 

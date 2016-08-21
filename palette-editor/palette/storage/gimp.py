@@ -182,6 +182,7 @@ class GimpPalette(Storage):
         if force_ncols is not None:
             self.palette.ncols = force_ncols
         self.palette.setSlots(all_slots)
+        self.palette.meta["SourceFormat"] = "Gimp gpl" if all_user else "palette_editor gpl"
         print("Loaded palette: {}x{}".format( self.palette.nrows, self.palette.ncols ))
         return self.palette
 

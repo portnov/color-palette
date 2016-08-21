@@ -79,6 +79,7 @@ class AsePalette(Storage):
 
         self.palette = create_palette(colors)
         self.palette.meta["Version"] = str(version)
+        self.palette.meta["SourceFormat"] = "Adobe ase"
         if filename:
             self.palette.name = basename(filename)
 

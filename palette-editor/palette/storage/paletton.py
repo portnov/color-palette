@@ -46,6 +46,7 @@ class Paletton(Storage):
                 slot = Slot(clr, user_defined=True)
                 all_slots.append(slot)
         self.palette.setSlots(all_slots)
+        self.palette.meta["SourceFormat"] = "Paletton.com XML"
         print("Loaded palette: {}x{}".format( self.palette.nrows, self.palette.ncols ))
         return self.palette
 

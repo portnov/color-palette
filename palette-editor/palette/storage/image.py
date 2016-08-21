@@ -1,5 +1,5 @@
 
-from os.path import join, basename
+from os.path import join, basename, splitext
 from math import sqrt, floor
 from PyQt4 import QtGui
 
@@ -192,6 +192,9 @@ class Image(Storage):
 
             palette.need_recalc_colors = True
             palette.recalc()
+
+            name,ext = splitext(basename(file_r))
+            self.palette.meta["SourceFormat"] = ext
 
             return palette
 
