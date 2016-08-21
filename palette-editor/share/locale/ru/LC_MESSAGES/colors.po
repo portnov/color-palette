@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2016-08-21 18:15+YEKT\n"
+"POT-Creation-Date: 2016-08-21 19:19+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -696,7 +696,11 @@ msgstr "вставку столбца в палитру"
 msgid "creating palette from color swatches"
 msgstr "создание палитры из цветовых образцов"
 
-#: palette/storage/all.py:33
+#: palette/storage/aco.py:17
+msgid "Adobe Photoshop color file format"
+msgstr "Формат цветов Adobe Photoshop"
+
+#: palette/storage/all.py:34
 msgid "All files (*)"
 msgstr "Все файлы (*)"
 
