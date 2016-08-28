@@ -77,10 +77,8 @@ class PaletteWidget(QtGui.QLabel):
         if event.mimeData().hasColor():
             qcolor = QtGui.QColor(event.mimeData().colorData())
             r,g,b,_ = qcolor.getRgb()
-            #print(qcolor.getRgb())
             color = Color(r,g,b)
             event.acceptProposedAction()
-            print(color)
             if event.mimeData().hasFormat("application/x-metainfo"):
                 data = event.mimeData().data("application/x-metainfo")
                 color.meta.set_from_xml(str(data))

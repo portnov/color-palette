@@ -211,6 +211,9 @@ class ColorWidget(QtGui.QLabel):
             qcolor = QtGui.QColor(event.mimeData().colorData())
             r,g,b,_ = qcolor.getRgb()
             color = colors.Color(r,g,b)
+            if event.mimeData().hasFormat("application/x-metainfo"):
+                data = event.mimeData().data("application/x-metainfo")
+                color.meta.set_from_xml(str(data))
             self.on_drop_color(color)
             self.repaint()
             if not self.model.to_set_color():
