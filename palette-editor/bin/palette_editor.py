@@ -791,9 +791,9 @@ class GUI(QtGui.QMainWindow):
         self.update()
 
     def on_save_palette(self):
-        filename = save_palette_filename(self, _("Save palette"))
+        filename, format = save_palette_filename(self, _("Save palette"))
         if filename:
-            save_palette(self.palette.palette, filename)
+            save_palette(self.palette.palette, filename, format)
 
     def on_save_palette_image(self):
         filename = QtGui.QFileDialog.getSaveFileName(self, _("Save palette image"), ".", "*.png")
@@ -847,14 +847,14 @@ class GUI(QtGui.QMainWindow):
             self.svg.loadTemplate(path)
 
     def on_swatches_save(self):
-        filename = save_palette_filename(self, _("Save palette"))
+        filename, format = save_palette_filename(self, _("Save palette"))
         if filename:
             palette = Palette(mixers.MixerRGB, nrows=len(self.swatches), ncols=len(self.swatches[0]))
             for i,row in enumerate(self.swatches):
                 for j,w in enumerate(row):
                     palette.slots[i][j].color = w.getColor()
                     palette.slots[i][j].mark(True)
-            save_palette(palette, filename)
+            save_palette(palette, filename, format)
 
     def on_swatches_to_palette(self):
         command = SwatchesToPalette(self.palette, self.mixer, self.swatches)

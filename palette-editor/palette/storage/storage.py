@@ -18,6 +18,10 @@ class Storage(object):
     def __init__(self, palette=None):
         self.palette = palette
 
+    @classmethod
+    def get_filter(cls):
+        return u"{} ({})".format(cls.title, u" ".join(cls.filters))
+
     @staticmethod
     def check(filename):
         return True

@@ -67,8 +67,8 @@ def open_palette_dialog(parent=None, caption=None):
         return None
 
 def save_palette_filename(parent=None, caption=None):
-    filename = QtGui.QFileDialog.getSaveFileName(parent, caption=caption, filter=get_all_filters(save=True))
-    return unicode(filename)
+    filename, filter = QtGui.QFileDialog.getSaveFileNameAndFilter(parent, caption=caption, filter=get_all_filters(save=True))
+    return unicode(filename), get_storage_name_by_filter(unicode(filter))
 
 def load_palette(filename, mixer=None, options=None):
     if mixer is None:

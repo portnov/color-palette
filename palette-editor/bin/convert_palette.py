@@ -26,7 +26,7 @@ def parse_cmdline():
 
 def default_dst_filename(src):
     name, ext = splitext(src)
-    return name + '.png'
+    return unicode(name) + u'.png'
 
 def get_dst_filename(src, args, group=None, idx=None):
     if args.all:
@@ -38,7 +38,7 @@ def get_dst_filename(src, args, group=None, idx=None):
         name, ext = splitext(dst)
         return u"{}_{}_{}{}".format(unicode(name,'utf-8'), idx, group, ext)
     elif args.output is not None:
-        return args.output[0]
+        return unicode(args.output[0], 'utf-8')
     else:
         return default_dst_filename(src)
 
