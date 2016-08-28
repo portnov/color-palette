@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2016-08-28 17:01+YEKT\n"
+"POT-Creation-Date: 2016-08-28 19:08+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -817,8 +817,8 @@ msgid "SVG images"
 msgstr "Изображения SVG"
 
 #: palette/storage/xml.py:12
-msgid "MyPaint palette"
-msgstr "Палитры MyPaint"
+msgid "CREATE palette format"
+msgstr "Формат палитр CREATE"
 
 #: palette/storage/xml.py:32
 msgid "Group: "

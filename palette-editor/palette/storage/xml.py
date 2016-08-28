@@ -9,7 +9,7 @@ from palette.storage.storage import *
 
 class XmlPalette(Storage):
     name = 'xml'
-    title = _("MyPaint palette")
+    title = _("CREATE palette format")
     filters = ["*.xml"]
     can_load = True
     can_save = True
