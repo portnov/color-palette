@@ -64,6 +64,11 @@ class XmlPalette(Storage):
         label.text = self.palette.name
         layout = ET.SubElement(group, "layout", columns=str(self.palette.ncols), expanded="True")
 
+        for key,value in self.palette.meta.items():
+            if key != "Name":
+                meta = ET.SubElement(group, "meta", name=key)
+                meta.text = value
+
         for i,row in enumerate(self.palette.slots):
             for j,slot in enumerate(row):
                 color = slot.color
@@ -71,6 +76,8 @@ class XmlPalette(Storage):
                 if not name:
                     name = "Swatch-{}-{}".format(i,j)
                 elem = ET.SubElement(group, "color")
+                label = ET.SubElement(elem, "label")
+                label.text = name
                 if slot.mode == USER_DEFINED:
                     meta = ET.SubElement(elem, "meta", name="user_chosen")
                     meta.text = "True"
@@ -85,8 +92,6 @@ class XmlPalette(Storage):
                 rgb.attrib["b"] = str(b)
 
         ET.ElementTree(xml).write(file_w, encoding="utf-8", pretty_print=True, xml_declaration=True)
-
-
 
     def load(self, mixer, file_r, group_name):
 
@@ -107,9 +112,21 @@ class XmlPalette(Storage):
         self.palette.ncols = None
         xml = ET.parse(file_r)
         grp = find_group(xml)
+        if grp is None:
+            print(u"Cannot find group by name {}".format(group_name).encode('utf-8'))
+            return None
+
         layout = grp.find('layout')
         if layout is not None:
             self.palette.ncols = int( layout.attrib['columns'] )
+
+        metas = grp.findall('meta')
+        if metas is not None:
+            for meta in metas:
+                key = meta.attrib['name']
+                value = meta.text
+                if key != 'Name':
+                    self.palette.meta[key] = value
 
         all_slots = []
         n_colors = 0
@@ -133,6 +150,9 @@ class XmlPalette(Storage):
                         slot.mode = USER_DEFINED
                     else:
                         clr.meta[key] = value
+            label = xmlclr.find('label')
+            if label is not None:
+                clr.name = label.text
             all_slots.append(slot)
             n_colors += 1
 
