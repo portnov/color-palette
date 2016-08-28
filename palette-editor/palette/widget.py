@@ -30,7 +30,8 @@ class PaletteWidget(QtGui.QLabel):
         self._drag_start_pos = None
 
         self.select_button = QtCore.Qt.LeftButton
-        self.mark_button = QtCore.Qt.RightButton
+        self.mark_button = QtCore.Qt.MiddleButton
+        self.menu_button = QtCore.Qt.RightButton
 
         self.selection_enabled = True
         self.editing_enabled = True
@@ -421,10 +422,11 @@ class PaletteWidget(QtGui.QLabel):
 
         if event.button() == self.select_button and self.selection_enabled:
             self._select(x,y)
-        elif event.button() == self.mark_button:
+        elif event.button() == self.mark_button and self.editing_enabled:
+            self._mark(x,y)
+        elif event.button() == self.menu_button:
             menu = self._get_context_menu((x,y), self.editing_enabled)
             menu.exec_(event.globalPos())
-            #self._mark(x,y)
         if event.button() == QtCore.Qt.LeftButton:
             self._drag_start_pos = event.pos()
         event.accept()
