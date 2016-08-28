@@ -11,6 +11,16 @@ bindir = dirname(sys.argv[0])
 rootdir = dirname(bindir)
 sys.path.append(rootdir)
 
+datarootdir = join( rootdir, "share" )
+if not sys.platform.startswith('win'):
+    datarootdir_installed = join( datarootdir, "palette-editor" )
+    if exists(datarootdir_installed):
+        datarootdir = datarootdir_installed
+else:
+    datarootdir_compiled = join( bindir, "share" )
+    if exists(datarootdir_compiled):
+        datarootdir = datarootdir_compiled
+
 from color.mixers import *
 from palette.palette import *
 from palette.viewer import PaletteViewWindow
@@ -18,6 +28,16 @@ from palette.image import PaletteImage
 from palette.widget import *
 from widgets.widgets import *
 from dialogs.open_palette import load_palette
+
+def locate_icon(name):
+    path = join(datarootdir, "icons", name)
+    if not exists(path):
+        print("Icon not found: " + path)
+    return path
+try:
+    __builtins__.locate_icon = locate_icon
+except AttributeError:
+    __builtins__['locate_icon'] = locate_icon
 
 class GUI(QtGui.QMainWindow):
     def __init__(self, palette):
