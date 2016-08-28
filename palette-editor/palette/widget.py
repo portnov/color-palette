@@ -6,6 +6,7 @@ from widgets.widgets import *
 from palette import *
 from image import PaletteImage
 from commands import *
+from models.models import Clipboard
 
 class PaletteWidget(QtGui.QLabel):
     clicked = QtCore.pyqtSignal(int,int) # (x,y)
@@ -80,7 +81,7 @@ class PaletteWidget(QtGui.QLabel):
             color = Color(r,g,b)
             event.acceptProposedAction()
             print(color)
-            row,col = self._get_slot(event.pos().x(), event.pos().y())
+            row,col = self._get_slot_rc_at(event.pos().x(), event.pos().y())
             command = SetColor(self, row, col, color)
             self.undoStack.push(command)
         if event.mimeData().hasUrls():
@@ -247,7 +248,7 @@ class PaletteWidget(QtGui.QLabel):
 
     def _on_tooltip(self, event):
         x,y = event.pos().x(), event.pos().y()
-        row,col = self._get_slot(x,y)
+        row,col = self._get_slot_rc_at(x,y)
         try:
             slot = self.palette.slots[row][col]
             color = slot.getColor()
@@ -304,7 +305,7 @@ class PaletteWidget(QtGui.QLabel):
         if not self.editing_enabled:
             event.ignore()
             return
-        row,col = self._get_slot(event.x(), event.y())
+        row,col = self._get_slot_rc_at(event.x(), event.y())
         slot = self.palette.slots[row][col]
         #print("{} at ({}, {})".format(str(slot), row, col))
         if slot.mode != USER_DEFINED:
@@ -373,7 +374,7 @@ class PaletteWidget(QtGui.QLabel):
         if (event.pos() - self._drag_start_pos).manhattanLength() < QtGui.QApplication.startDragDistance():
             return
 
-        row,col = self._get_slot(x,y)
+        row,col = self._get_slot_rc_at(x,y)
         color = self.palette.getColor(row,col)
         drag = create_qdrag_color(self, color)
         drag.exec_()
@@ -417,18 +418,40 @@ class PaletteWidget(QtGui.QLabel):
 
         if event.button() == self.select_button and self.selection_enabled:
             self._select(x,y)
-        elif event.button() == self.mark_button and self.editing_enabled:
-            self._mark(x,y)
+        elif event.button() == self.mark_button:
+            menu = self._get_context_menu((x,y), self.editing_enabled)
+            menu.exec_(event.globalPos())
+            #self._mark(x,y)
         if event.button() == QtCore.Qt.LeftButton:
             self._drag_start_pos = event.pos()
         event.accept()
 
+    def _get_context_menu(self, pos, editing_enabled):
+
+        def _get_color():
+            color = self._get_color_at(*pos)
+            print("Palette: copy color {}".format(color))
+            return color
+
+        def _set_color(color):
+            row,col = self._get_slot_rc_at(*pos)
+            command = SetColor(self, row, col, color)
+            self.undoStack.push(command)
+
+        menu = QtGui.QMenu(self)
+        if editing_enabled:
+            mark = menu.addAction(_("Toggle mark"))
+            mark.triggered.connect(lambda: self._mark(*pos))
+        self.clipboard = Clipboard(_get_color, _set_color)
+        self.clipboard.add_cliboard_actions(menu, editing_enabled)
+        return menu
+
     def _mark(self, x,y):
-        row,col = self._get_slot(x,y)
+        row,col = self._get_slot_rc_at(x,y)
         command = MarkCommand(self, row, col)
         self.undoStack.push(command)
 
-    def _get_slot(self, x,y):
+    def _get_slot_rc_at(self, x,y):
         w, h = self._get_image_size()
         rw = float(w)/float(self.palette.ncols)
         rh = float(h)/float(self.palette.nrows)
@@ -436,9 +459,20 @@ class PaletteWidget(QtGui.QLabel):
         #print((row,col))
         return (row, col)
 
+    def _get_slot_at(self, x,y):
+        row,col = self._get_slot_rc_at(x,y)
+        slot = self.palette.slots[row][col]
+        return slot
+
+    def _get_color_at(self, x,y):
+        slot = self._get_slot_at(x,y)
+        color = slot.getColor()
+        return color
+
     def _select(self, x, y):
         self.clicked.emit(x,y)
-        self.selected_slot = self._get_slot(x,y)
+        self.selected_slot = self._get_slot_rc_at(x,y)
         self.selected.emit(*self.selected_slot)
         self.repaint()
+        
 

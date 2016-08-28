@@ -321,6 +321,9 @@ class Color(QtGui.QColor):
         self._reset_cache()
         self.meta = Meta()
 
+    def asQColor(self):
+        return QtGui.QColor(*self._rgb)
+
     def get_name(self):
         return self.meta.get("Name", "Untitled")
 
@@ -462,6 +465,14 @@ class Color(QtGui.QColor):
     def hex(self):
         r,g,b = self.getRGB()
         return "#{:02x}{:02x}{:02x}".format(r,g,b)
+
+    def getRgbString(self):
+        r,g,b = self.getRGB()
+        return "rgb({}, {}, {})".format(r,g,b)
+    
+    def getHsvString(self):
+        h,s,v = self.getHSV()
+        return "hsv({}, {}, {})".format(h,s,v)
     
     def verbose(self):
         r, g, b = self.getRGB1()

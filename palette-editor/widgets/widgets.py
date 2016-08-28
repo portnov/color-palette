@@ -182,8 +182,13 @@ class ColorWidget(QtGui.QLabel):
                 self.clicked.emit()
                 event.accept()
             elif event.button() == self.clear_button:
-                self.cleared.emit()
-                event.accept()
+                menu = self.model.get_context_menu(self)
+                if menu:
+                    menu.exec_(event.globalPos())
+                    event.accept()
+                else:
+                    self.cleared.emit()
+                    event.accept()
 
     def mouseMoveEvent(self, event):
         if not self._mouse_pressed:
