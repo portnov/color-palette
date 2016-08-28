@@ -120,10 +120,9 @@ class ColorModel(object):
 
     def get_context_menu(self, widget):
         menu = QtGui.QMenu(widget)
-        if self.set_color_enabled:
-            clear = menu.addAction(_("Clear"))
-            clear.triggered.connect(self.clear)
-        self.clipboard.add_cliboard_actions(menu, self.set_color_enabled)
+        clear = menu.addAction(_("Clear"))
+        clear.triggered.connect(self.clear)
+        self.clipboard.add_cliboard_actions(menu, True)
         return menu
     
     def _set_color(self, color):
