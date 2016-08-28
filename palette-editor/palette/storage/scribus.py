@@ -56,14 +56,17 @@ class Scribus(Storage):
         return self.palette
 
     def save(self, file_w):
-        xml = ET.Element("SCRIBUSCOLORS", NAME="Palette")
+        name = self.palette.name
+        if not name:
+            name = "Palette"
+        xml = ET.Element("SCRIBUSCOLORS", NAME=name)
         
         for i,row in enumerate(self.palette.getColors()):
             for j,color in enumerate(row):
-                name="Swatch-{}-{}".format(i,j)
+                name = color.name
+                if not name:
+                    name = "Swatch-{}-{}".format(i,j)
                 elem = ET.SubElement(xml, "COLOR", NAME=name, RGB=color.hex())
-                if "Name" in color.meta:
-                    elem.attrib["NAME"] = color.meta["Name"]
                 if "Spot" in color.meta:
                     elem.attrib["Spot"] = color.meta["Spot"]
                 if "Register" in color.meta:
