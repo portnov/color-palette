@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-08-21 19:19+YEKT\n"
+"POT-Creation-Date: 2016-08-28 17:02+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -664,6 +664,42 @@ msgstr ""
 msgid "Edit metainformation"
 msgstr ""
 
+#: models/models.py:69
+msgid "Copy color"
+msgstr ""
+
+#: models/models.py:72
+msgid "Paste color"
+msgstr ""
+
+#: models/models.py:74
+msgid "Copy hexadecimal representation"
+msgstr ""
+
+#: models/models.py:76
+msgid "Copy RGB representation"
+msgstr ""
+
+#: models/models.py:78
+msgid "Copy HSV representation"
+msgstr ""
+
+#: models/models.py:124 widgets/scratchpad.py:185
+msgid "Clear"
+msgstr ""
+
+#: models/models.py:133
+msgid "rotating color"
+msgstr ""
+
+#: models/models.py:138
+msgid "changing color lightness"
+msgstr ""
+
+#: models/models.py:143
+msgid "changing color saturation"
+msgstr ""
+
 #: palette/commands.py:16
 msgid "toggling mark on palette slot"
 msgstr ""
@@ -784,6 +820,10 @@ msgstr ""
 msgid "Group: "
 msgstr ""
 
+#: palette/widget.py:443
+msgid "Toggle mark"
+msgstr ""
+
 #: widgets/commands/general.py:10
 msgid "selecting color model"
 msgstr ""
@@ -844,7 +884,7 @@ msgstr ""
 msgid "Click and drag to pick color"
 msgstr ""
 
-#: widgets/picker.py:71 widgets/widgets.py:221
+#: widgets/picker.py:71 widgets/widgets.py:226
 msgid "<unset>"
 msgstr ""
 

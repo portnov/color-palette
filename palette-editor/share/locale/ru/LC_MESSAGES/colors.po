@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2016-08-21 19:19+YEKT\n"
+"POT-Creation-Date: 2016-08-28 17:01+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -668,6 +668,42 @@ msgstr "&Ок"
 msgid "Edit metainformation"
 msgstr "Редактирование метаинформации"
 
+#: models/models.py:69
+msgid "Copy color"
+msgstr "Копировать цвет"
+
+#: models/models.py:72
+msgid "Paste color"
+msgstr "Вставить цвет"
+
+#: models/models.py:74
+msgid "Copy hexadecimal representation"
+msgstr "Копировать шестнадцатиричное представление"
+
+#: models/models.py:76
+msgid "Copy RGB representation"
+msgstr "Копировать представление RGB"
+
+#: models/models.py:78
+msgid "Copy HSV representation"
+msgstr "Копировать представление HSV"
+
+#: models/models.py:124 widgets/scratchpad.py:185
+msgid "Clear"
+msgstr "Очистить"
+
+#: models/models.py:133
+msgid "rotating color"
+msgstr "поворот цвета"
+
+#: models/models.py:138
+msgid "changing color lightness"
+msgstr "изменение светлоты цвета"
+
+#: models/models.py:143
+msgid "changing color saturation"
+msgstr "изменение насыщенности цвета"
+
 #: palette/commands.py:16
 msgid "toggling mark on palette slot"
 msgstr "переключение метки на слоте палитры"
@@ -788,6 +824,10 @@ msgstr "Палитры MyPaint"
 msgid "Group: "
 msgstr "Группа: "
 
+#: palette/widget.py:443
+msgid "Toggle mark"
+msgstr "Переключить отметку"
+
 #: widgets/commands/general.py:10
 msgid "selecting color model"
 msgstr "выбор цветовой модели"
@@ -848,6 +888,6 @@ msgstr "выбор гармонии"
 msgid "Click and drag to pick color"
 msgstr "Нажмите и тащите чтобы выбрать цвет"
 
-#: widgets/picker.py:71 widgets/widgets.py:221
+#: widgets/picker.py:71 widgets/widgets.py:226
 msgid "<unset>"
 msgstr "<пусто>"
