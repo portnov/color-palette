@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-08-28 19:08+YEKT\n"
+"POT-Creation-Date: 2016-08-28 23:42+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -319,7 +319,7 @@ msgstr ""
 msgid "Edit palette metainformation"
 msgstr ""
 
-#: bin/palette_editor.py:443
+#: bin/palette_editor.py:443 palette/widget.py:456
 msgid "Edit color metainformation"
 msgstr ""
 
@@ -684,19 +684,19 @@ msgstr ""
 msgid "Copy HSV representation"
 msgstr ""
 
-#: models/models.py:124 widgets/scratchpad.py:185
+#: models/models.py:123 widgets/scratchpad.py:185
 msgid "Clear"
 msgstr ""
 
-#: models/models.py:133
+#: models/models.py:132
 msgid "rotating color"
 msgstr ""
 
-#: models/models.py:138
+#: models/models.py:137
 msgid "changing color lightness"
 msgstr ""
 
-#: models/models.py:143
+#: models/models.py:142
 msgid "changing color saturation"
 msgstr ""
 
@@ -737,7 +737,7 @@ msgid "All files (*)"
 msgstr ""
 
 #: palette/storage/ase.py:17
-msgid "Adobe swatch exchange (ase)"
+msgid "Adobe swatch exchange"
 msgstr ""
 
 #: palette/storage/css.py:18
@@ -820,7 +820,7 @@ msgstr ""
 msgid "Group: "
 msgstr ""
 
-#: palette/widget.py:443
+#: palette/widget.py:453
 msgid "Toggle mark"
 msgstr ""
 
@@ -884,7 +884,7 @@ msgstr ""
 msgid "Click and drag to pick color"
 msgstr ""
 
-#: widgets/picker.py:71 widgets/widgets.py:226
+#: widgets/picker.py:71 widgets/widgets.py:230
 msgid "<unset>"
 msgstr ""
 

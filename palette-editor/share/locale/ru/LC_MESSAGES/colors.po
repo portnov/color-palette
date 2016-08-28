@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2016-08-28 19:08+YEKT\n"
+"POT-Creation-Date: 2016-08-28 23:42+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -319,7 +319,7 @@ msgstr "&Уменьшить контраст"
 msgid "Edit palette metainformation"
 msgstr "Редактировать метаинформацию палитры"
 
-#: bin/palette_editor.py:443
+#: bin/palette_editor.py:443 palette/widget.py:456
 msgid "Edit color metainformation"
 msgstr "Редактировать метаинформацию цвета"
 
@@ -688,19 +688,19 @@ msgstr "Копировать представление RGB"
 msgid "Copy HSV representation"
 msgstr "Копировать представление HSV"
 
-#: models/models.py:124 widgets/scratchpad.py:185
+#: models/models.py:123 widgets/scratchpad.py:185
 msgid "Clear"
 msgstr "Очистить"
 
-#: models/models.py:133
+#: models/models.py:132
 msgid "rotating color"
 msgstr "поворот цвета"
 
-#: models/models.py:138
+#: models/models.py:137
 msgid "changing color lightness"
 msgstr "изменение светлоты цвета"
 
-#: models/models.py:143
+#: models/models.py:142
 msgid "changing color saturation"
 msgstr "изменение насыщенности цвета"
 
@@ -741,8 +741,8 @@ msgid "All files (*)"
 msgstr "Все файлы (*)"
 
 #: palette/storage/ase.py:17
-msgid "Adobe swatch exchange (ase)"
-msgstr "Формат обмена образцами Adobe (ase)"
+msgid "Adobe swatch exchange"
+msgstr "Формат обмена образцами Adobe"
 
 #: palette/storage/css.py:18
 msgid "CSS cascading stylesheet"
@@ -824,7 +824,7 @@ msgstr "Формат палитр CREATE"
 msgid "Group: "
 msgstr "Группа: "
 
-#: palette/widget.py:443
+#: palette/widget.py:453
 msgid "Toggle mark"
 msgstr "Переключить отметку"
 
@@ -888,6 +888,6 @@ msgstr "выбор гармонии"
 msgid "Click and drag to pick color"
 msgstr "Нажмите и тащите чтобы выбрать цвет"
 
-#: widgets/picker.py:71 widgets/widgets.py:226
+#: widgets/picker.py:71 widgets/widgets.py:230
 msgid "<unset>"
 msgstr "<пусто>"
