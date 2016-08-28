@@ -3,6 +3,7 @@ from PyQt4 import QtGui, QtCore
 
 from color.colors import *
 from widgets.widgets import *
+from dialogs.meta import edit_meta
 from palette import *
 from image import PaletteImage
 from commands import *
@@ -440,10 +441,19 @@ class PaletteWidget(QtGui.QLabel):
             command = SetColor(self, row, col, color)
             self.undoStack.push(command)
 
+        def _edit_metainfo():
+            color = self._get_color_at(*pos)
+            meta = edit_meta(color, self)
+            print meta
+
         menu = QtGui.QMenu(self)
         if editing_enabled:
             mark = menu.addAction(_("Toggle mark"))
             mark.triggered.connect(lambda: self._mark(*pos))
+
+        edit = menu.addAction(_("Edit color metainformation"))
+        edit.triggered.connect(_edit_metainfo)
+
         self.clipboard = Clipboard(_get_color, _set_color)
         self.clipboard.add_cliboard_actions(menu, editing_enabled)
         return menu
