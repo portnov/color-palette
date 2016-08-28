@@ -17,6 +17,7 @@ def create_qdrag_color(widget, color):
     drag = QtGui.QDrag(widget)
     mime = QtCore.QMimeData()
     mime.setColorData(qcolor)
+    mime.setData("application/x-metainfo", color.meta.to_xml())
     drag.setMimeData(mime)
     drag.setPixmap(dnd_pixmap(color))
     return drag

@@ -81,6 +81,10 @@ class PaletteWidget(QtGui.QLabel):
             color = Color(r,g,b)
             event.acceptProposedAction()
             print(color)
+            if event.mimeData().hasFormat("application/x-metainfo"):
+                data = event.mimeData().data("application/x-metainfo")
+                color.meta.set_from_xml(str(data))
+
             row,col = self._get_slot_rc_at(event.pos().x(), event.pos().y())
             command = SetColor(self, row, col, color)
             self.undoStack.push(command)

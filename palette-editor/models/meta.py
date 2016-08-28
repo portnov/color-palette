@@ -1,6 +1,7 @@
 
 from copy import deepcopy as copy
 from PyQt4 import QtCore
+from lxml import etree as ET
 
 def as_unicode(x):
     if isinstance(x,unicode):
@@ -78,6 +79,26 @@ class Meta(object):
 
     def dict(self):
         return dict([(as_unicode(k), as_unicode(v)) for k,v in self._list])
+
+    def to_xml(self):
+        xml = ET.Element("metainfo")
+        for key, value in self.items():
+            meta = ET.SubElement(xml, "meta", name=key)
+            meta.text = value
+        return ET.tostring(xml, encoding='utf-8')
+
+    def set_from_xml(self, data):
+        xml = ET.fromstring(data)
+        for meta in xml.findall('meta'):
+            key = meta.attrib['name']
+            value = meta.text
+            self[key] = value
+    
+    @staticmethod
+    def from_xml(self, data):
+        result = Meta()
+        result.set_from_xml(data)
+        return result
     
     def __getitem__(self, key):
         return self.get(key, None)
