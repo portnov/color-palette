@@ -14,9 +14,9 @@ from palette.storage.storage import *
 class AsePalette(Storage):
 
     name = 'ase'
-    title = _("Adobe swatch exchange (ase)")
+    title = _("Adobe swatch exchange")
     filters = ["*.ase"]
-    can_save = False
+    can_save = True
     can_load = True
     
     @staticmethod
@@ -87,4 +87,37 @@ class AsePalette(Storage):
             file.close()
 
         return self.palette
+
+    def save(self, file_w):
+        header = 'ASEF\x00\x01\x00\x00'
+        data = ''
+
+        for row in self.palette.slots:
+            for slot in row:
+                block_size = 0
+                color = slot.color
+
+                name_txt = color.name
+                block_size += 4 + len(name_txt) * 2
+                name = struct.pack('>H', len(name_txt)+1) + name_txt.encode('utf_16_be') + '\x00\x00'
+
+                if color.meta["Spot"] == "1":
+                    usage = '\x00\x01'
+                elif color.meta["Global"] == "1":
+                    usage = '\x00\x00'
+                else:
+                    usage = '\x00\x02'
+
+                r,g,b = color.getRGB1()
+                block_size += 12
+                values = 'RGB ' + struct.pack('>3f', r,g,b)
+
+                data += '\x00\x01' + struct.pack('>L', block_size) + name + values + usage
+
+        count = self.palette.nrows * self.palette.ncols
+
+        data = header + struct.pack('>L', count) + data
+        with open(file_w, 'wb') as f:
+            f.write(data)
+
 
