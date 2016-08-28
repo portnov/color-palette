@@ -12,7 +12,7 @@ class XmlPalette(Storage):
     title = _("MyPaint palette")
     filters = ["*.xml"]
     can_load = True
-    can_save = False
+    can_save = True
 
     @staticmethod
     def check(filename):
@@ -57,7 +57,36 @@ class XmlPalette(Storage):
         return result
 
     def save(self, file_w=None):
-        pass
+        xml = ET.Element("colors")
+        root_group = ET.SubElement(xml, "group")
+        group = ET.SubElement(root_group, "group")
+        label = ET.SubElement(group, "label")
+        label.text = self.palette.name
+        layout = ET.SubElement(group, "layout", columns=str(self.palette.ncols), expanded="True")
+
+        for i,row in enumerate(self.palette.slots):
+            for j,slot in enumerate(row):
+                color = slot.color
+                name = color.name
+                if not name:
+                    name = "Swatch-{}-{}".format(i,j)
+                elem = ET.SubElement(group, "color")
+                if slot.mode == USER_DEFINED:
+                    meta = ET.SubElement(elem, "meta", name="user_chosen")
+                    meta.text = "True"
+                for key,value in color.meta.items():
+                    if key != "Name":
+                        meta = ET.SubElement(elem, "meta", name=key)
+                        meta.text = value
+                rgb = ET.SubElement(elem, "sRGB")
+                r,g,b = color.getRGB1()
+                rgb.attrib["r"] = str(r)
+                rgb.attrib["g"] = str(g)
+                rgb.attrib["b"] = str(b)
+
+        ET.ElementTree(xml).write(file_w, encoding="utf-8", pretty_print=True, xml_declaration=True)
+
+
 
     def load(self, mixer, file_r, group_name):
 
@@ -95,6 +124,15 @@ class XmlPalette(Storage):
             clr = Color()
             clr.setRGB1((r,g,b))
             slot = Slot(clr)
+            metas = xmlclr.findall('meta')
+            if metas is not None:
+                for meta in metas:
+                    key = meta.attrib['name']
+                    value = meta.text
+                    if key == 'user_chosen' and value == 'True':
+                        slot.mode = USER_DEFINED
+                    else:
+                        clr.meta[key] = value
             all_slots.append(slot)
             n_colors += 1
 
