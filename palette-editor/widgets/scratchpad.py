@@ -5,6 +5,7 @@ from PyQt4 import QtGui, QtCore
 from color.colors import *
 from widgets import create_qdrag_color
 from commands.scratchpad import *
+from models.models import Clipboard
 
 class Scratchpad(QtGui.QWidget):
     def __init__(self, model, parent=None, *args, **kwargs):
@@ -151,9 +152,8 @@ class Scratchpad(QtGui.QWidget):
     def mouseReleaseEvent(self, event):
         #print("Mouse released")
         if event.button() == self.clear_button:
-            x = event.x()
-            self._clear(x)
-            self.repaint()
+            menu = self._get_context_menu(event.x())
+            menu.exec_(event.globalPos())
 
         if self._mouse_pressed(event) and self._prev_resize_pos is not None:
             x = event.x()
@@ -166,6 +166,28 @@ class Scratchpad(QtGui.QWidget):
         self._resize_idx = None
         self._drag_start_pos = None
         event.accept()
+
+    def on_clear(self, x):
+        def wrapped():
+            self._clear(x)
+            self.repaint()
+        return wrapped
+
+    def _get_context_menu(self, x):
+
+        def _get_color():
+            return self._color_at_x(x)
+
+        def _set_color(color):
+            self._add_color(color, x)
+
+        menu = QtGui.QMenu(self)
+        clear = menu.addAction(_("Clear"))
+        clear.triggered.connect(self.on_clear(x))
+
+        self.clipboard = Clipboard(_get_color, _set_color)
+        self.clipboard.add_cliboard_actions(menu, True)
+        return menu
 
     def mouseMoveEvent(self, event):
         idx = self._edge_at_x(event.x())
