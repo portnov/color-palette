@@ -5,9 +5,10 @@ from color import colors
 from widgets.commands.general import *
 
 class Document(object):
-    def __init__(self, window):
+    def __init__(self, window, options):
         self.window = window
         self.undoStack = QtGui.QUndoStack(window)
+        self.options = options
 
         self.current_color = ColorModel(self)
 
@@ -82,6 +83,7 @@ class ScratchpadModel(object):
     def __init__(self, parent):
         self.parent = parent
         self.colors = []
+        self.options = parent.options
 
     def get_undo_stack(self):
         return self.parent.get_undo_stack()
@@ -92,6 +94,7 @@ class ColorModel(object):
         self.color = color
         self.set_color_enabled = True
         self.clipboard = Clipboard(self.getColor, self._set_color)
+        self.options = parent.options
 
     def to_set_color(self):
         return self.set_color_enabled

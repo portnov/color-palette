@@ -191,15 +191,16 @@ class GUI(QtGui.QMainWindow):
     
     def __init__(self, template_path=None):
         QtGui.QMainWindow.__init__(self)
-        self.model = Document(self)
+
+        self.settings = QtCore.QSettings("palette-editor", "palette-editor")
+        self.options = Options(self.settings)
+
+        self.model = Document(self, self.options)
         self.undoStack = self.model.get_undo_stack()
 
         self.mixer = mixers.MixerRGB
 
         self._shades_parameter = 0.5
-
-        self.settings = QtCore.QSettings("palette-editor", "palette-editor")
-        self.options = Options(self.settings)
 
         palette_widget = self._init_palette_widgets()
         scratchbox = self._init_scratchbox()
@@ -600,7 +601,7 @@ class GUI(QtGui.QMainWindow):
         palette.paint(6, 6, Color(0.0, 255.0, 0.0))
         palette.recalc()
 
-        self.palette = PaletteWidget(self, palette, undoStack=self.undoStack)
+        self.palette = PaletteWidget(self, palette, self.options, undoStack=self.undoStack)
         self.palette.setMinimumSize(300,300)
         self.palette.setMaximumSize(700,700)
         self.palette.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)

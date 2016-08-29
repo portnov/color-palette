@@ -109,8 +109,6 @@ class ColorWidget(QtGui.QLabel):
         self.cleared.connect(self.on_clear)
         self._mouse_pressed = False
         self._drag_start_pos = None
-        self.select_button = QtCore.Qt.LeftButton
-        self.clear_button = QtCore.Qt.RightButton
         self.drop_enabled = True
         self.pick_enabled = True
         self.border_color = None
@@ -179,17 +177,17 @@ class ColorWidget(QtGui.QLabel):
     def mouseReleaseEvent(self, event):
         #print("Mouse released")
         if self.pick_enabled:
-            if event.button() == self.select_button:
+            if event.button() == self.model.options.select_button:
                 self.clicked.emit()
                 event.accept()
-            elif event.button() == self.clear_button:
+            elif event.button() == self.model.options.menu_button:
                 menu = self.model.get_context_menu(self)
                 if menu:
                     menu.exec_(event.globalPos())
                     event.accept()
-                else:
-                    self.cleared.emit()
-                    event.accept()
+            elif event.button() == self.model.options.clear_button:
+                self.cleared.emit()
+                event.accept()
 
     def mouseMoveEvent(self, event):
         if not self._mouse_pressed:

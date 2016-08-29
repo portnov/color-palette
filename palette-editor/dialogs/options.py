@@ -2,31 +2,35 @@
 
 from PyQt4 import QtGui, QtCore
 
-from color.colors import *
-#from models.options import Options
+#from color.colors import *
+
+DISABLED=3
 
 class SelectButton(QtGui.QComboBox):
     def __init__(self, parent=None):
         QtGui.QComboBox.__init__(self, parent)
 
-        self.addItem(_("Left button"))
-        self.addItem(_("Middle button"))
-        self.addItem(_("Right button"))
-        self.addItem(_("Disable"))
+        self.addItem(_("Left button"), userData=1)
+        self.addItem(_("Middle button"), userData=4)
+        self.addItem(_("Right button"), userData=2)
+        self.addItem(_("Disable"), userData=DISABLED)
 
     def get_button(self):
         idx = self.currentIndex()
-        if idx == 3:
+        button_id, ok = self.itemData(idx).toInt()
+        if not ok:
+            button_id = DISABLED
+        if button_id == DISABLED:
             return None
         else:
-            return QtCore.Qt.MouseButton(idx)
+            return QtCore.Qt.MouseButton(button_id)
 
     def set_button(self, button):
         if button == None:
-            self.setCurrentIndex(3)
+            idx = self.findData(DISABLED)
         else:
-            idx = int(button)
-            self.setCurrentIndex(idx)
+            idx = self.findData(int(button))
+        self.setCurrentIndex(idx)
 
 class OptionsDialog(QtGui.QDialog):
     def __init__(self, options, *args, **kwargs):

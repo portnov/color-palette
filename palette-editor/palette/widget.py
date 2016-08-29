@@ -14,9 +14,10 @@ class PaletteWidget(QtGui.QLabel):
     selected = QtCore.pyqtSignal(int,int) # (row, column)
     file_dropped = QtCore.pyqtSignal(unicode)
 
-    def __init__(self, parent, palette, padding=2.0, background=None, undoStack=None, indicate_modes=False, *args):
+    def __init__(self, parent, palette, options, padding=2.0, background=None, undoStack=None, indicate_modes=False, *args):
         QtGui.QLabel.__init__(self, parent, *args)
         self.palette = palette
+        self.options = options
         self.palette_image = PaletteImage(palette, padding=padding, background=background, indicate_modes=indicate_modes)
         self.indicate_modes = indicate_modes
 
@@ -28,10 +29,6 @@ class PaletteWidget(QtGui.QLabel):
         self.selected_slot = None
 
         self._drag_start_pos = None
-
-        self.select_button = QtCore.Qt.LeftButton
-        self.mark_button = QtCore.Qt.MiddleButton
-        self.menu_button = QtCore.Qt.RightButton
 
         self.selection_enabled = True
         self.editing_enabled = True
@@ -387,7 +384,7 @@ class PaletteWidget(QtGui.QLabel):
         #print("Mouse released")
         self._mouse_pressed = False
         x,y = event.x(), event.y()
-        if event.button() == self.select_button and self.editing_enabled:
+        if event.button() == self.options.select_button and self.editing_enabled:
             delete_col = self._get_delete_col_button_at_xy(x,y)
             if delete_col is not None:
                 print("Deleting column #{}".format(delete_col))
@@ -420,11 +417,11 @@ class PaletteWidget(QtGui.QLabel):
                 self.undoStack.push(command)
                 return
 
-        if event.button() == self.select_button and self.selection_enabled:
+        if event.button() == self.options.select_button and self.selection_enabled:
             self._select(x,y)
-        elif event.button() == self.mark_button and self.editing_enabled:
+        elif event.button() == self.options.mark_button and self.editing_enabled:
             self._mark(x,y)
-        elif event.button() == self.menu_button:
+        elif event.button() == self.options.menu_button:
             menu = self._get_context_menu((x,y), self.editing_enabled)
             menu.exec_(event.globalPos())
         if event.button() == QtCore.Qt.LeftButton:
