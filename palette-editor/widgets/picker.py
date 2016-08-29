@@ -12,7 +12,6 @@ class Picker(QtGui.QPushButton):
         self._clicked = False
         self.border_color = None
         self.text = text
-        self.avg_size = 9
         self._colors = []
         self._grabbed_image = None
         self.clicked.connect(self._prepare)
@@ -163,10 +162,14 @@ class Picker(QtGui.QPushButton):
     def _pick_color(self, pos):
         desktop = QtGui.QApplication.desktop().winId()
         #screen = QtGui.QApplication.desktop().primaryScreen()
-        dx = dy = self.avg_size // 2
-        pixmap = QtGui.QPixmap.grabWindow(desktop, pos.x() - dx, pos.y() - dy, self.avg_size, self.avg_size)
+        size = self.model.options.picker_area
+        dx = dy = size // 2
+        pixmap = QtGui.QPixmap.grabWindow(desktop, pos.x() - dx, pos.y() - dy, size, size)
         self._grabbed_image = img = pixmap.toImage()
-        self._colors.extend(self._grab(img))
+        if self.model.options.picker_average:
+            self._colors.extend(self._grab(img))
+        else:
+            self._colors = self._grab(img)
         color = self._average()
         self.setColor(color)
         self.repaint()
