@@ -196,6 +196,8 @@ class GUI(QtGui.QMainWindow):
 
         self._shades_parameter = 0.5
 
+        self.settings = QtCore.QSettings("palette-editor", "palette-editor")
+
         palette_widget = self._init_palette_widgets()
         scratchbox = self._init_scratchbox()
         harmonies_widget = self._init_harmonies_widgets()
@@ -249,7 +251,7 @@ class GUI(QtGui.QMainWindow):
             palette = load_palette(palette_filename)
             self._load_palette(palette)
 
-        settings = QtCore.QSettings("palette-editor", "palette-editor")
+        settings = self.settings
         self.restoreGeometry(settings.value("geometry").toByteArray())
         self.restoreState(settings.value("windowState").toByteArray())
 
@@ -372,6 +374,8 @@ class GUI(QtGui.QMainWindow):
 
         palette_filename = locate_palette("default.gpl")
         save_palette(self.palette.palette, palette_filename)
+
+        settings.setValue("template/path", abspath(self.template_path))
 
     def _dock(self, name, title, area, widget):
         dock = QtGui.QDockWidget(title, self)
@@ -553,11 +557,16 @@ class GUI(QtGui.QMainWindow):
         #self.svg.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         self.svg.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         if template_path is None:
-            template_path = locate_template("template.svg")
+            template_path = self.settings.value("template/path").toString()
+            if template_path:
+                template_path = unicode(template_path)
+            else:
+                template_path = locate_template("template.svg")
         else:
             template_path = template_path[0]
         if template_path:
             self.svg.loadTemplate(template_path)
+            self.template_path = template_path
         vbox_right.addWidget(self.svg)
 
         #vbox_right.addStretch()
@@ -845,6 +854,7 @@ class GUI(QtGui.QMainWindow):
         path = unicode(path)
         if path.endswith(".svg"):
             self.svg.loadTemplate(path)
+            self.template_path = path
 
     def on_swatches_save(self):
         filename, format = save_palette_filename(self, _("Save palette"))
@@ -1135,6 +1145,7 @@ class GUI(QtGui.QMainWindow):
         filename = filedialog.get_image_filename(self, _("Open SVG template"), directory="", filter="*.svg")
         if filename:
             self.svg.loadTemplate(str(filename))
+            self.template_path = str(filename)
     
     def on_save_template(self):
         filename = QtGui.QFileDialog.getSaveFileName(self, _("Save SVG"), ".", "*.svg")
