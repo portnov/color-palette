@@ -57,10 +57,18 @@ class Options(object):
         if settings is None:
             settings = self.settings
 
-        self.select_button = self._variant_to_button(settings.value("input/select_button"))
-        self.clear_button = self._variant_to_button(settings.value("input/clear_button"))
-        self.mark_button = self._variant_to_button(settings.value("input/mark_button"))
-        self.menu_button = self._variant_to_button(settings.value("input/menu_button"))
+        value = self._variant_to_button(settings.value("input/select_button"))
+        if value:
+            self.select_button = value
+        value = self._variant_to_button(settings.value("input/clear_button"))
+        if value:
+            self.clear_button = value
+        value = self._variant_to_button(settings.value("input/mark_button"))
+        if value:
+            self.mark_button = value
+        value = self._variant_to_button(settings.value("input/menu_button"))
+        if value:
+            self.menu_button = value
 
         value, ok = settings.value("picker/area_size").toInt()
         if ok:
