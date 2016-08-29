@@ -66,7 +66,9 @@ from dialogs.open_palette import *
 from dialogs import filedialog
 from dialogs.colorlovers import *
 from dialogs.meta import MetaDialog, edit_meta
+from dialogs.options import OptionsDialog
 from models.models import *
+from models.options import Options
 
 def locate_icon(name):
     path = join(datarootdir, "icons", name)
@@ -197,6 +199,7 @@ class GUI(QtGui.QMainWindow):
         self._shades_parameter = 0.5
 
         self.settings = QtCore.QSettings("palette-editor", "palette-editor")
+        self.options = Options(self.settings)
 
         palette_widget = self._init_palette_widgets()
         scratchbox = self._init_scratchbox()
@@ -320,7 +323,11 @@ class GUI(QtGui.QMainWindow):
         self.undoStack.clear()
 
     def _store(self):
-        settings = QtCore.QSettings("palette-editor", "palette-editor")
+        if not self.settings:
+            settings = QtCore.QSettings("palette-editor", "palette-editor")
+        else:
+            settings = self.settings
+
         settings.setValue("geometry", self.saveGeometry())
         settings.setValue("windowState", self.saveState());
 
@@ -398,6 +405,8 @@ class GUI(QtGui.QMainWindow):
         redo.setIcon(QtGui.QIcon(locate_icon("Edit-redo.png")))
         menu.addAction(undo)
         menu.addAction(redo)
+
+        menu.addAction(_("&Preferences"), self.on_show_options)
 
     def _init_palette_actions(self):
         menu = self.menuBar().addMenu(_("&Palette"))
@@ -1154,6 +1163,10 @@ class GUI(QtGui.QMainWindow):
             f = open(unicode(filename),'w')
             f.write(content)
             f.close()
+
+    def on_show_options(self):
+        dialog = OptionsDialog(self.options)
+        dialog.exec_()
 
     def closeEvent(self, event):
         self._store()
