@@ -46,9 +46,9 @@ class OptionsDialog(QtGui.QDialog):
         self.select_button = SelectButton(input_tab)
         layout.addRow(_("Select color with"), self.select_button)
         self.clear_button = SelectButton(input_tab)
-        layout.addRow(_("Clear color with"), self.clear_button)
+        layout.addRow(_("Clear color swatch with"), self.clear_button)
         self.mark_button = SelectButton(input_tab)
-        layout.addRow(_("Toggle mark on color"), self.mark_button)
+        layout.addRow(_("Toggle mark on palette slot"), self.mark_button)
         self.menu_button = SelectButton(input_tab)
         layout.addRow(_("Show context menu on"), self.menu_button)
 
@@ -71,7 +71,7 @@ class OptionsDialog(QtGui.QDialog):
         
         buttons = QtGui.QHBoxLayout()
         buttons.addStretch(1)
-        ok = QtGui.QPushButton(_("Ok"))
+        ok = QtGui.QPushButton(_("&OK"))
         ok.clicked.connect(self._on_ok)
         cancel = QtGui.QPushButton(_("&Cancel"))
         cancel.clicked.connect(self.reject)
