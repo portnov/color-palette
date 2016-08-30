@@ -8,6 +8,7 @@ try:
     #from tinycss import make_parser, color3
     css_support = True
 except ImportError:
+    print("CSS support for HTML is not available")
     css_support = False
 
 try:
@@ -15,6 +16,7 @@ try:
     html_support = True
 except ImportError:
     html_support = False
+    print("HTML support is not available")
 
 from color.colors import *
 
