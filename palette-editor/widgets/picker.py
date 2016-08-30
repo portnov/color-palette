@@ -3,6 +3,8 @@ from PyQt4 import QtGui, QtCore
 
 from color.colors import *
 
+MAX_CURSOR_SIZE=32
+
 class Picker(QtGui.QPushButton):
     def __init__(self, parent, text, model):
         QtGui.QPushButton.__init__(self, text, parent)
@@ -57,7 +59,22 @@ class Picker(QtGui.QPushButton):
             dx = 0
             dy = (h - size) // 2
         return QtCore.QRectF(rect.x()+dx, rect.y()+dy, size, size)
-            
+    
+    def _mk_cursor(self):
+        img = QtGui.QPixmap(MAX_CURSOR_SIZE, MAX_CURSOR_SIZE)
+        img.fill(QtGui.QColor(255,255,255,0))
+        qp = QtGui.QPainter()
+        qp.begin(img)
+        sqr_size = min(MAX_CURSOR_SIZE, self.model.options.picker_area)
+        middle = MAX_CURSOR_SIZE//2
+        d = (MAX_CURSOR_SIZE - sqr_size) // 2
+        qp.drawRect(d,d, sqr_size, sqr_size)
+        qp.drawLine(middle, 0, middle, d)
+        qp.drawLine(middle, MAX_CURSOR_SIZE-d, middle, MAX_CURSOR_SIZE)
+        qp.drawLine(0, middle, d, middle)
+        qp.drawLine(MAX_CURSOR_SIZE-d, middle, MAX_CURSOR_SIZE, middle)
+        qp.end()
+        return QtGui.QCursor(img)
 
     def drawWidget(self, event,  qp):
         #print("Painting " + str(self))
@@ -133,7 +150,7 @@ class Picker(QtGui.QPushButton):
         #print "Clicked"
         self._clicked = True
         self.grabKeyboard()
-        self.grabMouse(QtCore.Qt.CrossCursor)
+        self.grabMouse(self._mk_cursor())
         self._colors = []
         self.repaint()
 
