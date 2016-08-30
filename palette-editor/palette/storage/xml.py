@@ -95,15 +95,22 @@ class XmlPalette(Storage):
 
     def load(self, mixer, file_r, group_name):
 
+        def get_label(grp):
+            xml_label = grp.find('label')
+            if xml_label is None:
+                return None
+            return xml_label.text
+
+
         def find_group(xml):
             #print("Searching {}".format(group_name))
             grp = None
             for xmlgrp in xml.xpath("//group"):
-                xml_label = xmlgrp.find('label')
-                if xml_label is None:
+                label = get_label(xmlgrp)
+                if label is None:
                     continue
-                #print("Found {}".format(xml_label.text))
-                if group_name is None or xml_label.text == group_name:
+                #print("Found: {}".format(label))
+                if group_name is None or label == group_name:
                     grp = xmlgrp
                     break
             return grp
@@ -115,6 +122,7 @@ class XmlPalette(Storage):
         if grp is None:
             print(u"Cannot find group by name {}".format(group_name).encode('utf-8'))
             return None
+        self.palette.name = get_label(grp)
 
         layout = grp.find('layout')
         if layout is not None:
@@ -163,6 +171,7 @@ class XmlPalette(Storage):
                 self.palette.ncols = MAX_COLS
             else:
                 self.palette.ncols = n_colors
+        #print("Loaded colors: {}".format(len(all_slots)))
         self.palette.setSlots(all_slots)
         self.palette.meta["SourceFormat"] = "CREATE XML"
         print("Loaded palette: {}x{}".format( self.palette.nrows, self.palette.ncols ))
