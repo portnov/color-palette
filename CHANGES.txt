@@ -1,3 +1,22 @@
+0.0.6, 2016/08/18
+  * Main script renamed from too generic gui.py to palette_editor.py.
+  * Color picker tool is implemented. With it you can pick color from anywhere on the screen.
+  * Added a function to sort colors in palette by hue, saturation or value.
+  * Some command-line options are supported. For example, you can now run "palette_editor.py my_palette.gpl" to open the palette in editor.
+  * Some keyboard shortcuts are added (Ctrl+O - open palette, Ctrl+S - save palette, Ctrl+L - toggle palette lock mode, Ctrl+I - call color picker mode).
+  * When loading palette from raster image file, added some options:
+      - Load 9 most different colors from image and mix them
+      - Load 9 most common colors from image and mix them
+      - Load 49 most common colors from image
+      - Read table of colors
+  * Added a script (convert_palette.py) to convert palettes between supported formats via command line.
+0.0.5, 2014/10/22
+  * Undo/redo for most actions
+  * Usage of docking widgets, so that you can adjust UI as you want.
+  * Most settings are automatically stored/restored at exit/startup.
+  * Lab color selector (available if LCMS bindings are installed) and harmonies in Lab space.
+  * It is now possible to choice color space to perform color matching in Preview pane.
+  * In scratchpad widget it is now possible to adjust widths of color swatches.
 0.0.4, 2014/09/09
   * New harmonies
   * Load palette when dropping file to palette widget
