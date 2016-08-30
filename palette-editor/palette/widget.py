@@ -43,6 +43,7 @@ class PaletteWidget(QtGui.QLabel):
         self.setAcceptDrops(True)
         self.setMouseTracking(True)
         self.setSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
+        self.setContextMenuPolicy(QtCore.Qt.PreventContextMenu)
         self.buttons_color = QtGui.QColor(240,240,240, 127)
 
     def setMixer(self, mixer):

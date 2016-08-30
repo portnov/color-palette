@@ -113,6 +113,7 @@ class ColorWidget(QtGui.QLabel):
         self.pick_enabled = True
         self.border_color = None
         self.setAcceptDrops(True)
+        self.setContextMenuPolicy(QtCore.Qt.PreventContextMenu)
         self.show()
 
     def is_empty(self):
