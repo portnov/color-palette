@@ -15,8 +15,6 @@ class Scratchpad(QtGui.QWidget):
 
         self.border_color = Color(0,0,0)
         self.drop_enabled = True
-        self.clear_button = QtCore.Qt.RightButton
-        self.drag_button = QtCore.Qt.LeftButton
 
         self._prev_resize_pos = None
         self._resize_idx = None
@@ -115,7 +113,7 @@ class Scratchpad(QtGui.QWidget):
         self.colors[idx+1] = clr1, max(0.02, c1-delta)
 
     def _mouse_pressed(self, event):
-        return event.buttons() & self.drag_button
+        return event.buttons() & self.model.options.select_button
 
     def add_color(self, color, repaint=True):
         command = AddColor(self, color, repaint)
@@ -140,7 +138,7 @@ class Scratchpad(QtGui.QWidget):
     def mousePressEvent(self, event):
         #print("Mouse pressed")
         self.setFocus(QtCore.Qt.OtherFocusReason)
-        if event.button() == self.drag_button:
+        if event.button() == self.model.options.select_button:
             idx = self._edge_at_x(event.x())
             if idx is not None:
                 self._prev_resize_pos = event.pos()
@@ -151,10 +149,12 @@ class Scratchpad(QtGui.QWidget):
 
     def mouseReleaseEvent(self, event):
         #print("Mouse released")
-        if event.button() == self.clear_button:
+        if event.button() == self.model.options.menu_button:
             menu = self._get_context_menu(event.x())
             menu.exec_(event.globalPos())
-
+        elif event.button() == self.model.options.clear_button:
+            self._clear(event.x())
+            self.repaint()
         if self._mouse_pressed(event) and self._prev_resize_pos is not None:
             x = event.x()
             idx = self._resize_idx
