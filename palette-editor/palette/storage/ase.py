@@ -97,9 +97,11 @@ class AsePalette(Storage):
                 block_size = 0
                 color = slot.color
 
-                name_txt = color.name
-                block_size += 4 + len(name_txt) * 2
-                name = struct.pack('>H', len(name_txt)+1) + name_txt.encode('utf_16_be') + '\x00\x00'
+                name = color.name
+                name_bytes = name.encode('utf_16_be')
+                name_len_bytes = len(name_bytes)
+                name_len = len(name)
+                block_size += 4 + name_len_bytes + 4
 
                 if color.meta["Spot"] == "1":
                     usage = '\x00\x01'
@@ -109,10 +111,11 @@ class AsePalette(Storage):
                     usage = '\x00\x02'
 
                 r,g,b = color.getRGB1()
-                block_size += 12
+                block_size += 14
                 values = 'RGB ' + struct.pack('>3f', r,g,b)
 
-                data += '\x00\x01' + struct.pack('>L', block_size) + name + values + usage
+                name_data = struct.pack('>H', name_len+1) + name_bytes + '\x00\x00'
+                data += '\x00\x01' + struct.pack('>L', block_size) + name_data + values + usage
 
         count = self.palette.nrows * self.palette.ncols
 
