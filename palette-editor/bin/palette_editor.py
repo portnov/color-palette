@@ -524,8 +524,8 @@ class GUI(QtGui.QMainWindow):
 
     def _help_menu(self):
         menu = self.menuBar().addMenu(_("&Help"))
-        menu.addAction(_("Wiki documentation"), self.on_help)
-        menu.addAction(_("About Palette Editor"), self.on_about)
+        menu.addAction(_("&Wiki documentation"), self.on_help)
+        menu.addAction(_("&About Palette Editor"), self.on_about)
 
     def _init_svg_widgets(self, template_path=None):
         vbox_right = QtGui.QVBoxLayout()

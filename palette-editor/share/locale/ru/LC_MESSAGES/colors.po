@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2016-09-04 21:07+YEKT\n"
+"POT-Creation-Date: 2016-09-04 21:09+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -393,12 +393,12 @@ msgid "&Help"
 msgstr "&Справка"
 
 #: bin/palette_editor.py:527
-msgid "Wiki documentation"
-msgstr "Документация Wiki"
+msgid "&Wiki documentation"
+msgstr "&Документация Wiki"
 
-#: bin/palette_editor.py:528 bin/palette_editor.py:1184
-msgid "About Palette Editor"
-msgstr "О редакторе палитр"
+#: bin/palette_editor.py:528
+msgid "&About Palette Editor"
+msgstr "&О редакторе палитр"
 
 #: bin/palette_editor.py:547
 msgid "Colors matching space:"
@@ -555,6 +555,10 @@ msgstr "Открыть шаблон SVG"
 #: bin/palette_editor.py:1169
 msgid "Save SVG"
 msgstr "Сохранить SVG"
+
+#: bin/palette_editor.py:1184
+msgid "About Palette Editor"
+msgstr "О редакторе палитр"
 
 #: bin/palette_editor.py:1185
 msgid ""

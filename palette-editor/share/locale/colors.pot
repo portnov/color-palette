@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-09-04 21:07+YEKT\n"
+"POT-Creation-Date: 2016-09-04 21:09+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -393,11 +393,11 @@ msgid "&Help"
 msgstr ""
 
 #: bin/palette_editor.py:527
-msgid "Wiki documentation"
+msgid "&Wiki documentation"
 msgstr ""
 
-#: bin/palette_editor.py:528 bin/palette_editor.py:1184
-msgid "About Palette Editor"
+#: bin/palette_editor.py:528
+msgid "&About Palette Editor"
 msgstr ""
 
 #: bin/palette_editor.py:547
@@ -554,6 +554,10 @@ msgstr ""
 
 #: bin/palette_editor.py:1169
 msgid "Save SVG"
+msgstr ""
+
+#: bin/palette_editor.py:1184
+msgid "About Palette Editor"
 msgstr ""
 
 #: bin/palette_editor.py:1185
