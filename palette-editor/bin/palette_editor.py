@@ -70,7 +70,8 @@ from dialogs.meta import MetaDialog, edit_meta
 from dialogs.options import OptionsDialog
 from models.models import *
 from models.options import Options
-from version import VERSION
+
+__version__ = '0.0.7'
 
 def locate_icon(name):
     path = join(datarootdir, "icons", name)
@@ -1182,7 +1183,7 @@ class GUI(QtGui.QMainWindow):
 
     def on_about(self):
         title = _("About Palette Editor")
-        text = _("This is Palette Editor version {0}.\nPlease report issues at {1}.").format(VERSION, 'https://github.com/portnov/color-palette/issues')
+        text = _("This is Palette Editor version {0}.\nPlease report issues at {1}.").format(__version__, 'https://github.com/portnov/color-palette/issues')
         QtGui.QMessageBox.about(self, title, text)
 
     def closeEvent(self, event):
