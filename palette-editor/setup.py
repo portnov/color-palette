@@ -3,6 +3,8 @@ from setuptools import find_packages
 from os.path import join, dirname, basename, isdir
 from glob import glob
 
+from version import VERSION
+
 def locate_locales():
     result = []
     for langdir in glob('share/locale/*'):
@@ -15,7 +17,7 @@ def locate_locales():
 
 setup(
     name = 'palette-editor',
-    version = '0.0.6',
+    version = VERSION,
     author = 'Ilya Portnov',
     author_email = 'portnov84@rambler.ru',
     scripts = ['bin/palette_editor.py', 'bin/cluster.py', 'bin/palette_viewer.py', 'bin/convert_palette.py'],

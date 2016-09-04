@@ -69,6 +69,7 @@ from dialogs.meta import MetaDialog, edit_meta
 from dialogs.options import OptionsDialog
 from models.models import *
 from models.options import Options
+from version import VERSION
 
 def locate_icon(name):
     path = join(datarootdir, "icons", name)
