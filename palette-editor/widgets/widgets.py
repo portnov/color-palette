@@ -395,6 +395,33 @@ class HueRing(CacheImage):
             alpha += da
         qp.end()
 
+class Spectrum(CacheImage):
+    STEPS = 100
+
+    def __init__(self, mixer, w=0, h=0):
+        CacheImage.__init__(self, mixer, w, h)
+
+    def calc(self):
+        self.colors = [self.mixer.fromHue(h) for h in seq(0.0, 1.0, 1.0/self.STEPS)]
+
+    def draw(self, w, h):
+        #print("Draw: " + str((w, h)))
+        if w is None or h is None:
+             return
+        self.image = QtGui.QImage(w, h,  QtGui.QImage.Format_ARGB32_Premultiplied)
+        self.image.fill(0)
+        self.image_w = w
+        self.image_h = h
+        rectw = float(w) / self.STEPS
+        qp = QtGui.QPainter()
+        qp.begin(self.image)
+        for i, col in enumerate(self.colors):
+            x = i * rectw
+            y = 0
+            qp.setBrush(col)
+            qp.setPen(col)
+            qp.drawRect(x, y, rectw, h)
+        qp.end()
 
 class Gradient(CacheImage):
     
