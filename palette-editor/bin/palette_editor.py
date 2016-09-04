@@ -7,6 +7,7 @@ from copy import copy
 import gettext
 import appdirs
 import argparse
+import webbrowser
 
 from PyQt4 import QtGui
 
@@ -233,6 +234,7 @@ class GUI(QtGui.QMainWindow):
         self._init_palette_actions()
         self._init_harmonies_actions()
         self._init_svg_actions()
+        self._help_menu()
 
         self.setWindowTitle(_("Palette editor"))
         #self.resize(600, 800)
@@ -519,6 +521,11 @@ class GUI(QtGui.QMainWindow):
                 "colorize_palette.png", _("Colorize from &palette"), self.on_colorize_palette)
         create_action(self, self.toolbar_template, menu,
                 "View-refresh.png", _("&Reset colors"), self.on_reset_template)
+
+    def _help_menu(self):
+        menu = self.menuBar().addMenu(_("&Help"))
+        menu.addAction(_("Wiki documentation"), self.on_help)
+        menu.addAction(_("About Palette Editor"), self.on_about)
 
     def _init_svg_widgets(self, template_path=None):
         vbox_right = QtGui.QVBoxLayout()
@@ -1169,6 +1176,14 @@ class GUI(QtGui.QMainWindow):
     def on_show_options(self):
         dialog = OptionsDialog(self.options)
         dialog.exec_()
+
+    def on_help(self):
+        webbrowser.open('https://github.com/portnov/color-palette/wiki')
+
+    def on_about(self):
+        title = _("About Palette Editor")
+        text = _("This is Palette Editor version {0}.\nPlease report issues at {1}.").format(VERSION, 'https://github.com/portnov/color-palette/issues')
+        QtGui.QMessageBox.about(self, title, text)
 
     def closeEvent(self, event):
         self._store()
