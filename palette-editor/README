@@ -45,6 +45,8 @@ What can it do currently is:
       values, but writes only RGB.
     - SVG files - read and write. When saving, an image of table with square
       swatches is saved.
+    - Adobe ASE files - read and write.
+    - Adobe ACO files - read only.
     - Raster images (JPEG, PNG etc). Most used colors are extracted from image
       by using simplified cluster-analysis algorithm. When saving, an image of
       table with square swatches is saved.
@@ -58,7 +60,7 @@ What can it do currently is:
 
 There is also some old pygtk stuff, maybe it will be usefull for someone.
 
-Documentation is actually almost absent at the moment, so you can just read source :)
+For documentation, please see [Palette editor wiki](https://github.com/portnov/color-palette/wiki).
 
 You can try launch&play with some testing executable scripts:
 
