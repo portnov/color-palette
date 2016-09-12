@@ -213,6 +213,10 @@ class SelectColor(SwatchesCommand):
 
     def redo(self):
         #print "Selecting color:", self.color
+        history = self.owner.model.get_color_history()
+        self.oldest_history_color = history.color_models[-1].getColor()
+        history.push_new(self.color)
+
         self.remember_swatches()
         self.old_base_colors = self.owner.base_colors
         self.owner.base_colors = {}
@@ -232,6 +236,10 @@ class SelectColor(SwatchesCommand):
             if selector.isVisible():
                 selector.setColor(self.prev_color, no_signal=True)
         self.restore_swatches()
+
+        history = self.owner.model.get_color_history()
+        history.push_old(self.oldest_history_color)
+
         self.owner.update()
 
     def mergeWith(self, other):

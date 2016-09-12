@@ -301,6 +301,49 @@ class TwoColorsWidget(ColorWidget):
         #print("Drop: " + str(color))
         self.second_color = color
 
+class ColorHistoryWidget(QtGui.QWidget):
+
+    selected = QtCore.pyqtSignal()
+
+    def __init__(self, model, vertical=False, parent=None):
+        QtGui.QWidget.__init__(self, parent)
+        self.model = model
+        self.model.widget = self
+        self.selected_color = None
+
+        if vertical:
+            self.layout = QtGui.QVBoxLayout()
+        else:
+            self.layout = QtGui.QHBoxLayout()
+        self.setLayout(self.layout)
+
+        self.setup()
+
+    def setup(self):
+        self.slots = []
+        for color_model in self.model.color_models:
+            slot = ColorWidget(self, color_model)
+            slot.pick_enabled = False
+            slot.selected.connect(lambda: self.on_select(slot))
+            self.layout.addWidget(slot)
+            self.slots.append(slot)
+
+    def setColors(self, colors, undo=False):
+        for slot, color in zip(self.slots, colors):
+            slot.setColor(color, undo)
+
+    def getColors(self):
+        result = []
+        for slot in self.slots:
+            result.append(slot.getColor())
+        return result
+
+    def on_select(self, slot):
+        self.selected_color = slot.getColor()
+        self.selected.emit()
+
+
+
 class CacheImage(object):
     def __init__(self, mixer, w=0, h=0):
         self.colors = []

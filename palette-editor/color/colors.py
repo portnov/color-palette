@@ -482,6 +482,11 @@ class Color(QtGui.QColor):
         h, s, v = self.getHSV()
         result += "HSV: {:.2f} {:.2f} {:.2f}".format(h, s, v)
         return result
+
+    def __eq__(self, other):
+        if not isinstance(other, Color):
+            return False
+        return self.getRgb() == other.getRgb()
     
     def __repr__(self):
         r, g, b = self.getRGB1()

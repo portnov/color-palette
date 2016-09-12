@@ -20,6 +20,8 @@ class Options(object):
         # Whether to average color while moving cursor with mouse button held.
         self.picker_average = True
 
+        self.color_history_size = 5
+
         self.settings = settings
         if settings is not None:
             self.restore(settings)

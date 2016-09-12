@@ -1,5 +1,6 @@
 
 from PyQt4 import QtGui, QtCore
+#import traceback
 
 from color import colors
 from widgets.commands.general import *
@@ -18,8 +19,13 @@ class Document(object):
 
         self.svg_colors = [[ColorModel(self) for i in range(7)] for j in range(3)]
 
+        self.history = ColorHistoryModel(self, size=options.color_history_size)
+
     def get_undo_stack(self):
         return self.undoStack
+
+    def get_color_history(self):
+        return self.history
 
 class Clipboard(object):
     def __init__(self, get_color, set_color):
@@ -87,6 +93,9 @@ class ScratchpadModel(object):
 
     def get_undo_stack(self):
         return self.parent.get_undo_stack()
+    
+    def get_color_history(self):
+        return self.parent.get_color_history()
 
 class ColorModel(object):
     def __init__(self, parent, color=None):
@@ -101,6 +110,9 @@ class ColorModel(object):
 
     def get_undo_stack(self):
         return self.parent.get_undo_stack()
+
+    def get_color_history(self):
+        return self.parent.get_color_history()
 
     def get_tooltip(self):
         if self.color is None:
@@ -146,5 +158,47 @@ class ColorModel(object):
                                  lambda c : colors.saturate(c, x))
         self.command(command)
 
+class ColorHistoryModel(object):
+    def __init__(self, parent, size=None, color_models=None):
+        if size is None and color_models is None:
+            raise RuntimeError("ColorHistoryModel needs either size or color_models")
 
+        self.options = parent.options
+        self.color_models = []
+        if color_models is not None:
+            for model in color_models:
+                model.parent = self
+                self.color_models.append(model)
+            self.size = len(self.color_models)
+        else:
+            self.size = size
+            for i in range(size):
+                model = ColorModel(self)
+                model.set_color_enabled = False
+                self.color_models.append(model)
+
+        self.widget = None
+
+    def push_new(self, color):
+        if color == self.color_models[0].getColor():
+            return
+        #traceback.print_stack()
+        prev_color = None
+        new_color = color
+        for model in self.color_models:
+            prev_color = model.color
+            model.color = new_color
+            new_color = prev_color
+        self.widget.repaint()
+
+    def push_old(self, color):
+        if color == self.color_models[-1].getColor():
+            return
+        prev_color = None
+        new_color = color
+        for model in reversed(self.color_models):
+            prev_color = model.color
+            model.color = new_color
+            new_color = prev_color
+        self.widget.repaint()
 
