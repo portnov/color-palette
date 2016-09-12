@@ -23,6 +23,7 @@ class Options(object):
         # Whether to show hue steps swatches on selector
         self.show_hue_steps = False
         self.hue_steps = 12
+        self.color_history_size = 5
 
         self.settings = settings
         if settings is not None:

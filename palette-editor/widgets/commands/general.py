@@ -49,10 +49,13 @@ class SetColor(QtGui.QUndoCommand):
         self.old_color = self.model.getColor()
         self.model.color = self.color
         self.model.widget.repaint()
+        self.oldest_history_color = self.model.get_color_history().color_models[-1].getColor()
+        self.model.get_color_history().push_new(self.color)
     
     def undo(self):
         self.model.color = self.old_color
         self.model.widget.repaint()
+        self.model.get_color_history().push_old(self.old_color)
 
 class Clear(QtGui.QUndoCommand):
     def __init__(self, model):

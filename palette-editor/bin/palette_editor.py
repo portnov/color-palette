@@ -210,6 +210,7 @@ class GUI(QtGui.QMainWindow):
         harmonies_widget = self._init_harmonies_widgets()
         swatches = self._init_swatches()
         svg_widget = self._init_svg_widgets(template_path)
+        history = self._init_color_history()
 
         self.setTabPosition( QtCore.Qt.TopDockWidgetArea , QtGui.QTabWidget.North )
         #self.setDockOptions( QtGui.QMainWindow.ForceTabbedDocks )
@@ -224,7 +225,7 @@ class GUI(QtGui.QMainWindow):
         self.harmonies_dock = self._dock("Harmonies", _("Harmonies"), QtCore.Qt.TopDockWidgetArea, harmonies_widget)
         self.swatches_dock = self._dock("Swatches", _("Color swatches"), QtCore.Qt.BottomDockWidgetArea, swatches)
         self.svg_dock = self._dock("Preview", _("Preview"), QtCore.Qt.TopDockWidgetArea, svg_widget)
-
+        self.color_history_dock = self._dock("History", _("Color history"), QtCore.Qt.BottomDockWidgetArea, history)
 
         self.harmonies.set_last_enabled(False)
         self.harmonies.selected.connect(self.on_select_harmony)
@@ -532,6 +533,7 @@ class GUI(QtGui.QMainWindow):
         menu.addAction(self.harmonies_dock.toggleViewAction())
         menu.addAction(self.swatches_dock.toggleViewAction())
         menu.addAction(self.svg_dock.toggleViewAction())
+        menu.addAction(self.color_history_dock.toggleViewAction())
 
     def _help_menu(self):
         menu = self.menuBar().addMenu(_("&Help"))
@@ -653,6 +655,9 @@ class GUI(QtGui.QMainWindow):
         widget = QtGui.QWidget(self)
         widget.setLayout(scratchpad_box)
         return widget
+    
+    def _init_color_history(self):
+        return ColorHistoryWidget(self.model.get_color_history(), vertical=False, parent=self)
 
     def _init_harmonies_widgets(self):
         widget = QtGui.QWidget()
