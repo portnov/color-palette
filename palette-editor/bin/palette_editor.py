@@ -670,7 +670,7 @@ class GUI(QtGui.QMainWindow):
 
         selector_box.addLayout(form)
 
-        self.selector = Selector(mixers.MixerHLS)
+        self.selector = Selector(mixers.MixerHLS, hue_steps = self.options.get_hue_steps())
         self.selector.class_selector = self.selector_mixers
         self.selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
         self.selector.setMinimumSize(150,150)
@@ -1177,6 +1177,7 @@ class GUI(QtGui.QMainWindow):
     def on_show_options(self):
         dialog = OptionsDialog(self.options)
         dialog.exec_()
+        self.selector.set_hue_steps(self.options.get_hue_steps())
 
     def on_help(self):
         webbrowser.open('https://github.com/portnov/color-palette/wiki')

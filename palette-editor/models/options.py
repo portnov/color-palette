@@ -20,9 +20,19 @@ class Options(object):
         # Whether to average color while moving cursor with mouse button held.
         self.picker_average = True
 
+        # Whether to show hue steps swatches on selector
+        self.show_hue_steps = False
+        self.hue_steps = 12
+
         self.settings = settings
         if settings is not None:
             self.restore(settings)
+
+    def get_hue_steps(self):
+        if not self.show_hue_steps:
+            return None
+        else:
+            return self.hue_steps
 
     def store(self, settings=None):
         if settings is None:
@@ -35,6 +45,9 @@ class Options(object):
 
         settings.setValue("picker/area_size", self.picker_area)
         settings.setValue("picker/average", self.picker_average)
+
+        settings.setValue("selector/show_hue_steps", self.show_hue_steps)
+        settings.setValue("selector/hue_steps", self.hue_steps)
 
     def _button_to_int(self, button):
         if button is not None:
@@ -74,4 +87,9 @@ class Options(object):
         if ok:
             self.picker_area = value
         self.picker_average = settings.value("picker/average").toBool()
+
+        self.show_hue_steps = settings.value("selector/show_hue_steps").toBool()
+        value, ok = settings.value("selector/hue_steps").toInt()
+        if ok:
+            self.hue_steps = value
 
