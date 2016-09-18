@@ -404,7 +404,6 @@ class HueStepsRing(CacheImage):
         self.chroma = 1.0
         self.luma = 1.0
         self.start_hue = 0.0
-        self._calc_angles()
         CacheImage.__init__(self, mixer, w, h)
 
     def setShade(self, chroma, luma):
@@ -414,33 +413,31 @@ class HueStepsRing(CacheImage):
 
     def setStartHue(self, hue):
         self.start_hue = hue
-        self._calc_angles()
         self.redraw()
 
     def calc(self):
-      self.colors = [self.mixer.shade(hue % 1.0, self.chroma, self.luma) for hue in seq(self.start_hue, self.start_hue + 1.0, 1.0/self.STEPS)]
-
-    def _calc_angles(self):
-        da = 360.0/self.STEPS
-        da2 = da/2.0
-        self.angles = []
-        alpha = self.start_hue * 360.0 - da2
-        for idx in range(self.STEPS):
-            b = 2*pi*(alpha + da)/360.0
-            self.angles.append(b % (2*pi))
-            alpha += da
+        self.hues = [hue % 1.0 for hue in seq(self.start_hue, self.start_hue + 1.0, 1.0/self.STEPS)]
+        #hues = sorted(hues)
+        self.colors = [self.mixer.shade(hue % 1.0, self.chroma, self.luma) for hue in self.hues] 
 
     def get_color_at_angle(self, a):
         #print "Searching for a={}".format(a)
-        for i, a1 in enumerate(self.angles):
-            amin = a1 - 2*pi/float(self.STEPS) 
-            amax = a1
-            if amin < 0:
-                amin += 2*pi
-            if amax < amin:
-                amax += 2*pi
+        da2 = 0.5/float(self.STEPS)
+        for i, hue in enumerate(self.hues):
+            #amin = a1 - 2*pi/float(self.STEPS) 
+            amax = 2*pi*((hue + da2) % 1.0)
+            amin = 2*pi*((hue - da2) % 1.0)
+
+            amax1 = amax + 2*pi
+            amin1 = amin + 2*pi
+
+            amax2 = amax - 2*pi
+            amin2 = amin - 2*pi
+
+            amax = min(amax, amax1, amax2, key=lambda x: abs(a-x))
+            amin = min(amin, amin1, amin2, key=lambda x: abs(a-x))
             #print "  Test {} < {} < {}".format(amin, a, amax)
-            if amin < a < amax:
+            if (amin <= a < amax):
                 return self.colors[i]
         return self.colors[0]
 
@@ -881,7 +878,7 @@ class Selector(QtGui.QLabel):
 
         elif self.is_on_steps(x,y):
             hue = self.getHueStep(x,y)
-            print "Click on steps, hue={}".format(hue)
+            #print "Click on steps, hue={}".format(hue)
             self.selected_hue = hue*2.0*pi
             self.square.setHue(hue)
             self.steps.setStartHue(hue)
