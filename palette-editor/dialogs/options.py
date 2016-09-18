@@ -40,6 +40,16 @@ class OptionsDialog(QtGui.QDialog):
 
         tabs = QtGui.QTabWidget(self)
 
+        selector_tab = QtGui.QWidget()
+        layout = QtGui.QFormLayout()
+        self.hue_steps_checkbox = QtGui.QCheckBox(selector_tab)
+        layout.addRow(_("Show hue steps swatches"), self.hue_steps_checkbox)
+        self.hue_steps_count = QtGui.QSpinBox(selector_tab)
+        self.hue_steps_count.setMinimum(6)
+        self.hue_steps_count.setMaximum(36)
+        layout.addRow(_("Number of hue steps"), self.hue_steps_count)
+        selector_tab.setLayout(layout)
+
         input_tab = QtGui.QWidget()
         layout = QtGui.QFormLayout()
 
@@ -66,6 +76,7 @@ class OptionsDialog(QtGui.QDialog):
 
         picker_tab.setLayout(layout)
 
+        tabs.addTab(selector_tab, _("General"))
         tabs.addTab(input_tab, _("Input"))
         tabs.addTab(picker_tab, _("Color picker"))
         
@@ -94,6 +105,12 @@ class OptionsDialog(QtGui.QDialog):
 
     def load_settings(self):
 
+        if self.options.show_hue_steps:
+            self.hue_steps_checkbox.setCheckState(QtCore.Qt.Checked)
+        else:
+            self.hue_steps_checkbox.setCheckState(QtCore.Qt.Unchecked)
+        self.hue_steps_count.setValue(self.options.hue_steps)
+
         self.select_button.set_button(self.options.select_button)
         self.clear_button.set_button(self.options.clear_button)
         self.mark_button.set_button(self.options.mark_button)
@@ -107,6 +124,10 @@ class OptionsDialog(QtGui.QDialog):
             self.picker_average.setCheckState(QtCore.Qt.Unchecked)
 
     def save_settings(self):
+
+        self.options.show_hue_steps = (self.hue_steps_checkbox.checkState() == QtCore.Qt.Checked)
+        self.options.hue_steps = self.hue_steps_count.value()
+
         self.options.select_button = self.select_button.get_button()
         self.options.clear_button = self.clear_button.get_button()
         self.options.mark_button = self.mark_button.get_button()

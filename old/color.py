@@ -1,6 +1,6 @@
 from math import pi, floor, sqrt
 from colorsys import hsv_to_rgb, hls_to_rgb, rgb_to_hsv, rgb_to_hls
-import lcms
+#import lcms
 
 HLS=False
 

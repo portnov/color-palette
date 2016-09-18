@@ -341,7 +341,8 @@ class HueRing(CacheImage):
     
     STEPS=180
     
-    def __init__(self, mixer, w=0, h=0):
+    def __init__(self, mixer, width_coef=0.8, w=0, h=0):
+        self.width_coef = width_coef
         CacheImage.__init__(self, mixer, w, h)
     
     def calc(self):
@@ -355,12 +356,12 @@ class HueRing(CacheImage):
         self.image_w = w
         self.image_h = h
         R = min(w, h)/2.0
-        r = 0.8 * R
+        r = self.width_coef * R
         ow = oh = min(w, h)
         ox = (w-ow)/2.0
         oy = (h-oh)/2.0
         x0, y0 = w/2.0,  h/2.0
-        iw, ih = 0.8*ow, 0.8*oh
+        iw, ih = self.width_coef*ow, self.width_coef*oh
         ix = (w-iw)/2.0
         iy = (h-ih)/2.0
         outrect = QtCore.QRectF(ox, oy, ow, oh)
@@ -392,6 +393,102 @@ class HueRing(CacheImage):
             qp.fillPath(path, self.colors[idx])
             #break
             idx += 1
+            alpha += da
+        qp.end()
+
+class HueStepsRing(CacheImage):
+    def __init__(self, mixer, steps=12, inner_coef=0.75, outer_coef=0.85, w=0, h=0):
+        self.STEPS = steps
+        self.inner_coef = inner_coef
+        self.outer_coef = outer_coef
+        self.chroma = 1.0
+        self.luma = 1.0
+        self.start_hue = 0.0
+        CacheImage.__init__(self, mixer, w, h)
+
+    def setShade(self, chroma, luma):
+        self.chroma = chroma
+        self.luma = luma
+        self.redraw()
+
+    def setStartHue(self, hue):
+        self.start_hue = hue
+        self.redraw()
+
+    def calc(self):
+        self.hues = [hue % 1.0 for hue in seq(self.start_hue, self.start_hue + 1.0, 1.0/self.STEPS)]
+        #hues = sorted(hues)
+        self.colors = [self.mixer.shade(hue % 1.0, self.chroma, self.luma) for hue in self.hues] 
+
+    def get_color_at_angle(self, a):
+        #print "Searching for a={}".format(a)
+        da2 = 0.5/float(self.STEPS)
+        for i, hue in enumerate(self.hues):
+            #amin = a1 - 2*pi/float(self.STEPS) 
+            amax = 2*pi*((hue + da2) % 1.0)
+            amin = 2*pi*((hue - da2) % 1.0)
+
+            amax1 = amax + 2*pi
+            amin1 = amin + 2*pi
+
+            amax2 = amax - 2*pi
+            amin2 = amin - 2*pi
+
+            amax = min(amax, amax1, amax2, key=lambda x: abs(a-x))
+            amin = min(amin, amin1, amin2, key=lambda x: abs(a-x))
+            #print "  Test {} < {} < {}".format(amin, a, amax)
+            if (amin <= a < amax):
+                return self.colors[i]
+        return self.colors[0]
+
+    def get_hue_at_angle(self, a):
+        color = self.get_color_at_angle(a)
+        return self.mixer.getHue(color)
+
+    def draw(self, w, h):
+        if w is None or h is None:
+             return
+        self.image = QtGui.QImage(w, h,  QtGui.QImage.Format_ARGB32_Premultiplied)
+        self.image.fill(0)
+        self.image_w = w
+        self.image_h = h
+        m = min(w, h)
+        R = self.outer_coef * m/2.0
+        r = self.inner_coef * m/2.0
+
+        ow = oh = self.outer_coef*m
+        ox = (w-ow)/2.0
+        oy = (h-oh)/2.0
+        x0, y0 = w/2.0,  h/2.0
+        iw, ih = self.inner_coef*m, self.inner_coef*m
+        #print "HueStepsRing: m={}, iw={}, ih={}".format(m, iw, ih)
+        ix = (w-iw)/2.0
+        iy = (h-ih)/2.0
+        outrect = QtCore.QRectF(ox, oy, ow, oh)
+        inrect = QtCore.QRectF(ix,iy, iw,ih)
+        alpha = 0.0
+        da = 360.0/self.STEPS
+        da2 = da/2.0
+        qp = QtGui.QPainter()
+        qp.begin(self.image)
+        border_color = QtGui.QColor(127, 127, 127)
+        pen = QtGui.QPen(border_color)
+        pen.setWidthF(2.0)
+        alpha = self.start_hue * 360.0 - da2
+        for idx in range(self.STEPS):
+            a = 2*pi*alpha/360.0
+            b = 2*pi*(alpha + da)/360.0
+            xA, yA = x0 + R*cos(a), y0 - R*sin(a)
+            xB, yB = x0 + r*cos(b), y0 - r*sin(b)
+            path = QtGui.QPainterPath()
+            path.moveTo(xA, yA)
+            path.arcTo(outrect, alpha, da)
+            path.arcTo(inrect, (alpha+da), - da)
+            path.lineTo(xA, yA)
+            path.closeSubpath()
+            qp.fillPath(path, self.colors[idx])
+            qp.strokePath(path, pen)
+            #break
             alpha += da
         qp.end()
 
@@ -540,10 +637,21 @@ class Selector(QtGui.QLabel):
 
     manual_edit_implemented = False
 
-    def __init__(self, mixer, *args):
+    def __init__(self, mixer, hue_steps=None, *args):
         QtGui.QLabel.__init__(self, *args)
         self.mixer = mixer
-        self.ring = HueRing(mixer)
+        self.hue_steps = hue_steps
+        if hue_steps is None:
+            self.ring_width_coef = 0.8
+            self.steps_inner_coef = 0.8
+        else:
+            self.ring_width_coef = 0.85
+            self.steps_inner_coef = 0.7
+        self.ring = HueRing(mixer, width_coef=self.ring_width_coef)
+        if hue_steps is None:
+            self.steps = None
+        else:
+            self.steps = HueStepsRing(mixer, steps=hue_steps, outer_coef=self.ring_width_coef, inner_coef=self.steps_inner_coef)
         self.square = HueGradient(mixer, 0.0)
         self.mouse_pressed = False
         self.selected_sv = None
@@ -559,15 +667,36 @@ class Selector(QtGui.QLabel):
         self.harmonies_selector = None
         self._sequence = 0
 
+    def set_hue_steps(self, hue_steps=None):
+        self.hue_steps = hue_steps
+        if hue_steps is None:
+            self.ring_width_coef = 0.8
+            self.steps_inner_coef = 0.8
+            self.steps = None
+        else:
+            self.ring_width_coef = 0.85
+            self.steps_inner_coef = 0.7
+            self.steps = HueStepsRing(self.mixer, steps=hue_steps, outer_coef=self.ring_width_coef, inner_coef=self.steps_inner_coef)
+            _,s,v = self.mixer.getShade(self.selected_color)
+            self.selected_sv = s,v
+            self.steps.setShade(s, v)
+            self.steps.calc()
+        self.ring = HueRing(self.mixer, width_coef=self.ring_width_coef)
+        self.repaint()
+
     def setColor(self, color, repaint=True, no_signal=False):
         if color is not None:
             self.selected_color = color
             h = self.mixer.getHue(self.selected_color)
             self.selected_hue = h*2*pi
             self.square.setHue(h)
+            if self.steps is not None:
+                self.steps.setStartHue(h)
             self.selectedHue.emit(h)
             _,s,v = self.mixer.getShade(self.selected_color)
             self.selected_sv = s,v
+            if self.steps is not None:
+                self.steps.setShade(s, v)
             self._update_harmony()
             if repaint:
                 self.repaint()
@@ -610,6 +739,8 @@ class Selector(QtGui.QLabel):
     def setMixer_(self, mixer, idx=None, repaint=True):
         self.mixer = mixer
         self.square.mixer = mixer
+        if self.steps is not None:
+            self.steps.mixer = mixer
         self.ring.mixer = mixer
         if idx is not None and self.class_selector is not None:
             self.class_selector.select_item(idx)
@@ -619,6 +750,8 @@ class Selector(QtGui.QLabel):
     def setMixer(self, mixer, idx=None):
         self.mixer = mixer
         self.square.setMixer(mixer)
+        if self.steps is not None:
+            self.steps.setMixer(mixer)
         self.ring.setMixer(mixer)
         if idx is not None and self.class_selector is not None:
             self.class_selector.select_item(idx)
@@ -631,8 +764,13 @@ class Selector(QtGui.QLabel):
     def paintEvent(self, event):
         w, h = self.size().width(),  self.size().height()
         ring = self.ring.get(w, h)
+        if self.steps is not None:
+            steps = self.steps.get(w, h)
+        else:
+            steps = None
         m = min(w, h)
-        iw = ih = m*0.8/sqrt(2.0)
+        iw = ih = m*self.steps_inner_coef /sqrt(2.0)
+        #print "Selector: m = {}, iw = ih = {}".format(m, iw)
         square = self.square.get(iw, ih)
         dx = (w - iw)/2.0
         dy = (h - ih)/2.0
@@ -640,10 +778,12 @@ class Selector(QtGui.QLabel):
         qp = QtGui.QPainter()
         qp.begin(self)
         qp.drawImage(0, 0, ring)
+        if steps is not None:
+            qp.drawImage(0, 0, steps)
         qp.drawImage(dx, dy, square)
 
         R = m/2.0
-        r = 0.8*R
+        r = self.ring_width_coef*R
         x1,y1 = self._polar(r, self.selected_hue)
         x2,y2 = self._polar(R, self.selected_hue)
         qp.setPen(colors.Color(0,0,0))
@@ -708,7 +848,18 @@ class Selector(QtGui.QLabel):
         x0, y0 = w/2.0, h/2.0
         m = min(w, h)
         R = m/2.0
-        r = 0.8*R
+        r = self.ring_width_coef*R
+        rho = sqrt((x-x0)**2 + (y-y0)**2)
+        return (rho > r) and (rho < R)
+
+    def is_on_steps(self, x, y):
+        if self.steps is None:
+            return False
+        w, h = self.size().width(),  self.size().height()
+        x0, y0 = w/2.0, h/2.0
+        m = min(w, h)
+        R = self.ring_width_coef*m/2.0
+        r = self.steps_inner_coef*m/2.0
         rho = sqrt((x-x0)**2 + (y-y0)**2)
         return (rho > r) and (rho < R)
     
@@ -735,6 +886,13 @@ class Selector(QtGui.QLabel):
         if hue < 0.0:
             hue += 2*pi
         return hue
+
+    def getHueStep(self, x, y):
+        if self.steps is not None:
+            hue = self.getHue(x,y)
+            return self.steps.get_hue_at_angle(hue)
+        else:
+            return None
     
     def _update_harmony(self):
         if self.harmony is not None:
@@ -746,6 +904,8 @@ class Selector(QtGui.QLabel):
     def _select(self, x, y):
         if self.ls_square.contains(x,y):
             self.selected_sv = s, v = self.getSV(x,y)
+            if self.steps is not None:
+                self.steps.setShade(s, v)
             self.repaint()
             self.selectedSV.emit(s,v)
             h = self.selected_hue / (2.0*pi)
@@ -754,10 +914,28 @@ class Selector(QtGui.QLabel):
             self._update_harmony()
             #print "Selecting: {} -> {}".format(self._prev_color, self.selected_color)
             self.selected.emit(self._sequence, self._prev_color, self.selected_color)
+
+        elif self.is_on_steps(x,y):
+            hue = self.getHueStep(x,y)
+            #print "Click on steps, hue={}".format(hue)
+            self.selected_hue = hue*2.0*pi
+            self.square.setHue(hue)
+            self.steps.setStartHue(hue)
+            self.repaint()
+            self.selectedHue.emit(hue)
+            if self.selected_sv is not None:
+                s, v = self.selected_sv
+                self._prev_color = self.selected_color
+                self.selected_color = self.mixer.shade(hue, s, v)
+                self._update_harmony()
+                self.selected.emit(self._sequence, self._prev_color, self.selected_color)
+
         elif self.is_on_ring(x,y):
             self.selected_hue = self.getHue(x,y)
             h = self.selected_hue / (2.0*pi)
             self.square.setHue(h)
+            if self.steps is not None:
+                self.steps.setStartHue(h)
             self.repaint()
             self.selectedHue.emit(h)
             if self.selected_sv is not None:
