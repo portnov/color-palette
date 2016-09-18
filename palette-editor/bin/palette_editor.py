@@ -219,11 +219,11 @@ class GUI(QtGui.QMainWindow):
 #         self.setCentralWidget(central_widget)
 #         central_widget.hide()
 
-        self._dock("Palette", _("Palette"), QtCore.Qt.TopDockWidgetArea, palette_widget)
-        self._dock("Scratchpad", _("Scratchpad"), QtCore.Qt.BottomDockWidgetArea, scratchbox)
-        self._dock("Harmonies", _("Harmonies"), QtCore.Qt.TopDockWidgetArea, harmonies_widget)
-        self._dock("Swatches", _("Color swatches"), QtCore.Qt.BottomDockWidgetArea, swatches)
-        self._dock("Preview", _("Preview"), QtCore.Qt.TopDockWidgetArea, svg_widget)
+        self.palette_dock = self._dock("Palette", _("Palette"), QtCore.Qt.TopDockWidgetArea, palette_widget)
+        self.scratchbox_dock = self._dock("Scratchpad", _("Scratchpad"), QtCore.Qt.BottomDockWidgetArea, scratchbox)
+        self.harmonies_dock = self._dock("Harmonies", _("Harmonies"), QtCore.Qt.TopDockWidgetArea, harmonies_widget)
+        self.swatches_dock = self._dock("Swatches", _("Color swatches"), QtCore.Qt.BottomDockWidgetArea, swatches)
+        self.svg_dock = self._dock("Preview", _("Preview"), QtCore.Qt.TopDockWidgetArea, svg_widget)
 
 
         self.harmonies.set_last_enabled(False)
@@ -235,6 +235,7 @@ class GUI(QtGui.QMainWindow):
         self._init_palette_actions()
         self._init_harmonies_actions()
         self._init_svg_actions()
+        self._window_menu()
         self._help_menu()
 
         self.setWindowTitle(_("Palette editor"))
@@ -395,6 +396,7 @@ class GUI(QtGui.QMainWindow):
         dock.setWidget(widget)
         dock.setObjectName(name)
         self.addDockWidget(area, dock)
+        return dock
 
     def _select_color(self, clr):
         self.selector.setColor(clr)
@@ -522,6 +524,14 @@ class GUI(QtGui.QMainWindow):
                 "colorize_palette.png", _("Colorize from &palette"), self.on_colorize_palette)
         create_action(self, self.toolbar_template, menu,
                 "View-refresh.png", _("&Reset colors"), self.on_reset_template)
+
+    def _window_menu(self):
+        menu = self.menuBar().addMenu(_("&Window"))
+        menu.addAction(self.palette_dock.toggleViewAction())
+        menu.addAction(self.scratchbox_dock.toggleViewAction())
+        menu.addAction(self.harmonies_dock.toggleViewAction())
+        menu.addAction(self.swatches_dock.toggleViewAction())
+        menu.addAction(self.svg_dock.toggleViewAction())
 
     def _help_menu(self):
         menu = self.menuBar().addMenu(_("&Help"))
