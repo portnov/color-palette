@@ -42,6 +42,8 @@ class SetColor(QtGui.QUndoCommand):
         self.palette.paint(self.row, self.column, self.color)
         self.palette.recalc()
         self.widget.repaint()
+        #self.old_history_colors = self.model.get_color_history().getColors()
+        #self.model.get_color_history().push_new(self.color)
 
     def undo(self):
         if self.old_color is None:
@@ -50,6 +52,7 @@ class SetColor(QtGui.QUndoCommand):
             self.palette.paint(self.row, self.column, self.old_color)
         self.palette.recalc()
         self.widget.repaint()
+        #self.model.get_color_history().setColors(self.old_history_colors)
 
 INSERT=0
 DELETE=1

@@ -18,6 +18,7 @@ class SetMixer(QtGui.QUndoCommand):
         self.owner.setMixer(mixer, self.mixer_idx)
 
     def undo(self):
+        print "setMixer.undo"
         _,  mixer = self.pairs[self.old_mixer_idx]
         self.owner.setMixer(mixer, self.old_mixer_idx)
 
@@ -35,6 +36,7 @@ class ChangeColor(QtGui.QUndoCommand):
         self.model.widget.repaint()
 
     def undo(self):
+        print "change color.undo"
         self.model.setColor(self.old_color)
         self.model.widget.repaint()
 
@@ -49,13 +51,16 @@ class SetColor(QtGui.QUndoCommand):
         self.old_color = self.model.getColor()
         self.model.color = self.color
         self.model.widget.repaint()
-        self.oldest_history_color = self.model.get_color_history().color_models[-1].getColor()
+        self.old_history_colors = self.model.get_color_history().getColors()
+        print "Push color to history: {}".format(self.color)
         self.model.get_color_history().push_new(self.color)
     
     def undo(self):
+        print "undo"
         self.model.color = self.old_color
+        print "Restore color: {}".format(self.old_color)
         self.model.widget.repaint()
-        self.model.get_color_history().push_old(self.old_color)
+        self.model.get_color_history().setColors(self.old_history_colors)
 
 class Clear(QtGui.QUndoCommand):
     def __init__(self, model):
@@ -69,6 +74,7 @@ class Clear(QtGui.QUndoCommand):
         self.model.widget.repaint()
 
     def undo(self):
+        print "clear.undo"
         self.model.color = self.old_color
         self.model.widget.repaint()
 

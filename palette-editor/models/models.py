@@ -179,6 +179,14 @@ class ColorHistoryModel(object):
 
         self.widget = None
 
+    def getColors(self):
+        return [m.getColor() for m in self.color_models]
+    
+    def setColors(self, colors):
+        for model, color in zip(self.color_models, colors):
+            model.color = color
+        self.widget.repaint()
+
     def push_new(self, color):
         if color == self.color_models[0].getColor():
             return

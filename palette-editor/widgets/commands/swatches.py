@@ -19,6 +19,7 @@ class SwatchesCommand(QtGui.QUndoCommand):
                 w.update()
 
     def undo(self):
+        print "swatches.undo"
         self.restore_swatches()
 
 class ClearSwatches(SwatchesCommand):
@@ -45,6 +46,7 @@ class DoHarmony(SwatchesCommand):
         self.owner.update()
 
     def undo(self):
+        print "do harmony undo"
         self.restore_swatches()
         self.owner.update()
 
@@ -212,9 +214,9 @@ class SelectColor(SwatchesCommand):
         return self._id
 
     def redo(self):
-        #print "Selecting color:", self.color
+        print "swatches select color redo"
         history = self.owner.model.get_color_history()
-        self.oldest_history_color = history.color_models[-1].getColor()
+        self.old_history_colors = history.getColors()
         history.push_new(self.color)
 
         self.remember_swatches()
@@ -229,6 +231,7 @@ class SelectColor(SwatchesCommand):
 
     def undo(self):
         #print "Restoring color:", self.prev_color
+        print "swatches select color undo"
         self.owner.base_colors = self.old_base_colors
         self.owner.current_color.model.color = self.prev_color
         self.owner.current_color.update()
@@ -238,7 +241,7 @@ class SelectColor(SwatchesCommand):
         self.restore_swatches()
 
         history = self.owner.model.get_color_history()
-        history.push_old(self.oldest_history_color)
+        history.setColors(self.old_history_colors)
 
         self.owner.update()
 
@@ -247,7 +250,9 @@ class SelectColor(SwatchesCommand):
             return False
         if other.sequence != self.sequence:
             return False
+        self.old_history_colors = other.old_history_colors
         self.color = other.color
+        print "swatches select color merged"
         return True
 
 class SetHarmony(SwatchesCommand):
