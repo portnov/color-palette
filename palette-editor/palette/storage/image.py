@@ -1,7 +1,7 @@
 
 from os.path import join, basename, splitext
 from math import sqrt, floor
-from PyQt4 import QtGui
+from PyQt5 import QtGui
 
 from color.colors import *
 from color import spaces

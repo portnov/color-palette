@@ -1,6 +1,6 @@
 
 from os.path import join, basename
-from PyQt4 import QtGui
+from PyQt5 import QtGui
 import re
 
 from color.colors import *

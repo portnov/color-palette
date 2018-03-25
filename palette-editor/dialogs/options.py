@@ -1,14 +1,14 @@
 # coding: utf-8
 
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 #from color.colors import *
 
 DISABLED=3
 
-class SelectButton(QtGui.QComboBox):
+class SelectButton(QtWidgets.QComboBox):
     def __init__(self, parent=None):
-        QtGui.QComboBox.__init__(self, parent)
+        QtWidgets.QComboBox.__init__(self, parent)
 
         self.addItem(_("Left button"), userData=1)
         self.addItem(_("Middle button"), userData=4)
@@ -32,13 +32,13 @@ class SelectButton(QtGui.QComboBox):
             idx = self.findData(int(button))
         self.setCurrentIndex(idx)
 
-class OptionsDialog(QtGui.QDialog):
+class OptionsDialog(QtWidgets.QDialog):
     def __init__(self, options, *args, **kwargs):
-        QtGui.QDialog.__init__(self, *args, **kwargs)
+        QtWidgets.QDialog.__init__(self, *args, **kwargs)
 
         self.options = options
 
-        tabs = QtGui.QTabWidget(self)
+        tabs = QtWidgets.QTabWidget(self)
 
         selector_tab = QtGui.QWidget()
         layout = QtGui.QFormLayout()
@@ -50,8 +50,8 @@ class OptionsDialog(QtGui.QDialog):
         layout.addRow(_("Number of hue steps"), self.hue_steps_count)
         selector_tab.setLayout(layout)
 
-        input_tab = QtGui.QWidget()
-        layout = QtGui.QFormLayout()
+        input_tab = QtWidgets.QWidget()
+        layout = QtWidgets.QFormLayout()
 
         self.select_button = SelectButton(input_tab)
         layout.addRow(_("Select color with"), self.select_button)
@@ -64,14 +64,14 @@ class OptionsDialog(QtGui.QDialog):
 
         input_tab.setLayout(layout)
 
-        picker_tab = QtGui.QWidget()
-        layout = QtGui.QFormLayout()
+        picker_tab = QtWidgets.QWidget()
+        layout = QtWidgets.QFormLayout()
 
-        self.picker_area = QtGui.QSpinBox(picker_tab)
+        self.picker_area = QtWidgets.QSpinBox(picker_tab)
         self.picker_area.setMinimum(1)
         self.picker_area.setMaximum(15)
         layout.addRow(_("Picker area size"), self.picker_area)
-        self.picker_average = QtGui.QCheckBox(picker_tab)
+        self.picker_average = QtWidgets.QCheckBox(picker_tab)
         layout.addRow(_("Average color while mouse dragging"), self.picker_average)
 
         picker_tab.setLayout(layout)
@@ -80,16 +80,16 @@ class OptionsDialog(QtGui.QDialog):
         tabs.addTab(input_tab, _("Input"))
         tabs.addTab(picker_tab, _("Color picker"))
         
-        buttons = QtGui.QHBoxLayout()
+        buttons = QtWidgets.QHBoxLayout()
         buttons.addStretch(1)
-        ok = QtGui.QPushButton(_("&OK"))
+        ok = QtWidgets.QPushButton(_("&OK"))
         ok.clicked.connect(self._on_ok)
-        cancel = QtGui.QPushButton(_("&Cancel"))
+        cancel = QtWidgets.QPushButton(_("&Cancel"))
         cancel.clicked.connect(self.reject)
         buttons.addWidget(ok)
         buttons.addWidget(cancel)
 
-        layout = QtGui.QVBoxLayout()
+        layout = QtWidgets.QVBoxLayout()
         layout.addWidget(tabs)
         layout.addLayout(buttons,1)
         self.setLayout(layout)

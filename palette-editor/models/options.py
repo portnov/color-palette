@@ -1,5 +1,5 @@
 
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore
 
 from color import colors
 from widgets.commands.general import *
@@ -56,8 +56,14 @@ class Options(object):
         else:
             return None
 
+    def _to_int(self, s):
+        try:
+            return int(s), True
+        except Exception:
+            return 0, False
+
     def _variant_to_button(self, value):
-        button, ok = value.toInt()
+        button, ok = self._to_int(value)
         if ok:
             if button is not None:
                 result = QtCore.Qt.MouseButton(button)
@@ -84,10 +90,10 @@ class Options(object):
         if value:
             self.menu_button = value
 
-        value, ok = settings.value("picker/area_size").toInt()
+        value, ok = self._to_int( settings.value("picker/area_size"))
         if ok:
             self.picker_area = value
-        self.picker_average = settings.value("picker/average").toBool()
+        self.picker_average = settings.value("picker/average") == "1"
 
         self.show_hue_steps = settings.value("selector/show_hue_steps").toBool()
         value, ok = settings.value("selector/hue_steps").toInt()

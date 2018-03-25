@@ -3,7 +3,7 @@
 
 from math import cos, acos, sqrt, pi
 from os.path import exists
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore
 import colorsys
 
 try:

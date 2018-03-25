@@ -1,7 +1,7 @@
 
 from os.path import join, basename
 from math import sqrt, floor
-from PyQt4 import QtGui
+from PyQt5 import QtGui
 from lxml import etree as ET
 
 from color.colors import *

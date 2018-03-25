@@ -2,7 +2,7 @@
 
 import sys
 from os.path import join, basename, dirname, abspath, exists
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore
 import gettext
 
 gettext.install("colors", localedir="share/locale", unicode=True)
@@ -57,7 +57,7 @@ class GUI(QtGui.QMainWindow):
         color = self.palette_widget.palette.getColor(row,col)
         print("Selected ({},{}): {}".format(row,col, color))
 
-app = QtGui.QApplication(sys.argv)
+app = QtWidgets.QApplication(sys.argv)
 palette = load_palette(sys.argv[1])
 gui = GUI(palette)
 sys.exit(app.exec_())

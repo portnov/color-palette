@@ -1,13 +1,13 @@
 
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 from color.colors import *
 
 MAX_CURSOR_SIZE=32
 
-class Picker(QtGui.QPushButton):
+class Picker(QtWidgets.QPushButton):
     def __init__(self, parent, text, model):
-        QtGui.QPushButton.__init__(self, text, parent)
+        QtWidgets.QPushButton.__init__(self, text, parent)
         self.model = model
         self.color = None
         self._picking = False
@@ -36,7 +36,7 @@ class Picker(QtGui.QPushButton):
     
     def paintEvent(self, event):
         if not self._picking and not self._clicked:
-            QtGui.QPushButton.paintEvent(self, event)
+            QtWidgets.QPushButton.paintEvent(self, event)
             return 
 
         clr = self.getColor()
@@ -44,7 +44,7 @@ class Picker(QtGui.QPushButton):
             tooltip = self.model.get_tooltip()
             if tooltip is not None:
                 self.setToolTip(tooltip)
-        qp = QtGui.QPainter()
+        qp = QtWidgets.QPainter()
         qp.begin(self)
         self.drawWidget(event, qp)
         qp.end()
@@ -114,10 +114,10 @@ class Picker(QtGui.QPushButton):
         if self._picking:
             self._pick_color(event.globalPos())
             return
-        return QtGui.QPushButton.mouseMoveEvent(self, event)
+        return QtWidgets.QPushButton.mouseMoveEvent(self, event)
 
     def mousePressEvent(self, event):
-        res = QtGui.QPushButton.mousePressEvent(self, event)
+        res = QtWidgets.QPushButton.mousePressEvent(self, event)
         self._picking = self._clicked
 
         if self._picking:
@@ -133,7 +133,7 @@ class Picker(QtGui.QPushButton):
         if self._clicked:
             self._clicked = False
             self.repaint()
-        return QtGui.QPushButton.mouseReleaseEvent(self, event)
+        return QtWidgets.QPushButton.mouseReleaseEvent(self, event)
 
     def keyPressEvent(self, event):
         if self._clicked or self._picking:
@@ -144,7 +144,7 @@ class Picker(QtGui.QPushButton):
                 self.releaseMouse()
             event.accept()
             return
-        return QtGui.QPushButton.keyPressEvent(self, event)
+        return QtWidgets.QPushButton.keyPressEvent(self, event)
 
     def _prepare(self, event):
         #print "Clicked"
@@ -177,8 +177,8 @@ class Picker(QtGui.QPushButton):
         return colors
 
     def _pick_color(self, pos):
-        desktop = QtGui.QApplication.desktop().winId()
-        #screen = QtGui.QApplication.desktop().primaryScreen()
+        desktop = QtWidgets.QApplication.desktop().winId()
+        #screen = QtWidgets.QApplication.desktop().primaryScreen()
         size = self.model.options.picker_area
         dx = dy = size // 2
         pixmap = QtGui.QPixmap.grabWindow(desktop, pos.x() - dx, pos.y() - dy, size, size)

@@ -1,6 +1,6 @@
 
 from math import cos, sin, pi, sqrt, atan2
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 from color.colors import *
 from widgets import *
@@ -101,13 +101,13 @@ class Slider(CacheImage):
             qp.drawRect(x,y, rw, rh)
         qp.end()
 
-class WheelWidget(QtGui.QWidget):
+class WheelWidget(QtWidgets.QWidget):
 
     clicked = QtCore.pyqtSignal(bool, float, float)
     edited = QtCore.pyqtSignal()
 
     def __init__(self):
-        QtGui.QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
         self.cache = Wheel()
         self.mouse_pressed = False
         self._selected = None
@@ -300,12 +300,12 @@ class WheelWidget(QtGui.QWidget):
         self._calc_harmony(current)
         self.repaint()
 
-class SliderWidget(QtGui.QWidget):
+class SliderWidget(QtWidgets.QWidget):
 
     clicked = QtCore.pyqtSignal(bool, float)
 
     def __init__(self):
-        QtGui.QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
         self.cache = Slider()
         self.mouse_pressed = False
         self.luma = 0.5
@@ -362,7 +362,7 @@ class SliderWidget(QtGui.QWidget):
     def get_luma(self):
         return self.luma
 
-class HCYSelector(QtGui.QWidget):
+class HCYSelector(QtWidgets.QWidget):
 
     selected = QtCore.pyqtSignal(int, Color, Color)
     edited = QtCore.pyqtSignal()
@@ -370,8 +370,8 @@ class HCYSelector(QtGui.QWidget):
     manual_edit_implemented = True
 
     def __init__(self, *args):
-        QtGui.QWidget.__init__(self, *args)
-        self.box = QtGui.QHBoxLayout()
+        QtWidgets.QWidget.__init__(self, *args)
+        self.box = QtWidgets.QHBoxLayout()
         self.wheel = WheelWidget()
         self.slider = SliderWidget()
         self.box.addWidget(self.slider, 1)

@@ -9,7 +9,7 @@ import appdirs
 import argparse
 import webbrowser
 
-from PyQt4 import QtGui
+from PyQt5 import QtGui, QtWidgets
 
 print("Using Python " + sys.version)
 
@@ -106,13 +106,13 @@ def compose_icon(icon, filename):
 
 def create_action(parent, toolbar, menu, icon, title, handler, key=None):
     if type(icon) == str:
-        action = QtGui.QAction(QtGui.QIcon(locate_icon( icon)), title, parent)
+        action = QtWidgets.QAction(QtGui.QIcon(locate_icon( icon)), title, parent)
     elif type(icon) == QtGui.QIcon:
-        action = QtGui.QAction(icon, title, parent)
+        action = QtWidgets.QAction(icon, title, parent)
     elif icon is not None:
-        action = QtGui.QAction(parent.style().standardIcon(icon), title, parent)
+        action = QtWidgets.QAction(parent.style().standardIcon(icon), title, parent)
     else:
-        action = QtGui.QAction(title, parent)
+        action = QtWidgets.QAction(title, parent)
     if key is not None:
         action.setShortcut(key)
     if toolbar:
@@ -123,12 +123,12 @@ def create_action(parent, toolbar, menu, icon, title, handler, key=None):
     return action
 
 def labelled(label, widget):
-    hbox = QtGui.QHBoxLayout()
-    hbox.addWidget(QtGui.QLabel(label))
+    hbox = QtWidgets.QHBoxLayout()
+    hbox.addWidget(QtWidgets.QLabel(label))
     hbox.addWidget(widget)
     return hbox
     
-class GUI(QtGui.QMainWindow):
+class GUI(QtWidgets.QMainWindow):
 
     GRADIENT_SIZE=10
     
@@ -193,7 +193,7 @@ class GUI(QtGui.QMainWindow):
                          (_("Cooler"),     harmonies.Cooler) ]
     
     def __init__(self, template_path=None):
-        QtGui.QMainWindow.__init__(self)
+        QtWidgets.QMainWindow.__init__(self)
 
         self.settings = QtCore.QSettings("palette-editor", "palette-editor")
         self.options = Options(self.settings)
@@ -212,11 +212,11 @@ class GUI(QtGui.QMainWindow):
         svg_widget = self._init_svg_widgets(template_path)
         history = self._init_color_history()
 
-        self.setTabPosition( QtCore.Qt.TopDockWidgetArea , QtGui.QTabWidget.North )
-        #self.setDockOptions( QtGui.QMainWindow.ForceTabbedDocks )
+        self.setTabPosition( QtCore.Qt.TopDockWidgetArea , QtWidgets.QTabWidget.North )
+        #self.setDockOptions( QtWidgets.QMainWindow.ForceTabbedDocks )
         self.setDockNestingEnabled(True)
 
-#         central_widget = QtGui.QWidget()
+#         central_widget = QtWidgets.QWidget()
 #         self.setCentralWidget(central_widget)
 #         central_widget.hide()
 
@@ -244,7 +244,7 @@ class GUI(QtGui.QMainWindow):
         #self._restore()
 
     def _get_settings_color(self, settings, name):
-        s = unicode(settings.value(name).toString()) 
+        s = unicode(settings.value(name)) 
         if not s:
             return None
         return colors.fromHex(s)
@@ -254,6 +254,18 @@ class GUI(QtGui.QMainWindow):
             s = clr.hex()
             settings.setValue(name, s)
 
+    def _to_uint(self, s):
+        try:
+            return int(s), True
+        except Exception:
+            return 0, False
+
+    def _to_real(self, s):
+        try:
+            return float(s), True
+        except Exception:
+            return 0, False
+
     def restore(self, palette_filename=None):
         if palette_filename is None:
             palette_filename = locate_palette("default.gpl")
@@ -262,14 +274,14 @@ class GUI(QtGui.QMainWindow):
             self._load_palette(palette)
 
         settings = self.settings
-        self.restoreGeometry(settings.value("geometry").toByteArray())
-        self.restoreState(settings.value("windowState").toByteArray())
+        self.restoreGeometry(settings.value("geometry"))
+        self.restoreState(settings.value("windowState"))
 
-        selector_idx, ok = settings.value("selector/tab").toUInt()
+        selector_idx, ok = self._to_uint(settings.value("selector/tab"))
         if ok:
             self.tabs.setCurrentIndex(selector_idx)
 
-        mixer_idx, ok = settings.value("selector/mixer").toUInt()
+        mixer_idx, ok = self._to_uint(settings.value("selector/mixer"))
         if ok:
             _, mixer = self.available_selector_mixers[mixer_idx]
             self.selector.setMixer(mixer, mixer_idx)
@@ -278,31 +290,31 @@ class GUI(QtGui.QMainWindow):
         if clr:
             self._select_color(clr)
 
-        mixer_idx, ok = settings.value("palette/mixer").toUInt()
+        mixer_idx, ok = self._to_uint(settings.value("palette/mixer"))
         if ok:
             _, mixer = self.available_mixers[mixer_idx]
             self.setMixer(mixer, mixer_idx)
 
-        space_idx, ok = settings.value("matching/space").toUInt()
+        space_idx, ok = self._to_uint(settings.value("matching/space"))
         if ok:
             self.matching_spaces.setCurrentIndex(space_idx)
 
-        harmony_idx, ok = settings.value("harmonies/harmony").toUInt()
+        harmony_idx, ok = self._to_uint(settings.value("harmonies/harmony"))
         if ok:
             self.harmonies.setCurrentIndex(harmony_idx)
 
-        shader_idx, ok = settings.value("harmonies/shader").toUInt()
+        shader_idx, ok = self._to_uint(settings.value("harmonies/shader"))
         if ok:
             self.shaders.setCurrentIndex(shader_idx)
 
-        auto = settings.value("harmonies/auto").toBool()
+        auto = settings.value("harmonies/auto") == "1"
         self.auto_harmony.setChecked(auto)
 
-        harmony_param, ok = settings.value("harmonies/harmony_param").toUInt()
+        harmony_param, ok = self._to_uint(settings.value("harmonies/harmony_param"))
         if ok:
             self.harmony_slider.setValue(harmony_param)
 
-        shader_param, ok = settings.value("harmonies/shader_param").toUInt()
+        shader_param, ok = self._to_uint(settings.value("harmonies/shader_param"))
         if ok:
             self.shades_slider.setValue(shader_param)
 
@@ -321,7 +333,7 @@ class GUI(QtGui.QMainWindow):
         for idx in range(nclrs):
             settings.setArrayIndex(idx)
             clr = self._get_settings_color(settings, "color")
-            w,ok = settings.value("width").toReal()
+            w,ok = self._to_real(settings.value("width"))
             if clr and ok:
                 colors.append((clr, w))
         self.scratchpad.colors = colors
@@ -392,7 +404,7 @@ class GUI(QtGui.QMainWindow):
         settings.setValue("template/path", abspath(self.template_path))
 
     def _dock(self, name, title, area, widget):
-        dock = QtGui.QDockWidget(title, self)
+        dock = QtWidgets.QDockWidget(title, self)
         dock.setAllowedAreas(QtCore.Qt.AllDockWidgetAreas)
         dock.setWidget(widget)
         dock.setObjectName(name)
@@ -419,7 +431,7 @@ class GUI(QtGui.QMainWindow):
     def _init_palette_actions(self):
         menu = self.menuBar().addMenu(_("&Palette"))
         create_action(self, self.toolbar_palette, menu,
-                QtGui.QStyle.SP_DialogOpenButton,
+                QtWidgets.QStyle.SP_DialogOpenButton,
                 _("&Open palette"), self.on_open_palette, key="Ctrl+O")
         if colorlovers_available:
             create_action(self, self.toolbar_palette, menu,
@@ -427,7 +439,7 @@ class GUI(QtGui.QMainWindow):
                     _("Download palette from Colorlovers.com"),
                     self.on_download_colorlovers)
         create_action(self, self.toolbar_palette, menu,
-                QtGui.QStyle.SP_DialogSaveButton,
+                QtWidgets.QStyle.SP_DialogSaveButton,
                 _("&Save palette"), self.on_save_palette, key="Ctrl+S")
         menu.addSeparator()
         self.toolbar_palette.addSeparator()
@@ -469,13 +481,13 @@ class GUI(QtGui.QMainWindow):
         create_action(self, None, sort_menu, None, _("By saturation"), self.on_palette_sort_saturation)
         create_action(self, None, sort_menu, None, _("By value"), self.on_palette_sort_value)
 
-        sort_button = QtGui.QToolButton(self)
+        sort_button = QtWidgets.QToolButton(self)
         sort_button.setText(_("Sort colors"))
         sort_button.setToolTip(_("Sort colors"))
         sort_button.setIcon(sort_icon)
         self.toolbar_palette.addWidget(sort_button)
         sort_button.setMenu(sort_menu)
-        sort_button.setPopupMode(QtGui.QToolButton.InstantPopup)
+        sort_button.setPopupMode(QtWidgets.QToolButton.InstantPopup)
 
     def _init_harmonies_actions(self):
         menu = self.menuBar().addMenu(_("&Swatches"))
@@ -507,15 +519,15 @@ class GUI(QtGui.QMainWindow):
         create_action(self, self.toolbar_swatches, menu,
                 "Edit-clear_mirrored.png", _("C&lear swatches"), self.on_clear_swatches)
         create_action(self, self.toolbar_swatches, menu,
-                QtGui.QStyle.SP_DialogSaveButton, _("&Save as palette"), self.on_swatches_save)
+                QtWidgets.QStyle.SP_DialogSaveButton, _("&Save as palette"), self.on_swatches_save)
 
     def _init_svg_actions(self):
         menu = self.menuBar().addMenu(_("&Image"))
         create_action(self, self.toolbar_template, menu,
-                QtGui.QStyle.SP_DialogOpenButton,
+                QtWidgets.QStyle.SP_DialogOpenButton,
                 _("&Open template"), self.on_open_template)
         create_action(self, self.toolbar_template, menu,
-                QtGui.QStyle.SP_DialogSaveButton,
+                QtWidgets.QStyle.SP_DialogSaveButton,
                 _("&Save resulting SVG"), self.on_save_template)
         menu.addSeparator()
         create_action(self, self.toolbar_template, menu,
@@ -541,10 +553,10 @@ class GUI(QtGui.QMainWindow):
         menu.addAction(_("&About Palette Editor"), self.on_about)
 
     def _init_svg_widgets(self, template_path=None):
-        vbox_right = QtGui.QVBoxLayout()
+        vbox_right = QtWidgets.QVBoxLayout()
 
-        self.toolbar_template = QtGui.QToolBar()
-        self.toolbar_palette.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.Maximum)
+        self.toolbar_template = QtWidgets.QToolBar()
+        self.toolbar_palette.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Maximum)
         vbox_right.addWidget(self.toolbar_template)
 
         matching_spaces = [(_("HCY"), HCY),
@@ -560,13 +572,13 @@ class GUI(QtGui.QMainWindow):
         vbox_right.addLayout(labelled(_("Colors matching space:"), self.matching_spaces))
 
         self.svg_colors = []
-        label = QtGui.QLabel(_("Colors from original image:"))
-        label.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Maximum)
+        label = QtWidgets.QLabel(_("Colors from original image:"))
+        label.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
         vbox_right.addWidget(label)
-        vbox_svg = QtGui.QVBoxLayout()
+        vbox_svg = QtWidgets.QVBoxLayout()
         idx = 0
         for i in range(3):
-            hbox_svg = QtGui.QHBoxLayout()
+            hbox_svg = QtWidgets.QHBoxLayout()
             for j in range(7):
                 w = TwoColorsWidget(self, self.model.svg_colors[i][j])
                 w.setMaximumSize(30,30)
@@ -585,10 +597,10 @@ class GUI(QtGui.QMainWindow):
         self.svg.template_loaded.connect(self.on_template_loaded)
         self.svg.colors_matched.connect(self.on_colors_matched)
         self.svg.file_dropped.connect(self.on_svg_file_dropped)
-        #self.svg.setSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
-        self.svg.setSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+        #self.svg.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        self.svg.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         if template_path is None:
-            template_path = self.settings.value("template/path").toString()
+            template_path = self.settings.value("template/path")
             if template_path:
                 template_path = unicode(template_path)
             else:
@@ -601,18 +613,18 @@ class GUI(QtGui.QMainWindow):
         vbox_right.addWidget(self.svg)
 
         #vbox_right.addStretch()
-        vbox_right.addSpacerItem(QtGui.QSpacerItem(0,0, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding))
+        vbox_right.addSpacerItem(QtWidgets.QSpacerItem(0,0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding))
 
-        widget = QtGui.QWidget()
+        widget = QtWidgets.QWidget()
         widget.setLayout(vbox_right)
         return widget
 
     def _init_palette_widgets(self):
-        widget = QtGui.QWidget()
+        widget = QtWidgets.QWidget()
 
-        vbox_left = QtGui.QVBoxLayout()
+        vbox_left = QtWidgets.QVBoxLayout()
 
-        self.toolbar_palette = QtGui.QToolBar()
+        self.toolbar_palette = QtWidgets.QToolBar()
         vbox_left.addWidget(self.toolbar_palette)
 
         palette = Palette(self.mixer, 7, 7)
@@ -625,18 +637,18 @@ class GUI(QtGui.QMainWindow):
         self.palette = PaletteWidget(self, palette, self.options, undoStack=self.undoStack)
         self.palette.setMinimumSize(300,300)
         self.palette.setMaximumSize(700,700)
-        self.palette.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
+        self.palette.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.palette.editing_enabled = False
         self.palette.selected.connect(self.on_select_from_palette)
         self.palette.file_dropped.connect(self.on_palette_file_dropped)
         
         self.mixers = ClassSelector(pairs = self.available_mixers)
-        self.mixers.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
+        self.mixers.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.mixers.selected.connect(self.on_select_mixer)
         vbox_left.addLayout(labelled(_("Mixing model:"), self.mixers))
         vbox_left.addWidget(self.palette)
 
-        vbox_left.addSpacerItem(QtGui.QSpacerItem(0,0, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding))
+        vbox_left.addSpacerItem(QtWidgets.QSpacerItem(0,0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding))
 
         #vbox_left.addStretch(1)
     
@@ -644,15 +656,15 @@ class GUI(QtGui.QMainWindow):
         return widget
 
     def _init_scratchbox(self):
-        scratchpad_box = QtGui.QVBoxLayout()
-        mk_shades = QtGui.QPushButton(_("Shades >>"))
+        scratchpad_box = QtWidgets.QVBoxLayout()
+        mk_shades = QtWidgets.QPushButton(_("Shades >>"))
         mk_shades.clicked.connect(self.on_shades_from_scratchpad)
         scratchpad_box.addWidget(mk_shades)
 
         self.scratchpad = Scratchpad(self.model.scratchpad)
         scratchpad_box.addWidget(self.scratchpad,1)
         #expander = ExpanderWidget(_("Scratchpad"), scratchpad_box)
-        widget = QtGui.QWidget(self)
+        widget = QtWidgets.QWidget(self)
         widget.setLayout(scratchpad_box)
         return widget
     
@@ -660,8 +672,8 @@ class GUI(QtGui.QMainWindow):
         return ColorHistoryWidget(self.model.get_color_history(), vertical=False, parent=self)
 
     def _init_harmonies_widgets(self):
-        widget = QtGui.QWidget()
-        vbox_center = QtGui.QVBoxLayout()
+        widget = QtWidgets.QWidget()
+        vbox_center = QtWidgets.QVBoxLayout()
 
         self.harmonies = ClassSelector(pairs=self.available_harmonies)
         self.harmonies.addItem(_("Manual"))
@@ -672,11 +684,11 @@ class GUI(QtGui.QMainWindow):
         slider.setEnabled(False)
         vbox_center.addWidget(slider,1)
 
-        self.tabs = QtGui.QTabWidget()
+        self.tabs = QtWidgets.QTabWidget()
 
-        selector_box = QtGui.QVBoxLayout()
-        selector_w = QtGui.QWidget()
-        form = QtGui.QFormLayout()
+        selector_box = QtWidgets.QVBoxLayout()
+        selector_w = QtWidgets.QWidget()
+        form = QtWidgets.QFormLayout()
 
         self.selector_mixers = ClassSelector(pairs=self.available_selector_mixers)
         self.selector_mixers.selected.connect(self.on_select_selector_mixer)
@@ -687,7 +699,7 @@ class GUI(QtGui.QMainWindow):
 
         self.selector = Selector(mixers.MixerHLS, hue_steps = self.options.get_hue_steps())
         self.selector.class_selector = self.selector_mixers
-        self.selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
+        self.selector.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
         self.selector.setMinimumSize(150,150)
         self.selector.setMaximumSize(500,500)
         self.selector.setHarmony(harmonies.Opposite(HSV))
@@ -699,11 +711,11 @@ class GUI(QtGui.QMainWindow):
 
         self.tabs.addTab(selector_w, _("Square"))
 
-        hcy_widget = QtGui.QWidget()
-        hcy_box = QtGui.QVBoxLayout()
+        hcy_widget = QtWidgets.QWidget()
+        hcy_box = QtWidgets.QVBoxLayout()
 
         self.hcy_selector = HCYSelector()
-        self.hcy_selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
+        self.hcy_selector.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
         self.hcy_selector.setMinimumSize(150,150)
         self.hcy_selector.setMaximumSize(500,500)
         self.hcy_selector.enable_editing = True
@@ -714,8 +726,8 @@ class GUI(QtGui.QMainWindow):
 
         hcy_box.addWidget(self.hcy_selector, 5)
 
-#         toggle = QtGui.QPushButton("Edit")
-#         toggle.setIcon(QtGui.QIcon(locate_icon("Gnome-colors-gtk-edit.png")))
+#         toggle = QtWidgets.QPushButton("Edit")
+#         toggle.setIcon(QtWidgets.QIcon(locate_icon("Gnome-colors-gtk-edit.png")))
 #         toggle.setCheckable(True)
 #         toggle.toggled.connect(self.on_hcy_edit_toggled)
 
@@ -726,28 +738,28 @@ class GUI(QtGui.QMainWindow):
 
         if use_lcms:
             self.lab_selector = LabSelector()
-            self.lab_selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
+            self.lab_selector.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
             self.lab_selector.setHarmony(harmonies.Opposite(HSV))
             self.lab_selector.setMinimumSize(150,150)
             self.lab_selector.setMaximumSize(500,500)
             self.lab_selector.selected.connect(self.on_select_lab)
             self.tabs.addTab(self.lab_selector, _("Lab Square"))
 
-        self.tabs.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
+        self.tabs.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
         vbox_center.addWidget(self.tabs,5)
 
-        current_color_box = QtGui.QWidget(self)
-        current_color_hbox = QtGui.QHBoxLayout(current_color_box)
+        current_color_box = QtWidgets.QWidget(self)
+        current_color_hbox = QtWidgets.QHBoxLayout(current_color_box)
         current_color_box.setLayout(current_color_hbox)
 
         self.current_color = ColorWidget(self, self.model.current_color)
-        self.current_color.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
+        self.current_color.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.current_color.setMaximumSize(100,50)
         self.current_color.selected.connect(self.on_set_current_color)
         current_color_hbox.addWidget(self.current_color)
 
         self.picker = Picker(self, _("Pic&k"), self.model.current_color)
-        picker_shortcut = QtGui.QShortcut("Ctrl+I", self)
+        picker_shortcut = QtWidgets.QShortcut("Ctrl+I", self)
         picker_shortcut.activated.connect(lambda: self.picker.clicked.emit(False))
         current_color_hbox.addWidget(self.picker)
 
@@ -757,18 +769,18 @@ class GUI(QtGui.QMainWindow):
         return widget
 
     def _init_swatches(self):
-        swatches_vbox = QtGui.QVBoxLayout()
+        swatches_vbox = QtWidgets.QVBoxLayout()
         
         self.shaders = ClassSelector(pairs = self.available_shaders)
         self.shaders.selected.connect(self.on_select_shader)
         self.shader = harmonies.Saturation
 
-        box = QtGui.QHBoxLayout()
-        box.addWidget(QtGui.QLabel(_("Shades:")), 1)
+        box = QtWidgets.QHBoxLayout()
+        box.addWidget(QtWidgets.QLabel(_("Shades:")), 1)
         box.addWidget(self.shaders, 3)
 
-        self.auto_harmony = QtGui.QPushButton(_("Auto"))
-        self.auto_harmony.setIcon(self.style().standardIcon(QtGui.QStyle.SP_ArrowDown))
+        self.auto_harmony = QtWidgets.QPushButton(_("Auto"))
+        self.auto_harmony.setIcon(self.style().standardIcon(QtWidgets.QStyle.SP_ArrowDown))
         self.auto_harmony.setCheckable(True)
         box.addWidget(self.auto_harmony, 1)
         swatches_vbox.addLayout(box)
@@ -777,22 +789,22 @@ class GUI(QtGui.QMainWindow):
         slider.changed.connect(self.on_shades_parameter)
         swatches_vbox.addWidget(slider)
 
-        self.toolbar_swatches = QtGui.QToolBar()
+        self.toolbar_swatches = QtWidgets.QToolBar()
         swatches_vbox.addWidget(self.toolbar_swatches)
 
         self.base_colors = {}
         self.base_swatches = []
         self.harmonized = []
         self.swatches = []
-        harmonizedBox = QtGui.QVBoxLayout()
+        harmonizedBox = QtWidgets.QVBoxLayout()
         for j in range(5):
             row = []
-            hbox = QtGui.QHBoxLayout()
+            hbox = QtWidgets.QHBoxLayout()
             for i in range(5):
                 swatch = self.model.swatches[i][j]
                 w = ColorWidget(self, swatch)
                 w.setMinimumSize(20,20)
-                w.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.MinimumExpanding)
+                w.setSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.MinimumExpanding)
                 w.setMaximumSize(50,40)
                 if i == 2:
                     swatch.set_color_enabled = False
@@ -806,7 +818,7 @@ class GUI(QtGui.QMainWindow):
             harmonizedBox.addLayout(hbox,1)
         swatches_vbox.addLayout(harmonizedBox)
         
-        widget = QtGui.QWidget(self)
+        widget = QtWidgets.QWidget(self)
         widget.setLayout(swatches_vbox)
         return widget
 
@@ -839,7 +851,7 @@ class GUI(QtGui.QMainWindow):
             save_palette(self.palette.palette, filename, format)
 
     def on_save_palette_image(self):
-        filename = QtGui.QFileDialog.getSaveFileName(self, _("Save palette image"), ".", "*.png")
+        filename = QtWidgets.QFileDialog.getSaveFileName(self, _("Save palette image"), ".", "*.png")
         if filename:
             image = self.palette.get_image()
             image.save(filename)
@@ -1182,7 +1194,7 @@ class GUI(QtGui.QMainWindow):
             self.template_path = str(filename)
     
     def on_save_template(self):
-        filename = QtGui.QFileDialog.getSaveFileName(self, _("Save SVG"), ".", "*.svg")
+        filename = QtWidgets.QFileDialog.getSaveFileName(self, _("Save SVG"), ".", "*.svg")
         if filename:
             content = self.svg.get_svg()
             f = open(unicode(filename),'w')
@@ -1200,11 +1212,11 @@ class GUI(QtGui.QMainWindow):
     def on_about(self):
         title = _("About Palette Editor")
         text = _("This is Palette Editor version {0}.\nPlease report issues at {1}.").format(__version__, 'https://github.com/portnov/color-palette/issues')
-        QtGui.QMessageBox.about(self, title, text)
+        QtWidgets.QMessageBox.about(self, title, text)
 
     def closeEvent(self, event):
         self._store()
-        QtGui.QMainWindow.closeEvent(self, event);
+        QtWidgets.QMainWindow.closeEvent(self, event);
 
 def parse_cmdline():
     parser = argparse.ArgumentParser()
@@ -1216,7 +1228,7 @@ if __name__ == "__main__":
 
     args = parse_cmdline()
     
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     w = GUI(template_path=args.template)
     w.show()
     w.restore(palette_filename=args.palette)

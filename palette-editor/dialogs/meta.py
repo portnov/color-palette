@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 from models.meta import Meta, as_unicode
 
@@ -68,12 +68,12 @@ class MetaModel(QtCore.QAbstractTableModel):
         return QtCore.QAbstractTableModel.headerData(self, section, orientation, role)
 
 
-class MetaTable(QtGui.QTableView):
+class MetaTable(QtWidgets.QTableView):
     def __init__(self, meta, *args, **kwargs):
-        QtGui.QTableView.__init__(self, *args, **kwargs)
+        QtWidgets.QTableView.__init__(self, *args, **kwargs)
         self._model = MetaModel(meta)
         self.setModel(self._model)
-        self.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
+        self.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.resizeColumnsToContents()
         #self.setColumnCount(2)
         #self.setRowCount(3)
@@ -96,27 +96,27 @@ class MetaTable(QtGui.QTableView):
             self._model.delRow(row)
         self.update()
 
-class MetaDialog(QtGui.QDialog):
+class MetaDialog(QtWidgets.QDialog):
     def __init__(self, meta, *args, **kwargs):
-        QtGui.QDialog.__init__(self, *args, **kwargs)
+        QtWidgets.QDialog.__init__(self, *args, **kwargs)
 
         self.meta = meta
         self.table = MetaTable(meta, parent=self)
 
-        layout = QtGui.QVBoxLayout()
+        layout = QtWidgets.QVBoxLayout()
         layout.addWidget(self.table)
 
-        toolbar = QtGui.QToolBar(self)
+        toolbar = QtWidgets.QToolBar(self)
         toolbar.addAction(QtGui.QIcon(locate_icon("list-add.png")), _("Add"), self.on_add_row)
         toolbar.addAction(QtGui.QIcon(locate_icon("edit-delete.png")), _("Delete"), self.on_del_row)
 
         layout.addWidget(toolbar)
 
-        buttons = QtGui.QHBoxLayout()
+        buttons = QtWidgets.QHBoxLayout()
         buttons.addStretch(1)
-        ok = QtGui.QPushButton(_("&OK"))
+        ok = QtWidgets.QPushButton(_("&OK"))
         ok.clicked.connect(self.accept)
-        cancel = QtGui.QPushButton(_("&Cancel"))
+        cancel = QtWidgets.QPushButton(_("&Cancel"))
         cancel.clicked.connect(self.reject)
         buttons.addWidget(ok)
         buttons.addWidget(cancel)

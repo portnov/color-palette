@@ -1,6 +1,6 @@
 
 from math import sqrt, sin, cos
-from PyQt4 import QtGui
+from PyQt5 import QtGui
 from color.colors import *
 
 def allShades(base_colors, shader, parameter):

@@ -1,13 +1,13 @@
 
 from copy import copy
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 from palette import *
 from color.colors import *
 
-class MarkCommand(QtGui.QUndoCommand):
+class MarkCommand(QtWidgets.QUndoCommand):
     def __init__(self, widget, row, column, mark=None):
-        QtGui.QUndoCommand.__init__(self)
+        QtWidgets.QUndoCommand.__init__(self)
         self.widget = widget
         self.palette = widget.palette
         self.row = row
@@ -23,9 +23,9 @@ class MarkCommand(QtGui.QUndoCommand):
         self.palette.mark_color(self.row, self.column, self.mark)
         self.widget.repaint()
 
-class SetColor(QtGui.QUndoCommand):
+class SetColor(QtWidgets.QUndoCommand):
     def __init__(self, widget, row, column, color):
-        QtGui.QUndoCommand.__init__(self)
+        QtWidgets.QUndoCommand.__init__(self)
         self.widget = widget
         self.palette = widget.palette
         self.row = row
@@ -59,9 +59,9 @@ DELETE=1
 ROW=0
 COLUMN=1
 
-class EditLayout(QtGui.QUndoCommand):
+class EditLayout(QtWidgets.QUndoCommand):
     def __init__(self, widget, action, kind, idx):
-        QtGui.QUndoCommand.__init__(self)
+        QtWidgets.QUndoCommand.__init__(self)
         self.widget = widget
         self.palette = widget.palette
         self.action = action
@@ -121,9 +121,9 @@ class EditLayout(QtGui.QUndoCommand):
         else:
             return _("inserting column into palette")
 
-class ChangeColors(QtGui.QUndoCommand):
+class ChangeColors(QtWidgets.QUndoCommand):
     def __init__(self, widget, palette, text, fn):
-        QtGui.QUndoCommand.__init__(self)
+        QtWidgets.QUndoCommand.__init__(self)
         self.setText(text)
         self.widget = widget
         self.palette = palette
@@ -149,9 +149,9 @@ class ChangeColors(QtGui.QUndoCommand):
         self.palette.recalc()
         self.widget.update()
 
-class SwatchesToPalette(QtGui.QUndoCommand):
+class SwatchesToPalette(QtWidgets.QUndoCommand):
     def __init__(self, palette_widget, mixer, swatches):
-        QtGui.QUndoCommand.__init__(self)
+        QtWidgets.QUndoCommand.__init__(self)
         self.setText(_("creating palette from color swatches"))
         self.palette_widget = palette_widget
         self.mixer = mixer
@@ -179,9 +179,9 @@ class SwatchesToPalette(QtGui.QUndoCommand):
         self.palette_widget.redraw()
         self.palette_widget.update()
 
-class SortBy(QtGui.QUndoCommand):
+class SortBy(QtWidgets.QUndoCommand):
     def __init__(self, widget, palette, text, key):
-        QtGui.QUndoCommand.__init__(self)
+        QtWidgets.QUndoCommand.__init__(self)
         self.setText(text)
         self.widget = widget
         self.palette = palette

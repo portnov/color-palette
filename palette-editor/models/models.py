@@ -1,5 +1,5 @@
 
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 #import traceback
 
 from color import colors
@@ -8,7 +8,7 @@ from widgets.commands.general import *
 class Document(object):
     def __init__(self, window, options):
         self.window = window
-        self.undoStack = QtGui.QUndoStack(window)
+        self.undoStack = QtWidgets.QUndoStack(window)
         self.options = options
 
         self.current_color = ColorModel(self)
@@ -33,13 +33,13 @@ class Clipboard(object):
         self.set_color = set_color
 
     def _copy_text(self, text):
-        clipboard = QtGui.QApplication.clipboard()
+        clipboard = QtWidgets.QApplication.clipboard()
         clipboard.setText(text)
 
     def _copy_color(self):
         color = self.get_color()
         if color:
-            clipboard = QtGui.QApplication.clipboard()
+            clipboard = QtWidgets.QApplication.clipboard()
             qcolor = color.asQColor()
             mime = QtCore.QMimeData()
             mime.setColorData(qcolor)
@@ -63,7 +63,7 @@ class Clipboard(object):
         self._copy_color_text(lambda clr: clr.getHsvString())
 
     def _paste_color(self):
-        clipboard = QtGui.QApplication.clipboard()
+        clipboard = QtWidgets.QApplication.clipboard()
         if clipboard.mimeData().hasColor():
             qcolor = QtGui.QColor(clipboard.mimeData().colorData())
             r,g,b,_ = qcolor.getRgb()
@@ -134,7 +134,7 @@ class ColorModel(object):
         self.get_undo_stack().push(cmd)
 
     def get_context_menu(self, widget):
-        menu = QtGui.QMenu(widget)
+        menu = QtWidgets.QMenu(widget)
         clear = menu.addAction(_("Clear"))
         clear.triggered.connect(self.clear)
         self.clipboard.add_cliboard_actions(menu, True)

@@ -1,6 +1,6 @@
 
 from math import cos, sin, pi, sqrt, atan2
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 from color.colors import *
 from widgets import *
@@ -68,11 +68,11 @@ class Slider(CacheImage):
             qp.drawRect(x,y, rw, rh)
         qp.end()
 
-class SquareWidget(QtGui.QWidget):
+class SquareWidget(QtWidgets.QWidget):
     clicked = QtCore.pyqtSignal(float,float)
 
     def __init__(self):
-        QtGui.QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
         self.cache = Square()
         self._mouse_pressed = False
         self._selected = None
@@ -181,12 +181,12 @@ class SquareWidget(QtGui.QWidget):
         return lab(self.l, self.a, self.b)
 
 
-class SliderWidget(QtGui.QWidget):
+class SliderWidget(QtWidgets.QWidget):
 
     clicked = QtCore.pyqtSignal(float)
 
     def __init__(self):
-        QtGui.QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
         self.cache = Slider()
         self._mouse_pressed = False
         self.l = 0.0
@@ -236,14 +236,14 @@ class SliderWidget(QtGui.QWidget):
     def get_l(self):
         return self.l
 
-class LabSelector(QtGui.QWidget):
+class LabSelector(QtWidgets.QWidget):
     selected = QtCore.pyqtSignal(int, Color, Color)
 
     manual_edit_implemented = False
 
     def __init__(self, *args):
-        QtGui.QWidget.__init__(self, *args)
-        self.box = QtGui.QHBoxLayout()
+        QtWidgets.QWidget.__init__(self, *args)
+        self.box = QtWidgets.QHBoxLayout()
         self.square = SquareWidget()
         self.slider = SliderWidget()
         self.box.addWidget(self.slider, 1)

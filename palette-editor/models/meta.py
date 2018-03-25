@@ -1,6 +1,6 @@
 
 from copy import deepcopy as copy
-from PyQt4 import QtCore
+from PyQt5 import QtCore
 from lxml import etree as ET
 
 def as_unicode(x):

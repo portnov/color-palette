@@ -1,12 +1,12 @@
 
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
-class ToggleLabel(QtGui.QLabel):
+class ToggleLabel(QtWidgets.QLabel):
     toggled = QtCore.pyqtSignal()
     
     def __init__(self, parent=None, vertical=False, expanded=True, text=None):
-        QtGui.QLabel.__init__(self, parent)
-        self.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Maximum)
+        QtWidgets.QLabel.__init__(self, parent)
+        self.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Maximum)
         self.text = text
         self.expanded = expanded
         self.vertical = vertical
@@ -91,17 +91,17 @@ class ToggleLabel(QtGui.QLabel):
         event.accept()
 
 
-class ExpanderWidget(QtGui.QWidget):
+class ExpanderWidget(QtWidgets.QWidget):
     def __init__(self, text, widget, parent=None, vertical=False):
         super(ExpanderWidget, self).__init__(parent)
 
-        self.layout = QtGui.QVBoxLayout()
+        self.layout = QtWidgets.QVBoxLayout()
 
         self.toggle = ToggleLabel(text = text, vertical=vertical)
         self.toggle.toggled.connect(self._on_toggled)
 
-        if isinstance(widget, QtGui.QLayout):
-            widget_ = QtGui.QWidget()
+        if isinstance(widget, QtWidgets.QLayout):
+            widget_ = QtWidgets.QWidget()
             widget_.setLayout(widget)
             widget = widget_
 
@@ -110,7 +110,7 @@ class ExpanderWidget(QtGui.QWidget):
         self.layout.addWidget(self.toggle,1)
         self.layout.addWidget(self.widget,9)
         self.setLayout(self.layout)
-        #self.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
+        #self.setSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         
         #self.setStyleSheet("* {border: #000}")
 

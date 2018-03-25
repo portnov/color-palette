@@ -1,6 +1,6 @@
 
 from os.path import join, basename, getsize
-from PyQt4 import QtGui
+from PyQt5 import QtGui
 import struct
 
 from color.colors import *

@@ -21,7 +21,7 @@ import numpy as np
 from numpy.linalg import solve, det
 from numpy.linalg.linalg import LinAlgError
 from copy import deepcopy as copy
-from PyQt4 import QtGui
+from PyQt5 import QtGui
 
 from color.colors import *
 from color.spaces import *

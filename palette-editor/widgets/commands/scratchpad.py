@@ -1,11 +1,11 @@
 from copy import copy
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 from color.colors import *
 
-class ScratchpadCommand(QtGui.QUndoCommand):
+class ScratchpadCommand(QtWidgets.QUndoCommand):
     def __init__(self, scratchpad, text):
-        QtGui.QUndoCommand.__init__(self)
+        QtWidgets.QUndoCommand.__init__(self)
         self.scratchpad = scratchpad
         self.setText(text)
 

@@ -1,11 +1,11 @@
 from copy import copy
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 from color.colors import *
 
-class SetMixer(QtGui.QUndoCommand):
+class SetMixer(QtWidgets.QUndoCommand):
     def __init__(self, owner, pairs, old_mixer_idx, new_mixer_idx):
-        QtGui.QUndoCommand.__init__(self)
+        QtWidgets.QUndoCommand.__init__(self)
         self.owner = owner
         self.setText(_("selecting color model"))
         self.old_mixer_idx = old_mixer_idx
@@ -22,9 +22,9 @@ class SetMixer(QtGui.QUndoCommand):
         _,  mixer = self.pairs[self.old_mixer_idx]
         self.owner.setMixer(mixer, self.old_mixer_idx)
 
-class ChangeColor(QtGui.QUndoCommand):
+class ChangeColor(QtWidgets.QUndoCommand):
     def __init__(self, model, text, fn):
-        QtGui.QUndoCommand.__init__(self)
+        QtWidgets.QUndoCommand.__init__(self)
         self.setText(text)
         self.fn = fn
         self.model = model
@@ -40,9 +40,9 @@ class ChangeColor(QtGui.QUndoCommand):
         self.model.setColor(self.old_color)
         self.model.widget.repaint()
 
-class SetColor(QtGui.QUndoCommand):
+class SetColor(QtWidgets.QUndoCommand):
     def __init__(self, model, color):
-        QtGui.QUndoCommand.__init__(self)
+        QtWidgets.QUndoCommand.__init__(self)
         self.setText(_("setting color"))
         self.model = model
         self.color = color
@@ -62,9 +62,9 @@ class SetColor(QtGui.QUndoCommand):
         self.model.widget.repaint()
         self.model.get_color_history().setColors(self.old_history_colors)
 
-class Clear(QtGui.QUndoCommand):
+class Clear(QtWidgets.QUndoCommand):
     def __init__(self, model):
-        QtGui.QUndoCommand.__init__(self)
+        QtWidgets.QUndoCommand.__init__(self)
         self.setText(_("clearing color swatch"))
         self.model = model
 

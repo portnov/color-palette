@@ -1,7 +1,7 @@
 #import sys
 
 from math import cos, sin, pi, sqrt, atan2
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 from color import colors
 from color.colors import seq
@@ -34,13 +34,13 @@ class ItemModel(QtGui.QStandardItemModel):
                 return default & ~QtCore.Qt.ItemIsEnabled
         return default
 
-class ClassSelector(QtGui.QComboBox):
+class ClassSelector(QtWidgets.QComboBox):
 
     selected = QtCore.pyqtSignal(int, int)
 
 
     def __init__(self, parent=None, pairs=None):
-        QtGui.QComboBox.__init__(self, parent)
+        QtWidgets.QComboBox.__init__(self, parent)
         model = ItemModel()
         self.setModel(model)
         self.pairs = pairs
@@ -72,11 +72,11 @@ class ClassSelector(QtGui.QComboBox):
         self.setCurrentIndex(idx)
         self._skip_select = False
 
-class ParamSlider(QtGui.QSlider):
+class ParamSlider(QtWidgets.QSlider):
     changed = QtCore.pyqtSignal(int,int)
 
     def __init__(self, parent=None):
-        QtGui.QSlider.__init__(self, QtCore.Qt.Horizontal, parent)
+        QtWidgets.QSlider.__init__(self, QtCore.Qt.Horizontal, parent)
         self.setMinimum(0)
         self.setMaximum(100)
         self.setValue(50)
@@ -94,14 +94,14 @@ class ParamSlider(QtGui.QSlider):
         self.setValue(value)
         self._skip_change = False
 
-class ColorWidget(QtGui.QLabel):
+class ColorWidget(QtWidgets.QLabel):
     clicked = QtCore.pyqtSignal()
     selected = QtCore.pyqtSignal()
     dropped = QtCore.pyqtSignal(float,float,float)
     cleared = QtCore.pyqtSignal()
     
     def __init__(self, parent, model, *args):
-        QtGui.QLabel.__init__(self, parent, *args)
+        QtWidgets.QLabel.__init__(self, parent, *args)
         self.model = model
         self.model.widget = self
         self.setMinimumSize(18, 18)
@@ -195,7 +195,7 @@ class ColorWidget(QtGui.QLabel):
             return
         if not (event.buttons() & QtCore.Qt.LeftButton):
             return
-        if (event.pos() - self._drag_start_pos).manhattanLength() < QtGui.QApplication.startDragDistance():
+        if (event.pos() - self._drag_start_pos).manhattanLength() < QtWidgets.QApplication.startDragDistance():
             return
 
         drag = create_qdrag_color(self, self.getColor())
@@ -245,9 +245,9 @@ class ColorWidget(QtGui.QLabel):
         #print("CLICK")
         current = self.getColor()
         if current is not None:
-            clr = QtGui.QColorDialog.getColor(current)
+            clr = QtWidgets.QColorDialog.getColor(current)
         else:
-            clr = QtGui.QColorDialog.getColor()
+            clr = QtWidgets.QColorDialog.getColor()
         r, g, b, a = clr.getRgb()
         self.setColor(colors.Color(r,g,b))
         self.repaint()
@@ -301,20 +301,20 @@ class TwoColorsWidget(ColorWidget):
         #print("Drop: " + str(color))
         self.second_color = color
 
-class ColorHistoryWidget(QtGui.QWidget):
+class ColorHistoryWidget(QtWidgets.QWidget):
 
     selected = QtCore.pyqtSignal()
 
     def __init__(self, model, vertical=False, parent=None):
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
         self.model = model
         self.model.widget = self
         self.selected_color = None
 
         if vertical:
-            self.layout = QtGui.QVBoxLayout()
+            self.layout = QtWidgets.QVBoxLayout()
         else:
-            self.layout = QtGui.QHBoxLayout()
+            self.layout = QtWidgets.QHBoxLayout()
         self.setLayout(self.layout)
 
         self.setup()
@@ -623,9 +623,9 @@ class HueGradient(Gradient):
         self.colors = [[self.mixer.shade(self.hue, s, v) for s in seq(0.0, 1.0, 1.0/self.STEPS)]
                             for v in seq(0.0, 1.0, 1.0/self.STEPS)]
 
-class GradientWidget(QtGui.QLabel):
+class GradientWidget(QtWidgets.QLabel):
     def __init__(self, gradient,  *args):
-        QtGui.QLabel.__init__(self, *args)
+        QtWidgets.QLabel.__init__(self, *args)
         self.gradient = gradient
     
     def paintEvent(self, event):
@@ -656,12 +656,12 @@ class GradientWidget(QtGui.QLabel):
         self.gradient.redraw(self.size().width(),  self.size().height())
         self.update()
 
-class ImageWidget(QtGui.QLabel):
+class ImageWidget(QtWidgets.QLabel):
     def __init__(self, cache,  *args):
         """cache must have method:
            get(w,h) -> QImage
         """
-        QtGui.QLabel.__init__(self, *args)
+        QtWidgets.QLabel.__init__(self, *args)
         self.cache = cache
 
     def paintEvent(self, event):
@@ -672,7 +672,7 @@ class ImageWidget(QtGui.QLabel):
         qp.drawImage(0, 0, image)
         qp.end()
 
-class Selector(QtGui.QLabel):
+class Selector(QtWidgets.QLabel):
     
     selectedSV = QtCore.pyqtSignal(float,float)
     selectedHue = QtCore.pyqtSignal(float)
@@ -680,8 +680,8 @@ class Selector(QtGui.QLabel):
 
     manual_edit_implemented = False
 
-    def __init__(self, mixer, hue_steps=None, *args):
-        QtGui.QLabel.__init__(self, *args)
+    def __init__(self, mixer, *args):
+        QtWidgets.QLabel.__init__(self, *args)
         self.mixer = mixer
         self.hue_steps = hue_steps
         if hue_steps is None:

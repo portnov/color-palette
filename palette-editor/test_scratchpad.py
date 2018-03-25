@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import sys
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore
 import gettext
 
 gettext.install("colors", localedir="share/locale", unicode=True)
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     green = Color(100,255,100)
     red = Color(255,100,100)
 
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     w = Test()
     w.show()
     sys.exit(app.exec_())

@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 from palette.storage.storage import create_palette
 from palette.image import PaletteImage
@@ -22,12 +22,12 @@ def convert_palette(clpalette):
     colors = map(fromHex, hexs)
     return create_palette(colors)
 
-class PalettesTable(QtGui.QTableWidget):
+class PalettesTable(QtWidgets.QTableWidget):
 
     selected = QtCore.pyqtSignal(int)
 
     def __init__(self, *args):
-        QtGui.QTableWidget.__init__(self, *args)
+        QtWidgets.QTableWidget.__init__(self, *args)
         self._palettes = []
         self.setRowCount(1)
         self.setColumnCount(3)
@@ -41,12 +41,12 @@ class PalettesTable(QtGui.QTableWidget):
         self.setHorizontalHeaderLabels(table_headers)
         self.setRowCount(len(palettes))
         for i, palette in enumerate(palettes):
-            id = QtGui.QTableWidgetItem(str(palette.id))
+            id = QtWidgets.QTableWidgetItem(str(palette.id))
             if palette.title is not None:
-                title = QtGui.QTableWidgetItem(palette.title)
+                title = QtWidgets.QTableWidgetItem(palette.title)
             else: 
-                title = QtGui.QTableWidgetItem("")
-            author = QtGui.QTableWidgetItem(palette.user_name)
+                title = QtWidgets.QTableWidgetItem("")
+            author = QtWidgets.QTableWidgetItem(palette.user_name)
             self.setItem(i, 0, id)
             self.setItem(i, 1, title)
             self.setItem(i, 2, author)
@@ -64,24 +64,24 @@ class PalettesTable(QtGui.QTableWidget):
             print palette
             self.selected.emit(row)
 
-class DownloadDialog(QtGui.QDialog):
+class DownloadDialog(QtWidgets.QDialog):
     def __init__(self, *args, **kwargs):
-        QtGui.QDialog.__init__(self, *args, **kwargs)
+        QtWidgets.QDialog.__init__(self, *args, **kwargs)
         
         self.palette = None
         self.to_scratchpad = False
 
-        self._new = QtGui.QRadioButton(_("New"))
+        self._new = QtWidgets.QRadioButton(_("New"))
         self._new.setChecked(True)
-        self._top = QtGui.QRadioButton(_("Top"))
-        self._random = QtGui.QRadioButton(_("Random"))
+        self._top = QtWidgets.QRadioButton(_("Top"))
+        self._random = QtWidgets.QRadioButton(_("Random"))
 
-        radiobox = QtGui.QVBoxLayout()
+        radiobox = QtWidgets.QVBoxLayout()
         radiobox.addWidget(self._new)
         radiobox.addWidget(self._top)
         radiobox.addWidget(self._random)
 
-        self.hue_option = QtGui.QComboBox()
+        self.hue_option = QtWidgets.QComboBox()
         self.hue_option.addItem(_("Any"))
         self.hue_option.addItem(_("Yellow"), 'yellow')
         self.hue_option.addItem(_("Orange"), 'orange')
@@ -90,50 +90,50 @@ class DownloadDialog(QtGui.QDialog):
         self.hue_option.addItem(_("Violet"), 'violet')
         self.hue_option.addItem(_("Blue"), 'blue')
 
-        self.keywords = QtGui.QLineEdit()
-        self.username = QtGui.QLineEdit()
+        self.keywords = QtWidgets.QLineEdit()
+        self.username = QtWidgets.QLineEdit()
 
-        optsbox = QtGui.QFormLayout()
+        optsbox = QtWidgets.QFormLayout()
         optsbox.addRow(_("Hue:"), self.hue_option)
         optsbox.addRow(_("Keywords:"), self.keywords)
         optsbox.addRow(_("User:"), self.username)
 
-        topbox = QtGui.QHBoxLayout()
+        topbox = QtWidgets.QHBoxLayout()
         topbox.addLayout(radiobox, 2)
         topbox.addLayout(optsbox, 2)
 
-        query = QtGui.QPushButton(_("&Query"))
+        query = QtWidgets.QPushButton(_("&Query"))
         query.clicked.connect(self._on_query)
         topbox.addWidget(query, 1)
 
-        tablebox = QtGui.QHBoxLayout()
+        tablebox = QtWidgets.QHBoxLayout()
         self.table = PalettesTable()
         self.table.setMinimumSize(450, 300)
         self.table.selected.connect(self._on_select_palette)
         tablebox.addWidget(self.table, 3)
 
-        previewbox = QtGui.QVBoxLayout()
-        label = QtGui.QLabel(_("Preview:"))
+        previewbox = QtWidgets.QVBoxLayout()
+        label = QtWidgets.QLabel(_("Preview:"))
         previewbox.addWidget(label,1)
-        self.preview = QtGui.QLabel()
+        self.preview = QtWidgets.QLabel()
         previewbox.addWidget(self.preview, 5)
-        self.label = QtGui.QLabel()
+        self.label = QtWidgets.QLabel()
         self.label.setMaximumSize(200, 150)
         self.label.setWordWrap(True)
         previewbox.addWidget(self.label, 1)
         tablebox.addLayout(previewbox, 1)
 
-        layout = QtGui.QVBoxLayout()
+        layout = QtWidgets.QVBoxLayout()
         layout.addLayout(topbox)
         layout.addLayout(tablebox)
 
-        buttons = QtGui.QHBoxLayout()
+        buttons = QtWidgets.QHBoxLayout()
         buttons.addStretch(1)
-        ok = QtGui.QPushButton(_("&Load"))
+        ok = QtWidgets.QPushButton(_("&Load"))
         ok.clicked.connect(self.accept)
-        scratch = QtGui.QPushButton(_("To &scratchpad"))
+        scratch = QtWidgets.QPushButton(_("To &scratchpad"))
         scratch.clicked.connect(self._on_load_to_scratchpad)
-        cancel = QtGui.QPushButton(_("&Cancel"))
+        cancel = QtWidgets.QPushButton(_("&Cancel"))
         cancel.clicked.connect(self.reject)
         buttons.addWidget(ok)
         buttons.addWidget(scratch)

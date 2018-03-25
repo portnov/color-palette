@@ -1,6 +1,6 @@
 
 from string import Template
-from PyQt4 import QtGui, QtSvg, QtCore
+from PyQt5 import QtGui, QtSvg, QtCore
 
 from color.colors import *
 from color.spaces import *

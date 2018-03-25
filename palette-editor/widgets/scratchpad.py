@@ -1,15 +1,15 @@
 
 from math import cos, sin, pi, sqrt, atan2
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 from color.colors import *
 from widgets import create_qdrag_color
 from commands.scratchpad import *
 from models.models import Clipboard
 
-class Scratchpad(QtGui.QWidget):
+class Scratchpad(QtWidgets.QWidget):
     def __init__(self, model, parent=None, *args, **kwargs):
-        QtGui.QWidget.__init__(self, parent, *args, **kwargs)
+        QtWidgets.QWidget.__init__(self, parent, *args, **kwargs)
         self.model = model
         self.undoStack = model.get_undo_stack()
 
@@ -133,7 +133,7 @@ class Scratchpad(QtGui.QWidget):
         x = event.pos().x()
         color = self._color_at_x(x)
         if color is not None:
-            QtGui.QToolTip.showText(event.globalPos(), color.verbose())
+            QtWidgets.QToolTip.showText(event.globalPos(), color.verbose())
 
     def mousePressEvent(self, event):
         #print("Mouse pressed")
@@ -181,7 +181,7 @@ class Scratchpad(QtGui.QWidget):
         def _set_color(color):
             self._add_color(color, x)
 
-        menu = QtGui.QMenu(self)
+        menu = QtWidgets.QMenu(self)
         clear = menu.addAction(_("Clear"))
         clear.triggered.connect(self.on_clear(x))
 
@@ -215,7 +215,7 @@ class Scratchpad(QtGui.QWidget):
     def _start_drag(self, event):
         if not (event.buttons() & QtCore.Qt.LeftButton):
             return
-        if (event.pos() - self._drag_start_pos).manhattanLength() < QtGui.QApplication.startDragDistance():
+        if (event.pos() - self._drag_start_pos).manhattanLength() < QtWidgets.QApplication.startDragDistance():
             return
 
         clr = self._color_at_x(event.x())

@@ -1,5 +1,5 @@
 
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 from color.colors import *
 from widgets.widgets import *
@@ -9,20 +9,20 @@ from image import PaletteImage
 from commands import *
 from models.models import Clipboard
 
-class PaletteWidget(QtGui.QLabel):
+class PaletteWidget(QtWidgets.QLabel):
     clicked = QtCore.pyqtSignal(int,int) # (x,y)
     selected = QtCore.pyqtSignal(int,int) # (row, column)
     file_dropped = QtCore.pyqtSignal(unicode)
 
     def __init__(self, parent, palette, options, padding=2.0, background=None, undoStack=None, indicate_modes=False, *args):
-        QtGui.QLabel.__init__(self, parent, *args)
+        QtWidgets.QLabel.__init__(self, parent, *args)
         self.palette = palette
         self.options = options
         self.palette_image = PaletteImage(palette, padding=padding, background=background, indicate_modes=indicate_modes)
         self.indicate_modes = indicate_modes
 
         if undoStack is None:
-            self.undoStack = QtGui.QUndoStack(self)
+            self.undoStack = QtWidgets.QUndoStack(self)
         else:
             self.undoStack = undoStack
 
@@ -42,7 +42,7 @@ class PaletteWidget(QtGui.QLabel):
         self.setMinimumSize(100,50)
         self.setAcceptDrops(True)
         self.setMouseTracking(True)
-        self.setSizePolicy(QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.MinimumExpanding)
+        self.setSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         self.setContextMenuPolicy(QtCore.Qt.PreventContextMenu)
         self.buttons_color = QtGui.QColor(240,240,240, 127)
 
@@ -75,7 +75,7 @@ class PaletteWidget(QtGui.QLabel):
 
     def dropEvent(self, event):
         if event.mimeData().hasColor():
-            qcolor = QtGui.QColor(event.mimeData().colorData())
+            qcolor = QtWidgets.QColor(event.mimeData().colorData())
             r,g,b,_ = qcolor.getRgb()
             color = Color(r,g,b)
             event.acceptProposedAction()
@@ -255,7 +255,7 @@ class PaletteWidget(QtGui.QLabel):
             slot = self.palette.slots[row][col]
             color = slot.getColor()
             if color is not None:
-                QtGui.QToolTip.showText(event.globalPos(), color.verbose())
+                QtWidgets.QToolTip.showText(event.globalPos(), color.verbose())
         except IndexError:
             pass
 
@@ -373,7 +373,7 @@ class PaletteWidget(QtGui.QLabel):
             return
         if not (event.buttons() & QtCore.Qt.LeftButton):
             return
-        if (event.pos() - self._drag_start_pos).manhattanLength() < QtGui.QApplication.startDragDistance():
+        if (event.pos() - self._drag_start_pos).manhattanLength() < QtWidgets.QApplication.startDragDistance():
             return
 
         row,col = self._get_slot_rc_at(x,y)
@@ -446,7 +446,7 @@ class PaletteWidget(QtGui.QLabel):
             meta = edit_meta(color, self)
             print meta
 
-        menu = QtGui.QMenu(self)
+        menu = QtWidgets.QMenu(self)
         if editing_enabled:
             mark = menu.addAction(_("Toggle mark"))
             mark.triggered.connect(lambda: self._mark(*pos))
