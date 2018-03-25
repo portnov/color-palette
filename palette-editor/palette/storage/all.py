@@ -5,6 +5,7 @@ from os.path import exists
 
 from gimp import GimpPalette
 from xml import XmlPalette
+from kpl import KplPalette
 from paletton import Paletton
 from css import *
 from svg import SVG
@@ -13,7 +14,7 @@ from scribus import Scribus
 from ase import AsePalette
 from aco import AcoPalette
 
-storages = [GimpPalette, XmlPalette, Paletton, CSS, SVG, Image, Scribus, AsePalette, AcoPalette]
+storages = [GimpPalette, XmlPalette, KplPalette, Paletton, CSS, SVG, Image, Scribus, AsePalette, AcoPalette]
 
 def get_storage_by_name(name):
     #print("Searching for storage named {}".format(name))
