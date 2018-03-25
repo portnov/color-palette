@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-09-18 22:31+YEKT\n"
+"POT-Creation-Date: 2018-03-25 15:47+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -826,7 +826,7 @@ msgstr ""
 msgid "Adobe Photoshop color file format"
 msgstr ""
 
-#: palette/storage/all.py:34
+#: palette/storage/all.py:35
 msgid "All files (*)"
 msgstr ""
 
@@ -894,6 +894,14 @@ msgstr ""
 msgid "Number of rows in the table"
 msgstr ""
 
+#: palette/storage/kpl.py:16
+msgid "Krita 4.0+ palette format"
+msgstr ""
+
+#: palette/storage/kpl.py:59 palette/storage/xml.py:32
+msgid "Group: "
+msgstr ""
+
 #: palette/storage/paletton.py:12
 msgid "Paletton.com palette"
 msgstr ""
@@ -908,10 +916,6 @@ msgstr ""
 
 #: palette/storage/xml.py:12
 msgid "CREATE palette format"
-msgstr ""
-
-#: palette/storage/xml.py:32
-msgid "Group: "
 msgstr ""
 
 #: palette/widget.py:451

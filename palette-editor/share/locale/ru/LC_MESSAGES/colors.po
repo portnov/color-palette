@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: palette-editor 0.0.1\n"
-"POT-Creation-Date: 2016-09-18 22:31+YEKT\n"
+"POT-Creation-Date: 2018-03-25 15:47+YEKT\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ilya Portnov <portnov84@rambler.ru>\n"
 "Language-Team: Russian <LL@li.org>\n"
@@ -832,7 +832,7 @@ msgstr "создание палитры из цветовых образцов"
 msgid "Adobe Photoshop color file format"
 msgstr "Формат цветов Adobe Photoshop"
 
-#: palette/storage/all.py:34
+#: palette/storage/all.py:35
 msgid "All files (*)"
 msgstr "Все файлы (*)"
 
@@ -900,6 +900,14 @@ msgstr "Количество столбцов в таблице"
 msgid "Number of rows in the table"
 msgstr "Количество строк в таблице"
 
+#: palette/storage/kpl.py:16
+msgid "Krita 4.0+ palette format"
+msgstr "Формат палитр Krita 4.0+"
+
+#: palette/storage/kpl.py:59 palette/storage/xml.py:32
+msgid "Group: "
+msgstr "Группа: "
+
 #: palette/storage/paletton.py:12
 msgid "Paletton.com palette"
 msgstr "Палитры Paletton.com"
@@ -915,10 +923,6 @@ msgstr "Изображения SVG"
 #: palette/storage/xml.py:12
 msgid "CREATE palette format"
 msgstr "Формат палитр CREATE"
-
-#: palette/storage/xml.py:32
-msgid "Group: "
-msgstr "Группа: "
 
 #: palette/widget.py:451
 msgid "Toggle mark"
