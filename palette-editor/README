@@ -37,6 +37,8 @@ What can it do currently is:
   displaying and editing palette using PyQt4 widget.
 * Palettes can be saved or loaded from different formats. Currently supported are:
     - Gimp palettes (gpl) - read and write
+    - Krita 4.0+ palettes (kpl) - read and write. Only 8-bit RGB is supported
+      for now, color profiles are ignored.
     - XML palettes from old MyPaint implementation - read only
     - XML palettes from paletton.com - read only
     - CSS files - read and write. NB: when saving CSS, only colors are saved,
