@@ -38,11 +38,11 @@ class OptionsDialog(QtWidgets.QDialog):
 
         tabs = QtWidgets.QTabWidget(self)
 
-        selector_tab = QtGui.QWidget()
-        layout = QtGui.QFormLayout()
-        self.hue_steps_checkbox = QtGui.QCheckBox(selector_tab)
+        selector_tab = QtWidgets.QWidget()
+        layout = QtWidgets.QFormLayout()
+        self.hue_steps_checkbox = QtWidgets.QCheckBox(selector_tab)
         layout.addRow(_("Show hue steps swatches"), self.hue_steps_checkbox)
-        self.hue_steps_count = QtGui.QSpinBox(selector_tab)
+        self.hue_steps_count = QtWidgets.QSpinBox(selector_tab)
         self.hue_steps_count.setMinimum(6)
         self.hue_steps_count.setMaximum(36)
         layout.addRow(_("Number of hue steps"), self.hue_steps_count)
