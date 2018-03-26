@@ -44,7 +44,7 @@ class Picker(QtWidgets.QPushButton):
             tooltip = self.model.get_tooltip()
             if tooltip is not None:
                 self.setToolTip(tooltip)
-        qp = QtWidgets.QPainter()
+        qp = QtGui.QPainter()
         qp.begin(self)
         self.drawWidget(event, qp)
         qp.end()
@@ -178,10 +178,10 @@ class Picker(QtWidgets.QPushButton):
 
     def _pick_color(self, pos):
         desktop = QtWidgets.QApplication.desktop().winId()
-        #screen = QtWidgets.QApplication.desktop().primaryScreen()
+        screen = QtWidgets.QApplication.primaryScreen()
         size = self.model.options.picker_area
         dx = dy = size // 2
-        pixmap = QtGui.QPixmap.grabWindow(desktop, pos.x() - dx, pos.y() - dy, size, size)
+        pixmap = screen.grabWindow(desktop, pos.x() - dx, pos.y() - dy, size, size)
         self._grabbed_image = img = pixmap.toImage()
         if self.model.options.picker_average:
             self._colors.extend(self._grab(img))
