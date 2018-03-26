@@ -8,6 +8,7 @@ from PyQt5 import QtGui, QtCore, QtWidgets
 class PreviewFileDialog(QtWidgets.QFileDialog):
     def __init__(self, *args, **kwargs):
         QtWidgets.QFileDialog.__init__(self, *args, **kwargs)
+        self.setOption(QtWidgets.QFileDialog.DontUseNativeDialog)
         #self.setObjectName("PreviewFileDialog")
 
         box = QtWidgets.QVBoxLayout()

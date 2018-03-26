@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-from PyQt5 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 
 from color import mixers
 from palette.image import PaletteImage
@@ -59,7 +59,7 @@ class PaletteOpenDialog(PreviewFileDialog):
 
 def open_palette_dialog(parent=None, caption=None):
     dialog = PaletteOpenDialog(parent=parent, caption=caption, filter=get_all_filters())
-    dialog.setAcceptMode(QtGui.QFileDialog.AcceptOpen)
+    dialog.setAcceptMode(QtWidgets.QFileDialog.AcceptOpen)
     if dialog.exec_():
         filename = unicode( dialog.selectedFiles()[0] )
         return load_palette(filename, options = dialog.options)
@@ -67,7 +67,7 @@ def open_palette_dialog(parent=None, caption=None):
         return None
 
 def save_palette_filename(parent=None, caption=None):
-    filename, filter = QtGui.QFileDialog.getSaveFileNameAndFilter(parent, caption=caption, filter=get_all_filters(save=True))
+    filename, filter = QtWidgets.QFileDialog.getSaveFileNameAndFilter(parent, caption=caption, filter=get_all_filters(save=True))
     return unicode(filename), get_storage_name_by_filter(unicode(filter))
 
 def load_palette(filename, mixer=None, options=None):

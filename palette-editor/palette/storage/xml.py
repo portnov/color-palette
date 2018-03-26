@@ -1,6 +1,6 @@
 
 from os.path import join, basename
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtWidgets
 from lxml import etree as ET
 
 from color.colors import *
@@ -27,10 +27,10 @@ class XmlPalette(Storage):
                 dialog.on_current_changed(filename)
             return handler
 
-        widget = QtGui.QWidget()
-        box = QtGui.QHBoxLayout()
-        label = QtGui.QLabel(_("Group: "))
-        selector = QtGui.QComboBox()
+        widget = QtWidgets.QWidget()
+        box = QtWidgets.QHBoxLayout()
+        label = QtWidgets.QLabel(_("Group: "))
+        selector = QtWidgets.QComboBox()
 
         xml = ET.parse(filename)
         for xmlgrp in xml.xpath("//group"):

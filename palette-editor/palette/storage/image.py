@@ -1,7 +1,7 @@
 
 from os.path import join, basename, splitext
 from math import sqrt, floor
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtWidgets
 
 from color.colors import *
 from color import spaces
@@ -73,31 +73,31 @@ class Image(Storage):
             dependencies()
             dialog.on_current_changed(filename)
 
-        group_box = QtGui.QGroupBox(_("Loading method"))
-        dialog._more_button = more = QtGui.QRadioButton(_("Use 49 most used colors"))
-        dialog._less_button = less = QtGui.QRadioButton(_("Use 9 most used colors and mix them"))
-        dialog._less_farest = less_farest = QtGui.QRadioButton(_("Use 9 most different colors and mix them"))
-        dialog._table = table = QtGui.QRadioButton(_("Load table of colors"))
+        group_box = QtWidgets.QGroupBox(_("Loading method"))
+        dialog._more_button = more = QtWidgets.QRadioButton(_("Use 49 most used colors"))
+        dialog._less_button = less = QtWidgets.QRadioButton(_("Use 9 most used colors and mix them"))
+        dialog._less_farest = less_farest = QtWidgets.QRadioButton(_("Use 9 most different colors and mix them"))
+        dialog._table = table = QtWidgets.QRadioButton(_("Load table of colors"))
 
-        table_w = QtGui.QWidget(dialog)
-        table_form = QtGui.QFormLayout(table_w)
-        dialog._border_x = QtGui.QSpinBox(table_w)
+        table_w = QtWidgets.QWidget(dialog)
+        table_form = QtWidgets.QFormLayout(table_w)
+        dialog._border_x = QtWidgets.QSpinBox(table_w)
         dialog._border_x.valueChanged.connect(on_method_changed)
         table_form.addRow(_("Border from right/left side, px"), dialog._border_x)
-        dialog._border_y = QtGui.QSpinBox(table_w)
+        dialog._border_y = QtWidgets.QSpinBox(table_w)
         dialog._border_y.valueChanged.connect(on_method_changed)
         table_form.addRow(_("Border from top/bottom side, px"), dialog._border_y)
-        dialog._gap_x = QtGui.QSpinBox(table_w)
+        dialog._gap_x = QtWidgets.QSpinBox(table_w)
         dialog._gap_x.valueChanged.connect(on_method_changed)
         table_form.addRow(_("Width of gap between cells, px"), dialog._gap_x)
-        dialog._gap_y = QtGui.QSpinBox(table_w)
+        dialog._gap_y = QtWidgets.QSpinBox(table_w)
         dialog._gap_y.valueChanged.connect(on_method_changed)
         table_form.addRow(_("Height of gap between cells, px"), dialog._gap_y)
-        dialog._size_x = QtGui.QSpinBox(table_w)
+        dialog._size_x = QtWidgets.QSpinBox(table_w)
         dialog._size_x.setValue(5)
         dialog._size_x.valueChanged.connect(on_method_changed)
         table_form.addRow(_("Number of columns in the table"), dialog._size_x)
-        dialog._size_y = QtGui.QSpinBox(table_w)
+        dialog._size_y = QtWidgets.QSpinBox(table_w)
         dialog._size_y.setValue(5)
         dialog._size_y.valueChanged.connect(on_method_changed)
         table_form.addRow(_("Number of rows in the table"), dialog._size_y)
@@ -119,7 +119,7 @@ class Image(Storage):
         else:
             less_farest.setChecked(True)
 
-        vbox = QtGui.QVBoxLayout()
+        vbox = QtWidgets.QVBoxLayout()
         vbox.addWidget(more)
         vbox.addWidget(less)
         vbox.addWidget(less_farest)

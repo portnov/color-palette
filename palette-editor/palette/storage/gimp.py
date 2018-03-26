@@ -1,6 +1,6 @@
 
 from os.path import join, basename
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtWidgets
 import re
 
 from color.colors import *
@@ -61,10 +61,10 @@ class GimpPalette(Storage):
                 break
         pf.close()
 
-        widget = QtGui.QWidget()
-        box = QtGui.QHBoxLayout()
-        label = QtGui.QLabel(_("Columns: "))
-        spinbox = QtGui.QSpinBox()
+        widget = QtWidgets.QWidget()
+        box = QtWidgets.QHBoxLayout()
+        label = QtWidgets.QLabel(_("Columns: "))
+        spinbox = QtWidgets.QSpinBox()
         spinbox.setMinimum(2)
         spinbox.setMaximum(100)
         if ncols is None:
