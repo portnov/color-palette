@@ -95,8 +95,8 @@ class Options(object):
             self.picker_area = value
         self.picker_average = settings.value("picker/average") == "1"
 
-        self.show_hue_steps = settings.value("selector/show_hue_steps").toBool()
-        value, ok = settings.value("selector/hue_steps").toInt()
-        if ok:
-            self.hue_steps = value
+        self.show_hue_steps = settings.value("selector/show_hue_steps")
+        value = settings.value("selector/hue_steps")
+        if value and value.isdigit():
+            self.hue_steps = int(value)
 

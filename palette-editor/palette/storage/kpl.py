@@ -1,6 +1,6 @@
 
 from os.path import join, basename
-from PyQt4 import QtGui
+from PyQt5 import QtGui, QtWidgets
 from lxml import etree as ET
 from zipfile import ZipFile, ZIP_DEFLATED
 
@@ -54,10 +54,10 @@ class KplPalette(Storage):
                 dialog.on_current_changed(filename)
             return handler
 
-        widget = QtGui.QWidget()
-        box = QtGui.QHBoxLayout()
-        label = QtGui.QLabel(_("Group: "))
-        selector = QtGui.QComboBox()
+        widget = QtWidgets.QWidget()
+        box = QtWidgets.QHBoxLayout()
+        label = QtWidgets.QLabel(_("Group: "))
+        selector = QtWidgets.QComboBox()
 
         for group_name in KplPalette.get_group_names(filename):
             selector.addItem(group_name)

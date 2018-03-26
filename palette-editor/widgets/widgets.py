@@ -680,7 +680,7 @@ class Selector(QtWidgets.QLabel):
 
     manual_edit_implemented = False
 
-    def __init__(self, mixer, *args):
+    def __init__(self, mixer, hue_steps=None, *args):
         QtWidgets.QLabel.__init__(self, *args)
         self.mixer = mixer
         self.hue_steps = hue_steps
