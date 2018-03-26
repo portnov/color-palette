@@ -17,9 +17,7 @@ class SelectButton(QtWidgets.QComboBox):
 
     def get_button(self):
         idx = self.currentIndex()
-        button_id, ok = self.itemData(idx).toInt()
-        if not ok:
-            button_id = DISABLED
+        button_id = self.itemData(idx)
         if button_id == DISABLED:
             return None
         else:
