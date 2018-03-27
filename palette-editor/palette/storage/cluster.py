@@ -112,6 +112,8 @@ if pil_available:
 
     def bin_divide_colors(filename, N=1<<16, n_clusters=49):
         img = Image.open(filename)
+        if img.mode == 'P':
+            img = img.convert('RGB')
         w,h = img.size
         n_pixels = w*h
         if n_pixels > N:
