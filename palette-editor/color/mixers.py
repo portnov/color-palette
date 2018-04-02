@@ -215,7 +215,7 @@ class MixerCMY(Mixer):
         result.setCMY((c, m, y))
         return result
 
-if use_lcms:
+if cie_colorspaces_available:
     class MixerLab(Mixer):
         @classmethod
         def mix(cls, clr1, clr2, q):
@@ -252,6 +252,7 @@ if use_lcms:
         def mix(cls, clr1, clr2, q):
             l1, c1, h1 = clr1.getLCh()
             l2, c2, h2 = clr2.getLCh()
+            #print(l1,c1,h1)
             l = linear(l1, l2, q)
             c = linear(c1, c2, q)
             h = circular(h1, h2, q, 360)

@@ -7,14 +7,25 @@ from PyQt4 import QtGui, QtCore
 import colorsys
 
 try:
-    import lcms
-    use_lcms = True
-    print("LCMS is available")
-except ImportError:
-    print("LCMS is not available")
-    lcms = None
+    from colormath.color_objects import LCHabColor, LabColor, sRGBColor
+    from colormath.color_conversions import convert_color
+    cie_colorspaces_available = True
+    use_colormath = True
     use_lcms = False
-
+    print("Colormath is available")
+except ImportError:
+    try:
+        import lcms
+        cie_colorspaces_available = True
+        use_lcms = True
+        use_colormath = False
+        print("LCMS is available")
+    except ImportError:
+        print("Neither Colormath nor LCMS are available")
+        lcms = None
+        cie_colorspaces_available = False
+        use_lcms = False
+        use_colormath = False
 
 if use_lcms:
     xyz_profile = lcms.cmsCreateXYZProfile()
@@ -87,6 +98,28 @@ if use_lcms:
         lch = lcms.cmsCIELCh(0, 0, 0)
         lcms.cmsLab2LCh(lch, lab)
         return lch.L, lch.C, lch.h
+
+elif use_colormath:
+
+    def lab_to_rgb(l,a,b):
+        lab = LabColor(l, a, b)
+        rgb = convert_color(lab, sRGBColor)
+        return rgb.clamped_rgb_r, rgb.clamped_rgb_g, rgb.clamped_rgb_b
+    
+    def rgb_to_lab(r,g,b):
+        rgb = sRGBColor(r/255.0, g/255.0 ,b/255.0)
+        lab = convert_color(rgb, LabColor)
+        return lab.lab_l, lab.lab_a, lab.lab_b
+
+    def lch_to_rgb(l, c, h):
+        lch = LCHabColor(l, c, h)
+        rgb = convert_color(lch, sRGBColor)
+        return rgb.clamped_rgb_r, rgb.clamped_rgb_g, rgb.clamped_rgb_b
+    
+    def rgb_to_lch(r,g,b):
+        rgb = sRGBColor(r/255.0, g/255.0, b/255.0)
+        lch = convert_color(rgb, LCHabColor)
+        return lch.lch_l, lch.lch_c, lch.lch_h
 
 from models.meta import Meta
     

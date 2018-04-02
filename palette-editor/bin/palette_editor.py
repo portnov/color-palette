@@ -141,11 +141,11 @@ class GUI(QtGui.QMainWindow):
                         (_("CMYK"), mixers.MixerCMYK), 
                         (_("CMY"), mixers.MixerCMY), 
                         (_("HSI (experimental)"), mixers.MixerHSI) ] + ([(_("LCh"), mixers.MixerLCh), 
-                          (_("Lab"), mixers.MixerLab) ] if colors.use_lcms else [])
+                          (_("Lab"), mixers.MixerLab) ] if colors.cie_colorspaces_available else [])
     
     available_selector_mixers = [(_("HLS"), mixers.MixerHLS),
                                  (_("HCY"), mixers.MixerHCY),
-                                 (_("RYB"), mixers.MixerRYB) ] + ([(_("LCh"), mixers.MixerLCh)] if colors.use_lcms else [])
+                                 (_("RYB"), mixers.MixerRYB) ] + ([(_("LCh"), mixers.MixerLCh)] if colors.cie_colorspaces_available else [])
 
     harmonies_LCh = [(_("Opposite colors LCh"), harmonies.Opposite(LCh)),
                      (_("Split complimentary LCh"),  harmonies.SplitComplimentary(LCh)),
@@ -179,7 +179,7 @@ class GUI(QtGui.QMainWindow):
                            (_("Three colors RYB"), harmonies.NHues(RYB, 3)),
                            (_("Four colors RYB"), harmonies.NHues(RYB, 4)),
                            (_("Rectangle RYB"),   harmonies.Rectangle(RYB)),
-                           (_("Five colors RYB"),   harmonies.FiveColors(RYB)) ] + (harmonies_LCh if colors.use_lcms else [])
+                           (_("Five colors RYB"),   harmonies.FiveColors(RYB)) ] + (harmonies_LCh if colors.cie_colorspaces_available else [])
     
     available_shaders = [(_("Saturation"), harmonies.Saturation),
                          (_("Value"),      harmonies.Value),
@@ -550,7 +550,7 @@ class GUI(QtGui.QMainWindow):
                            (_("HLS"), HLS),
                            (_("RGB"), RGB),
                            (_("RYB"), RYB)]
-        if use_lcms:
+        if colors.cie_colorspaces_available:
             matching_spaces.append((_("LCh"), LCh))
             matching_spaces.append((_("Lab"), Lab))
 
@@ -719,7 +719,7 @@ class GUI(QtGui.QMainWindow):
 
         self.tabs.addTab(hcy_widget, _("HCY Wheel"))
 
-        if use_lcms:
+        if colors.cie_colorspaces_available:
             self.lab_selector = LabSelector()
             self.lab_selector.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.MinimumExpanding)
             self.lab_selector.setHarmony(harmonies.Opposite(HSV))
@@ -1050,7 +1050,7 @@ class GUI(QtGui.QMainWindow):
 
     def _get_selectors(self):
         selectors = [self.selector, self.hcy_selector]
-        if use_lcms:
+        if colors.cie_colorspaces_available:
             selectors.append(self.lab_selector)
         return selectors
 
