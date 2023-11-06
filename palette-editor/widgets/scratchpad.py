@@ -229,7 +229,7 @@ class Scratchpad(QtWidgets.QWidget):
         w, h = self.size().width(),  self.size().height()
         if not self.colors:
             qp.setPen(self.border_color)
-            qp.drawRect(0, 0,  w,  h)
+            qp.drawRect(QtCore.QRectF(0, 0,  w,  h))
             qp.end()
             return
         ws = self._calc(w)
@@ -240,7 +240,7 @@ class Scratchpad(QtWidgets.QWidget):
             clr,c = p
             qp.setBrush(clr)
             qp.setPen(clr)
-            qp.drawRect(x0,y0,w,h)
+            qp.drawRect(QtCore.QRectF(x0,y0,w,h))
             if i == self._drop_indicate_idx:
                 qp.setPen(Color(0,255,0))
                 qp.drawLine(x0,y0,x0,h)

@@ -1129,7 +1129,7 @@ class GUI(QtWidgets.QMainWindow):
         colors = copy( self._get_selector().get_harmonized() )
         if colors is None:
             return None
-        for i in self.base_colors.iterkeys():
+        for i in self.base_colors:
             n = len(colors)
             if i > n-1:
                 for t in range(i-n+1):

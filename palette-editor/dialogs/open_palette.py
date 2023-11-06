@@ -39,7 +39,7 @@ class PaletteOpenDialog(PreviewFileDialog):
         self.layout().addWidget(widget, 4,0, 1,3)
      
     def show_options(self, qstr):
-        filename = unicode(qstr)
+        filename = str(qstr)
         self.options = None
         widget = self.get_options_widget(filename)
         self._show_options(widget)
@@ -61,14 +61,14 @@ def open_palette_dialog(parent=None, caption=None):
     dialog = PaletteOpenDialog(parent=parent, caption=caption, filter=get_all_filters())
     dialog.setAcceptMode(QtWidgets.QFileDialog.AcceptOpen)
     if dialog.exec_():
-        filename = unicode( dialog.selectedFiles()[0] )
+        filename = str( dialog.selectedFiles()[0] )
         return load_palette(filename, options = dialog.options)
     else:
         return None
 
 def save_palette_filename(parent=None, caption=None):
     filename, filter = QtWidgets.QFileDialog.getSaveFileName(parent, caption=caption, filter=get_all_filters(save=True))
-    return unicode(filename), get_storage_name_by_filter(unicode(filter))
+    return str(filename), get_storage_name_by_filter(str(filter))
 
 def load_palette(filename, mixer=None, options=None):
     if mixer is None:
