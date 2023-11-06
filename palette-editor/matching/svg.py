@@ -87,10 +87,10 @@ def read_template(filename):
     svg = etree.tostring(xml, encoding='utf-8', xml_declaration=True, pretty_print=True)
     #open("last_template.svg",'w').write(svg)
     color_dict = collector.result()
-    colors_inv = dict((v,k) for k, v in color_dict.iteritems())
+    colors_inv = dict((v,k) for k, v in color_dict.items())
     svg_colors = []
     for key in range(len(colors_inv.keys())):
         clr = colors_inv[key]
         svg_colors.append( colors.fromHex(clr) )
-    return svg_colors, svg
+    return svg_colors, svg.decode('utf-8')
 

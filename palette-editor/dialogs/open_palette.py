@@ -6,7 +6,7 @@ from PyQt5 import QtGui, QtCore, QtWidgets
 from color import mixers
 from palette.image import PaletteImage
 from palette.storage.all import *
-from filedialog import *
+from .filedialog import *
 
 class PaletteOpenDialog(PreviewFileDialog):
     def __init__(self, *args, **kwargs):

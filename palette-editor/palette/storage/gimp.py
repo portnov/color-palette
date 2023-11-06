@@ -12,7 +12,7 @@ marker = '# Colors not marked with #USER are auto-generated'
 metare = re.compile("^# (\\w+): (.+)")
 
 def save_gpl(name, ncols, clrs, file_w):
-    if type(file_w) in [str,unicode]:
+    if type(file_w) == str:
         pf = open(file_w, 'w')
         do_close = True
     elif hasattr(file_w,'write'):
@@ -77,28 +77,28 @@ class GimpPalette(Storage):
         return widget
 
     def save(self, file_w=None):
-        if type(file_w) in [str,unicode]:
-            pf = open(file_w, 'w')
+        if type(file_w) == str:
+            pf = open(file_w, 'wb')
             do_close = True
         elif hasattr(file_w,'write'):
             pf = file_w
             do_close = False
         else:
             raise ValueError("Invalid argument type in GimpPalette.save: {}".format(type(file_w)))
-        pf.write('GIMP Palette\n')
+        pf.write(b'GIMP Palette\n')
         if not hasattr(self.palette, 'name'):
-            if type(file_w) in [str, unicode]:
+            if type(file_w) == str:
                 self.palette.name = basename(file_w)
             else:
                 self.palette.name='Colors'
         pf.write(u"Name: {}\n".format(self.palette.name).encode('utf-8'))
         if hasattr(self.palette, 'ncols') and self.palette.ncols:
-            pf.write('Columns: %s\n' % self.palette.ncols)
-        pf.write(marker+'\n')
+            pf.write(('Columns: %s\n' % self.palette.ncols).encode('utf-8'))
+        pf.write((marker+'\n').encode('utf-8'))
         for key,value in self.palette.meta.items():
             if key != "Name":
                 pf.write(u"# {}: {}\n".format(key, value).encode('utf-8'))
-        pf.write('#\n')
+        pf.write(b'#\n')
         for row in self.palette.slots:
             for slot in row:
                 if slot.mode == USER_DEFINED:
@@ -107,7 +107,7 @@ class GimpPalette(Storage):
                     n = slot.name
                 r, g, b = slot.color.getRGB()
                 s = '%d %d %d %s\n' % (r, g, b, n)
-                pf.write(s)
+                pf.write(s.encode('utf-8'))
                 for key,value in slot.color.meta.items():
                     if key != "Name":
                         pf.write(u"# {}: {}\n".format(key, value).encode('utf-8'))
@@ -125,13 +125,13 @@ class GimpPalette(Storage):
             pf = file_r
             self.palette.filename = None
             do_close = False
-        elif type(file_r) in [str,unicode]:
+        elif type(file_r) == str:
             pf = open(file_r)
             self.palette.filename = file_r
             do_close = True
         l = pf.readline().strip()
         if l != 'GIMP Palette':
-            raise SyntaxError, "Invalid palette file!"
+            raise SyntaxError("Invalid palette file!")
         self.palette.name = " ".join(pf.readline().strip().split()[1:])
         all_user = True
         n_colors = 0

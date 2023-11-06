@@ -2,7 +2,7 @@
 from copy import copy
 from PyQt5 import QtGui, QtCore, QtWidgets
 
-from palette import *
+from .palette import *
 from color.colors import *
 
 class MarkCommand(QtWidgets.QUndoCommand):

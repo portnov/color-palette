@@ -3,7 +3,7 @@ from math import cos, sin, pi, sqrt, atan2
 from PyQt5 import QtGui, QtCore, QtWidgets
 
 from color.colors import *
-from widgets import *
+from .widgets import *
 
 class Square(CacheImage):
     def __init__(self, mixer=None, w=0, h=0):

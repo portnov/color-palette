@@ -10,10 +10,10 @@ from color.colors import *
 try: 
     from colourlovers import ColourLovers
     colorlovers_available = True
-    print "Colorlovers.com API is available"
+    print("Colorlovers.com API is available")
 except ImportError:
     colorlovers_available = False
-    print "Colorlovers.com API is not available"
+    print("Colorlovers.com API is not available")
 
 table_headers = (_("ID"), _("Title"), _("Author"))
 
@@ -61,7 +61,7 @@ class PalettesTable(QtWidgets.QTableWidget):
     def _on_select_cell(self, row, col, prevrow, prevcol):
         if self._palettes:
             palette = self._palettes[row]
-            print palette
+            print(palette)
             self.selected.emit(row)
 
 class DownloadDialog(QtWidgets.QDialog):
@@ -170,7 +170,7 @@ class DownloadDialog(QtWidgets.QDialog):
             opts['keywords'] = keywords
         if hue:
             opts['hueOption'] = str(hue.toString())
-        print opts
+        print(opts)
         palettes = cl.palettes(query_type, **opts)
         self.table.set_palettes(palettes)
 

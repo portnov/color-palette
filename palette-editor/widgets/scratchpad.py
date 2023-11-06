@@ -3,8 +3,8 @@ from math import cos, sin, pi, sqrt, atan2
 from PyQt5 import QtGui, QtCore, QtWidgets
 
 from color.colors import *
-from widgets import create_qdrag_color
-from commands.scratchpad import *
+from .widgets import create_qdrag_color
+from .commands.scratchpad import *
 from models.models import Clipboard
 
 class Scratchpad(QtWidgets.QWidget):

@@ -19,7 +19,7 @@ class SwatchesCommand(QtWidgets.QUndoCommand):
                 w.update()
 
     def undo(self):
-        print "swatches.undo"
+        print("swatches.undo")
         self.restore_swatches()
 
 class ClearSwatches(SwatchesCommand):
@@ -46,7 +46,7 @@ class DoHarmony(SwatchesCommand):
         self.owner.update()
 
     def undo(self):
-        print "do harmony undo"
+        print("do harmony undo")
         self.restore_swatches()
         self.owner.update()
 
@@ -64,7 +64,7 @@ class UpdateShades(SwatchesCommand):
         if not isinstance(other, UpdateShades):
             return False
         self.param = other.param
-        #print "Merging: {} -> {}".format(self.prev_param, self.param)
+        #print("Merging: {} -> {}".format(self.prev_param, self.param))
         return True
 
     def redo(self):
@@ -95,11 +95,11 @@ class UpdateHarmony(SwatchesCommand):
         if not isinstance(other, UpdateHarmony):
             return False
         self.param = other.param
-        #print "Merging: {} -> {}".format(self.prev_param, self.param)
+        #print("Merging: {} -> {}".format(self.prev_param, self.param))
         return True
 
     def redo(self):
-        #print "UpdateHarmony"
+        #print("UpdateHarmony")
         self.remember_swatches()
         p = float(self.param)/100.0
         for selector in self.selectors:
@@ -214,7 +214,7 @@ class SelectColor(SwatchesCommand):
         return self._id
 
     def redo(self):
-        print "swatches select color redo"
+        print("swatches select color redo")
         history = self.owner.model.get_color_history()
         self.old_history_colors = history.getColors()
         history.push_new(self.color)
@@ -230,8 +230,7 @@ class SelectColor(SwatchesCommand):
         self.owner._auto_harmony()
 
     def undo(self):
-        #print "Restoring color:", self.prev_color
-        print "swatches select color undo"
+        print("swatches select color undo")
         self.owner.base_colors = self.old_base_colors
         self.owner.current_color.model.color = self.prev_color
         self.owner.current_color.update()
@@ -252,7 +251,7 @@ class SelectColor(SwatchesCommand):
             return False
         self.old_history_colors = other.old_history_colors
         self.color = other.color
-        print "swatches select color merged"
+        print("swatches select color merged")
         return True
 
 class SetHarmony(SwatchesCommand):

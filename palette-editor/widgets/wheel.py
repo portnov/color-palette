@@ -3,7 +3,7 @@ from math import cos, sin, pi, sqrt, atan2
 from PyQt5 import QtGui, QtCore, QtWidgets
 
 from color.colors import *
-from widgets import *
+from .widgets import *
 
 class Wheel(CacheImage):
     def __init__(self, mixer=None, w=0, h=0):
@@ -38,7 +38,7 @@ class Wheel(CacheImage):
         color = hcy(0,0,self.luma)
         qp.setBrush(color)
         qp.setPen(color)
-        qp.drawEllipse(x0-step_r, y0-step_r, step_r*2 + 1, step_r*2 + 1)
+        qp.drawEllipse(QtCore.QRectF(x0-step_r, y0-step_r, step_r*2 + 1, step_r*2 + 1))
 
         for i, ring in enumerate(self.colors[1:]):
             if i == 0:
@@ -98,7 +98,7 @@ class Slider(CacheImage):
             y = i * rh
             qp.setBrush(color)
             qp.setPen(color)
-            qp.drawRect(x,y, rw, rh)
+            qp.drawRect(QtCore.QRectF(x,y, rw, rh))
         qp.end()
 
 class WheelWidget(QtWidgets.QWidget):
@@ -222,7 +222,7 @@ class WheelWidget(QtWidgets.QWidget):
             x,y = self._selected
             qp.setBrush(QtGui.QColor(255,255,255, 127))
             qp.setPen(Color(0,0,0))
-            qp.drawEllipse(x-4, y-4, 8, 8)
+            qp.drawEllipse(QtCore.QRectF(x-4, y-4, 8, 8))
 
         if self._harmonized is not None:
             for idx, pair in enumerate(self._harmonized):
@@ -233,7 +233,7 @@ class WheelWidget(QtWidgets.QWidget):
                 else:
                     qp.setBrush(QtGui.QColor(0,0,0,0))
                 qp.setPen(Color(0,0,0))
-                qp.drawRect(x-3, y-3, 6, 6)
+                qp.drawRect(QtCore.QRectF(x-3, y-3, 6, 6))
 
         qp.end()
 
@@ -345,7 +345,7 @@ class SliderWidget(QtWidgets.QWidget):
             y0 = (1.0 - self.luma) * h
             qp.setPen(Color(0,0,0))
             w = min(w, 35)
-            qp.drawRect(0,y0-2, w, 4)
+            qp.drawRect(QtCore.QRectF(0,y0-2, w, 4))
         qp.end()
 
     def _select(self, y):

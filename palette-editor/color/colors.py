@@ -308,13 +308,13 @@ class Color(QtGui.QColor):
         if len(args) == 3:
             r, g, b = args
             #print(r, g, b)
-            QtGui.QColor.__init__(self, r, g, b)
-            self._rgb = (r, g, b)
+            QtGui.QColor.__init__(self, int(r), int(g), int(b))
+            self._rgb = (int(r), int(g), int(b))
         elif len(args) == 1:
             qcolor = args[0]
             QtGui.QColor.__init__(self, qcolor)
             r, g, b, a = qcolor.getRgb()
-            self._rgb = (r,g,b)
+            self._rgb = (int(r),int(g),int(b))
         else:
             QtGui.QColor.__init__(self, *args)
             self._rgb = None
@@ -356,7 +356,7 @@ class Color(QtGui.QColor):
     def setRGB(self, rgb):
         r, g, b = rgb
         #print(r, g, b)
-        self.setRgb(r, g, b)
+        self.setRgb(int(r), int(g), int(b))
         self._rgb = rgb
     
     def getHSV(self):
@@ -532,7 +532,7 @@ def lab(l,a,b):
     return color
 
 def fromHex(s):
-    if type(s) not in [str, unicode]:
+    if type(s) != str:
         raise ValueError("colors.fromHex called on non-string: " + repr(s))
     t = s[1:]
     if len(t) == 3:

@@ -3,16 +3,16 @@
 from fnmatch import fnmatch
 from os.path import exists
 
-from gimp import GimpPalette
-from xml import XmlPalette
-from kpl import KplPalette
-from paletton import Paletton
-from css import *
-from svg import SVG
-from image import Image
-from scribus import Scribus
-from ase import AsePalette
-from aco import AcoPalette
+from .gimp import GimpPalette
+from .xml import XmlPalette
+from .kpl import KplPalette
+from .paletton import Paletton
+from .css import *
+from .svg import SVG
+from .image import Image
+from .scribus import Scribus
+from .ase import AsePalette
+from .aco import AcoPalette
 
 storages = [GimpPalette, XmlPalette, KplPalette, Paletton, CSS, SVG, Image, Scribus, AsePalette, AcoPalette]
 

@@ -5,14 +5,14 @@ from color.colors import *
 from widgets.widgets import *
 from dialogs.meta import edit_meta
 from palette import *
-from image import PaletteImage
-from commands import *
+from .image import PaletteImage
+from .commands import *
 from models.models import Clipboard
 
 class PaletteWidget(QtWidgets.QLabel):
     clicked = QtCore.pyqtSignal(int,int) # (x,y)
     selected = QtCore.pyqtSignal(int,int) # (row, column)
-    file_dropped = QtCore.pyqtSignal(unicode)
+    file_dropped = QtCore.pyqtSignal(str)
 
     def __init__(self, parent, palette, options, padding=2.0, background=None, undoStack=None, indicate_modes=False, *args):
         QtWidgets.QLabel.__init__(self, parent, *args)
@@ -75,7 +75,7 @@ class PaletteWidget(QtWidgets.QLabel):
 
     def dropEvent(self, event):
         if event.mimeData().hasColor():
-            qcolor = QtWidgets.QColor(event.mimeData().colorData())
+            qcolor = QtGui.QColor(event.mimeData().colorData())
             r,g,b,_ = qcolor.getRgb()
             color = Color(r,g,b)
             event.acceptProposedAction()
@@ -155,7 +155,7 @@ class PaletteWidget(QtWidgets.QLabel):
         x0,y0 = center.x(), center.y()
         x,y = x0-7, y0-2
         w,h = 14, 4
-        qp.drawRect(x,y, w, h)
+        qp.drawRect(QtCore.QRectF(x,y, w, h))
 
     def _draw_insert_button(self, qp, rect):
         qp.setPen(self.buttons_color)
@@ -166,10 +166,10 @@ class PaletteWidget(QtWidgets.QLabel):
         x0,y0 = center.x(), center.y()
         x,y = x0-7, y0-2
         w,h = 14, 4
-        qp.drawRect(x,y, w, h)
+        qp.drawRect(QtCore.QRectF(x,y, w, h))
         x,y = x0-2, y0-7
         w,h = 4, 14
-        qp.drawRect(x,y, w, h)
+        qp.drawRect(QtCore.QRectF(x,y, w, h))
 
     def _get_col_rect(self, coln):
         image_w, image_h = self._get_image_size()
@@ -199,7 +199,7 @@ class PaletteWidget(QtWidgets.QLabel):
     def _draw_insert_line(self, qp, line):
         x1,y1,x2,y2 = line
         qp.setPen(QtGui.QPen(QtGui.QBrush(Color(0,255,0)), 3.0))
-        qp.drawLine(x1,y1,x2,y2)
+        qp.drawLine(QtCore.QPointF(x1,y1), QtCore.QPointF(x2,y2))
 
     def _get_delete_col_button_at_xy(self, x, y):
         r = self._get_button_radius()
@@ -292,14 +292,15 @@ class PaletteWidget(QtWidgets.QLabel):
             y = row * rh
             x = col * rw
             qp.setPen(QtGui.QPen(QtGui.QBrush(slot.color.getVisibleColor()), 2.0))
-            qp.drawRect(x,y,rw,rh)
+            qp.drawRect(QtCore.QRectF(x,y,rw,rh))
 
         for row, col, slot in self.palette.getUserDefinedSlots():
             y = row * rh
             x = col * rw
             qp.setPen(slot.color.invert())
             qp.setBrush(slot.color.invert())
-            qp.drawEllipse(x,y,8,8)
+            rect = QtCore.QRectF(x,y,8,8)
+            qp.drawEllipse(rect)
 
         qp.end()
 
@@ -444,7 +445,7 @@ class PaletteWidget(QtWidgets.QLabel):
         def _edit_metainfo():
             color = self._get_color_at(*pos)
             meta = edit_meta(color, self)
-            print meta
+            print(meta)
 
         menu = QtWidgets.QMenu(self)
         if editing_enabled:

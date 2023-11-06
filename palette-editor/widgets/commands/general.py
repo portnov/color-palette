@@ -18,7 +18,7 @@ class SetMixer(QtWidgets.QUndoCommand):
         self.owner.setMixer(mixer, self.mixer_idx)
 
     def undo(self):
-        print "setMixer.undo"
+        print("setMixer.undo")
         _,  mixer = self.pairs[self.old_mixer_idx]
         self.owner.setMixer(mixer, self.old_mixer_idx)
 
@@ -36,7 +36,7 @@ class ChangeColor(QtWidgets.QUndoCommand):
         self.model.widget.repaint()
 
     def undo(self):
-        print "change color.undo"
+        print("change color.undo")
         self.model.setColor(self.old_color)
         self.model.widget.repaint()
 
@@ -52,13 +52,13 @@ class SetColor(QtWidgets.QUndoCommand):
         self.model.color = self.color
         self.model.widget.repaint()
         self.old_history_colors = self.model.get_color_history().getColors()
-        print "Push color to history: {}".format(self.color)
+        print("Push color to history: {}".format(self.color))
         self.model.get_color_history().push_new(self.color)
     
     def undo(self):
-        print "undo"
+        print("undo")
         self.model.color = self.old_color
-        print "Restore color: {}".format(self.old_color)
+        print("Restore color: {}".format(self.old_color))
         self.model.widget.repaint()
         self.model.get_color_history().setColors(self.old_history_colors)
 
@@ -74,7 +74,7 @@ class Clear(QtWidgets.QUndoCommand):
         self.model.widget.repaint()
 
     def undo(self):
-        print "clear.undo"
+        print("clear.undo")
         self.model.color = self.old_color
         self.model.widget.repaint()
 

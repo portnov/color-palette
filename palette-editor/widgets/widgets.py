@@ -229,14 +229,14 @@ class ColorWidget(QtWidgets.QLabel):
                 qp.drawText(event.rect(), QtCore.Qt.AlignCenter, _("<unset>"))
             if self.border_color is not None:
                 qp.setPen(self.border_color)
-                qp.drawRect(0, 0,  w,  h)
+                qp.drawRect(QtCore.QRectF(0, 0,  w,  h))
             return
         
         if self.border_color is not None:
             qp.setPen(self.border_color)
         clr = self.getColor()
         qp.setBrush(clr)
-        qp.drawRect(0, 0,  w,  h)
+        qp.drawRect(QtCore.QRectF(0, 0,  w,  h))
         if (w >= 150) and (h >= 50):
             qp.setPen(clr.invert())
             qp.drawText(event.rect(), QtCore.Qt.AlignCenter, clr.verbose())
@@ -560,7 +560,7 @@ class Spectrum(CacheImage):
             y = 0
             qp.setBrush(col)
             qp.setPen(col)
-            qp.drawRect(x, y, rectw, h)
+            qp.drawRect(QtCore.QRectF(x, y, rectw, h))
         qp.end()
 
 class Gradient(CacheImage):
@@ -589,6 +589,8 @@ class Gradient(CacheImage):
         #print("Draw: " + str((w, h)))
         if w is None or h is None:
              return
+        w = int(w)
+        h = int(h)
         self.image = QtGui.QImage(w, h,  QtGui.QImage.Format_ARGB32_Premultiplied)
         self.image.fill(0)
         self.image_w = w
@@ -603,7 +605,7 @@ class Gradient(CacheImage):
                 y = i * recth
                 qp.setBrush(col)
                 qp.setPen(col)
-                qp.drawRect(x, y, rectw, recth)
+                qp.drawRect(QtCore.QRectF(x, y, rectw, recth))
         qp.end()
 
 class HueGradient(Gradient):
@@ -823,14 +825,14 @@ class Selector(QtWidgets.QLabel):
         qp.drawImage(0, 0, ring)
         if steps is not None:
             qp.drawImage(0, 0, steps)
-        qp.drawImage(dx, dy, square)
+        qp.drawImage(QtCore.QPointF(dx, dy), square)
 
         R = m/2.0
         r = self.ring_width_coef*R
         x1,y1 = self._polar(r, self.selected_hue)
         x2,y2 = self._polar(R, self.selected_hue)
         qp.setPen(colors.Color(0,0,0))
-        qp.drawLine(x1,y1, x2, y2)
+        qp.drawLine(QtCore.QPointF(x1,y1), QtCore.QPointF(x2, y2))
 
         if self.selected_sv is not None:
             s, v = self.selected_sv
@@ -840,7 +842,7 @@ class Selector(QtWidgets.QLabel):
             w = h = 6
             qp.setBrush(QtGui.QColor(255,255,255, 127))
             qp.setPen(colors.Color(0,0,0))
-            qp.drawEllipse(x,y,w,h)
+            qp.drawEllipse(QtCore.QRectF(x,y,w,h))
 
         if self.harmony is not None and self.selected_color is not None:
             h_selected = self.mixer.getHue(self.selected_color)
@@ -853,13 +855,13 @@ class Selector(QtWidgets.QLabel):
                     x,y = x0-3, y0-3
                     w = h = 6
                     qp.setPen(colors.Color(0,0,0))
-                    qp.drawRect(x,y,w,h)
+                    qp.drawRect(QtCore.QRectF(x,y,w,h))
                 else:
                     x0,y0 = self._polar(r, h*2.0*pi)
                     x,y = x0-3, y0-3
                     w = h = 6
                     qp.setPen(colors.Color(0,0,0))
-                    qp.drawRect(x,y,w,h)
+                    qp.drawRect(QtCore.QRectF(x,y,w,h))
 
         qp.end()
 

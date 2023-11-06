@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import sys
 import os
@@ -45,7 +45,7 @@ if sys.platform.startswith('win'):
 # _ = translation.ugettext
 
 
-gettext.install("colors", localedir=locate_locales(), unicode=True)
+gettext.install("colors", localedir=locate_locales())
 
 from widgets.widgets import *
 from widgets.scratchpad import *
@@ -244,7 +244,7 @@ class GUI(QtWidgets.QMainWindow):
         #self._restore()
 
     def _get_settings_color(self, settings, name):
-        s = unicode(settings.value(name)) 
+        s = settings.value(name)
         if not s:
             return None
         return colors.fromHex(s)
@@ -274,8 +274,12 @@ class GUI(QtWidgets.QMainWindow):
             self._load_palette(palette)
 
         settings = self.settings
-        self.restoreGeometry(settings.value("geometry"))
-        self.restoreState(settings.value("windowState"))
+        geometry = settings.value("geometry")
+        if geometry is not None:
+            self.restoreGeometry(geometry)
+        windowState = settings.value("windowState")
+        if windowState is not None:
+            self.restoreState(windowState)
 
         selector_idx, ok = self._to_uint(settings.value("selector/tab"))
         if ok:
@@ -601,9 +605,7 @@ class GUI(QtWidgets.QMainWindow):
         self.svg.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         if template_path is None:
             template_path = self.settings.value("template/path")
-            if template_path:
-                template_path = unicode(template_path)
-            else:
+            if not template_path:
                 template_path = locate_template("template.svg")
         else:
             template_path = template_path[0]
@@ -883,21 +885,21 @@ class GUI(QtWidgets.QMainWindow):
 
     def on_edit_palette_meta(self):
         meta = edit_meta(self.palette.palette, self)
-        print meta
+        print(meta)
 
     def on_edit_color_meta(self):
         if self.palette.get_selected_slot() is not None:
             meta = edit_meta(self.palette.get_selected_slot().getColor(), self)
-            print meta
+            print(meta)
 
     def on_palette_file_dropped(self, path):
-        path = unicode(path)
+        path = path.decode('utf-8')
         palette = load_palette(path)
         if palette:
             self._load_palette(palette)
 
     def on_svg_file_dropped(self, path):
-        path = unicode(path)
+        path = path.decode('utf-8')
         if path.endswith(".svg"):
             self.svg.loadTemplate(path)
             self.template_path = path
@@ -1152,7 +1154,7 @@ class GUI(QtWidgets.QMainWindow):
                     self.model.swatches[j][i].color = clr
                     #self.swatches[i][j].setColor_(clr)
                 except IndexError:
-                    print i,j
+                    print(i,j)
         #self.hcy_selector.set_harmonized(colors)
 
     def on_shades_from_scratchpad(self):
@@ -1197,7 +1199,7 @@ class GUI(QtWidgets.QMainWindow):
         filename = QtWidgets.QFileDialog.getSaveFileName(self, _("Save SVG"), ".", "*.svg")
         if filename:
             content = self.svg.get_svg()
-            f = open(unicode(filename),'w')
+            f = open(filename.decode('utf-8'),'w')
             f.write(content)
             f.close()
 

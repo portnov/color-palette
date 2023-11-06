@@ -34,14 +34,14 @@ class PaletteImage(object):
         image.fill(self.background)
         slot_w = float(w)/float(self.palette.ncols)
         slot_h = float(h)/float(self.palette.nrows)
-        rw = slot_w - self.padding
-        rh = slot_h - self.padding
+        rw = int(slot_w - self.padding)
+        rh = int(slot_h - self.padding)
         qp = QtGui.QPainter()
         qp.begin(image)
         for i in range(self.palette.nrows):
             for j in range(self.palette.ncols):
-                x = slot_w * j + self.padding/2.0
-                y = slot_h * i + self.padding/2.0
+                x = int(slot_w * j + self.padding/2.0)
+                y = int(slot_h * i + self.padding/2.0)
                 color = self.palette.getColor(i,j)
                 qp.setPen(self.background)
                 qp.setBrush(color)

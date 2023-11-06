@@ -4,12 +4,12 @@ from PyQt5 import QtGui, QtSvg, QtCore
 
 from color.colors import *
 from color.spaces import *
-import svg, transform, matching
+from . import svg, transform, matching
 
 class SvgTemplateWidget(QtSvg.QSvgWidget):
     template_loaded = QtCore.pyqtSignal()
     colors_matched = QtCore.pyqtSignal()
-    file_dropped = QtCore.pyqtSignal(unicode)
+    file_dropped = QtCore.pyqtSignal(str)
 
     def __init__(self, *args):
         QtSvg.QSvgWidget.__init__(self, *args)
@@ -71,7 +71,7 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
         self._svg_colors, self._template = svg.read_template(filename)
         print("Source SVG colors:")
         for c in self._svg_colors:
-            print str(c)
+            print(str(c))
         print("Template loaded: {}: {} bytes".format(filename, len(self._template)))
         self._need_render = True
         self._update()
@@ -115,7 +115,7 @@ class SvgTemplateWidget(QtSvg.QSvgWidget):
         #d = dict([("color"+str(i), color.hex() if color is not None else Color(255,255,255)) for i, color in enumerate(self._colors)])
         d = ColorDict(self._colors)
         #self._image = self._get_image()
-        return Template(self._template).substitute(d)
+        return Template(self._template).substitute(d).encode('utf-8')
 
 class ColorDict(object):
     def __init__(self, colors):

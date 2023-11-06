@@ -88,11 +88,14 @@ class Meta(object):
         return ET.tostring(xml, encoding='utf-8')
 
     def set_from_xml(self, data):
-        xml = ET.fromstring(data)
-        for meta in xml.findall('meta'):
-            key = meta.attrib['name']
-            value = meta.text
-            self[key] = value
+        try:
+            xml = ET.fromstring(data)
+            for meta in xml.findall('meta'):
+                key = meta.attrib['name']
+                value = meta.text
+                self[key] = value
+        except Exception:
+            print(data)
     
     @staticmethod
     def from_xml(self, data):
